@@ -237,7 +237,6 @@ public class Funcionario {
     @OneToMany(mappedBy = "funcionarioResponsavel", cascade = CascadeType.ALL)
     private Set<ChamadoManutencao> chamadosAtribuidos = new HashSet<>();
 
-    // Enums
     public enum CargoFuncionario {
         PORTEIRO("Porteiro", "OPERACIONAL"),
         ZELADOR("Zelador", "OPERACIONAL"),
@@ -309,7 +308,6 @@ public class Funcionario {
         public boolean isPodeTrabalhar() { return podeTrabalhar; }
     }
 
-    // Construtor
     public Funcionario() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
@@ -326,7 +324,6 @@ public class Funcionario {
         this.status = StatusFuncionario.EXPERIENCIA;
     }
 
-    // Métodos de Negócio
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -342,10 +339,9 @@ public class Funcionario {
     }
 
     private void gerarMatriculaAutomatica() {
-        // Formato: ANO-MES-SEQUENCIAL (ex: 2024-01-001)
         String anoMes = LocalDate.now().getYear() + "-" +
                 String.format("%02d", LocalDate.now().getMonthValue());
-        this.matricula = anoMes + "-001"; // Em produção, buscar próximo sequencial
+        this.matricula = anoMes + "-001";
     }
 
     public boolean isAtivo() {
@@ -537,9 +533,6 @@ public class Funcionario {
         this.observacoes = observacoes;
     }
 
-    // Continuam todos os outros getters e setters...
-    // [Restante dos getters e setters para todos os atributos]
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -620,7 +613,6 @@ public class Funcionario {
         this.chamadosAtribuidos = chamadosAtribuidos;
     }
 
-    // Métodos auxiliares para JSON
     public String getCargoDescricao() {
         return cargo != null ? cargo.getDescricao() : null;
     }
