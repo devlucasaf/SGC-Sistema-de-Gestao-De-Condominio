@@ -1,10 +1,13 @@
-package com.example.example.condominio.model.usuario;
+package com.example.condominio.model.usuario;
+
+import com.example.condominio.model.operacoes.Encomenda;
+import com.example.condominio.model.operacoes.Visitante;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.time.Set;
+import java.util.Set;
 
 @Entity
 @Table(name = "porteiro")
@@ -20,13 +23,13 @@ public class Porteiro extends Funcionario {
 
     @ElementCollection
     @CollectionTable(name = "porteiro_permissoes",
-                    joinColumns = @JoinColumn(name = "id_funcionario"))
+            joinColumns = @JoinColumn(name = "id_funcionario"))
     @Column(name = "permissao")
     @Enumerated(EnumType.STRING)
     private Set<PermissaoPorteiro> permissoes = new HashSet<>();
 
-    @Column(name = "data_treinamento_segurança")
-    private LocalDate dataTreinamentoSegurança;
+    @Column(name = "data_treinamento_seguranca")
+    private LocalDate dataTreinamentoSeguranca;
 
     @Column(name = "certificacao_seguranca")
     private String certificacaoSeguranca;
@@ -47,9 +50,10 @@ public class Porteiro extends Funcionario {
     @OneToMany(mappedBy = "porteiroResponsavel", cascade = CascadeType.ALL)
     private Set<OcorrenciaPortaria> ocorrencias = new HashSet<>();
 
+    // Enums (fora do construtor!)
     public enum TurnoPorteiro {
         MATUTINO(1, "06:00-18:00"),
-        NOTURNO(2, "18:00-06:00")
+        NOTURNO(2, "18:00-06:00"),
         INTERMITENTE(3, "Plantão variado");
 
         private final int codigo;
@@ -67,143 +71,146 @@ public class Porteiro extends Funcionario {
         public String getHorario() {
             return horario;
         }
+    }
 
-        public enum PermissaoPorteiro {
-            REGISTRAR_VISITANTE,
-            REGISTRAR_ENCOMENDA,
-            REGISTRAR_CORRESPONDENCIA,
-            CONSULTAR_RESERVAS,
-            CONSULTAR_MORADORES,
-            GERAR_RELATORIO_PORTARIA,
-            REGISTRAR_OCORRENCIA,
-            LIBERAR_ACESSO_TEMPORARIO,
-            BLOQUEAR_ACESSO,
-            VISUALIZAR_ALERTAS
-        }
+    public enum PermissaoPorteiro {
+        REGISTRAR_VISITANTE,
+        REGISTRAR_ENCOMENDA,
+        REGISTRAR_CORRESPONDENCIA,
+        CONSULTAR_RESERVAS,
+        CONSULTAR_MORADORES,
+        GERAR_RELATORIO_PORTARIA,
+        REGISTRAR_OCORRENCIA,
+        LIBERAR_ACESSO_TEMPORARIO,
+        BLOQUEAR_ACESSO,
+        VISUALIZAR_ALERTAS
+    }
 
-        public Porteiro() {
-            this.setCargo("PORTEIRO");
-            this.permissao.add(PermissaoPorteiro.REGISTRAR_VISITANTE);
-            this.permissao.add(PermissaoPorteiro.REGISTRAR_ENCOMENDA);
-            this.ultimaAtualizacaoAcesso = LocalDataTime.now();
-        }
+    // Construtor (FORA do enum!)
+    public Porteiro() {
+        this.setCargo(CargoFuncionario.PORTEIRO);
+        this.permissoes.add(PermissaoPorteiro.REGISTRAR_VISITANTE);
+        this.permissoes.add(PermissaoPorteiro.REGISTRAR_ENCOMENDA);
+        this.ultimaAtualizacaoAcesso = LocalDateTime.now();
+    }
 
-        public boolean podeRegistrarVisitante() {
-            return this.permissoes.contains(PermissaoPorteiro.REGISTRAR_VISITANTE);
+    // Métodos de negócio
+    public boolean podeRegistrarVisitante() {
+        return this.permissoes.contains(PermissaoPorteiro.REGISTRAR_VISITANTE)
                 && this.getStatus() == StatusFuncionario.ATIVO;
-        }
+    }
 
-        public boolean podeConsultarMorador() {
-            return this.permissoes.contains(PermissaoPorteiro.CONSULTAR_MORADORES);
-        }
+    public boolean podeConsultarMorador() {
+        return this.permissoes.contains(PermissaoPorteiro.CONSULTAR_MORADORES);
+    }
 
-        public boolean podeRegistrarOcorrencia() {
-            return this.permissao.contains(PermissaoPorteiro.REGISTRAR_OCORRENCIA);
-        }
+    public boolean podeRegistrarOcorrencia() {
+        return this.permissoes.contains(PermissaoPorteiro.REGISTRAR_OCORRENCIA);
+    }
 
-        public void adicionarPermissao(PermissaoPorteiro permissao) {
-            this.permissoes.add(permissao);
-        }
+    public void adicionarPermissao(PermissaoPorteiro permissao) {
+        this.permissoes.add(permissao);
+    }
 
-        public void removerPermissao(PermissaoPorteiro permissao) {
-            this.permissoes.remove(permissao);
-        }
+    public void removerPermissao(PermissaoPorteiro permissao) {
+        this.permissoes.remove(permissao);
+    }
 
-        public boolean temPermissao(PermissaoPorteiro permissao) {
-            return this.permissoes.contains(permissao);
-        }
+    public boolean temPermissao(PermissaoPorteiro permissao) {
+        return this.permissoes.contains(permissao);
+    }
 
-        // Método Get e Set
+    // Getters e Setters
 
-        public String getPortariaAtribuida() {
-            return portariaAtribuida;
-        }
+    public String getPortariaAtribuida() {
+        return portariaAtribuida;
+    }
 
-        public void setPortariaAtribuida(String portariaAtribuida) {
-            this.portariaAtribuida = portariaAtribuida;
-        }
+    public void setPortariaAtribuida(String portariaAtribuida) {
+        this.portariaAtribuida = portariaAtribuida;
+    }
 
-        public TurnoPorteiro getTurnoFixo() {
-            return turnoFixo;
-        }
+    public TurnoPorteiro getTurnoFixo() {
+        return turnoFixo;
+    }
 
-        public void setTurnoFixo(TurnoPorteiro turnoFixo) {
-            this.turnoFixo = turnoFixo;
-        }
+    public void setTurnoFixo(TurnoPorteiro turnoFixo) {
+        this.turnoFixo = turnoFixo;
+    }
 
-        public Set<PermissaoPorteiro> getPermissoes() {
-            return permissoes;
-        }
+    public Set<PermissaoPorteiro> getPermissoes() {
+        return permissoes;
+    }
 
-        public void setPermissoes(Set<PermissaoPorteiro> permissoes) {
-            this.permissoes = permissoes;
-        }
+    public void setPermissoes(Set<PermissaoPorteiro> permissoes) {
+        this.permissoes = permissoes;
+    }
 
-        public LocalDate getDataTreinamentoSeguranca() {
-            return dataTreinamentoSeguranca;
-        }
+    public LocalDate getDataTreinamentoSeguranca() {
+        return dataTreinamentoSeguranca;
+    }
 
-        public void setDataTreinamentoSeguranca(LocalDate dataTreinamentoSeguranca) {
-            this.dataTreinamentoSeguranca = dataTreinamentoSeguranca;
-        }
+    public void setDataTreinamentoSeguranca(LocalDate dataTreinamentoSeguranca) {
+        this.dataTreinamentoSeguranca = dataTreinamentoSeguranca;
+    }
 
-        public String getCertificacaoSeguranca() {
-            return certificacaoSeguranca;
-        }
+    public String getCertificacaoSeguranca() {
+        return certificacaoSeguranca;
+    }
 
-        public void setCertificacaoSeguranca(String certificacaoSeguranca) {
-            this.certificacaoSeguranca = certificacaoSeguranca;
-        }
+    public void setCertificacaoSeguranca(String certificacaoSeguranca) {
+        this.certificacaoSeguranca = certificacaoSeguranca;
+    }
 
-        ublic LocalDateTime getUltimaAtualizacaoAcesso() {
-            return ultimaAtualizacaoAcesso;
-        }
+    public LocalDateTime getUltimaAtualizacaoAcesso() {
+        return ultimaAtualizacaoAcesso;
+    }
 
-        public void setUltimaAtualizacaoAcesso(LocalDateTime ultimaAtualizacaoAcesso) {
-            this.ultimaAtualizacaoAcesso = ultimaAtualizacaoAcesso;
-        }
+    public void setUltimaAtualizacaoAcesso(LocalDateTime ultimaAtualizacaoAcesso) {
+        this.ultimaAtualizacaoAcesso = ultimaAtualizacaoAcesso;
+    }
 
-        public Set<Visitante> getVisitantesRegistrados() {
-            return visitantesRegistrados;
-        }
+    public Set<Visitante> getVisitantesRegistrados() {
+        return visitantesRegistrados;
+    }
 
-        public void setVisitantesRegistrados(Set<Visitante> visitantesRegistrados) {
-            this.visitantesRegistrados = visitantesRegistrados;
-        }
+    public void setVisitantesRegistrados(Set<Visitante> visitantesRegistrados) {
+        this.visitantesRegistrados = visitantesRegistrados;
+    }
 
-        public Set<Encomenda> getEncomendasRegistradas() {
-            return encomendasRegistradas;
-        }
+    public Set<Encomenda> getEncomendasRegistradas() {
+        return encomendasRegistradas;
+    }
 
-        public void setEncomendasRegistradas(Set<Encomenda> encomendasRegistradas) {
-            this.encomendasRegistradas = encomendasRegistradas;
-        }
+    public void setEncomendasRegistradas(Set<Encomenda> encomendasRegistradas) {
+        this.encomendasRegistradas = encomendasRegistradas;
+    }
 
-        public Set<Correspondencia> getCorrespondencias() {
-            return correspondencias;
-        }
+    public Set<Correspondencia> getCorrespondencias() {
+        return correspondencias;
+    }
 
-        public void setCorrespondencias(Set<Correspondencia> correspondencias) {
-            this.correspondencias = correspondencias;
-        }
+    public void setCorrespondencias(Set<Correspondencia> correspondencias) {
+        this.correspondencias = correspondencias;
+    }
 
-        public Set<OcorrenciaPortaria> getOcorrencias() {
-            return ocorrencias;
-        }
+    public Set<OcorrenciaPortaria> getOcorrencias() {
+        return ocorrencias;
+    }
 
-        public void setOcorrencias(Set<OcorrenciaPortaria> ocorrencias) {
-            this.ocorrencias = ocorrencias;
-        }
+    public void setOcorrencias(Set<OcorrenciaPortaria> ocorrencias) {
+        this.ocorrencias = ocorrencias;
+    }
 
-        @Override
-        public String toString() {
-            return "Porteiro{" +
-                    "id=" + getId() +
-                    ", nome='" + getNome() + '\'' +
-                    ", portariaAtribuida='" + portariaAtribuida + '\'' +
-                    ", turnoFixo=" + turnoFixo +
-                    ", matricula='" + getMatricula() + '\'' +
-                    ", status=" + getStatus() +
-                    '}';
+    @Override
+    public String toString() {
+        return "Porteiro{" +
+                "id=" + getId() +
+                ", nome='" + getNome() + '\'' +
+                ", portariaAtribuida='" + portariaAtribuida + '\'' +
+                ", turnoFixo=" + turnoFixo +
+                ", matricula='" + getMatricula() + '\'' +
+                ", status=" + getStatus() +
+                '}';
     }
 }
