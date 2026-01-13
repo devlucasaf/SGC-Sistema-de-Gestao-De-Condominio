@@ -1,5 +1,6 @@
 package com.example.condominio.model.usuario;
 
+import com.example.condominio.model.operacoes.Correspondencia;
 import com.example.condominio.model.operacoes.Encomenda;
 import com.example.condominio.model.operacoes.Visitante;
 

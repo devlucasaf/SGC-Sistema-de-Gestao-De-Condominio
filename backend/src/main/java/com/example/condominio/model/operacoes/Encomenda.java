@@ -26,6 +26,9 @@ public class Encomenda {
     @Column(name = "data_recebimento", nullable = false)
     private LocalDateTime dataRecebimento = LocalDateTime.now();
 
+    @Column(name = "data_retirada")
+    private LocalDateTime dataRetirada;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private TipoEncomenda tipo;
@@ -39,9 +42,6 @@ public class Encomenda {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatusEncomenda status = StatusEncomenda.AGUARDANDO_RETIRADA;
-
-    @Column(name = "data_retirada")
-    private LocalDateTime dataRetirada;
 
     @Column(length = 200)
     private String observacoes;
