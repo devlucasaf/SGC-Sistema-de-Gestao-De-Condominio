@@ -25,43 +25,57 @@ Sistema Web para gestão de condomínio.
 
 ````
 SGC-Sistema-de-Gestao-De-Condominio/
-├── 📁 backend/  
-│   ├── 📁 .mvn/  
-│   │   └── 📁 wrapper                    
+├── 📁 backend/
+│   ├── 📁 .mvn/
+│   │   └── 📁 wrapper
 │   │       └── maven-wrapper.properties
+│   ├── pom.xml
 │   ├── 📁 src/
-│   │   ├──📁 main/
-│   │   │  ├── 📁 java/com/example/condominio/
-│	│	│  │   ├── 📁 config/                       
-│	│	│  │   │   ├── DatabaseConfig.java
-│	│	│  │   │   └── SecurityConfig.java
-│	│	│  │   ├── 📁 model/                        
-│	│	│  │   │   ├── 📁 usuario/
-│	│	│  │   │   │   ├── Morador.java
-│	│	│  │   │   │   ├── Funcionario.java
-│	│	│  │   │   │   ├── Porteiro.java
-│	│	│  │   │   │   └── Sindico.java
-│	│	│  │   ├── 📁 security/                     
-│	│	│  │   │   ├── JwtAuthenticationEntryPoint.java
-│	│	│  │   │   ├── JwtAuthenticationFilter.java
-│	│	│  │   │   ├── JwtTokenUtil.java
-│	│	│  │   │   └── CustomUserDetailsService.java
-│	│	│  │   └── SgcApplication.java
-│   │   │  └── 📁 resources/
-│	│	│      ├── application.properties
-│	│	│      └── data.sql
+│   │   ├── 📁 main/
+│   │   │   ├── 📁 java/com/condominio/
+│   │   │   │   ├── 📁 config/
+│   │   │   │   │   ├── DatabaseConfig.java
+│   │   │   │   │   └── SecurityConfig.java
+│   │   │   │   ├── 📁 model/
+│   │   │   │   │   ├── 📁 base/
+│   │   │   │   │   │   └── BaseEntity.java
+│   │   │   │   │   ├── 📁 operacoes/
+│   │   │   │   │   │   ├── Correspondencia.java
+│   │   │   │   │   │   ├── Encomenda.java
+│   │   │   │   │   │   ├── OcorrenciaPortaria.java
+│   │   │   │   │   │   └── Visitante.java
+│   │   │   │   │   └── 📁 usuario/
+│   │   │   │   │       ├── Morador.java
+│   │   │   │   │       ├── Funcionario.java
+│   │   │   │   │       ├── Porteiro.java
+│   │   │   │   │       ├── Sindico.java
+│   │   │   │   │       └── Unidade.java
+│   │   │   │   ├── 📁 repository/
+│   │   │   │   │   ├── FuncionarioRepository.java
+│   │   │   │   │   └── MoradorRepository.java
+│   │   │   │   ├── 📁 security/
+│   │   │   │   │   ├── CustomUserDetails.java
+│   │   │   │   │   ├── JwtAuthenticationEntryPoint.java
+│   │   │   │   │   └── JwtAuthenticationFilter.java
+│   │   │   │   ├── 📁 service/
+│   │   │   │   │   └── CustomUserDetailsService.java
+│   │   │   │   ├── 📁 util/
+│   │   │   │   │   └── JwtTokenUtil.java
+│   │   │   │   └── SgcApplication.java
+│   │   │   └── 📁 resources/
+│   │   │       ├── application.properties
+│   │   │       └── data.sql
 │   │   └── 📁 test/
-│   │       └── 📁 java/com/example/condominio/
-│	│	        └── SgcApplicationTests.java
-├── 📁 frontend/ 
+│   │       └── 📁 java/com/condominio/
+│   │           └── SgcApplicationTests.java
+├── 📁 frontend/
 │   └── 📁 src/main/resources/
-│	    ├── 📁 static/
-│       │   └── 📁 css/ 
+│       ├── 📁 static/
+│       │   └── 📁 css/
 │       │       └── style.css
-│		└── 📁 templates
+│       └── 📁 templates/
 │           └── login.html
-└── README.MD
-
+└── README.md
 ````
 
 ---
