@@ -1,9 +1,9 @@
-package com.example.condominio.model.usuario;
+package com.condominio.model.usuario;
 
-import com.example.condominio.model.operacoes.Correspondencia;
-import com.example.condominio.model.operacoes.Encomenda;
-import com.example.condominio.model.operacoes.Visitante;
-import com.example.condominio.model.operacoes.OcorrenciaPortaria;
+import com.condominio.model.operacoes.Correspondencia;
+import com.condominio.model.operacoes.Encomenda;
+import com.condominio.model.operacoes.Visitante;
+import com.condominio.model.operacoes.OcorrenciaPortaria;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -51,6 +51,8 @@ public class Porteiro extends Funcionario {
 
     @OneToMany(mappedBy = "porteiroResponsavel", cascade = CascadeType.ALL)
     private Set<OcorrenciaPortaria> ocorrencias = new HashSet<>();
+
+    private String matriculaFuncionario;
 
     // Enums (fora do construtor!)
     public enum TurnoPorteiro {
@@ -202,6 +204,10 @@ public class Porteiro extends Funcionario {
 
     public void setOcorrencias(Set<OcorrenciaPortaria> ocorrencias) {
         this.ocorrencias = ocorrencias;
+    }
+
+    public String getMatricula() {
+        return matriculaFuncionario;
     }
 
     @Override

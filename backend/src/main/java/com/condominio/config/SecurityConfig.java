@@ -1,4 +1,4 @@
-package com.example.condominio.config;
+package com.condominio.config;
 
 import com.condominio.security.JwtAuthenticationEntryPoint;
 import com.condominio.security.JwtAuthenticationFilter;
@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity

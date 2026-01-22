@@ -1,4 +1,4 @@
-package com.example.condominio.model.usuario;
+package com.condominio.model.usuario;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -52,6 +52,9 @@ public class Unidade {
 
     @OneToMany(mappedBy = "unidade", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Morador> moradores = new HashSet<>();
+
+    @Column(name = "numero_apto")
+    private String numeroApto;
 
     public Unidade() {
         this.createdAt = LocalDateTime.now();
@@ -210,6 +213,10 @@ public class Unidade {
 
     public void setMoradores(Set<Morador> moradores) {
         this.moradores = moradores;
+    }
+
+    public String getNumeroApto() {
+        return numeroApto;
     }
 
     public void adicionarMorador(Morador morador) {

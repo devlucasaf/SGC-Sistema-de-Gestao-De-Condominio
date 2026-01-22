@@ -1,7 +1,7 @@
-package com.example.condominio.model.operacoes;
+package com.condominio.model.operacoes;
 
-import com.example.condominio.model.usuario.Morador;
-import com.example.condominio.model.usuario.Porteiro;
+import com.condominio.model.usuario.Morador;
+import com.condominio.model.usuario.Porteiro;
 
 import javax.persistence.*;
 import java.time.LocalDate;

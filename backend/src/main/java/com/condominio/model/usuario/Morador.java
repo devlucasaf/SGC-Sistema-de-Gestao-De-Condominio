@@ -1,4 +1,4 @@
-package com.example.condominio.model.usuario;
+package com.condominio.model.usuario;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -125,18 +125,6 @@ public class Morador {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
-    @OneToOne(mappedBy = "morador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Sindico sindico;
-
-    @OneToMany(mappedBy = "morador", cascade = CascadeType.ALL)
-    private Set<Dependente> dependentes = new HashSet<>();
-
-    @OneToMany(mappedBy = "morador", cascade = CascadeType.ALL)
-    private Set<Veiculo> veiculos = new HashSet<>();
-
-    @OneToMany(mappedBy = "morador", cascade = CascadeType.ALL)
-    private Set<AnimalEstimacao> animais = new HashSet<>();
 
     // Enums
     public enum StatusMorador {
@@ -546,38 +534,6 @@ public class Morador {
         this.deletedAt = deletedAt;
     }
 
-    public Sindico getSindico() {
-        return sindico;
-    }
-
-    public void setSindico(Sindico sindico) {
-        this.sindico = sindico;
-    }
-
-    public Set<Dependente> getDependentes() {
-        return dependentes;
-    }
-
-    public void setDependentes(Set<Dependente> dependentes) {
-        this.dependentes = dependentes;
-    }
-
-    public Set<Veiculo> getVeiculos() {
-        return veiculos;
-    }
-
-    public void setVeiculos(Set<Veiculo> veiculos) {
-        this.veiculos = veiculos;
-    }
-
-    public Set<AnimalEstimacao> getAnimais() {
-        return animais;
-    }
-
-    public void setAnimais(Set<AnimalEstimacao> animais) {
-        this.animais = animais;
-    }
-
     // Métodos auxiliares
     public String getStatusDescricao() {
         return status != null ? status.getDescricao() : "Desconhecido";
@@ -588,21 +544,6 @@ public class Morador {
         return unidade.getBloco() + " - " +
                 unidade.getAndar() + "º - " +
                 "Apto " + unidade.getNumeroApto();
-    }
-
-    public void adicionarDependente(Dependente dependente) {
-        dependentes.add(dependente);
-        dependente.setMorador(this);
-    }
-
-    public void adicionarVeiculo(Veiculo veiculo) {
-        veiculos.add(veiculo);
-        veiculo.setMorador(this);
-    }
-
-    public void adicionarAnimal(AnimalEstimacao animal) {
-        animais.add(animal);
-        animal.setMorador(this);
     }
 
     @Override
