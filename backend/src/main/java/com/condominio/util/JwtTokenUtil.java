@@ -1,5 +1,8 @@
 package com.condominio.util;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
@@ -124,4 +127,21 @@ public class JwtTokenUtil {
         final Date now = new Date();
         return expiration.getTime() - now.getTime();
     }
+
+    public String generateToken(Authentication authentication, String userType) {
+        String username = authentication.getName();
+
+        String nomeCompleto = username;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            nomeCompleto = ((UserDetails) principal).getUsername();
+        }
+
+        return generateToken(username, userType, nomeCompleto, authentication.getAuthorities());
+    }
+
+    public String generateToken(Authentication authentication) {
+        return generateToken(authentication, "DESCONHECIDO");
+    }
+
 }
