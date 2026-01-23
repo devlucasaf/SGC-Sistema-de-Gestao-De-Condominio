@@ -27,7 +27,7 @@ Sistema Web para gestão de condomínio.
 SGC-Sistema-de-Gestao-De-Condominio/
 ├── 📁 backend/
 │   ├── 📁 .mvn/
-│   │   └── 📁 wrapper
+│   │   └── 📁 wrapper/
 │   │       └── maven-wrapper.properties
 │   ├── pom.xml
 │   ├── 📁 src/
@@ -36,6 +36,12 @@ SGC-Sistema-de-Gestao-De-Condominio/
 │   │   │   │   ├── 📁 config/
 │   │   │   │   │   ├── DatabaseConfig.java
 │   │   │   │   │   └── SecurityConfig.java
+│   │   │   │   ├── 📁 controller/
+│   │   │   │   │   └── AuthController.java
+│   │   │   │   ├── 📁 dto/
+│   │   │   │   │   └── 📁 auth/
+│   │   │   │   │       ├── LoginRequest.java
+│   │   │   │   │       └── LoginResponse.java
 │   │   │   │   ├── 📁 model/
 │   │   │   │   │   ├── 📁 base/
 │   │   │   │   │   │   └── BaseEntity.java
@@ -45,8 +51,8 @@ SGC-Sistema-de-Gestao-De-Condominio/
 │   │   │   │   │   │   ├── OcorrenciaPortaria.java
 │   │   │   │   │   │   └── Visitante.java
 │   │   │   │   │   └── 📁 usuario/
-│   │   │   │   │       ├── Morador.java
 │   │   │   │   │       ├── Funcionario.java
+│   │   │   │   │       ├── Morador.java
 │   │   │   │   │       ├── Porteiro.java
 │   │   │   │   │       ├── Sindico.java
 │   │   │   │   │       └── Unidade.java
