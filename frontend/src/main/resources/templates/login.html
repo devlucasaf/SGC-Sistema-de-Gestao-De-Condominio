@@ -1,11 +1,115 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - SGC Condomínio</title>
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SGC - Login</title>
+
+    <!-- CSS global do projeto -->
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+
+<main class="login-container">
+    <section class="login-card">
+        <header class="login-header">
+            <h1>SGC</h1>
+            <p>Sistema de Gestão de Condomínio</p>
+        </header>
+
+        <form id="loginForm" class="login-form">
+
+            <label for="userType">Perfil</label>
+            <select id="userType" name="userType" required>
+                <option value="MORADOR">Morador</option>
+                <option value="PORTEIRO">Porteiro</option>
+                <option value="SINDICO">Síndico</option>
+                <option value="FUNCIONARIO">Funcionário</option>
+            </select>
+
+            <label for="username">Email</label>
+            <input
+                    type="email"
+                    id="username"
+                    name="username"
+                    placeholder="email@exemplo.com"
+                    required
+            />
+
+            <label for="password">Senha</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    required
+            />
+
+            <button type="submit" class="btn-primary">
+                Entrar
+            </button>
+
+            <p id="loginMessage" class="login-message"></p>
+        </form>
+
+        <footer class="login-footer">
+            <small>© 2026 - Desenvolvido por Lucas Freitas</small>
+        </footer>
+    </section>
+</main>
+
+<!-- JS direto no HTML por enquanto -->
+<script>
+    const loginForm = document.getElementById("loginForm");
+    const loginMessage = document.getElementById("loginMessage");
+
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        loginMessage.textContent = "";
+        loginMessage.className = "login-message";
+
+        const payload = {
+            userType: document.getElementById("userType").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        };
+
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                loginMessage.textContent = errorText || "Erro ao fazer login.";
+                loginMessage.classList.add("error");
+                return;
+            }
+
+            const data = await response.json();
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userType", data.userType);
+            localStorage.setItem("username", data.username);
+
+            loginMessage.textContent = "✅ Login realizado com sucesso!";
+            loginMessage.classList.add("success");
+
+            // depois você redireciona para um painel
+            // window.location.href = "/dashboard";
+
+        } catch (err) {
+            loginMessage.textContent = "Erro inesperado. Verifique se o backend está rodando.";
+            loginMessage.classList.add("error");
+        }
+    });
+</script>
 
 </body>
 </html>
