@@ -77,8 +77,10 @@ SGC-Sistema-de-Gestao-De-Condominio/
 ├── 📁 frontend/
 │   └── 📁 src/main/resources/
 │       ├── 📁 static/
-│       │   └── 📁 css/
-│       │       └── style.css
+│       │   ├── 📁 css/
+│       │   │   └── style.css
+│       │   └── 📁 js/
+│       │   │   └── script.css
 │       └── 📁 templates/
 │           └── login.html
 └── README.md
@@ -96,14 +98,6 @@ SGC-Sistema-de-Gestao-De-Condominio/
         width="30px" 
         style="padding-right: 10px;" 
         src="https://skillicons.dev/icons?i=java" 
-    />
-    <img
-        align="left"
-        alt="mysql"
-        tittle="MySql"
-        width="30px"
-        style="padding-right: 10px;" 
-        src="https://skillicons.dev/icons?i=mysql"
     />
     <img
         align="left"
