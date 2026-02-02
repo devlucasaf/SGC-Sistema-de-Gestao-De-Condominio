@@ -1,5 +1,123 @@
+/* ===== RESET BÁSICO ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+/* ===== LOGIN ===== */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.login-header h1 {
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+}
+
+.login-header p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin-top: 6px;
+}
+
+/* ===== FORM ===== */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form label {
+    font-size: 0.85rem;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+.login-form input,
+.login-form select {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.15);
+    color: #e2e8f0;
+    font-size: 1rem;
+    outline: none;
+}
+
+.login-form input::placeholder {
+    color: rgba(226, 232, 240, 0.55);
+}
+
+.login-form input:focus,
+.login-form select:focus {
+    border-color: rgba(56, 189, 248, 0.7);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+/* ===== BUTTON ===== */
+.btn-primary {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #38bdf8;
+    color: #0f172a;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ===== MENSAGEM ===== */
+.login-message {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.95;
+}
+
+.login-message.success {
+    color: #22c55e;
+}
+
+.login-message.error {
+    color: #ef4444;
+}
+
+/* ===== FOOTER ===== */
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0.7;
 }
