@@ -18,7 +18,7 @@
             <p>Sistema de Gestão de Condomínio</p>
         </header>
 
-        <form id="loginForm" class="login-form">
+        <form id="loginForm" class="login-form" novalidate>
 
             <label for="userType">Perfil</label>
             <select id="userType" name="userType" required>
@@ -28,29 +28,38 @@
                 <option value="FUNCIONARIO">Funcionário</option>
             </select>
 
-            <label for="username">Email</label>
+            <label for="email">Email</label>
             <input
                     type="email"
-                    id="username"
+                    id="email"
                     name="username"
                     placeholder="email@exemplo.com"
+                    autocomplete="username"
                     required
             />
 
-            <label for="password">Senha</label>
-            <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="••••••••"
-                    required
-            />
+            <label for="senha">Senha</label>
+            <div class="password-row">
+                <input
+                        type="password"
+                        id="senha"
+                        name="password"
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                        required
+                />
+                <button type="button" id="toggleSenha" class="btn-secondary">
+                    Mostrar
+                </button>
+            </div>
 
-            <button type="submit" class="btn-primary">
+            <button id="btnLogin" type="submit" class="btn-primary">
                 Entrar
             </button>
 
-            <p id="loginMessage" class="login-message"></p>
+            <!-- Mensagem (compatível com o JS externo) -->
+            <div id="msg" class="msg" style="display:none;"></div>
+
         </form>
 
         <footer class="login-footer">
@@ -59,57 +68,7 @@
     </section>
 </main>
 
-<!-- JS direto no HTML por enquanto -->
-<script>
-    const loginForm = document.getElementById("loginForm");
-    const loginMessage = document.getElementById("loginMessage");
-
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        loginMessage.textContent = "";
-        loginMessage.className = "login-message";
-
-        const payload = {
-            userType: document.getElementById("userType").value,
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value
-        };
-
-        try {
-            const response = await fetch("http://localhost:8080/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                loginMessage.textContent = errorText || "Erro ao fazer login.";
-                loginMessage.classList.add("error");
-                return;
-            }
-
-            const data = await response.json();
-
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("userType", data.userType);
-            localStorage.setItem("username", data.username);
-
-            loginMessage.textContent = "✅ Login realizado com sucesso!";
-            loginMessage.classList.add("success");
-
-            // depois você redireciona para um painel
-            // window.location.href = "/dashboard";
-
-        } catch (err) {
-            loginMessage.textContent = "Erro inesperado. Verifique se o backend está rodando.";
-            loginMessage.classList.add("error");
-        }
-    });
-</script>
+<script src="/js/script.js"></script>
 
 </body>
 </html>
