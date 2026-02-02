@@ -7,7 +7,7 @@
     <title>SGC - Login</title>
 
     <!-- CSS global do projeto -->
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="../static/css/style.css"/>
 </head>
 <body>
 
@@ -20,45 +20,51 @@
 
         <form id="loginForm" class="login-form" novalidate>
 
-            <label for="userType">Perfil</label>
-            <select id="userType" name="userType" required>
-                <option value="MORADOR">Morador</option>
-                <option value="PORTEIRO">Porteiro</option>
-                <option value="SINDICO">Síndico</option>
-                <option value="FUNCIONARIO">Funcionário</option>
-            </select>
+            <div class="form-cadastroUser-linha">
+                <div class="form-cadastroUser-grupo">
+                    <label for="nome">Nome</label>
+                    <input id="nome" name="nome" class="form-control-sm" type="text" required style="width: 220px">
+                </div>
 
-            <label for="email">Email</label>
-            <input
-                    type="email"
-                    id="email"
-                    name="username"
-                    placeholder="email@exemplo.com"
-                    autocomplete="username"
-                    required
-            />
+                <div class="form-cadastroUser-grupo">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input id="sobrenome" name="sobrenome" class="form-control-sm" type="text" required style="width: 220px">
+                </div>
+            </div>
+            
+            <div class="form-cadastroUsu-linha">
+                <div class="form-cadastroUsu-grupo">
+                    <label for="senha">Senha</label>
+                    <input id="senha" name="senha" class="form-control-sm" type="password" required style="width: 220px">
+                </div>
 
-            <label for="senha">Senha</label>
-            <div class="password-row">
-                <input
-                        type="password"
-                        id="senha"
-                        name="password"
-                        placeholder="••••••••"
-                        autocomplete="current-password"
-                        required
-                />
-                <button type="button" id="toggleSenha" class="btn-secondary">
-                    Mostrar
-                </button>
+                <div class="form-cadastroUsu-grupo">
+                    <label for="confirmar_senha">Confirmar senha</label>
+                    <input id="confirmar_senha" name="confirmar_senha" class="form-control-sm" type="password" required style="width: 220px">
+                </div>
             </div>
 
-            <button id="btnLogin" type="submit" class="btn-primary">
-                Entrar
-            </button>
+            <div class="form-cadastroUsu-linha">
+                <div class="form-cadastroUsu-grupo">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" class="form-control-sm" type="email" required style="width: 220px">
+                </div>
+
+                <div class="form-cadastroUsu-grupo">
+                    <label for="telefone">Telefone</label>
+                    <input id="telefone" name="telefone" class="form-control-sm" type="text" required style="width: 220px"
+                        placeholder="XX XXXXX-XXXX">
+                </div>
+            </div>
 
             <!-- Mensagem (compatível com o JS externo) -->
             <div id="msg" class="msg" style="display:none;"></div>
+
+            <div class="ja-possui-conta">
+                <h1>Já possui uma conta?</h1>
+                <a th:href="@{/login}" class="ir-login">Login</a>
+            </div>
+
 
         </form>
 
@@ -68,7 +74,7 @@
     </section>
 </main>
 
-<script src="/js/script.js"></script>
+<script src="../static/js/script.js"></script>
 
 </body>
 </html>
