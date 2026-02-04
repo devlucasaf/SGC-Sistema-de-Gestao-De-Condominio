@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // ============================================
+    // Elementos do formulário de login (ORIGINAL)
+    // ============================================
     const form = document.querySelector("#loginForm");
     const emailInput = document.querySelector("#email");
     const senhaInput = document.querySelector("#senha");
@@ -7,6 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const msgBox = document.querySelector("#msg");
     const toggleSenhaBtn = document.querySelector("#toggleSenha");
 
+    // ============================================
+    // Elementos para alternar tema (NOVO)
+    // ============================================
+    const botaoTema = document.querySelector(".tema-toggle");
+    const html = document.documentElement;
+
+    // ============================================
+    // FUNÇÕES DE MENSAGEM (ORIGINAL)
+    // ============================================
     function showMessage(text, type = "error") {
         if (!msgBox) {
             return;
@@ -14,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
         msgBox.textContent = text;
         msgBox.className = `msg ${type}`;
         msgBox.style.display = "block";
+        
+        // Adicionar atributo data-tipo para compatibilidade com o CSS
+        msgBox.setAttribute("data-tipo", type);
     }
 
     function clearMessage() {
@@ -23,9 +38,45 @@ document.addEventListener("DOMContentLoaded", () => {
         msgBox.textContent = "";
         msgBox.className = "msg";
         msgBox.style.display = "none";
+        msgBox.removeAttribute("data-tipo");
     }
 
-    // Mostrar/ocultar senha
+    // ============================================
+    // FUNÇÕES PARA ALTERNAR TEMA (NOVO)
+    // ============================================
+    function inicializarTema() {
+        // Verificar preferência do sistema ou tema salvo
+        const temaSalvo = localStorage.getItem('tema') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro');
+        
+        // Aplicar tema salvo
+        html.setAttribute('data-tema', temaSalvo);
+        atualizarIconeTema(temaSalvo);
+        
+        // Adicionar evento ao botão de alternar tema
+        if (botaoTema) {
+            botaoTema.addEventListener('click', alternarTema);
+        }
+    }
+
+    function alternarTema() {
+        const temaAtual = html.getAttribute('data-tema');
+        const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
+        
+        html.setAttribute('data-tema', novoTema);
+        localStorage.setItem('tema', novoTema);
+        atualizarIconeTema(novoTema);
+    }
+
+    function atualizarIconeTema(tema) {
+        if (!botaoTema) return;
+        botaoTema.textContent = tema === 'claro' ? '🌙' : '☀️';
+        botaoTema.setAttribute('aria-label', `Alternar para tema ${tema === 'claro' ? 'escuro' : 'claro'}`);
+    }
+
+    // ============================================
+    // Mostrar/ocultar senha (ORIGINAL)
+    // ============================================
     if (toggleSenhaBtn && senhaInput) {
         toggleSenhaBtn.addEventListener("click", () => {
             const isPassword = senhaInput.getAttribute("type") === "password";
@@ -34,7 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Submit + fetch
+    // ============================================
+    // Submit + fetch (ORIGINAL)
+    // ============================================
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -76,8 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 showMessage("✅ Login realizado com sucesso!", "success");
 
+                // Redirecionar após sucesso (se necessário)
+                // setTimeout(() => {
+                //     window.location.href = "/dashboard";
+                // }, 1500);
+
             } catch (err) {
                 showMessage("Erro inesperado. Verifique se o backend está rodando.");
+                console.error("Erro no login:", err);
             } finally {
                 if (btnSubmit) {
                     btnSubmit.disabled = false;
@@ -86,4 +145,22 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // ============================================
+    // INICIALIZAR TEMA (NOVO)
+    // ============================================
+    inicializarTema();
+
+    // ============================================
+    // Observar mudanças no tema do sistema (NOVO - opcional)
+    // ============================================
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+        // Só atualizar se o usuário não tiver escolhido um tema manualmente
+        if (!localStorage.getItem('tema')) {
+            const novoTema = e.matches ? 'escuro' : 'claro';
+            html.setAttribute('data-tema', novoTema);
+            atualizarIconeTema(novoTema);
+        }
+    });
 });

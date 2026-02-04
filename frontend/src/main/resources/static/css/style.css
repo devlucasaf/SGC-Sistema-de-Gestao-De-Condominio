@@ -1,254 +1,405 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+/* ============================================
+   VARIÁVEIS DE CORES E CONFIGURAÇÕES GLOBAIS
+   ============================================ */
+:root {
+    /* Cores base (tema claro) */
+    --cor-branco: #ffffff;
+    --cor-cinza-claro: #f5f7fa;
+    --cor-cinza: #6c757d;
+    --cor-cinza-escuro: #495057;
+    --cor-verde: #28a745;
+    --cor-verde-escuro: #218838;
+    --cor-texto: #333333;
+    --cor-borda: #dee2e6;
+    --cor-erro: #dc3545;
+    --cor-sucesso: #28a745;
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    
+    /* Transições */
+    --transicao-rapida: all 0.3s ease;
+    
+    /* Bordas */
+    --raio-borda: 12px;
+    --raio-borda-input: 8px;
+}
 
+/* ============================================
+   TEMA ESCURO
+   ============================================ */
+[data-tema="escuro"] {
+    --cor-branco: #1a1a2e;
+    --cor-cinza-claro: #16213e;
+    --cor-cinza: #6c757d;
+    --cor-cinza-escuro: #e9ecef;
+    --cor-verde: #20c997;
+    --cor-verde-escuro: #17a589;
+    --cor-texto: #f8f9fa;
+    --cor-borda: #2d3748;
+    --cor-sombra: rgba(0, 0, 0, 0.3);
+}
 
-/* ===== RESET BÁSICO ===== */
+/* ============================================
+   RESET E CONFIGURAÇÕES GERAIS
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --primary-color: #2a553d;
-    --secondary-color: #5f9074;
-    --tertiary-color: black;
-    --quaternary-color: #00ff4c;
-    --organizador-color: rgb(76, 76, 78);
-    --background-color: #e0ecef;
-    --background-box-color: #dfdfdf;
-    --botao-preto-color: black;
-    --botao-emerg-color: #ff5757;
-}
-
-/* slide pra baixo */
-@keyframes slideDown { 
-    from {
-        transform: translateY(-40px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--cor-cinza-claro);
+    color: var(--cor-texto);
+    line-height: 1.6;
     min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    background: var(--background-color);
+    transition: var(--transicao-rapida);
 }
 
-/* ===== LOGIN ===== */
-
-.cadastroUser-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    max-width: 1100px;
-    width: 95%;
-
-    margin: 60px auto;
-    padding: 25px;
-
-    background-color: var(--primary-color);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    gap: 30px;
-}
-
-.formulario-cadastroUser {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    gap: 20px;
-    padding: 30px;
-
-    background-color: white;
-
-    border-radius: 10px;
-}
-
-.cadastroUser-titulo {
-    color: var(--primary-color);
-    text-align: center;
-}
-
-.form-cadastroUser-linha {
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 40px;
-}
-
-.form-cadastroUser-grupo {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-cadastroUser-grupo label {
-    margin-bottom: 6px;
-    font-weight: 600;
-}
-
-.form-cadastroUser-grupo input,
-.form-cadastroUser-grupo select {
-    width: 220px;
-
-    padding: 15px;
-
-    font-size: 14px;
-    
-    background-color: var(--background-box-color);
-
-    border-radius: 10px;
-    border: none;
-    
-    outline: none;
-}
-
-.botao-enviar-cadastroUser {
-    display: flex;
-    justify-content: center;
-}
-
-#botao-enviar-cadastroUser {
-    width: 145px;
-
-    margin-top: 30px;
-    padding: 15px 25px;
-
-    background-color: var(--primary-color);
-    color: white;
-
-    font-size: 18px;
-    font-weight: bold;
-
-    border: none;
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    transform: scale(1);
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-#botao-enviar-cadastroUser:hover {
-    background-color: var(--botao-emerg-color);
-    transform: scale(1.05);
-}
-
+/* ============================================
+   CONTAINER PRINCIPAL DE LOGIN/CADASTRO
+   ============================================ */
 .login-container {
-    min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     padding: 20px;
+    background: linear-gradient(135deg, var(--cor-cinza-claro) 0%, var(--cor-branco) 100%);
 }
 
+[data-tema="escuro"] .login-container {
+    background: linear-gradient(135deg, #0f3460 0%, var(--cor-branco) 100%);
+}
+
+/* ============================================
+   CARD DE LOGIN/CADASTRO
+   ============================================ */
 .login-card {
+    background-color: var(--cor-branco);
+    border-radius: var(--raio-borda);
+    box-shadow: 0 10px 30px var(--cor-sombra);
+    padding: 40px;
     width: 100%;
-    max-width: 420px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
-    padding: 28px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    max-width: 900px;
+    transition: var(--transicao-rapida);
+    border: 1px solid var(--cor-borda);
 }
 
+.login-card:hover {
+    box-shadow: 0 15px 40px var(--cor-sombra);
+    transform: translateY(-5px);
+}
+
+/* ============================================
+   HEADER DO CARD
+   ============================================ */
 .login-header {
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--cor-verde);
 }
 
 .login-header h1 {
-    font-size: 2.2rem;
+    color: var(--cor-verde);
+    font-size: 3rem;
+    font-weight: 700;
     letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 .login-header p {
-    font-size: 0.95rem;
-    opacity: 0.8;
-    margin-top: 6px;
+    color: var(--cor-cinza);
+    font-size: 1.1rem;
+    font-weight: 400;
 }
 
-/* ===== FORM ===== */
+[data-tema="escuro"] .login-header p {
+    color: var(--cor-cinza-escuro);
+}
+
+/* ============================================
+   FORMULÁRIO
+   ============================================ */
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 25px;
 }
 
-.login-form label {
-    font-size: 0.85rem;
-    margin-top: 10px;
-    opacity: 0.9;
+/* Linhas do formulário */
+.form-cadastroUser-linha,
+.form-cadastroUsu-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
 }
 
-.login-form input,
-.login-form select {
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(0, 0, 0, 0.15);
-    color: #e2e8f0;
+/* Grupos de campos */
+.form-cadastroUser-grupo,
+.form-cadastroUsu-grupo {
+    flex: 1;
+    min-width: 220px;
+}
+
+/* Labels */
+.form-cadastroUser-grupo label,
+.form-cadastroUsu-grupo label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--cor-texto);
+    font-size: 0.95rem;
+    transition: var(--transicao-rapida);
+}
+
+/* Inputs */
+.form-control-sm {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--cor-borda);
+    border-radius: var(--raio-borda-input);
     font-size: 1rem;
+    transition: var(--transicao-rapida);
+    background-color: var(--cor-cinza-claro);
+    color: var(--cor-texto);
+}
+
+.form-control-sm:focus {
     outline: none;
+    border-color: var(--cor-verde);
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+    background-color: var(--cor-branco);
 }
 
-.login-form input::placeholder {
-    color: rgba(226, 232, 240, 0.55);
+.form-control-sm::placeholder {
+    color: var(--cor-cinza);
+    opacity: 0.7;
 }
 
-.login-form input:focus,
-.login-form select:focus {
-    border-color: rgba(56, 189, 248, 0.7);
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+/* Placeholder específico para telefone */
+#telefone::placeholder {
+    color: var(--cor-cinza);
+    opacity: 0.6;
 }
 
-/* ===== BUTTON ===== */
-.btn-primary {
-    margin-top: 14px;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    background: #38bdf8;
-    color: #0f172a;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-primary:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-/* ===== MENSAGEM ===== */
-.login-message {
-    margin-top: 14px;
+/* ============================================
+   SEÇÃO "JÁ POSSUI CONTA"
+   ============================================ */
+.ja-possui-conta {
     text-align: center;
-    font-size: 0.9rem;
-    opacity: 0.95;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid var(--cor-borda);
 }
 
-.login-message.success {
-    color: #22c55e;
+.ja-possui-conta h1 {
+    font-size: 1.2rem;
+    color: var(--cor-cinza);
+    margin-bottom: 15px;
+    font-weight: 500;
 }
 
-.login-message.error {
-    color: #ef4444;
+[data-tema="escuro"] .ja-possui-conta h1 {
+    color: var(--cor-cinza-escuro);
 }
 
-/* ===== FOOTER ===== */
+.ir-login {
+    display: inline-block;
+    padding: 12px 35px;
+    background-color: var(--cor-verde);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--raio-borda-input);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transicao-rapida);
+    border: 2px solid var(--cor-verde);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ir-login:hover {
+    background-color: var(--cor-verde-escuro);
+    border-color: var(--cor-verde-escuro);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.ir-login:active {
+    transform: translateY(0);
+}
+
+/*  MENSAGENS DE ERRO/SUCESSO  */
+
+.msg {
+    padding: 15px;
+    border-radius: var(--raio-borda-input);
+    margin: 15px 0;
+    font-weight: 500;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.msg[data-tipo="erro"] {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--cor-erro);
+    border-color: rgba(220, 53, 69, 0.2);
+}
+
+.msg[data-tipo="sucesso"] {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--cor-sucesso);
+    border-color: rgba(40, 167, 69, 0.2);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
 .login-footer {
     text-align: center;
-    margin-top: 20px;
-    opacity: 0.7;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cor-borda);
+    color: var(--cor-cinza);
+    font-size: 0.9rem;
+}
+
+[data-tema="escuro"] .login-footer {
+    color: var(--cor-cinza-escuro);
+}
+
+/* ============================================
+   BOTÃO DE ALTERNAR TEMA (ADICIONAL)
+   ============================================ */
+.tema-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--cor-verde);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px var(--cor-sombra);
+    transition: var(--transicao-rapida);
+    z-index: 1000;
+}
+
+.tema-toggle:hover {
+    background: var(--cor-verde-escuro);
+    transform: scale(1.1) rotate(30deg);
+}
+
+/* ============================================
+   ANIMAÇÕES
+   ============================================ */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% { 
+        transform: scale(1); 
+    }
+
+    50% { 
+        transform: scale(1.05); 
+    }
+
+    100% { 
+        transform: scale(1); 
+    }
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 30px 25px;
+        margin: 10px;
+    }
+    
+    .form-cadastroUser-linha,
+    .form-cadastroUsu-linha {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-cadastroUser-grupo,
+    .form-cadastroUsu-grupo {
+        min-width: 100%;
+    }
+    
+    .login-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .tema-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 10px;
+    }
+    
+    .login-card {
+        padding: 25px 20px;
+    }
+    
+    .login-header h1 {
+        font-size: 2rem;
+    }
+    
+    .ir-login {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+    
+    .form-control-sm {
+        padding: 12px 14px;
+    }
+}
+
+/* ============================================
+   ESTADOS DE VALIDAÇÃO
+   ============================================ */
+input:invalid:not(:placeholder-shown) {
+    border-color: var(--cor-erro);
+    animation: pulse 0.5s ease;
+}
+
+input:valid:not(:placeholder-shown) {
+    border-color: var(--cor-verde);
+}
+
+/* ============================================
+   ESTILOS PARA FOCO VISÍVEL
+   ============================================ */
+.ir-login:focus-visible,
+.form-control-sm:focus-visible {
+    outline: 2px solid var(--cor-verde);
+    outline-offset: 2px;
 }
