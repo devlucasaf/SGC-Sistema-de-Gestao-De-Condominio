@@ -39,9 +39,13 @@ SGC-Sistema-de-Gestao-De-Condominio/
 │   │   │   │   ├── 📁 controller/
 │   │   │   │   │   └── AuthController.java
 │   │   │   │   ├── 📁 dto/
-│   │   │   │   │   └── 📁 auth/
-│   │   │   │   │       ├── LoginRequest.java
-│   │   │   │   │       └── LoginResponse.java
+│   │   │   │   │   ├── 📁 auth/
+│   │   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   │   └── LoginResponse.java
+│   │   │   │   │   └── 📁 morador/
+│   │   │   │   │       ├── MoradorCreateRequest.java
+│   │   │   │   │       ├── MoradorResponse.java
+│   │   │   │   │       └── MoradorUpdateRequest.java
 │   │   │   │   ├── 📁 model/
 │   │   │   │   │   ├── 📁 base/
 │   │   │   │   │   │   └── BaseEntity.java
@@ -64,7 +68,8 @@ SGC-Sistema-de-Gestao-De-Condominio/
 │   │   │   │   │   ├── JwtAuthenticationEntryPoint.java
 │   │   │   │   │   └── JwtAuthenticationFilter.java
 │   │   │   │   ├── 📁 service/
-│   │   │   │   │   └── CustomUserDetailsService.java
+│   │   │   │   │   ├── CustomUserDetailsService.java
+│   │   │   │   │   └── MoradorService.java
 │   │   │   │   ├── 📁 util/
 │   │   │   │   │   └── JwtTokenUtil.java
 │   │   │   │   └── SgcApplication.java
