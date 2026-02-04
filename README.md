@@ -146,6 +146,14 @@ SGC-Sistema-de-Gestao-De-Condominio/
     />
     <img
         align="left"
+        alt="vscode"
+        tittle="vscode"
+        width="30px"
+        style="padding-right: 10px;" 
+        src="https://skillicons.dev/icons?i=vscode"
+    />
+    <img
+        align="left"
         alt="git"
         tittle="Git"
         width="30px"
@@ -159,6 +167,14 @@ SGC-Sistema-de-Gestao-De-Condominio/
         width="30px"
         style="padding-right: 10px;" 
         src="https://skillicons.dev/icons?i=github"
+    />
+    <img
+        align="left"
+        alt="gitlab"
+        tittle="GitLab"
+        width="30px"
+        style="padding-right: 10px;" 
+        src="https://skillicons.dev/icons?i=gitlab"
     />
 </div>
 
