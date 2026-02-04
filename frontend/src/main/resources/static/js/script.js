@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // ============================================
-    // Elementos do formulário de login (ORIGINAL)
-    // ============================================
+    // Elementos do formulário de login
     const form = document.querySelector("#loginForm");
     const emailInput = document.querySelector("#email");
     const senhaInput = document.querySelector("#senha");
@@ -10,19 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const msgBox = document.querySelector("#msg");
     const toggleSenhaBtn = document.querySelector("#toggleSenha");
 
-    // ============================================
-    // Elementos para alternar tema (NOVO)
-    // ============================================
+    // Elementos para alternar tema 
+
     const botaoTema = document.querySelector(".tema-toggle");
     const html = document.documentElement;
 
-    // ============================================
-    // FUNÇÕES DE MENSAGEM (ORIGINAL)
-    // ============================================
+    // FUNÇÕES DE MENSAGEM 
+
     function showMessage(text, type = "error") {
         if (!msgBox) {
             return;
         }
+
         msgBox.textContent = text;
         msgBox.className = `msg ${type}`;
         msgBox.style.display = "block";
@@ -35,15 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!msgBox) {
             return;
         }
+
         msgBox.textContent = "";
         msgBox.className = "msg";
         msgBox.style.display = "none";
         msgBox.removeAttribute("data-tipo");
     }
 
-    // ============================================
-    // FUNÇÕES PARA ALTERNAR TEMA (NOVO)
-    // ============================================
+    // FUNÇÕES PARA ALTERNAR TEMA 
     function inicializarTema() {
         // Verificar preferência do sistema ou tema salvo
         const temaSalvo = localStorage.getItem('tema') || 
@@ -69,14 +65,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function atualizarIconeTema(tema) {
-        if (!botaoTema) return;
+        if (!botaoTema) {
+            return;
+        }
+
         botaoTema.textContent = tema === 'claro' ? '🌙' : '☀️';
         botaoTema.setAttribute('aria-label', `Alternar para tema ${tema === 'claro' ? 'escuro' : 'claro'}`);
     }
 
-    // ============================================
-    // Mostrar/ocultar senha (ORIGINAL)
-    // ============================================
+    // Mostrar/ocultar senha 
     if (toggleSenhaBtn && senhaInput) {
         toggleSenhaBtn.addEventListener("click", () => {
             const isPassword = senhaInput.getAttribute("type") === "password";
@@ -85,9 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ============================================
-    // Submit + fetch (ORIGINAL)
-    // ============================================
+    // Submit + fetch 
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -129,11 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 showMessage("✅ Login realizado com sucesso!", "success");
 
-                // Redirecionar após sucesso (se necessário)
-                // setTimeout(() => {
-                //     window.location.href = "/dashboard";
-                // }, 1500);
-
             } catch (err) {
                 showMessage("Erro inesperado. Verifique se o backend está rodando.");
                 console.error("Erro no login:", err);
@@ -146,14 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ============================================
-    // INICIALIZAR TEMA (NOVO)
-    // ============================================
+    // INICIALIZAR TEMA 
     inicializarTema();
 
-    // ============================================
-    // Observar mudanças no tema do sistema (NOVO - opcional)
-    // ============================================
+    // Observar mudanças no tema do sistema 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', (e) => {
         // Só atualizar se o usuário não tiver escolhido um tema manualmente
