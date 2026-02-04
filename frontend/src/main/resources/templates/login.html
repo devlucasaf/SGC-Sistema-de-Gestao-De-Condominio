@@ -1,80 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>SGC - Login</title>
+        <title>Residencial Jardim Ribeiro - Login</title>
 
-    <!-- CSS global do projeto -->
-    <link rel="stylesheet" href="../static/css/style.css"/>
-</head>
-<body>
+        <!-- CSS global do projeto -->
+        <link rel="stylesheet" href="../static/css/style.css"/>
+    </head>
+    <body>
 
-<main class="login-container">
-    <section class="login-card">
-        <header class="login-header">
-            <h1>SGC</h1>
-            <p>Sistema de Gestão de Condomínio</p>
-        </header>
+        <button class="tema-toggle" aria-label="Alternar tema">🌓</button>
+        
+        <main class="login-container">
+            <section class="login-card">
+                <header class="login-header">
+                    <h1>Jardim Ribeiro</h1>
+                    <p>Residencial Jardim Ribeiro</p>
+                </header>
 
-        <form id="loginForm" class="login-form" novalidate>
+                <form id="loginForm" class="login-form" novalidate>
 
-            <div class="form-cadastroUser-linha">
-                <div class="form-cadastroUser-grupo">
-                    <label for="nome">Nome</label>
-                    <input id="nome" name="nome" class="form-control-sm" type="text" required style="width: 220px">
-                </div>
+                    <div class="form-cadastroUser-linha">
+                        <div class="form-cadastroUser-grupo">
+                            <label for="nome">Nome</label>
+                            <input id="nome" name="nome" class="form-control-sm" type="text" required style="width: 220px">
+                        </div>
 
-                <div class="form-cadastroUser-grupo">
-                    <label for="sobrenome">Sobrenome</label>
-                    <input id="sobrenome" name="sobrenome" class="form-control-sm" type="text" required style="width: 220px">
-                </div>
-            </div>
-            
-            <div class="form-cadastroUsu-linha">
-                <div class="form-cadastroUsu-grupo">
-                    <label for="senha">Senha</label>
-                    <input id="senha" name="senha" class="form-control-sm" type="password" required style="width: 220px">
-                </div>
+                        <div class="form-cadastroUser-grupo">
+                            <label for="sobrenome">Sobrenome</label>
+                            <input id="sobrenome" name="sobrenome" class="form-control-sm" type="text" required style="width: 220px">
+                        </div>
+                    </div>
+                    
+                    <div class="form-cadastroUsu-linha">
+                        <div class="form-cadastroUsu-grupo">
+                            <label for="senha">Senha</label>
+                            <input id="senha" name="senha" class="form-control-sm" type="password" required style="width: 220px">
+                        </div>
 
-                <div class="form-cadastroUsu-grupo">
-                    <label for="confirmar_senha">Confirmar senha</label>
-                    <input id="confirmar_senha" name="confirmar_senha" class="form-control-sm" type="password" required style="width: 220px">
-                </div>
-            </div>
+                        <div class="form-cadastroUsu-grupo">
+                            <label for="confirmar_senha">Confirmar senha</label>
+                            <input id="confirmar_senha" name="confirmar_senha" class="form-control-sm" type="password" required style="width: 220px">
+                        </div>
+                    </div>
 
-            <div class="form-cadastroUsu-linha">
-                <div class="form-cadastroUsu-grupo">
-                    <label for="email">Email</label>
-                    <input id="email" name="email" class="form-control-sm" type="email" required style="width: 220px">
-                </div>
+                    <div class="form-cadastroUsu-linha">
+                        <div class="form-cadastroUsu-grupo">
+                            <label for="email">Email</label>
+                            <input id="email" name="email" class="form-control-sm" type="email" required style="width: 220px">
+                        </div>
 
-                <div class="form-cadastroUsu-grupo">
-                    <label for="telefone">Telefone</label>
-                    <input id="telefone" name="telefone" class="form-control-sm" type="text" required style="width: 220px"
-                        placeholder="XX XXXXX-XXXX">
-                </div>
-            </div>
+                        <div class="form-cadastroUsu-grupo">
+                            <label for="telefone">Telefone</label>
+                            <input id="telefone" name="telefone" class="form-control-sm" type="text" required style="width: 220px"
+                                placeholder="XX XXXXX-XXXX">
+                        </div>
 
-            <!-- Mensagem (compatível com o JS externo) -->
-            <div id="msg" class="msg" style="display:none;"></div>
+                        <div class="form-cadastroUsu-grupo">
+                            <label for="apartamento">Apartamento</label>
+                            <input id="apartamento" name="apartamento" class="form-control-sm" type="text" required style="width: 220px">
+                        </div>
+                    </div>
 
-            <div class="ja-possui-conta">
-                <h1>Já possui uma conta?</h1>
-                <a th:href="@{/login}" class="ir-login">Login</a>
-            </div>
+                    <!-- Mensagem (compatível com o JS externo) -->
+                    <div id="msg" class="msg" style="display:none;"></div>
+
+                    <div class="ja-possui-conta">
+                        <h1>Já possui uma conta?</h1>
+                        <a th:href="@{/login}" class="ir-login">Login</a>
+                    </div>
 
 
-        </form>
+                </form>
 
-        <footer class="login-footer">
-            <small>© 2026 - Desenvolvido por Lucas Freitas</small>
-        </footer>
-    </section>
-</main>
+                <footer class="login-footer">
+                    <small>© 2026 - Desenvolvido por Lucas Freitas</small>
+                </footer>
+            </section>
+        </main>
 
-<script src="../static/js/script.js"></script>
+        <script src="../static/js/script.js"></script>
 
-</body>
+    </body>
 </html>
