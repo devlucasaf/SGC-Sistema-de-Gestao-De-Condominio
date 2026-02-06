@@ -1,4 +1,4 @@
 package com.condominio.web.bean.agendamento.dto;
 
-public class AreaLazer {
+public class DataReservada {
 }
