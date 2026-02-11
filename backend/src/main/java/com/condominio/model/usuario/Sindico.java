@@ -1,5 +1,7 @@
 package com.condominio.model.usuario;
 
+import com.condominio.modules.morador.model.Morador;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,11 +1,11 @@
 package com.condominio.service;
 
 import com.condominio.model.usuario.Funcionario;
-import com.condominio.model.usuario.Morador;
+import com.condominio.modules.morador.model.Morador;
 import com.condominio.model.usuario.Porteiro;
 import com.condominio.model.usuario.Sindico;
 import com.condominio.repository.FuncionarioRepository;
-import com.condominio.repository.MoradorRepository;
+import com.condominio.modules.morador.repository.MoradorRepository;
 import com.condominio.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

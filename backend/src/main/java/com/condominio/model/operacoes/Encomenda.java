@@ -1,6 +1,6 @@
 package com.condominio.model.operacoes;
 
-import com.condominio.model.usuario.Morador;
+import com.condominio.modules.morador.model.Morador;
 import com.condominio.model.usuario.Porteiro;
 
 import javax.persistence.*;

@@ -1,8 +1,8 @@
-package com.condominio.dto.morador;
+package com.condominio.modules.morador.dto;
 
 import java.time.LocalDate;
 
-public class MoradorResponse {
+public class MoradorResponseDTO {
 
     private Long id;
     private String nome;
@@ -15,11 +15,11 @@ public class MoradorResponse {
     private String cpf;
     private String rg;
 
-    public MoradorResponse() {}
+    public MoradorResponseDTO() {}
 
-    public MoradorResponse(Long id, String nome, LocalDate dataNascimento, String email,
-                           String telefone, String status, String unidade,
-                           String cpf, String rg) {
+    public MoradorResponseDTO(Long id, String nome, LocalDate dataNascimento, String email,
+                              String telefone, String status, String unidade,
+                              String cpf, String rg) {
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;

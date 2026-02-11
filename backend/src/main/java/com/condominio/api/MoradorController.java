@@ -1,7 +1,7 @@
 package com.condominio.api;
 
 import com.condominio.dto.morador.MoradorCreateRequest;
-import com.condominio.dto.morador.MoradorResponse;
+import com.condominio.modules.morador.dto.MoradorResponseDTO;
 import com.condominio.dto.morador.MoradorUpdateRequest;
 import com.condominio.service.MoradorService;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class MoradorController {
      */
     @GetMapping
     @PreAuthorize("hasRole('SINDICO')")
-    public ResponseEntity<List<MoradorResponse>> listar() {
+    public ResponseEntity<List<MoradorResponseDTO>> listar() {
         return ResponseEntity.ok(moradorService.listar());
     }
 
@@ -41,7 +41,7 @@ public class MoradorController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('SINDICO')")
-    public ResponseEntity<MoradorResponse> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<MoradorResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(moradorService.buscarPorId(id));
     }
 
@@ -51,8 +51,8 @@ public class MoradorController {
      */
     @PostMapping
     @PreAuthorize("hasRole('SINDICO')")
-    public ResponseEntity<MoradorResponse> criar(@Valid @RequestBody MoradorCreateRequest request) {
-        MoradorResponse created = moradorService.criar(request);
+    public ResponseEntity<MoradorResponseDTO> criar(@Valid @RequestBody MoradorCreateRequest request) {
+        MoradorResponseDTO created = moradorService.criar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -62,7 +62,7 @@ public class MoradorController {
      */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('SINDICO')")
-    public ResponseEntity<MoradorResponse> atualizar(
+    public ResponseEntity<MoradorResponseDTO> atualizar(
             @PathVariable Long id,
             @Valid @RequestBody MoradorUpdateRequest request
     ) {
@@ -87,7 +87,7 @@ public class MoradorController {
      */
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('MORADOR','SINDICO')")
-    public ResponseEntity<MoradorResponse> me(Authentication authentication) {
+    public ResponseEntity<MoradorResponseDTO> me(Authentication authentication) {
         // authentication.getName() geralmente é o "username" do UserDetails (no seu caso, o email)
         String email = authentication.getName();
         return ResponseEntity.ok(moradorService.buscarPorEmail(email));

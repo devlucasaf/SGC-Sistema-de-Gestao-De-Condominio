@@ -2,10 +2,8 @@ package com.condominio.web.bean.agendamento;
 
 import com.condominio.web.bean.agendamento.dto.AreaLazer;
 import com.condominio.web.bean.agendamento.dto.DataReservada;
-import com.condominio.web.bean.comum.PesquisarAreaLazer;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.service.spi.InjectService;
 
 import java.io.Serializable;
 import java.util.Date;

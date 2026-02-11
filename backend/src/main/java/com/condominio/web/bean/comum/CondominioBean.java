@@ -13,8 +13,6 @@ public class CondominioBean {
             sessao.setMensagemTelaLogin("");
             irParaLogin();
             return false;
-        } else if (Strings.isNullOrEmpty) {
-
         }
     }
 }
