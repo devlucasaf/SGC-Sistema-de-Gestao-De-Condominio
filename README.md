@@ -24,73 +24,54 @@ Sistema Web para gestão de condomínio.
 ### 🗂️ Estrutura
 
 ````
-SGC-Sistema-de-Gestao-De-Condominio/
-├── 📁 backend/
-│   ├── 📁 .mvn/
-│   │   └── 📁 wrapper/
-│   │       └── maven-wrapper.properties
-│   ├── pom.xml
-│   ├── 📁 src/
-│   │   ├── 📁 main/
-│   │   │   ├── 📁 java/
-│   │   │   │   ├── 📁 com/condominio/
-│   │   │   │   ├── 📁 config/
-│   │   │   │   │   ├── DatabaseConfig.java
-│   │   │   │   │   └── SecurityConfig.java
-│   │   │   │   ├── 📁 controller/
-│   │   │   │   │   └── AuthController.java
-│   │   │   │   ├── 📁 dto/
-│   │   │   │   │   ├── 📁 auth/
-│   │   │   │   │   │   ├── LoginRequest.java
-│   │   │   │   │   │   └── LoginResponse.java
-│   │   │   │   │   └── 📁 morador/
-│   │   │   │   │       ├── MoradorCreateRequest.java
-│   │   │   │   │       ├── MoradorResponse.java
-│   │   │   │   │       └── MoradorUpdateRequest.java
-│   │   │   │   ├── 📁 model/
-│   │   │   │   │   ├── 📁 base/
-│   │   │   │   │   │   └── BaseEntity.java
-│   │   │   │   │   ├── 📁 operacoes/
-│   │   │   │   │   │   ├── Correspondencia.java
-│   │   │   │   │   │   ├── Encomenda.java
-│   │   │   │   │   │   ├── OcorrenciaPortaria.java
-│   │   │   │   │   │   └── Visitante.java
-│   │   │   │   │   └── 📁 usuario/
-│   │   │   │   │       ├── Funcionario.java
-│   │   │   │   │       ├── Morador.java
-│   │   │   │   │       ├── Porteiro.java
-│   │   │   │   │       ├── Sindico.java
-│   │   │   │   │       └── Unidade.java
-│   │   │   │   ├── 📁 repository/
-│   │   │   │   │   ├── FuncionarioRepository.java
-│   │   │   │   │   └── MoradorRepository.java
-│   │   │   │   ├── 📁 security/
-│   │   │   │   │   ├── CustomUserDetails.java
-│   │   │   │   │   ├── JwtAuthenticationEntryPoint.java
-│   │   │   │   │   └── JwtAuthenticationFilter.java
-│   │   │   │   ├── 📁 service/
-│   │   │   │   │   ├── CustomUserDetailsService.java
-│   │   │   │   │   └── MoradorService.java
-│   │   │   │   ├── 📁 util/
-│   │   │   │   │   └── JwtTokenUtil.java
-│   │   │   │   └── SgcApplication.java
-│   │   │   └── 📁 resources/
-│   │   │       ├── application.properties
-│   │   │       └── data.sql
-│   │   └── 📁 test/
-│   │       └── 📁 java/com/condominio/
-│   │           └── SgcApplicationTests.java
-├── 📁 frontend/
-│   └── 📁 src/main/resources/
-│       ├── 📁 static/
-│       │   ├── 📁 css/
-│       │   │   └── style.css
-│       │   └── 📁 js/
-│       │   │   └── script.css
-│       └── 📁 templates/
-│           └── login.html
-└── README.md
+📂 SGC-Sistema-de-Gestao
+├── 📂 backend
+│   ├── 📂 src/main/java/com/condominio
+│   │   ├── 📂 infra           
+│   │   └── 📂 modules         
+│   │       ├── 📂 autenticacao
+│   │       ├── 📂 morador
+│   │       └── 📂 unidade
+│   └── 📄 pom.xml
+│
+└── 📂 frontend
+    ├── 📂 src
+    │   ├── 📂 components      
+    │   ├── 📂 pages           
+    │   └── 📂 services        
+    └── 📄 package.json
 ````
+
+---
+
+### 🚀 Como Rodar o Projeto Localmente
+
+**1. Pré-requisitos**
+- Java 17+
+- Node.js 18+
+- SqlServer rodando na porta 5432
+
+**2. Faça o clone do repositório**
+
+```bash
+git clone https://github.com/devlucasaf/SGC-Sistema-de-Gestao-De-Condominio
+```
+
+**3. Backend**
+
+```bash
+cd backend
+# Configure o application.properties com seu banco
+./mvnw spring-boot:run
+```
+
+**4. Frontend**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
@@ -135,7 +116,15 @@ SGC-Sistema-de-Gestao-De-Condominio/
         tittle="Spring"
         width="30px"
         style="padding-right: 10px;"
-        src="https://skillicons.dev/icons?i=spring"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg"
+    />
+    <img
+        align="left"
+        alt="react"
+        tittle="React"
+        width="30px"
+        style="padding-right: 10px;"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
     />
     <img 
         align="left" 
@@ -178,6 +167,10 @@ SGC-Sistema-de-Gestao-De-Condominio/
         src="https://skillicons.dev/icons?i=gitlab"
     />
 </div>
+
+## 🏆 License
+
+**The** [**MIT License**](./LICENSE).
 
 <img 
     width=100% 
