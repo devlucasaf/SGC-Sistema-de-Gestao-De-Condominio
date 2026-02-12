@@ -32,7 +32,8 @@ SGC-Sistema-de-Gestao-De-Condominio/
 │   ├── pom.xml
 │   ├── 📁 src/
 │   │   ├── 📁 main/
-│   │   │   ├── 📁 java/com/condominio/
+│   │   │   ├── 📁 java/
+│   │   │   │   ├── 📁 com/condominio/
 │   │   │   │   ├── 📁 config/
 │   │   │   │   │   ├── DatabaseConfig.java
 │   │   │   │   │   └── SecurityConfig.java
