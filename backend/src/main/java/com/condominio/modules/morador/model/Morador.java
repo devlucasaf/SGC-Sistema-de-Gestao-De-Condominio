@@ -1,7 +1,7 @@
 package com.condominio.modules.morador.model;
 
 import com.condominio.model.base.BaseEntity;
-import com.condominio.model.usuario.Unidade;
+import com.condominio.modules.unidade.model.Unidade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -69,13 +69,14 @@ public class Morador extends BaseEntity {
         // Hibernate
     }
 
-    public Morador(String nome, String email, String cpf, String senhaHash, Unidade unidade, TipoMorador tipoMorador) {
+    public Morador(String nome, String email, String cpf, String senhaHash, Unidade unidade, TipoMorador tipoMorador, LocalDate dataNascimento) {
         this.nome = nome;
         this.email = email;
-        this.cpf = cpf;                     // Agora recebe o valor corretamente
+        this.cpf = cpf;
         this.senhaHash = senhaHash;
         this.unidade = unidade;
-        this.tipoMorador = tipoMorador;     // Agora recebe o valor corretamente
+        this.tipoMorador = tipoMorador;
+        this.dataNascimento = dataNascimento;
         this.dataEntrada = LocalDate.now();
         this.status = StatusMorador.AGUARDANDO_APROVACAO;
     }

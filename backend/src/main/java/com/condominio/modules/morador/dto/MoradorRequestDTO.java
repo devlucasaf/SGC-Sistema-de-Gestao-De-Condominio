@@ -1,37 +1,38 @@
 package com.condominio.modules.morador.dto;
 
-import com.condominio.modules.morador.model.StatusMorador;
 import com.condominio.modules.morador.model.TipoMorador;
+import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 
-public record MoradorRequestDTO (
+@Data
+public class MoradorRequestDTO {
     @NotBlank(message = "O nome é obrigatório")
-    String nome,
+    private String nome;
 
     @NotBlank(message = "O CPF é obrigatório")
     @CPF(message = "CPF inválido")
-    String cpf,
+    private String cpf;
 
     @NotBlank(message = "O email é obrigatório")
-    @Email(message = "Email inválido")
-    String email,
+    @Email(message = "Formato de email inválido")
+    private String email;
 
-    @NotBlank(message = "O telefone é obrigatório")
-    String telefone,
+    @NotNull(message = "A data de nascimento é obrigatória")
+    @Past(message = "A data de nascimento deve ser anterior a hoje")
+    private LocalDate dataNascimento;
 
-    @NotNull(message = "O tipo de morador é obrigatório (PROPRIETARIO ou INQUILINO)")
-    TipoMorador tipoMorador,
+    private String telefone;
 
-    @NotNull(message = "O status do morador é obrigatório (ATIVO ou INATIVO)")
-    StatusMorador statusMorador,
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
+    private String senha;
 
     @NotNull(message = "O ID da unidade é obrigatório")
-    Long unidadeId
-) {}
+    private Long idUnidade;
 
-
+    @NotNull(message = "O tipo de morador é obrigatório (PROPRIETARIO ou INQUILINO)")
+    private TipoMorador tipoMorador;
+}

@@ -18,4 +18,39 @@ import java.util.List;
 @RestController
 @RequestMapping("/moradores")
 public class MoradorController {
+
+    @Autowired
+    private MoradorService moradorService;
+
+    // Cadastrar
+    @PostMapping
+    public ResponseEntity<MoradorResponseDTO> cadastrar(
+            @RequestBody @Valid MoradorRequestDTO dto,
+            UriComponentsBuilder uriComponentsBuilder) {
+
+        // Chama o serviço
+        MoradorResponseDTO novoMorador = moradorService.cadastrar(dto);
+
+        // Cria a URL de retorno
+        URI uri = uriComponentsBuilder.path("/moradores/{id}")
+                .buildAndExpand(novoMorador.getId())
+                .toUri();
+
+        // Retorn 201 Created
+        return ResponseEntity.created(uri).body(novoMorador);
+    }
+
+    // Busca por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<MoradorResponseDTO> buscarPorId(@PathVariable Long id) {
+        MoradorResponseDTO morador = moradorService.buscarPorId(id);
+        return ResponseEntity.ok(morador);
+    }
+
+    // Listar todos (GET)
+    @GetMapping
+    public ResponseEntity<List<MoradorResponseDTO>> listarTodos() {
+        List<MoradorResponseDTO> lista = moradorService.listarTodos();
+        return ResponseEntity.ok(lista);
+    }
 }

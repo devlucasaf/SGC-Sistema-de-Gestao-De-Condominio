@@ -1,7 +1,11 @@
 package com.condominio.modules.morador.dto;
 
+import com.condominio.modules.morador.model.Morador;
+import lombok.Data;
+
 import java.time.LocalDate;
 
+@Data
 public class MoradorResponseDTO {
 
     private Long id;
@@ -9,99 +13,33 @@ public class MoradorResponseDTO {
     private LocalDate dataNascimento;
     private String email;
     private String telefone;
-    private String status;
+    private String cpf;
+    private String tipoMorador;
+
     private String unidade;
 
-    private String cpf;
-    private String rg;
+    public static MoradorResponseDTO fromEntity(Morador morador) {
+        MoradorResponseDTO dto = new MoradorResponseDTO();
 
-    public MoradorResponseDTO() {}
+        dto.setId(morador.getId());
+        dto.setNome(morador.getNome());
+        dto.setDataNascimento(morador.getDataNascimento());
+        dto.setEmail(morador.getEmail());
+        dto.setTelefone(morador.getTelefone());
+        dto.setCpf(morador.getCpf());
 
-    public MoradorResponseDTO(Long id, String nome, LocalDate dataNascimento, String email,
-                              String telefone, String status, String unidade,
-                              String cpf, String rg) {
-        this.id = id;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.email = email;
-        this.telefone = telefone;
-        this.status = status;
-        this.unidade = unidade;
-        this.cpf = cpf;
-        this.rg = rg;
-    }
+        // Converte o Enum para String
+        if (morador.getTipoMorador() != null) {
+            dto.setTipoMorador(morador.getTipoMorador().name());
+        }
 
-    // Getters e Setters
+        // Formata a unidade para ficar bonito no JSON
+        if (morador.getUnidade() != null) {
+            String descricaoUnidade = "Bloco " + morador.getUnidade().getBloco() +
+                    " - Apto " + morador.getUnidade().getNumeroApto();
+            dto.setUnidade(descricaoUnidade);
+        }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
+        return dto;
     }
 }
