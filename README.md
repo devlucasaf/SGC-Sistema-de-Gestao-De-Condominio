@@ -168,7 +168,9 @@ npm run dev
     />
 </div>
 
-## 🏆 License
+<br>
+
+### 🏆 License
 
 **The** [**MIT License**](./LICENSE).
 
