@@ -2,10 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// Importa as Telas
-import Login from './pages/Login'
-import Home from './pages/Home';
+// Importa os estilos
 import './index.css'
+
+// Importa as Telas
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Cadastro from './pages/Cadastro'
 
 // Imparta o 'Guarda-costas'
 import RotaPrivada from './components/RotaPrivada.jsx'
