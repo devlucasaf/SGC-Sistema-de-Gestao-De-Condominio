@@ -1,8 +1,11 @@
 package com.condominio.modules.porteiro.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.condominio.model.base.BaseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "porteiro")
@@ -13,6 +16,7 @@ public class Porteiro implements UserDetails {
     @Column(name = "id_porteiro")   
     private Long id;
 
+    // --- DADOS PESSOAIS ---
     @Column(nullable = false, length = 100)
     private String nome;
 
@@ -22,6 +26,7 @@ public class Porteiro implements UserDetails {
     @Column(name = "cpf", unique = true, length = 14)
     private String cpf;
 
+    // --- CONTATO & ACESSO ---
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
@@ -30,4 +35,13 @@ public class Porteiro implements UserDetails {
 
     @Column(length = 20)
     private String telefone;
+
+    @Column(name = "matricula", unique = true, length = 50)
+    private String matricula;
+
+    @Column(name = "data_entrada", nullable = false)
+    private LocalDate dataEntrada;
+
+    @Column(name = "data_saida")
+    private LocalDate dataSaida;
 }
