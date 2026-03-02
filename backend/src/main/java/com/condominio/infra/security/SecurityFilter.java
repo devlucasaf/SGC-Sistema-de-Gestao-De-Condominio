@@ -1,6 +1,6 @@
 package com.condominio.infra.security;
 
-import com.condominio.modules.morador.repository.MoradorRepository;
+import com.condominio.modules.usuario.repository.UsuarioRepository; // <-- 1. Mudamos para UsuarioRepository
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +23,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private MoradorRepository moradorRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,8 +34,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             // Descobre quem é o dono do token
             var subject = tokenService.getSubject(token);
 
-            // Faz a busca do usuário completo no banco
-            UserDetails usuario = moradorRepository.findByEmail(subject)
+            // Faz a busca do usuário completo no banco usando o repositório genérico
+            UserDetails usuario = usuarioRepository.findByEmail(subject)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
             // Cria a autenticação do Spring
@@ -55,7 +55,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             return null;
         }
 
-        return authHeader.replace("Beares ", "");
+        // 2. Corrigido de "Beares " para "Bearer "
+        return authHeader.replace("Bearer ", "");
     }
-
 }

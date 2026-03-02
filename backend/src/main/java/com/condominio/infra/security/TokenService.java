@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import com.condominio.modules.morador.model.Morador;
+import com.condominio.modules.usuario.model.Usuario;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,32 +20,34 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    // --- Gerar TOKEN
-    public String gerarToken(Morador morador) {
+    // --- GERAR TOKEN ---
+    public String gerarToken(Usuario usuario) {
         try {
-            // Define o algoritmo de criptografia
             Algorithm algoritmo = Algorithm.HMAC256(secret);
 
             return JWT.create()
-                    .withIssuer("SGC-API") // Quem emitiu o token
-                    .withSubject(morador.getEmail()) // Dono do token
-                    .withClaim("id", morador.getId()) // Guardamos o ID dele
-                    .withExpiresAt(dataExpiracao()) // Validade do token
-                    .sign(algoritmo); // Assina digitalmente
+                    .withIssuer("SGC-API")
+                    .withSubject(usuario.getEmail())
+                    .withClaim("id", usuario.getId())
+                    // Guardamos o tipo de utilizador no token (ex: MORADOR, SINDICO)
+                    .withClaim("tipoUsuario", usuario.getTipoUsuario().name())
+                    .withExpiresAt(dataExpiracao())
+                    .sign(algoritmo);
         }
         catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar token JWT", exception);
         }
     }
 
+    // --- LER TOKEN ---
     public String getSubject(String tokenJWT) {
         try {
             Algorithm algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
                     .withIssuer("SGC-API")
                     .build()
-                    .verify(tokenJWT) // Tenta ler o token
-                    .getSubject(); // Pega o email que estava guardado lá dentro
+                    .verify(tokenJWT)
+                    .getSubject();
         } catch (JWTVerificationException exception) {
             throw new RuntimeException("Token JWT inválido ou expirado!");
         }

@@ -2,6 +2,7 @@ package com.condominio.modules.autenticacao.service;
 
 import com.condominio.modules.morador.repository.MoradorRepository;
 
+import com.condominio.modules.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class AutenticacaoService implements UserDetailsService {
 
     @Autowired
-    private MoradorRepository repository;
+    private UsuarioRepository repository;
 
     // O Spring Security chama esse método automaticamente quando alguém tenta logar
     @Override

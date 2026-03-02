@@ -1,47 +1,16 @@
 package com.condominio.modules.morador.model;
 
-import com.condominio.model.base.BaseEntity;
 import com.condominio.modules.unidade.model.Unidade;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.condominio.modules.usuario.model.TipoUsuario;
+import com.condominio.modules.usuario.model.Usuario;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "morador")
-public class Morador implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_morador")
-    private Long id;
-
-//  +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
-
-    // --- DADOS PESSOAIS ---
-    @Column(nullable = false, length = 100)
-    private String nome;
-
-    @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
-
-    @Column(name = "cpf", unique = true, length = 14)
-    private String cpf;
-
-    // --- CONTATO & ACESSO ---
-    @Column(unique = true, nullable = false, length = 100)
-    private String email;
-
-    @Column(name = "senha_hash", nullable = false, length = 255)
-    private String senhaHash;
-
-    @Column(length = 20)
-    private String telefone;
+@PrimaryKeyJoinColumn(name = "id_usuario") // Liga o ID do Morador ao ID do Usuario
+public class Morador extends Usuario {
 
     // --- RELACIONAMENTO COM O IMÓVEL ---
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,7 +19,7 @@ public class Morador implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private TipoMorador tipoMorador; // Enum corrigido
+    private TipoMorador tipoMorador; // Proprietário, Inquilino, etc.
 
     // --- SITUAÇÃO NO CONDOMÍNIO ---
     @Enumerated(EnumType.STRING)
@@ -72,57 +41,22 @@ public class Morador implements UserDetails {
 
     // --- CONSTRUTORES ---
     public Morador() {
-        // Hibernate
+        // Obrigatório para o Hibernate
     }
 
-    public Morador(String nome, String email, String cpf, String senhaHash, Unidade unidade, TipoMorador tipoMorador, LocalDate dataNascimento) {
-        this.nome = nome;
-        this.email = email;
-        this.cpf = cpf;
-        this.senhaHash = senhaHash;
+    public Morador(String nome, LocalDate dataNascimento, String cpf, String email,
+                   String senhaHash, String telefone, Unidade unidade, TipoMorador tipoMorador) {
+        // Envia os dados pessoais para a classe pai (Usuario) definindo o perfil como MORADOR
+        super(nome, dataNascimento, cpf, email, senhaHash, telefone, TipoUsuario.MORADOR);
+
+        // Define os dados específicos do Morador
         this.unidade = unidade;
         this.tipoMorador = tipoMorador;
-        this.dataNascimento = dataNascimento;
         this.dataEntrada = LocalDate.now();
         this.status = StatusMorador.AGUARDANDO_APROVACAO;
     }
 
     // --- MÉTODOS DE NEGÓCIO ---
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + this.tipoMorador.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return senhaHash;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.status == StatusMorador.ATIVO;
-    }
 
     public boolean podeUsarAreasComuns() {
         return isAtivo() && !isInadimplente();
@@ -137,9 +71,13 @@ public class Morador implements UserDetails {
     }
 
     public boolean isMaiorDeIdade() {
-        if (this.dataNascimento == null) return false;
-        return LocalDate.now().minusYears(18).isAfter(this.dataNascimento)
-                || LocalDate.now().minusYears(18).isEqual(this.dataNascimento);
+        // O método getDataNascimento() vem herdado da classe pai!
+        if (this.getDataNascimento() == null) {
+            return false;
+        }
+
+        return LocalDate.now().minusYears(18).isAfter(this.getDataNascimento())
+                || LocalDate.now().minusYears(18).isEqual(this.getDataNascimento());
     }
 
     public void registrarSaidaDoCondominio() {
@@ -152,62 +90,7 @@ public class Morador implements UserDetails {
         this.dataAceiteTermos = LocalDate.now();
     }
 
-    // --- GETTERS E SETTERS ---
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenhaHash() {
-        return senhaHash;
-    }
-
-    public void setSenhaHash(String senhaHash) {
-        this.senhaHash = senhaHash;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+    // --- GETTERS E SETTERS (Apenas dos atributos desta classe) ---
 
     public Unidade getUnidade() {
         return unidade;
@@ -264,5 +147,4 @@ public class Morador implements UserDetails {
     public void setDataAceiteTermos(LocalDate dataAceiteTermos) {
         this.dataAceiteTermos = dataAceiteTermos;
     }
-
 }

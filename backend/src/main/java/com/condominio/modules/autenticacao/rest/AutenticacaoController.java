@@ -3,7 +3,8 @@ package com.condominio.modules.autenticacao.rest;
 import com.condominio.modules.autenticacao.dto.AutenticacaoDTO;
 import com.condominio.modules.autenticacao.dto.LoginResponseDTO;
 import com.condominio.infra.security.TokenService;
-import com.condominio.modules.morador.model.Morador;
+import com.condominio.modules.usuario.model.Usuario;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +36,7 @@ public class AutenticacaoController {
         var auth = authenticationManager.authenticate(usernamePassword);
 
         // Gera o token se der certo
-        var token = tokenService.gerarToken((Morador) auth.getPrincipal());
+        var token = tokenService.gerarToken((Usuario) auth.getPrincipal());
 
         // Devolve o token
         return ResponseEntity.ok(new LoginResponseDTO(token));

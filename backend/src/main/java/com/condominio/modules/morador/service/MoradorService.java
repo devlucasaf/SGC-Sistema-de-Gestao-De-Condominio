@@ -48,12 +48,13 @@ public class MoradorService {
         // Criação da Entidade
         Morador morador = new Morador(
                 dto.getNome(),
-                dto.getEmail(),
+                dto.getDataNascimento(), // Agora vem antes do CPF
                 dto.getCpf(),
-                passwordEncoder.encode(dto.getSenha()),
+                dto.getEmail(),
+                passwordEncoder.encode(dto.getSenha()), // senhaHash
+                dto.getTelefone(), // O telefone agora entra direto no construtor!
                 unidade,
-                dto.getTipoMorador(),
-                dto.getDataNascimento()
+                dto.getTipoMorador()
         );
 
         // Define o telefone

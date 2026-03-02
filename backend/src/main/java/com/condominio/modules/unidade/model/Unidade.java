@@ -1,12 +1,10 @@
 package com.condominio.modules.unidade.model;
 
-import com.condominio.model.base.BaseEntity;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "unidade")
-public class Unidade extends BaseEntity {
+public class Unidade { // <-- Apagamos o "extends BaseEntity"
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,5 +61,4 @@ public class Unidade extends BaseEntity {
     public void setNumeroApto(String numeroApto) {
         this.numeroApto = numeroApto;
     }
-
 }
