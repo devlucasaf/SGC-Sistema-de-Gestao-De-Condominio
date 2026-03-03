@@ -1,12 +1,15 @@
 package com.condominio.infra.security;
 
-import com.condominio.modules.usuario.repository.UsuarioRepository; // <-- 1. Mudamos para UsuarioRepository
+import com.condominio.modules.usuario.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Component;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -23,39 +26,35 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository repository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Pega o token do cabeçalho
+        // --- PEGA O TOKEN DO CABEÇALHO ---
         var token = recuperarToken(request);
 
         if (token != null) {
-            // Descobre quem é o dono do token
+            // --- DESCOBRE O DONO DO TOKEN ---
             var subject = tokenService.getSubject(token);
+            UserDetails usuario = repository.findByEmail(subject).orElse(null);
 
-            // Faz a busca do usuário completo no banco usando o repositório genérico
-            UserDetails usuario = usuarioRepository.findByEmail(subject)
-                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
-
-            // Cria a autenticação do Spring
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-
-            // Salva no contexto
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (usuario != null) {
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
-        // Continua o fluxo
+        // --- CONTINUA O FLUXO ---
         filterChain.doFilter(request, response);
     }
 
     private String recuperarToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader == null) {
-            return null;
+        var authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader != null) {
+            return authorizationHeader.replace("Bearer ", "");
         }
 
-        // 2. Corrigido de "Beares " para "Bearer "
-        return authHeader.replace("Bearer ", "");
+        return null;
     }
 }
