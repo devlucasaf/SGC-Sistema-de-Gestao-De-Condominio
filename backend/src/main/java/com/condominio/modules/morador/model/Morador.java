@@ -5,11 +5,12 @@ import com.condominio.modules.usuario.model.TipoUsuario;
 import com.condominio.modules.usuario.model.Usuario;
 
 import javax.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "morador")
-@PrimaryKeyJoinColumn(name = "id_usuario") // Liga o ID do Morador ao ID do Usuario
+@PrimaryKeyJoinColumn(name = "id_usuario")
 public class Morador extends Usuario {
 
     // --- RELACIONAMENTO COM O IMÓVEL ---
@@ -46,10 +47,10 @@ public class Morador extends Usuario {
 
     public Morador(String nome, LocalDate dataNascimento, String cpf, String email,
                    String senhaHash, String telefone, Unidade unidade, TipoMorador tipoMorador) {
-        // Envia os dados pessoais para a classe pai (Usuario) definindo o perfil como MORADOR
+        // --- ENVIA OS DADOS PESSOAIS PARA A CLASSE PAI ---
         super(nome, dataNascimento, cpf, email, senhaHash, telefone, TipoUsuario.MORADOR);
 
-        // Define os dados específicos do Morador
+        // --- DEFINE OS DADOS ESPECÍFICOS DO MORADOR ---
         this.unidade = unidade;
         this.tipoMorador = tipoMorador;
         this.dataEntrada = LocalDate.now();
@@ -71,7 +72,6 @@ public class Morador extends Usuario {
     }
 
     public boolean isMaiorDeIdade() {
-        // O método getDataNascimento() vem herdado da classe pai!
         if (this.getDataNascimento() == null) {
             return false;
         }
@@ -90,7 +90,7 @@ public class Morador extends Usuario {
         this.dataAceiteTermos = LocalDate.now();
     }
 
-    // --- GETTERS E SETTERS (Apenas dos atributos desta classe) ---
+    // --- GETTERS E SETTERS ---
 
     public Unidade getUnidade() {
         return unidade;

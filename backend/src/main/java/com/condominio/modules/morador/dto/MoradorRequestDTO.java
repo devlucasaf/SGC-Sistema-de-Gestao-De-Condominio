@@ -1,10 +1,13 @@
 package com.condominio.modules.morador.dto;
 
 import com.condominio.modules.morador.model.TipoMorador;
+
 import lombok.Data;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.*;
+
 import java.time.LocalDate;
 
 @Data

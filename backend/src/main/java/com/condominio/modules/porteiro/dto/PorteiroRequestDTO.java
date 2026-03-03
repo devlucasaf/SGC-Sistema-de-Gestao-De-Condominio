@@ -1,9 +1,11 @@
 package com.condominio.modules.porteiro.dto;
 
 import lombok.Data;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.*;
+
 import java.time.LocalDate;
 
 @Data

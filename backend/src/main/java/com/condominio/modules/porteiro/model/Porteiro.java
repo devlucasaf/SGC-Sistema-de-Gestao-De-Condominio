@@ -6,12 +6,12 @@ import com.condominio.modules.usuario.model.Usuario;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "porteiro")
 public class Porteiro extends Usuario {
-    // Como extends Usuario, ele já ganha automaticamente ID, Nome, Email, CPF e Senha!
 
     @Column(name = "matricula", unique = true, length = 50)
     private String matricula;
@@ -25,14 +25,13 @@ public class Porteiro extends Usuario {
 
     // --- CONSTRUTOR ---
     public Porteiro(String nome, LocalDate dataNascimento, String cpf, String email, String senhaHash, String telefone, String matricula) {
-        // Envia os dados pessoais para a classe pai (Usuario) definindo o perfil como PORTEIRO
         super(nome, dataNascimento, cpf, email, senhaHash, telefone, TipoUsuario.PORTEIRO);
 
         this.matricula = matricula;
-        this.dataEntrada = LocalDate.now(); // Pega a data de hoje automaticamente
+        this.dataEntrada = LocalDate.now();
     }
 
-    // --- Getters e Setters ---
+    // --- GETTERS E SETTERS ---
 
     public String getMatricula() {
         return matricula;

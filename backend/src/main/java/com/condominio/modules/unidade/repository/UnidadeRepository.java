@@ -1,6 +1,7 @@
 package com.condominio.modules.unidade.repository;
 
 import com.condominio.modules.unidade.model.Unidade;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

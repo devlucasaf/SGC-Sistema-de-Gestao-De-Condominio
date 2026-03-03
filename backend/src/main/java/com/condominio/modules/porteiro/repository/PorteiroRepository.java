@@ -3,6 +3,7 @@ package com.condominio.modules.porteiro.repository;
 import com.condominio.modules.porteiro.model.Porteiro;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

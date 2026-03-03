@@ -29,16 +29,16 @@ public class AutenticacaoController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AutenticacaoDTO data) {
 
-        // Encapsula o email e senha
+        // --- ENCAPSULA O EMAIL E SENHA ---
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getSenha());
 
-        // Tenta fazer a autenticação
+        // --- TENTA FAZER A AUTENTICAÇÃO ---
         var auth = authenticationManager.authenticate(usernamePassword);
 
-        // Gera o token se der certo
+        // --- GERA O TOKEN ---
         var token = tokenService.gerarToken((Usuario) auth.getPrincipal());
 
-        // Devolve o token
+        // --- DEVOLVE O TOKEN ---
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "unidade")
-public class Unidade { // <-- Apagamos o "extends BaseEntity"
+public class Unidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Unidade { // <-- Apagamos o "extends BaseEntity"
         this.numeroApto = numeroApto;
     }
 
-    // --- Getters e Setters ---
+    // --- GETTERS E SETTERS ---
 
     public Long getId() {
         return id;

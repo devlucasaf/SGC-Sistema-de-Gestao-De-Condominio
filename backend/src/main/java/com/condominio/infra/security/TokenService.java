@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.condominio.modules.usuario.model.Usuario;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -29,7 +30,7 @@ public class TokenService {
                     .withIssuer("SGC-API")
                     .withSubject(usuario.getEmail())
                     .withClaim("id", usuario.getId())
-                    // Guardamos o tipo de utilizador no token (ex: MORADOR, SINDICO)
+                    // --- GUARDAR O TIPO DE UTILIZADOR DO TOKEN ---
                     .withClaim("tipoUsuario", usuario.getTipoUsuario().name())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);

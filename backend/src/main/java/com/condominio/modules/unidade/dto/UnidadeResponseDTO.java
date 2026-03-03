@@ -1,6 +1,7 @@
 package com.condominio.modules.unidade.dto;
 
 import com.condominio.modules.unidade.model.Unidade;
+
 import lombok.Data;
 
 @Data

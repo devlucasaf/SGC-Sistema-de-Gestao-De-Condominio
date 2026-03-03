@@ -1,7 +1,9 @@
 package com.condominio.modules.porteiro.dto;
 
 import com.condominio.modules.porteiro.model.Porteiro;
+
 import lombok.Data;
+
 import java.time.LocalDate;
 
 @Data
@@ -18,6 +20,7 @@ public class PorteiroResponseDTO {
 
     public static PorteiroResponseDTO fromEntity(Porteiro porteiro) {
         PorteiroResponseDTO dto = new PorteiroResponseDTO();
+
         dto.setId(porteiro.getId());
         dto.setNome(porteiro.getNome());
         dto.setCpf(porteiro.getCpf());

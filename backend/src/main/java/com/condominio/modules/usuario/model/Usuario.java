@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "usuario")
-@Inheritance(strategy = InheritanceType.JOINED) // Estratégia de herança (cria tabelas separadas ligadas por ID)
+@Inheritance(strategy = InheritanceType.JOINED) // --- HERANÇA ---
 public abstract class Usuario implements UserDetails {
 
     @Id
@@ -39,7 +39,7 @@ public abstract class Usuario implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private TipoUsuario tipoUsuario; // O seu Enum com MORADOR, SINDICO, PORTEIRO, FUNCIONARIO
+    private TipoUsuario tipoUsuario; // --- ENUM COM MORADOR, SINDICO, PORTEIRO, FUNCIONARIO ---
 
     // --- CONSTRUTORES ---
     public Usuario() {
@@ -60,7 +60,7 @@ public abstract class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Retorna o perfil de acesso do usuário (ex: ROLE_MORADOR, ROLE_SINDICO)
+        // --- RETORNA O PERFIL DO USUÁRIO ---
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.tipoUsuario.name()));
     }
 

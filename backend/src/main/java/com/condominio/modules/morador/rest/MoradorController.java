@@ -5,14 +5,18 @@ import com.condominio.modules.morador.dto.MoradorResponseDTO;
 import com.condominio.modules.morador.service.MoradorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
 import java.net.URI;
+
 import java.util.List;
 
 @RestController
@@ -22,32 +26,32 @@ public class MoradorController {
     @Autowired
     private MoradorService moradorService;
 
-    // Cadastrar
+    // --- CADASTRAR ---
     @PostMapping
     public ResponseEntity<MoradorResponseDTO> cadastrar(
             @RequestBody @Valid MoradorRequestDTO dto,
             UriComponentsBuilder uriComponentsBuilder) {
 
-        // Chama o serviço
+        // --- CHAMA O SERVIÇO ---
         MoradorResponseDTO novoMorador = moradorService.cadastrar(dto);
 
-        // Cria a URL de retorno
+        // --- CRIA A URL DE RETORNO ---
         URI uri = uriComponentsBuilder.path("/moradores/{id}")
                 .buildAndExpand(novoMorador.getId())
                 .toUri();
 
-        // Retorn 201 Created
+        // --- 201 CREATED ---
         return ResponseEntity.created(uri).body(novoMorador);
     }
 
-    // Busca por ID
+    // --- BUSCA POR ID ---
     @GetMapping("/{id}")
     public ResponseEntity<MoradorResponseDTO> buscarPorId(@PathVariable Long id) {
         MoradorResponseDTO morador = moradorService.buscarPorId(id);
         return ResponseEntity.ok(morador);
     }
 
-    // Listar todos (GET)
+    // --- LISTAR TODOS OS GET ---
     @GetMapping
     public ResponseEntity<List<MoradorResponseDTO>> listarTodos() {
         List<MoradorResponseDTO> lista = moradorService.listarTodos();

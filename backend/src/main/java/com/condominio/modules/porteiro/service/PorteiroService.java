@@ -4,10 +4,15 @@ import com.condominio.modules.porteiro.dto.PorteiroRequestDTO;
 import com.condominio.modules.porteiro.dto.PorteiroResponseDTO;
 import com.condominio.modules.porteiro.model.Porteiro;
 import com.condominio.modules.porteiro.repository.PorteiroRepository;
+
 import com.condominio.modules.usuario.repository.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -17,7 +22,7 @@ public class PorteiroService {
     private PorteiroRepository porteiroRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository; // Verifica e-mails e CPFs de todo o sistema
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -25,7 +30,7 @@ public class PorteiroService {
     @Transactional
     public PorteiroResponseDTO cadastrar(PorteiroRequestDTO dto) {
 
-        // Validação global de CPF e Email
+        // --- VALIDAÇÃO GLOBAL DE CPF E E-MAIL ---
         if (usuarioRepository.existsByCpf(dto.getCpf())) {
             throw new IllegalArgumentException("Erro: CPF já cadastrado no sistema.");
         }
@@ -33,7 +38,7 @@ public class PorteiroService {
             throw new IllegalArgumentException("Erro: E-mail já utilizado por outro usuário.");
         }
 
-        // Criação da Entidade
+        // --- CRIAÇÃO DA ENTIDADE ---
         Porteiro porteiro = new Porteiro(
                 dto.getNome(),
                 dto.getDataNascimento(),
@@ -44,7 +49,7 @@ public class PorteiroService {
                 dto.getMatricula()
         );
 
-        // Salva no banco de dados
+        // --- SALVA NO BANCO DE DADOS ---
         porteiroRepository.save(porteiro);
 
         return PorteiroResponseDTO.fromEntity(porteiro);

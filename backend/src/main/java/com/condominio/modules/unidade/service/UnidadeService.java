@@ -4,8 +4,11 @@ import com.condominio.modules.unidade.dto.UnidadeRequestDTO;
 import com.condominio.modules.unidade.dto.UnidadeResponseDTO;
 import com.condominio.modules.unidade.model.Unidade;
 import com.condominio.modules.unidade.repository.UnidadeRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,7 +20,7 @@ public class UnidadeService {
     @Autowired
     private UnidadeRepository unidadeRepository;
 
-    // Cadastrar Unidade
+    // --- CADASTRAR UNIDADE ---
     @Transactional
     public UnidadeResponseDTO cadastrar(UnidadeRequestDTO dto) {
         Unidade unidade = new Unidade();
@@ -31,7 +34,7 @@ public class UnidadeService {
         return UnidadeResponseDTO.fromEntity(unidade);
     }
 
-    // Listar Todas
+    // --- LISTAR TODAS ---
     public List<UnidadeResponseDTO> listarTodas() {
         return unidadeRepository.findAll().stream()
                 .map(UnidadeResponseDTO::fromEntity)

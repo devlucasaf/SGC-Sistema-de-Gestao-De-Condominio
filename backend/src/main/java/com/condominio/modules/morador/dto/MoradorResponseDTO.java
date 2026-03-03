@@ -1,6 +1,7 @@
 package com.condominio.modules.morador.dto;
 
 import com.condominio.modules.morador.model.Morador;
+
 import lombok.Data;
 
 import java.time.LocalDate;
