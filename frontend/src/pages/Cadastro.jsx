@@ -37,7 +37,8 @@ function Cadastro() {
             await api.post("/moradores", dadosMorador);
 
             alert("Morador cadastrado com sucesso!");
-            navigate("/");
+            
+            navigate("/home");
         } catch (error) {
             setMensagem(
                 "Erro ao cadastrar morador. Verifique se a unidade existe e os dados informados"

@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../services/api'; // Certifique-se de que o caminho está correto
 import '../style/Home.css';
 
 function Home() {
-    const [comunicados, setComunicados] = useState([]);
+    const [moradores, setMoradores] = useState([]);
     const [carregando, setCarregando] = useState(true);
 
+    // Simulando o perfil por enquanto, ou você pode buscar do localStorage
     const perfilUsuario = 'SINDICO'; 
 
     useEffect(() => {
-        setTimeout(() => {
-        const dadosDoBanco = [
-            { 
-                id: 1, 
-                titulo: 'Elevador do Bloco B', 
-                data: '27/02/2026', 
-                mensagem: 'Manutenção acionada.', 
-                urgente: true 
-            },
-            { 
-                id: 2, 
-                titulo: 'Limpeza de Garagem', 
-                data: '25/02/2026', 
-                mensagem: 'Retirem os carros.', 
-                urgente: false 
+        const buscarMoradores = async () => {
+            try {
+                // Chama a rota do seu Java
+                const resposta = await api.get("/moradores");
+                setMoradores(resposta.data);
+            } catch (error) {
+                console.error("Erro ao buscar moradores:", error);
+            } finally {
+                setCarregando(false);
             }
-        ];
+        };
 
-        setComunicados(dadosDoBanco); 
-        setCarregando(false);         
-        }, 1000);
-
-    }, []); 
+        buscarMoradores();
+    }, []);
 
     return (
         <div className="home-container">
-            
-            {/* --- NAVBAR --- */}
             <nav className="navbar">
                 <div className="navbar-logo">
                     <h2>SGC</h2>
@@ -58,28 +49,29 @@ function Home() {
             <main className="home-conteudo">
                 
                 <div className="cabecalho-secao">
-                    <h1 className="titulo-secao">Quadro de Avisos</h1>
+                    <h1 className="titulo-secao">Moradores Cadastrados</h1>
                 
                     {(perfilUsuario === 'SINDICO' || perfilUsuario === 'FUNCIONARIO') && (
-                        <button className="btn-novo-aviso">+ Novo Comunicado</button>
+                        <button className="btn-novo-aviso">+ Novo Morador</button>
                     )}  
                 </div>
                 
                 <div className="frame-comunicados">
                     {carregando ? (
-                        <p>Buscando comunicados recentes...</p>
-                    ) : comunicados.length === 0 ? (
-                        <p>Nenhum comunicado no momento.</p>
+                        <p>Buscando dados no servidor Java...</p>
+                    ) : moradores.length === 0 ? (
+                        <p>Nenhum morador encontrado no banco de dados.</p>
                     ) : (
-                        // Se já carregou e tem dados, desenha na tela
-                        comunicados.map((aviso) => (
-                        <div key={aviso.id} className={`cartao-aviso ${aviso.urgente ? 'aviso-urgente' : ''}`}>
-                            <div className="aviso-cabecalho">
-                                <h3>{aviso.titulo}</h3>
-                                <span className="aviso-data">{aviso.data}</span>
+                        // Mapeando os moradores que vieram do banco
+                        moradores.map((morador) => (
+                            <div key={morador.id} className="cartao-aviso">
+                                <div className="aviso-cabecalho">
+                                    <h3>{morador.nome}</h3>
+                                    <span className="aviso-data">Unidade: {morador.unidadeId}</span>
+                                </div>
+                                <p><strong>Email:</strong> {morador.email}</p>
+                                <p><strong>CPF:</strong> {morador.cpf}</p>
                             </div>
-                            <p>{aviso.mensagem}</p>
-                        </div>
                         ))
                     )}
                 </div>
