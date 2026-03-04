@@ -33,11 +33,14 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
+
+                .antMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+
                 // --- REGRAS DE ACESSO ---
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/unidades").permitAll()
                 .antMatchers(HttpMethod.POST, "/moradores").permitAll()
-                .anyRequest().authenticated() // TODO O RESTO PRECISA DE TOKEN
+                .anyRequest().authenticated() // --- TODO O RESTO PRECISA DE TOKEN ---
                 .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

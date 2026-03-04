@@ -20,7 +20,7 @@ public class RegistrarAcesso {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_visitante", nullable = false)
+    @JoinColumn(name = "id_visitante")
     private Visitante visitante;
 
     @ManyToOne

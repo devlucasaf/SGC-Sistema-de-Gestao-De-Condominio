@@ -2,13 +2,12 @@ package com.condominio.modules.visitante.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "visitantes")
 @Data
 public class Visitante {
 
