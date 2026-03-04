@@ -1,12 +1,8 @@
-INSERT INTO unidade (bloco, numero, numero_apto, ativo)
-VALUES ('A', '101', '101', true);
-
-INSERT INTO morador (nome, email, senha_hash, status, data_entrada, id_unidade)
-VALUES (
-  'Morador Teste',
-  'morador@teste.com',
-  '$2b$10$1JFGLKk4ZSYQ2RqLKimlh.qStO8QtH6/BPzA/IITrU93vJ2lOYrw6',
-  'ATIVO',
-  CURRENT_DATE,
-  (SELECT id_unidade FROM unidade WHERE bloco='A' AND numero='101' LIMIT 1)
-);
+IF NOT EXISTS (SELECT 1 FROM area_lazer WHERE nome = 'Churrasqueira')
+BEGIN
+    INSERT INTO area_lazer (nome, capacidade_maxima, precisa_pagamento) VALUES ('Churrasqueira', 15, 1);
+    INSERT INTO area_lazer (nome, capacidade_maxima, precisa_pagamento) VALUES ('Hidromassagem', 4, 0);
+    INSERT INTO area_lazer (nome, capacidade_maxima, precisa_pagamento) VALUES ('Salão Gourmet', 20, 1);
+    INSERT INTO area_lazer (nome, capacidade_maxima, precisa_pagamento) VALUES ('Salão de Festas', 50, 1);
+    INSERT INTO area_lazer (nome, capacidade_maxima, precisa_pagamento) VALUES ('Cinema', 10, 0);
+END
