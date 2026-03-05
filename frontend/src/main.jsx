@@ -9,6 +9,7 @@ import './index.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Cadastro from './pages/Cadastro'
+import CadastroUnidade from './pages/CadastroUnidade'
 
 // Imparta o 'Guarda-costas'
 import RotaPrivada from './components/RotaPrivada.jsx'
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </RotaPrivada>
           } 
         />
+        <Route path="/cadastrounidade" element={<CadastroUnidade />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

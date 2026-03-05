@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
-import api from '../services/api';
-import '../style/Login.css'; // <-- Importando nosso CSS novinho!
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom"; // Juntei as importações aqui!
+import api from "../services/api";
+import "../styles/Login.css"; 
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [erro, setErro] = useState('');
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [erro, setErro] = useState(""); // <-- Criei o estado para guardar o erro
     
     // Criando o estado do tema 
     const [isDarkMode, setIsDarkMode] = useState(true); 
@@ -17,16 +15,23 @@ function Login() {
 
     async function handleLogin(e) {
         e.preventDefault();
-        setErro('');
+        setErro(""); // Limpa o erro de tentativas anteriores
 
         try {
-            const response = await api.post('/auth/login', { email, senha });
+            // Chama a sua API Java
+            const response = await api.post("/auth/login", { email, senha });
+            
+            // Pega o token que o Java devolveu e salva
             const token = response.data.token;
-            localStorage.setItem('token', token);
-            navigate('/home');
+            localStorage.setItem("token", token);
+            
+            alert("Login realizado com sucesso! 🎉");
+            navigate("/home");
+            
         } catch (error) {
-            setErro('Erro ao logar. Verifique e-mail e senha.');
-            console.error(error);
+            console.error("Erro ao fazer login:", error);
+            // Agora atualizamos a variável 'erro' para aparecer na tela
+            setErro("Falha no login: Verifique seu e-mail e senha."); 
         }
     }
 
@@ -37,10 +42,11 @@ function Login() {
 
     return (
         // Aqui decidimos qual classe CSS usar dependendo do estado
-        <div className={`tela-login ${isDarkMode ? 'tema-escuro' : 'tema-claro'}`}>
+        <div className={`tela-login ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
             
-            <button className="btn-tema" onClick={alternarTema}>
-                {isDarkMode ? '☀️ Modo Claro' : '🌙 Modo Escuro'}
+            {/* type="button" evita que este botão tente enviar o formulário sem querer */}
+            <button className="btn-tema" onClick={alternarTema} type="button">
+                {isDarkMode ? "☀️ Modo Claro" : "🌙 Modo Escuro"}
             </button>
 
             <form className="caixa-login" onSubmit={handleLogin}>
@@ -64,7 +70,8 @@ function Login() {
                 
                 <button type="submit" className="btn-entrar">Entrar</button>
                 
-                {erro && <p style={{ color: '#ff4d4d', textAlign: 'center' }}>{erro}</p>}
+                {/* Se a variável 'erro' tiver texto, esse parágrafo aparece */}
+                {erro && <p style={{ color: "#ff4d4d", textAlign: "center", marginTop: "10px" }}>{erro}</p>}
 
                 <div className="rodape-login">
                     <p>

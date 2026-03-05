@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api'; // Certifique-se de que o caminho está correto
-import '../style/Home.css';
+import '../styles/Home.css';
 
 function Home() {
     const [moradores, setMoradores] = useState([]);

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import "../style/Cadastro.css";
+import "../styles/CadastroUnidade.css";
 
 function CadastroUnidade() {
     const [andar, setAndar] = useState("");
     const [bloco, setBloco] = useState("");
     const [numeroApto, setNumeroApto] = useState("");
     const [mensagem, setMensagem] = useState("");
+
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     const navigate = useNavigate();
 
@@ -37,9 +39,18 @@ function CadastroUnidade() {
         }
     }
 
+    function alternarTema() {
+        setIsDarkMode(!isDarkMode);
+    }
+
     return (
-        <div className="tela-cadastro tema-escuro">
-            <form className="caixa-cadastro" onSubmit={handleCadastro}>
+        <div className={`tela-cadastro-unidade ${isDarkMode ? 'tema-escuro' : 'tema-claro'}`}>
+
+            <button className="btn-tema" onClick={alternarTema}>
+                {isDarkMode ? '☀️ Modo Claro' : '🌙 Modo Escuro'}
+            </button>
+
+            <form className="caixa-unidade" onSubmit={handleCadastro}>
                 <h2>Cadastrar Unidade</h2>
 
                 <input
@@ -66,12 +77,12 @@ function CadastroUnidade() {
                     required
                 />
 
-                <button type="submit" className="btn-cadastrar">
+                <button type="submit" className="btn-salvar-unidade">
                     Salvar Unidade
                 </button>
 
                 <span
-                    className="link-voltar"
+                    className="link-voltar-unidade"
                     onClick={() => navigate("/home")}
                 >
                     Voltar para Home

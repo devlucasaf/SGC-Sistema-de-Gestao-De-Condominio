@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import "../style/Cadastro.css";
+import "../styles/Cadastro.css";
 
 function Cadastro() {
     const [nome, setNome] = useState("");
@@ -47,8 +47,17 @@ function Cadastro() {
         }
     }
 
+    function alternarTema() {
+        setIsDarkMode(!isDarkMode);
+    }
+
     return (
-        <div className="tela-cadastro tema-escuro">
+        <div className={`tela-login ${isDarkMode ? 'tema-escuro' : 'tema-claro'}`}>
+            
+            <button className="btn-tema" onClick={alternarTema}>
+                {isDarkMode ? '☀️ Modo Claro' : '🌙 Modo Escuro'}
+            </button>
+
             <form className="caixa-cadastro" onSubmit={handleCadastro}>
                 <h2>Cadastrar Morador</h2>
 
@@ -157,6 +166,7 @@ function Cadastro() {
                 <span
                     className="link-voltar"
                     onClick={() => navigate("/")}
+                    style={{ color: "#2ecc71", fontWeight: "bold", textAlign: "center" }}
                 >
                     Voltar para o Login
                 </span>
