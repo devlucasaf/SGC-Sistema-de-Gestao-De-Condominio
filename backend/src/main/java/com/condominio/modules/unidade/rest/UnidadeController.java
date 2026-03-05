@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/unidades")
+@CrossOrigin("*")
 public class UnidadeController {
 
     @Autowired
