@@ -19,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/unidades")
-@CrossOrigin // --- PERMITE REQUISIÇÕES ENTRE O REACT E O BACKEND ---
 public class UnidadeController {
 
     @Autowired
