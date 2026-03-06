@@ -27,18 +27,26 @@ Sistema Web para gestão de condomínio.
 📂 SGC-Sistema-de-Gestao
 ├── 📂 backend
 │   ├── 📂 src/main/java/com/condominio
-│   │   ├── 📂 infra           
+│   │   ├── 📂 dto/auth
+│   │   ├── 📂 entity
+│   │   ├── 📂 infra/security           
 │   │   └── 📂 modules         
 │   │       ├── 📂 autenticacao
+│   │       ├── 📂 encomenda
 │   │       ├── 📂 morador
-│   │       └── 📂 unidade
+│   │       ├── 📂 porteiro
+│   │       ├── 📂 reserva
+│   │       ├── 📂 unidade
+│   │       ├── 📂 usuario
+│   │       ├── 📂 visitante
+│   │       └── SgcApplication.java
 │   └── 📄 pom.xml
-│
 └── 📂 frontend
     ├── 📂 src
     │   ├── 📂 components      
-    │   ├── 📂 pages           
-    │   └── 📂 services        
+    │   ├── 📂 pages     
+    │   ├── 📂 services       
+    │   └── 📂 styles        
     └── 📄 package.json
 ````
 
