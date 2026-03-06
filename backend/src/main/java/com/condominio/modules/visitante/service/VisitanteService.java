@@ -81,6 +81,7 @@ public class VisitanteService {
         }
 
         acesso.setDataHoraSaida(LocalDateTime.now());
+        
         return VisitanteResponseDTO.fromEntity(acessoRepository.save(acesso));
     }
 

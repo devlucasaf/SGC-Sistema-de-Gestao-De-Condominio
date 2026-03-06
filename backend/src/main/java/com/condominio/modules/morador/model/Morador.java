@@ -20,7 +20,7 @@ public class Morador extends Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private TipoMorador tipoMorador; // Proprietário, Inquilino, etc.
+    private TipoMorador tipoMorador; // Proprietário, Inquilino ou Dependente.
 
     // --- SITUAÇÃO NO CONDOMÍNIO ---
     @Enumerated(EnumType.STRING)
@@ -42,11 +42,11 @@ public class Morador extends Usuario {
 
     // --- CONSTRUTORES ---
     public Morador() {
-        // Obrigatório para o Hibernate
+        // Hibernate
     }
 
     public Morador(String nome, LocalDate dataNascimento, String cpf, String email,
-                   String senhaHash, String telefone, Unidade unidade, TipoMorador tipoMorador) {
+                    String senhaHash, String telefone, Unidade unidade, TipoMorador tipoMorador) {
         // --- ENVIA OS DADOS PESSOAIS PARA A CLASSE PAI ---
         super(nome, dataNascimento, cpf, email, senhaHash, telefone, TipoUsuario.MORADOR);
 

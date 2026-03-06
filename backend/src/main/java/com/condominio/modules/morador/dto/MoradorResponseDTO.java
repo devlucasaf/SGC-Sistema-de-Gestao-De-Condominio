@@ -29,12 +29,11 @@ public class MoradorResponseDTO {
         dto.setTelefone(morador.getTelefone());
         dto.setCpf(morador.getCpf());
 
-        // Converte o Enum para String
+        // --- CONVERTE O ENUM PARA STRING ---
         if (morador.getTipoMorador() != null) {
             dto.setTipoMorador(morador.getTipoMorador().name());
         }
 
-        // Formata a unidade para ficar bonito no JSON
         if (morador.getUnidade() != null) {
             String descricaoUnidade = "Bloco " + morador.getUnidade().getBloco() +
                     " - Apto " + morador.getUnidade().getNumeroApto();

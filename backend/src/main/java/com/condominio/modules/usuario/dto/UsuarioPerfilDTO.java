@@ -16,17 +16,21 @@ public class UsuarioPerfilDTO {
 
     public static UsuarioPerfilDTO fromEntity(Usuario usuario) {
         UsuarioPerfilDTO dto = new UsuarioPerfilDTO();
+        
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
         dto.setEmail(usuario.getEmail());
 
         if (usuario instanceof Morador) {
             Morador m = (Morador) usuario;
+
             dto.setTipoUsuario("MORADOR");
             dto.setDetalheExtra("Apto: " + m.getUnidade().getNumeroApto() + " - Bloco: " + m.getUnidade().getBloco());
         }
+        
         else if (usuario instanceof Porteiro) {
             Porteiro p = (Porteiro) usuario;
+
             dto.setTipoUsuario("PORTEIRO");
             dto.setDetalheExtra("Matrícula: " + p.getMatricula());
         }

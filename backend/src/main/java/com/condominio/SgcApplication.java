@@ -25,7 +25,9 @@ public class SgcApplication {
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(url));
             }
-        } catch (Exception e) {
+        } 
+        
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

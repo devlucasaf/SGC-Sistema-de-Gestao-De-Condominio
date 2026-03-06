@@ -34,6 +34,7 @@ public class PorteiroService {
         if (usuarioRepository.existsByCpf(dto.getCpf())) {
             throw new IllegalArgumentException("Erro: CPF já cadastrado no sistema.");
         }
+        
         if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Erro: E-mail já utilizado por outro usuário.");
         }
