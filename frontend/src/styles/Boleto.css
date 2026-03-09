@@ -1,0 +1,100 @@
+.tela-boleto {
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.conteiner-boletos {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 2rem;
+}
+
+.cabecalho-boletos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.btn-voltar {
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-voltar:hover {
+    background-color: #2980b9;
+}
+
+.lista-boletos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cartao-boleto {
+    background-color: #ffffff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tema-escuro .cartao-boleto {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+.info-boleto h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.acao-boleto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.etiqueta-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.status-pago {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-pendente {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.btn-pagar {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-pagar:hover {
+    background-color: #27ae60;
+}

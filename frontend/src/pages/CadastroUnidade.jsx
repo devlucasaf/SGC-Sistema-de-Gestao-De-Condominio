@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import api from "../services/api.js";
 import "../styles/CadastroUnidade.css";
 
 function CadastroUnidade() {
@@ -33,6 +33,7 @@ function CadastroUnidade() {
             setNumeroApto("");
 
         } 
+        
         catch (error) {
             setMensagem("Erro ao cadastrar unidade. Verifique os dados e tente novamente.");
             console.error(error);

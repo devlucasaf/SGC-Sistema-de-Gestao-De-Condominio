@@ -1,39 +1,62 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 // Importa os estilos
-import './index.css'
+import "./index.css"
 
 // Importa as Telas
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Cadastro from './pages/Cadastro'
-import CadastroUnidade from './pages/CadastroUnidade'
+import PaginaInicial from "./pages/PaginaInicial.jsx"
+import Login from "./pages/Login"
+import Cadastro from "./pages/Cadastro"
+import CadastroUnidade from "./pages/CadastroUnidade"
+import Boleto from "./pages/Boleto.jsx"
 
-// Imparta o 'Guarda-costas'
-import RotaPrivada from './components/RotaPrivada.jsx'
+import RotaPrivada from "./components/RotaPrivada.jsx"
 
-import './index.css'
+import "./index.css"
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
 <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* Rotas Públicas (Qualquer um entra) */}
-        <Route path="/" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-
-        {/* Rota Privada (Só entra com Token) */}
         <Route 
-          path="/home" 
+          path="/" 
           element={
-            <RotaPrivada>
-              <Home />
-            </RotaPrivada>
+            <Login />
           } 
         />
-        <Route path="/cadastrounidade" element={<CadastroUnidade />} />
+
+        <Route 
+          path="/cadastro" 
+          element={
+            <Cadastro />
+          } 
+        />
+
+        <Route 
+          path="/paginainicial" 
+          element={
+            //<RotaPrivada>
+              <PaginaInicial />
+            //</RotaPrivada>
+          } 
+        />
+
+        <Route 
+          path="/cadastrounidade" 
+          element={
+            <CadastroUnidade />
+          } 
+        />
+
+        <Route 
+          path="/boleto" 
+          element={
+            <Boleto />
+          } 
+        />
+
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

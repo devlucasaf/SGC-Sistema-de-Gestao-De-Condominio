@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Juntei as importações aqui!
-import api from "../services/api";
+import { useNavigate, Link } from "react-router-dom"; 
+import api from "../services/api.js";
 import "../styles/Login.css"; 
 
 function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [erro, setErro] = useState(""); // <-- Criei o estado para guardar o erro
+    const [erro, setErro] = useState("");
     
-    // Criando o estado do tema 
+    // --- CRIANDO O ESTADO DO TEMA ---
     const [isDarkMode, setIsDarkMode] = useState(true); 
 
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Login() {
         setErro(""); // Limpa o erro de tentativas anteriores
 
         try {
-            // Chama a sua API Java
+            // --- CHAMA A API DO JAVA ---
             const response = await api.post("/auth/login", { email, senha });
             
             // Pega o token que o Java devolveu e salva
@@ -28,23 +28,21 @@ function Login() {
             alert("Login realizado com sucesso! 🎉");
             navigate("/home");
             
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.error("Erro ao fazer login:", error);
-            // Agora atualizamos a variável 'erro' para aparecer na tela
             setErro("Falha no login: Verifique seu e-mail e senha."); 
         }
     }
 
-    // Função que inverte o tema
+    // --- FUNÇÃO QUE INVERTE O TEMA ---
     function alternarTema() {
         setIsDarkMode(!isDarkMode);
     }
 
     return (
-        // Aqui decidimos qual classe CSS usar dependendo do estado
         <div className={`tela-login ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
-            
-            {/* type="button" evita que este botão tente enviar o formulário sem querer */}
             <button className="btn-tema" onClick={alternarTema} type="button">
                 {isDarkMode ? "☀️ Modo Claro" : "🌙 Modo Escuro"}
             </button>
