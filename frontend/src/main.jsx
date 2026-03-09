@@ -11,6 +11,7 @@ import Login from "./pages/Login"
 import Cadastro from "./pages/Cadastro"
 import CadastroUnidade from "./pages/CadastroUnidade"
 import Boleto from "./pages/Boleto.jsx"
+import Entregas from "./pages/Entregas.jsx"
 
 import RotaPrivada from "./components/RotaPrivada.jsx"
 
@@ -54,6 +55,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           path="/boleto" 
           element={
             <Boleto />
+          } 
+        />
+
+        <Route 
+          path="/entregas" 
+          element={
+            <Entregas />
           } 
         />
 

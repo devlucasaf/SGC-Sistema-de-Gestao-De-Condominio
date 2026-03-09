@@ -6,6 +6,7 @@ function Boleto() {
     const navigate = useNavigate();
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [carregando, setCarregando] = useState(false);
+    const [boletos, setBoletos] = useState([]);
     
     /*
     useEffect(() => {
@@ -14,26 +15,22 @@ function Boleto() {
 
             try {
                 const response = await api.get("/boletos/meus-boletos");
-
                 setBoletos(response.data);
-            }
-            
+            } 
+                
             catch(error) {
                 console.error("Erro ao buscar boletos:", error);
                 alert("Não foi possível carregar seus boletos.");
-            }
-            
+            } 
+                
             finally {
                 setCarregando(false);
             }
         }
-
         buscarBoletosDoMorador();
     }, []);
     */
     
-    // Apagar depois até o backend de gerar boletos estar pronto
-
     useEffect(() => {
         const listaFalsa = [
             { 
@@ -48,7 +45,7 @@ function Boleto() {
                 mes: "Fevereiro/2026", 
                 vencimento: "10/02/2026", 
                 valor: "R$ 450,00", 
-                status: "Pago"
+                status: "Pago" 
             },
             { 
                 id: 3, 
@@ -61,31 +58,33 @@ function Boleto() {
                 id: 4, 
                 mes: "Abril/2026", 
                 vencimento: "10/04/2026", 
-                valor: "R$ 450,00",
+                valor: "R$ 450,00", 
                 status: "Pendente" 
             }
         ];
         setBoletos(listaFalsa);
     }, []);
 
-    function alterarTema() {
+    function alternarTema() {
         setIsDarkMode(!isDarkMode);
     }
 
     return (
         <div className={`tela-boleto ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
             
-            <button className="btn-tema" onClick={alternarTema}>
-                {isDarkMode ? "☀️ Modo Claro" : "🌙 Modo Escuro"}
-            </button>
+            <nav className="navbar-boletos">
+                <h2>Boletos</h2>
+                
+                <button className="btn-tema" onClick={alternarTema}>
+                    {isDarkMode ? "☀️ Modo Claro" : "🌙 Modo Escuro"}
+                </button>
+            </nav>
 
             <div className="conteiner-boletos">
+                
                 <div className="cabecalho-boletos">
-                    <h2>Meus Boletos</h2>
-
-
-                    <button className="btn-voltar" onClick={() => navigate("/home")}>
-                        Voltar para Home
+                    <button className="btn-voltar" onClick={() => navigate("/paginainicial")}>
+                        ⬅ Voltar para a Página Inicial
                     </button>
                 </div>
 
@@ -93,7 +92,6 @@ function Boleto() {
                     <p style={{ textAlign: "center" }}>Buscando boletos...</p>
                 ) : (
                     <div className="lista-boletos">
-
                         {boletos.map((boleto) => (
                             <div key={boleto.id} className="cartao-boleto">
                                 <div className="info-boleto">
@@ -114,8 +112,6 @@ function Boleto() {
                                     )}
                                 </div>
                             </div>
-
-                            
                         ))}
                     </div>
                 )}
