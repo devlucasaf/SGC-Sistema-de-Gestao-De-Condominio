@@ -87,25 +87,23 @@ function ReclamacaoMorador() {
 
                     <form onSubmit={enviarReclamacao} className="form-reclamacao">
                         
-                        {/* 1. Escolha do Tipo */}
                         <div className="grupo-botoes-tipo">
                             <button 
                                 type="button" 
                                 className={`btn-tipo ${tipo === "condominio" ? "ativo" : ""}`}
                                 onClick={() => { setTipo("condominio"); setCategoria(""); }}
                             >
-                                🏢 Problema no Condomínio
+                                Problema no Condomínio
                             </button>
                             <button 
                                 type="button" 
                                 className={`btn-tipo ${tipo === "morador" ? "ativo" : ""}`}
                                 onClick={() => { setTipo("morador"); setCategoria(""); }}
                             >
-                                🗣️ Problema com Morador
+                                Problema com Morador
                             </button>
                         </div>
 
-                        {/* 2. Formulário Dinâmico (Só aparece depois de escolher o tipo) */}
                         {tipo && (
                             <div className="campos-dinamicos fadeIn">
                                 
@@ -129,7 +127,6 @@ function ReclamacaoMorador() {
                                     </select>
                                 </div>
 
-                                {/* Campo extra se for sobre outro morador */}
                                 {tipo === "morador" && (
                                     <div className="campo-form">
                                         <label>Qual é a Unidade/Bloco do Infrator? (Opcional)</label>
