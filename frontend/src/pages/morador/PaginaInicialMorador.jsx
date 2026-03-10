@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../services/api.js";
-import "../styles/PaginaInicial.css";
+import api from "../../services/api.js";
+import "../../styles/PaginaInicialMorador.css";
 
-function Home() {
+function PaginaInicialMorador() {
     const [moradores, setMoradores] = useState([]);
     const [carregando, setCarregando] = useState(true);
 
@@ -38,10 +38,10 @@ function Home() {
                 </div>
 
                 <ul className="navbar-links">
-                    <li><Link to="/boleto">Boleto</Link></li>
-                    <li><Link to="/reserva">Reserva</Link></li>
-                    <li><Link to="/entrega">Entrega</Link></li>
-                    <li><Link to="/reclamacao">Reclamação</Link></li>
+                    <li><Link to="/boletomorador">Boleto</Link></li>
+                    <li><Link to="/reservamorador">Reserva</Link></li>
+                    <li><Link to="/entregasmorador">Entrega</Link></li>
+                    <li><Link to="/reclamacaomorador">Reclamação</Link></li>
                 </ul>
 
                 <div className="navbar-perfil">
@@ -75,4 +75,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default PaginaInicialMorador;

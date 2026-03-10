@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Boleto.css";
+import "../../styles/BoletoMorador.css";
 
-function Boleto() {
+function BoletoMorador() {
     const navigate = useNavigate();
+
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [carregando, setCarregando] = useState(false);
     const [boletos, setBoletos] = useState([]);
@@ -83,7 +84,7 @@ function Boleto() {
             <div className="conteiner-boletos">
                 
                 <div className="cabecalho-boletos">
-                    <button className="btn-voltar" onClick={() => navigate("/paginainicial")}>
+                    <button className="btn-voltar" onClick={() => navigate("/paginainicialmorador")}>
                         ⬅ Voltar para a Página Inicial
                     </button>
                 </div>
@@ -120,4 +121,4 @@ function Boleto() {
     );
 }
 
-export default Boleto;
+export default BoletoMorador;

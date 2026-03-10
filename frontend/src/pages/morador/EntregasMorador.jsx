@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Entregas.css";
+import "../../styles/EntregasMorador.css";
 
-function Entregas() {
+function EntregasMorador() {
     const navigate = useNavigate();
+
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [entregas, setEntregas] = useState([]);
 
-    // ==========================================
-    // DADOS FALSOS (APAGAR DEPOIS QUANDO TIVER O BACK-END)
-    // ==========================================
     useEffect(() => {
         const listaFalsa = [
             { id: 1, descricao: "Caixa pequena - Amazon", dataChegada: "09/03/2026 - 14:30", recebedor: "Porteiro João", status: "Aguardando Retirada" },
@@ -26,7 +24,6 @@ function Entregas() {
     return (
         <div className={`tela-entregas ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
             
-            {/* NOSSA NAVBAR PADRONIZADA */}
             <nav className="navbar-entregas">
                 <h2>Minhas Entregas</h2>
                 
@@ -38,8 +35,8 @@ function Entregas() {
             <div className="conteiner-entregas">
                 
                 <div className="cabecalho-entregas">
-                    <button className="btn-voltar" onClick={() => navigate("/paginainicial")}>
-                        ⬅ Voltar para Home
+                    <button className="btn-voltar" onClick={() => navigate("/paginainicialmorador")}>
+                        ⬅ Voltar para Página Inicial
                     </button>
                 </div>
 
@@ -58,7 +55,7 @@ function Entregas() {
                                 </span>
                                 
                                 {entrega.status === "Aguardando Retirada" && (
-                                    <p className="aviso-portaria">Dirija-se à portaria com seu documento.</p>
+                                    <p className="aviso-portaria">Disponível para retirada na portaria.</p>
                                 )}
                             </div>
                         </div>
@@ -69,4 +66,4 @@ function Entregas() {
     );
 }
 
-export default Entregas;
+export default EntregasMorador;

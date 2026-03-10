@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api.js";
-import "../styles/CadastroUnidade.css";
+import api from "../../services/api.js";
+import "../../styles/CadastroUnidade.css";
 
 function CadastroUnidade() {
     const [andar, setAndar] = useState("");
