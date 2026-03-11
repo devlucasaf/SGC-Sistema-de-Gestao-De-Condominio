@@ -1,6 +1,6 @@
 <img 
     width=100% 
-    src="https://capsule-render.vercel.app/api?type=waving&color=A020F0&height=160&section=header&text=SGC&fontSize=50&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Sistema%20de%20Gestão%20de%20Condomínio&descAlignY=58&descSize=18"
+    src="https://capsule-render.vercel.app/api?type=waving&color=A020F0&height=120&section=header"
 />
 
 <p align="center">
@@ -14,7 +14,7 @@
         src="https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" 
     />
     <img 
-        src="https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black" 
+      https://github.com/devlucasaf/SGC-Sistema-de-Gestao-De-Condominio/commits/main/README.md  src="https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black" 
     />
     <img 
         src="https://img.shields.io/badge/license-MIT-A020F0?style=for-the-badge" 
