@@ -20,7 +20,7 @@ public class Reclamacao {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    private String unidadeAlvo;
+    private String unidade;
 
     private String status = "PENDENTE";
 

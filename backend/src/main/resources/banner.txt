@@ -6,6 +6,6 @@ ${AnsiColor.BRIGHT_CYAN}
   |____/ \____|\____|  |____/  |_|  |____/  \____\___/|_| \_|____/ \___/|_|  |_|___|_| \_|___\___/ 
                                                                                                    
 ${AnsiColor.BRIGHT_YELLOW}===================================================================================================
-  🚀 Aplicação: SGC SYS CONDOMÍNIO
-  📦 Versão do Spring Boot: ${spring-boot.version}
+  Aplicação: SGC SYS CONDOMÍNIO
+  Versão do Spring Boot: ${spring-boot.version}
 ===================================================================================================${AnsiColor.DEFAULT}
