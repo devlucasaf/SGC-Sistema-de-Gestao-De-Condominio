@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 import "../../styles/ReclamacaoMorador.css";
 
 function ReclamacaoMorador() {
@@ -43,15 +44,21 @@ function ReclamacaoMorador() {
         e.preventDefault();
 
         const novaReclamacao = {
-            tipo,
-            categoria,
-            descricao,
+            tipo: tipo,
+            categoria: categoria,
+            descricao: descricao,
             unidade: tipo === "morador" ? unidade : null
         };
 
         try {
             await api.post("/reclamacoes", novaReclamacao);
             alert("Reclamação registrada com sucesso!");
+
+            const response = await api.post("/api/reclamacoes", novaReclamacao);
+
+            if (response.status === 200 || response.status === 201) {
+                alert("Reclamação enviada com sucesso!")
+            }
 
             setTipo("");
             setCategoria("");
