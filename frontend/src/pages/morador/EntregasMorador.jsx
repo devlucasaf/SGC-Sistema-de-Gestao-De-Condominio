@@ -10,9 +10,27 @@ function EntregasMorador() {
 
     useEffect(() => {
         const listaFalsa = [
-            { id: 1, descricao: "Caixa pequena - Amazon", dataChegada: "09/03/2026 - 14:30", recebedor: "Porteiro João", status: "Aguardando Retirada" },
-            { id: 2, descricao: "Pacote - Mercado Livre", dataChegada: "05/03/2026 - 10:15", recebedor: "Porteiro Carlos", status: "Retirado" },
-            { id: 3, descricao: "Envelope - Correios", dataChegada: "01/03/2026 - 16:45", recebedor: "Porteiro João", status: "Retirado" }
+            {
+                id: 1,
+                descricao: "Caixa pequena - Amazon",
+                dataChegada: "09/03/2026 - 14:30",
+                recebedor: "Porteiro João",
+                status: "Aguardando Retirada"
+            },
+            {
+                id: 2,
+                descricao: "Pacote - Mercado Livre",
+                dataChegada: "05/03/2026 - 10:15",
+                recebedor: "Porteiro Carlos",
+                status: "Retirado"
+            },
+            {
+                id: 3,
+                descricao: "Envelope - Correios",
+                dataChegada: "01/03/2026 - 16:45",
+                recebedor: "Porteiro João",
+                status: "Retirado"
+            }
         ];
         setEntregas(listaFalsa);
     }, []);
