@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { data, useNavigate } from "react-router-dom";
 import "../../styles/ReservaMorador.css";
 
 function ReservaMorador() {
     const [areaSelecionada, setAreaSelecionada] = useState(null); 
     const [dataReserva, setDataReserva] = useState("");
+    const [historico, setHistorico] = useState([]);
 
     const navigate = useNavigate();
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -48,6 +49,21 @@ function ReservaMorador() {
         }
     ];
 
+    useEffect(() => {
+        async function carregarHistorico() {
+            try {
+                const response = await api.get("/reservas/minhas-reservas");
+                setHistorico(response.data);
+            }
+
+            catch (error) {
+                console.error("Erro ao buscar histórico:", error);
+            }
+        }
+
+        carregarHistorico();
+    }, []);
+
     function alternarTema() {
         setIsDarkMode(!isDarkMode);
     }
@@ -64,16 +80,33 @@ function ReservaMorador() {
     function confirmarReserva(e) {
         e.preventDefault();
 
-        console.log("Reserva confirmada:", { area: areaSelecionada.nome, data: dataReserva });
+        const reservaRequestDTO = {
+            idAreaLazer: areaSelecionada.id,
+            dataReserva: dataReserva
+        };
 
-        let mensagem = `Reserva do ${areaSelecionada.nome} para o dia ${dataReserva} confirmada!`;
+        try {
+            // const response = await api.post("/reservas", reservaRequestDTO);
+            const reservaSalva = response.data;
 
-        if (areaSelecionada.valor > 0) {
-            mensagem += `\nO valor de R$ ${areaSelecionada.valor.toFixed(2)} será incluído no seu próximo boleto.`;
+            const novaReservaHistorico = {
+                id: reservaSalva.id,
+                area: areaSelecionada.nome,
+                data: reservaSalva.dataReserva,
+                valor: areaSelecionada.valor,
+                status: reservaSalva.status
+            };
+
+            setHistorico([novaReservaHistorico, ...historico]);
+
+            alert(`Reserva do ${areaSelecionada.nome} confirmada`);
+            fecharModal();
         }
 
-        alert(mensagem);
-        fecharModal();
+        catch (error) {
+            const mensagemErro = error.response ? error.response.data : "Erro ao realizar reserva";
+            alert(mensagemErro);
+        }
     }
 
     return (
@@ -94,6 +127,7 @@ function ReservaMorador() {
                     <p className="subtitulo">Selecione o espaço que deseja reservar:</p>
                 </div>
 
+                {/* GRID DE ÁREAS */}
                 <div className="grid-areas">
                     {areasDeLazer.map((area) => (
                         <div key={area.id} className="cartao-area">
@@ -106,6 +140,57 @@ function ReservaMorador() {
                             </button>
                         </div>
                     ))}
+                </div>
+
+                {/* NOVO: SEÇÃO DE HISTÓRICO */}
+                <div className="secao-historico" style={{ marginTop: '40px' }}>
+                    <h3>Histórico de Reservas</h3>
+                    {historico.length === 0 ? (
+                        <p>Você ainda não possui reservas feitas.</p>
+                    ) : (
+                        <div className="tabela-container">
+                            <table className="tabela-reservas" style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+                                <thead>
+                                    <tr>
+                                        <th     
+                                            style={{ 
+                                                padding: '10px', 
+                                                borderBottom: '1px solid #ccc' 
+                                            }}>
+                                                Área
+                                        </th>
+                                        <th 
+                                            style={{ 
+                                                padding: '10px', 
+                                                borderBottom: '1px solid #ccc' 
+                                            }}>
+                                                Data
+                                        </th>
+                                        <th 
+                                            style={{ 
+                                                padding: '10px', 
+                                                borderBottom: '1px solid #ccc' 
+                                            }}>
+                                                Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {historico.map((item) => (
+                                        <tr key={item.id}>
+                                            <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{item.area}</td>
+                                            <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                                                {new Date(item.data).toLocaleDateString('pt-BR')}
+                                            </td>
+                                            <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+                                                <strong>{item.status}</strong>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </div>
             </div>
 

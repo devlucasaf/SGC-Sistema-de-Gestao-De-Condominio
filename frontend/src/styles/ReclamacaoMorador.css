@@ -44,24 +44,24 @@
 }
 
 .tema-escuro {
-  --bg-primary: #1f2a36;
-  --bg-secondary: #2d3846;
-  --text-primary: #e8eef2;
-  --text-secondary: #b1bdcc;
-  --card-bg: #2f3d4f;
-  --navbar-bg: #2f3d4fe6;
-  --modal-bg: #34495e;
-  --border-color: #475e78;
-  --input-bg: #253544;
-  --input-text: #e8eef2;
-  --input-border: #3b556b;
-  --active-bg: #2c405a;
-  --active-text: #a2c4f0;
-  --active-border: #4f6f94;
-  --placeholder-color: #8a9bb0;
-  --btn-tema-bg: #3d4e64;
-  --btn-tema-hover: #4f637d;
-  --grupo-botoes-bg: #3d4e64;
+    --bg-primary: #1f2a36;
+    --bg-secondary: #2d3846;
+    --text-primary: #e8eef2;
+    --text-secondary: #b1bdcc;
+    --card-bg: #2f3d4f;
+    --navbar-bg: #2f3d4fe6;
+    --modal-bg: #34495e;
+    --border-color: #475e78;
+    --input-bg: #253544;
+    --input-text: #e8eef2;
+    --input-border: #3b556b;
+    --active-bg: #2c405a;
+    --active-text: #a2c4f0;
+    --active-border: #4f6f94;
+    --placeholder-color: #8a9bb0;
+    --btn-tema-bg: #3d4e64;
+    --btn-tema-hover: #4f637d;
+    --grupo-botoes-bg: #3d4e64;
 }
 
 * {

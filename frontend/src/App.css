@@ -1,45 +1,423 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Variáveis de tema - herdando do sistema anterior */
+:root {
+  /* Mantendo consistência com os temas anteriores */
+  --logo-color-1: #4f46e5;
+  --logo-color-2: #7c3aed;
+  --logo-color-3: #6366f1;
+  --card-gradient-start: rgba(79, 70, 229, 0.1);
+  --card-gradient-end: rgba(124, 58, 237, 0.05);
+  --text-muted: #64748b;
+  --animation-duration: 20s;
 }
 
+.tema-escuro {
+  --logo-color-1: #818cf8;
+  --logo-color-2: #a78bfa;
+  --logo-color-3: #6366f1;
+  --card-gradient-start: rgba(129, 140, 248, 0.15);
+  --card-gradient-end: rgba(167, 139, 250, 0.1);
+  --text-muted: #94a3b8;
+}
+
+/* Container principal modernizado */
+#root {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top right, var(--card-gradient-start), transparent 40%),
+              radial-gradient(circle at bottom left, var(--card-gradient-end), transparent 40%);
+  transition: background 0.3s ease;
+}
+
+/* Logo modernizado com efeitos 3D */
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  height: 8em;
+  padding: 1.8em;
+  will-change: transform, filter;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 10px 15px rgba(79, 70, 229, 0.2));
+  position: relative;
+  cursor: pointer;
+}
+
+.logo::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--logo-color-1) 0%, transparent 70%);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  border-radius: 50%;
+  z-index: -1;
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em var(--logo-color-1)) brightness(1.1);
+  transform: scale(1.05) translateY(-5px);
 }
 
+.logo:hover::before {
+  opacity: 0.15;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Efeito específico para React logo */
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #61dafb) drop-shadow(0 0 1em #4fa8c7);
 }
 
+/* Animação de rotação aprimorada */
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+  0% {
+    transform: rotate(0deg) scale(1);
   }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
 
-  to {
-    transform: rotate(360deg);
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Animação mais suave e moderna */
   a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+    animation: logo-spin infinite var(--animation-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Adiciona efeito de flutuação para o primeiro logo */
+  a:first-of-type .logo {
+    animation: float infinite 3s ease-in-out;
   }
 }
 
+/* Card modernizado com glassmorphism */
 .card {
-  padding: 2em;
+  padding: 2.5em;
+  margin: 2rem 0;
+  background: var(--card-bg, rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(10px);
+  border-radius: 32px;
+  border: 1px solid var(--border-color, rgba(226, 232, 240, 0.5));
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1),
+              0 0 0 1px rgba(79, 70, 229, 0.1) inset;
+  transition: all 0.3s ease;
+  max-width: 800px;
+  width: 100%;
 }
 
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 50px -15px rgba(79, 70, 229, 0.2),
+              0 0 0 2px rgba(79, 70, 229, 0.2) inset;
+  border-color: var(--logo-color-1);
+}
+
+/* Título do card estilizado */
+.card h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--logo-color-1), var(--logo-color-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Documentação com estilo aprimorado */
 .read-the-docs {
-  color: #888;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 2rem auto 0;
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: var(--card-gradient-start);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.read-the-docs::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.read-the-docs:hover {
+  color: var(--text-primary);
+  border-color: var(--logo-color-1);
+  transform: scale(1.02);
+}
+
+.read-the-docs:hover::before {
+  left: 100%;
+}
+
+/* Efeitos de destaque para links */
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--logo-color-1);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+a:hover {
+  color: var(--logo-color-2);
+  transform: translateY(-2px);
+}
+
+/* Container flexível para múltiplos logos */
+.logos-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+/* Estilo para o texto de contador/estado */
+.counter-display {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--logo-color-1), var(--logo-color-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 1rem 0;
+}
+
+/* Botões modernos para ações */
+.action-button {
+  background: linear-gradient(135deg, var(--logo-color-1), var(--logo-color-2));
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  margin: 0.5rem;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+.action-button.secondary {
+  background: transparent;
+  border: 2px solid var(--logo-color-1);
+  color: var(--logo-color-1);
+  box-shadow: none;
+}
+
+.action-button.secondary:hover {
+  background: var(--logo-color-1);
+  color: white;
+}
+
+/* Grid de cards para múltiplos itens */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+/* Estatísticas e badges */
+.stat-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  background: var(--card-gradient-start);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0.2rem;
+}
+
+/* Animações de entrada */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.card, .logo {
+  animation: fadeInScale 0.5s ease-out;
+}
+
+/* Responsividade aprimorada */
+@media (max-width: 1024px) {
+  #root {
+    padding: 2rem;
+  }
+  
+  .logo {
+    height: 7em;
+    padding: 1.5em;
+  }
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 1.5rem;
+  }
+  
+  .logo {
+    height: 6em;
+    padding: 1.2em;
+  }
+  
+  .card {
+    padding: 2em;
+  }
+  
+  .logos-container {
+    gap: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .read-the-docs {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 1rem;
+  }
+  
+  .logo {
+    height: 5em;
+    padding: 1em;
+  }
+  
+  .card {
+    padding: 1.5em;
+  }
+  
+  .logos-container {
+    flex-direction: column;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .action-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Suporte para modo reduzido de movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .logo:hover {
+    transform: none;
+  }
+}
+
+/* Utilitários para temas */
+.theme-aware-bg {
+  background-color: var(--card-bg);
+}
+
+.theme-aware-text {
+  color: var(--text-primary);
+}
+
+.theme-aware-border {
+  border-color: var(--border-color);
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  from {
+    transform: translateX(-100%) rotate(30deg);
+  }
+
+  to {
+    transform: translateX(100%) rotate(30deg);
+  }
 }

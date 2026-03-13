@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     transition: background-color 0.3s, color 0.3s;
+    background-color: var(--bg-primary);
 }
 
 .conteiner-boletos {
@@ -21,115 +22,263 @@
 }
 
 .btn-voltar {
-    padding: 8px 16px;
-    background-color: #3498db;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
 }
 
 .btn-voltar:hover {
-    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(79, 70, 229, 0.35);
+}
+
+.btn-voltar:active {
+    transform: translateY(0);
 }
 
 .lista-boletos {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
 }
 
 .cartao-boleto {
-    background-color: #ffffff;
-    color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
 }
 
-.tema-escuro .cartao-boleto {
-    background-color: #2c3e50;
-    color: #ecf0f1;
+.cartao-boleto:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
 .info-boleto h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.info-boleto p {
+    margin: 4px 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 .acao-boleto {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 12px;
 }
 
 .etiqueta-status {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
 .status-pago {
-    background-color: #d4edda;
-    color: #155724;
+    background: linear-gradient(
+        135deg, 
+        #10b981 0%,
+        #059669 100%
+    );
+    color: white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .status-pendente {
-    background-color: #f8d7da;
-    color: #721c24;
+    background: linear-gradient(
+        135deg, 
+        #f59e0b 0%, 
+        #d97706 100%
+    );
+    color: white;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
 .btn-pagar {
-    background-color: #2ecc71;
+    background: linear-gradient(135deg, var(--success-gradient-start) 0%, var(--success-gradient-end) 100%);
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    padding: 10px 24px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);
 }
 
 .btn-pagar:hover {
-    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.35);
 }
 
-/* Estilos da nova Navbar */
+.btn-pagar:active {
+    transform: translateY(0);
+}
+
 .navbar-boletos {
     width: 100%;
     max-width: 800px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-bottom: 20px;
+    padding: 16px 28px;
+    background: var(--navbar-bg);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    border-radius: 50px;
+    margin-bottom: 24px;
     box-sizing: border-box;
-}
-
-.tema-escuro .navbar-boletos {
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
 }
 
 .navbar-boletos h2 {
     margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .btn-tema {
     margin: 0;
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    background: transparent;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+    background: var(--theme-toggle-bg);
     cursor: pointer;
-    font-weight: bold;
-    color: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.btn-tema:hover {
+    background: var(--theme-toggle-hover);
+    border-color: var(--accent-primary);
+    transform: scale(1.02);
+}
+
+:root {
+    --bg-primary: #f8fafc;
+    --card-bg: #ffffff;
+    --navbar-bg: rgba(255, 255, 255, 0.9);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --accent-primary: #4f46e5;
+    --accent-secondary: #7c3aed;
+    --success-gradient-start: #10b981;
+    --success-gradient-end: #059669;
+    --theme-toggle-bg: #ffffff;
+    --theme-toggle-hover: #f1f5f9;
+}
+
+.tema-escuro {
+    --bg-primary: #0f172a;
+    --card-bg: #1e293b;
+    --navbar-bg: rgba(30, 41, 59, 0.95);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --accent-primary: #818cf8;
+    --accent-secondary: #a78bfa;
+    --success-gradient-start: #34d399;
+    --success-gradient-end: #10b981;
+    --theme-toggle-bg: #334155;
+    --theme-toggle-hover: #475569;
+}
+
+@media (max-width: 768px) {
+    .tela-boleto {
+        padding: 1rem;
+    }
+    
+    .cartao-boleto {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .acao-boleto {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-boletos {
+        padding: 14px 20px;
+        border-radius: 30px;
+    }
+    
+    .navbar-boletos h2 {
+        font-size: 1.2rem;
+    }
+    
+    .btn-tema {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cartao-boleto {
+        padding: 18px;
+    }
+    
+    .info-boleto h3 {
+        font-size: 1.1rem;
+    }
+    
+    .acao-boleto {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn-pagar {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cartao-boleto {
+    animation: fadeIn 0.3s ease-out;
 }
