@@ -1,17 +1,24 @@
 package com.condominio.modules.reserva.service;
 
 import com.condominio.modules.morador.model.Morador;
+
 import com.condominio.modules.reserva.dto.ReservaRequestDTO;
+import com.condominio.modules.reserva.dto.ReservaResponseDTO;
 import com.condominio.modules.reserva.model.AreaLazer;
 import com.condominio.modules.reserva.model.Reserva;
 import com.condominio.modules.reserva.model.StatusReserva;
 import com.condominio.modules.reserva.repository.AreaLazerRepository;
 import com.condominio.modules.reserva.repository.ReservaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservaService {
@@ -23,13 +30,13 @@ public class ReservaService {
     private AreaLazerRepository areaLazerRepository;
 
     @Transactional
-    public Reserva reservar(ReservaRequestDTO dto, Morador moradorLogado) {
+    public ReservaResponseDTO reservar(ReservaRequestDTO dto, Morador moradorLogado) {
 
-        // --- VERIFICAR SE A ÁREA DE LAZER EXISTE ---
+        // --- VERIFICA SE A ÁREA DE LAZER EXISTE ---
         AreaLazer area = areaLazerRepository.findById(dto.getIdAreaLazer())
-                .orElseThrow(() -> new RuntimeException("Área de lazer não encontrada."));
+                .orElseThrow(() -> new RuntimeException("Área de lazer não encontrada"));
 
-        // --- VERIFICA SE EXISTE RESERVA PARA ESSA ÁREA NESSA DATA ---
+        // --- VERIFICA SE EXISTE RESERVA PARA A MESMA DATA E ÁREA DE LAZER ---
         Optional<Reserva> reservaExistente = reservaRepository
                 .findByAreaLazerIdAndDataReservaAndStatusNot(
                         dto.getIdAreaLazer(),
@@ -38,18 +45,22 @@ public class ReservaService {
                 );
 
         if (reservaExistente.isPresent()) {
-            throw new RuntimeException("Esta área já está reservada para o dia selecionado!");
+            throw new RuntimeException("Esta área já está reservada para a data selecionada");
         }
 
-        // --- CRIAMOS A RESERVA ---
-        Reserva novaReserva = new Reserva();
+        // --- CRIA A RESERVA ---
+        Reserva reserva = new Reserva();
 
-        novaReserva.setAreaLazer(area);
-        novaReserva.setMorador(moradorLogado);
-        novaReserva.setDataReserva(dto.getDataReserva());
-        novaReserva.setStatus(StatusReserva.APROVADA);
+        reserva.setAreaLazer(area);
+        reserva.setMorador(moradorLogado);
 
-        return reservaRepository.save(novaReserva);
+        reserva.setDataReserva(dto.getDataReserva());
+
+        reserva.setStatus(StatusReserva.APROVADA);
+
+        Reserva reservaSalva = reservaRepository.save(reserva);
+
+        return converterParaDTO(reservaSalva);
     }
 
     @Transactional
@@ -63,5 +74,25 @@ public class ReservaService {
 
         reserva.setStatus(StatusReserva.CANCELADA);
         reservaRepository.save(reserva);
+    }
+
+    public List<ReservaResponseDTO> buscarPorMorador(Long idMorador) {
+        List<Reserva> reservas = reservaRepository.findByMoradorIdOrderByDataReservaDesc(idMorador);
+
+        return reservas.stream()
+                .map(this::converterParaDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ReservaResponseDTO converterParaDTO(Reserva reserva) {
+        ReservaResponseDTO dto = new ReservaResponseDTO();
+
+        dto.setId(reserva.getId());
+        dto.setNomeAreaLazer(reserva.getAreaLazer().getNome());
+        dto.setValorAreaLazer(reserva.getAreaLazer().getValor());
+        dto.setDataReserva(reserva.getDataReserva());
+        dto.setStatus(reserva.getStatus());
+
+        return dto;
     }
 }

@@ -20,6 +20,8 @@ public class AreaLazer {
 
     private boolean precisaPagar;
 
+    private Double valor;
+
     public AreaLazer() {}
 
     public AreaLazer(String nome, Integer capacidadeMaxima) {
