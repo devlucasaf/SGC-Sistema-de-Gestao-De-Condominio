@@ -2,14 +2,18 @@ package com.condominio.modules.sindico.service;
 
 import com.condominio.modules.sindico.dto.SindicoRequestDTO;
 import com.condominio.modules.sindico.dto.SindicoResponseDTO;
+import com.condominio.modules.sindico.model.Sindico;
 import com.condominio.modules.sindico.repository.SindicoRepository;
-import com.condominio.modules.usuario.model.TipoUsuario;
 import com.condominio.modules.usuario.model.Usuario;
+import com.condominio.modules.usuario.model.TipoUsuario;
 import com.condominio.modules.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SindicoService {
@@ -25,25 +29,54 @@ public class SindicoService {
 
     @Transactional
     public SindicoResponseDTO cadastrar(SindicoRequestDTO dto) {
-        // --- VERIFICA SE O CPF OU EMAIL EXISTE ---
+
+        // --- VERIFICA SE O CPF OU E-MAIL EXISTEM ---
         if (usuarioRepository.existsByCpf(dto.getCpf())) {
-            throw new RuntimeException("CPF já cadastrado");
+            throw new RuntimeException("CPF já cadastrado no sistema.");
         }
 
-        // --- CRIA E SALVA O USUÁRIO BASE ---
-        Usuario newUser = new Usuario();
+        // 2. Criar e Salvar o Usuário base
+        Usuario novoUsuario = new Usuario();
 
-        newUser.setNome(dto.getNome());
-        newUser.setCpf(dto.getCpf());
-        newUser.setEmail(dto.getEmail());
-        newUser.setTelefone((dto.getTelefone()));
-        newUser.setDataNascimento(dto.getDataNascimento());
-        newUser.setTipoUsuario(TipoUsuario.SINDICO); // define o cargo
+        novoUsuario.setNome(dto.getNome());
+        novoUsuario.setCpf(dto.getCpf());
+        novoUsuario.setEmail(dto.getEmail());
+        novoUsuario.setTelefone(dto.getTelefone());
+        novoUsuario.setDataNascimento(dto.getDataNascimento());
+        novoUsuario.setTipoUsuario(TipoUsuario.SINDICO); // Definindo o cargo
 
-        // --- CRIPTOGRAFA A SENHA ---
-        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
-        usuario.setSenhaHash(senhaCriptografada);
+        // Criptografar a senha antes de salvar
+        String senhaCripto = passwordEncoder.encode(dto.getSenha());
+        novoUsuario.setSenhaHash(senhaCripto);
 
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
+
+        // 3. Criar e Salvar o Perfil de Síndico vinculado ao Usuário
+        Sindico novoSindico = new Sindico();
+
+        novoSindico.setUsuario(usuarioSalvo);
+        novoSindico.setDataInicioMandato(dto.getDataInicioMandato());
+        novoSindico.setDataFimMandato(dto.getDataFimMandato());
+        novoSindico.setStatus("ATIVO");
+
+        Sindico sindicoSalvo = sindicoRepository.save(novoSindico);
+
+        // 4. Retornar o DTO de resposta (seguro)
+        return SindicoResponseDTO.fromEntity(sindicoSalvo);
+    }
+
+    public List<SindicoResponseDTO> listarTodos() {
+        return sindicoRepository.findAll().stream()
+                .map(SindicoResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void alternarStatus(Long id, String novoStatus) {
+        Sindico sindico = sindicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Síndico não encontrado."));
+
+        sindico.setStatus(novoStatus);
+        sindicoRepository.save(sindico);
     }
 }
