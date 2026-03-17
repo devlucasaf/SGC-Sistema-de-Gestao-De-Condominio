@@ -11,4 +11,8 @@ public class AlterarVencimentoDTO {
     @NotNull(message = "A nova data de vencimento é obrigatória.")
     @Future(message = "A nova data de vencimento deve ser no futuro.")
     private LocalDate novaDataVencimento;
+
+    public LocalDate getNovaDataVencimento() {
+        return novaDataVencimento;
+    }
 }

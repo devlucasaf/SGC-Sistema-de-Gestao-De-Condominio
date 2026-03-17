@@ -15,7 +15,7 @@ public class BoletoController {
     @Autowired
     private BoletoService boletoService;
 
-    // Rota específica para alterar apenas o vencimento (por isso usamos PATCH em vez de PUT)
+    // --- ROTA PARA ALTERAR O VENCIMENTO ---
     @PatchMapping("/{id}/vencimento")
     public ResponseEntity<Void> prorrogarVencimento(
             @PathVariable Long id,
@@ -23,7 +23,7 @@ public class BoletoController {
 
         boletoService.prorrogarVencimento(id, dto);
 
-        // Retorna 204 No Content, que é o padrão correto quando a ação tem sucesso mas não precisamos devolver dados
+        // --- 204 NO CONTENT ---
         return ResponseEntity.noContent().build();
     }
 }
