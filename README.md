@@ -53,13 +53,18 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 │   ├── 📂 src/main/java/com/condominio
 │   │   ├── 📂 dto/auth                  # DTOs de autenticação
 │   │   ├── 📂 entity                    # Entidades JPA
+│   │   ├── 📂 exception                 # Tratamento global de erros
 │   │   ├── 📂 infra/security            # Configurações de segurança (JWT)
 │   │   └── 📂 modules
 │   │       ├── 📂 autenticacao          # Login e controle de acesso
+│   │       ├── 📂 aviso                 # Mural de avisos
 │   │       ├── 📂 encomenda             # Gestão de encomendas
+│   │       ├── 📂 financeiro            # Controle financeiro de boletos
 │   │       ├── 📂 morador               # Cadastro de moradores
 │   │       ├── 📂 porteiro              # Gestão de porteiros
+│   │       ├── 📂 reclamacao            # Central de reclamações
 │   │       ├── 📂 reserva               # Reservas de áreas comuns
+│   │       ├── 📂 sindico               # Controle de síndico
 │   │       ├── 📂 unidade               # Unidades do condomínio
 │   │       ├── 📂 usuario               # Controle de usuários
 │   │       ├── 📂 visitante             # Registro de visitantes
@@ -69,6 +74,9 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
     ├── 📂 src
     │   ├── 📂 components                # Componentes reutilizáveis
     │   ├── 📂 pages                     # Páginas da aplicação
+    │   │   ├── 📂 auth                  # Telas de Login/Registro
+    │   │   ├── 📂 morador               # Painel do Morador
+    │   │   └── 📂 sindico               # Painel Administrativo do Síndico
     │   ├── 📂 services                  # Chamadas à API
     │   └── 📂 styles                    # Estilos globais
     └── 📄 package.json
