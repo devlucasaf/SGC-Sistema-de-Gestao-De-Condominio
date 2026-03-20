@@ -1,11 +1,14 @@
 package com.condominio.modules.reclamacao.service;
 
 import com.condominio.modules.reclamacao.dto.ReclamacaoRequestDTO;
-import com.condominio.modules.reclamacao.dto.ReclamacaoResponseDTO; // Importante importar o novo DTO
+import com.condominio.modules.reclamacao.dto.ReclamacaoResponseDTO;
 import com.condominio.modules.reclamacao.model.Reclamacao;
+import com.condominio.modules.reclamacao.model.StatusReclamacao;
 import com.condominio.modules.reclamacao.repository.ReclamacaoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +19,7 @@ public class ReclamacaoService {
     @Autowired
     private ReclamacaoRepository repository;
 
+    @Transactional
     public ReclamacaoResponseDTO salvar(ReclamacaoRequestDTO dto) {
         Reclamacao reclamacao = new Reclamacao();
 
@@ -36,6 +40,14 @@ public class ReclamacaoService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void atualizarStatus(Long id, StatusReclamacao novoStatus) {
+        Reclamacao reclamacao = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reclamação não encontrada."));
+
+        reclamacao.setStatus(novoStatus);
+        repository.save(reclamacao);
+    }
 
     private ReclamacaoResponseDTO converterParaResponseDTO(Reclamacao reclamacao) {
         ReclamacaoResponseDTO response = new ReclamacaoResponseDTO();

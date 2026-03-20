@@ -22,7 +22,8 @@ public class Reclamacao {
 
     private String unidade;
 
-    private String status = "PENDENTE";
+    @Enumerated(EnumType.STRING)
+    private StatusReclamacao status = StatusReclamacao.PENDENTE;
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 }

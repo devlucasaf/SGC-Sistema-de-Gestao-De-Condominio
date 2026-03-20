@@ -1,50 +1,21 @@
 package com.condominio.modules.reclamacao.dto;
 
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+
+@Data
 public class ReclamacaoRequestDTO {
 
+    @NotBlank(message = "O tipo da reclamação é obrigatório")
     private String tipo;
+
+    @NotBlank(message = "A categoria é obrigatória")
     private String categoria;
+
+    @NotBlank(message = "A descrição não pode ser vazia")
     private String descricao;
+
+    @NotBlank(message = "A unidade (ex: Apto 101) é obrigatória")
     private String unidade;
-
-    public ReclamacaoRequestDTO() {}
-
-    public ReclamacaoRequestDTO(String tipo, String categoria, String descricao, String unidade) {
-        this.tipo = tipo;
-        this.categoria = categoria;
-        this.descricao = descricao;
-        this.unidade = unidade;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
-    }
 }
