@@ -43,31 +43,29 @@ function ReclamacaoMorador() {
     async function enviarReclamacao(e) {
         e.preventDefault();
 
-        const novaReclamacao = {
-            tipo: tipo,
-            categoria: categoria,
-            descricao: descricao,
-            unidade: tipo === "morador" ? unidade : null
-        };
-
         try {
-            await api.post("/reclamacoes", novaReclamacao);
-            alert("Reclamação registrada com sucesso!");
+            const dados = {
+                tipo,
+                categoria,
+                descricao,
+                unidade: unidade || "Não informado"
+            };
 
-            const response = await api.post("/api/reclamacoes", novaReclamacao);
+            await api.post("/api/reclamacoes", dados);
 
-            if (response.status === 200 || response.status === 201) {
-                alert("Reclamação enviada com sucesso!")
-            }
+            alert("Reclamação enviada com sucesso para o Síndico!");
 
             setTipo("");
             setCategoria("");
             setDescricao("");
             setUnidade("");
+
+            navigate("/home");
         }
 
         catch (error) {
-            alert("Erro ao enviar a reclamação. Por favor, tente novamente.");
+            console.error("Erro ao enviar reclamação:", error);
+            alert("Erro ao enviar reclamação. Verifique os dados e tente novamente");
         }
     }
 
