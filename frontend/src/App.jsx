@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 // Importações das telas (Ajuste os caminhos conforme a sua estrutura de pastas)
 import Login from "./pages/auth/Login";
 import Cadastro from "./pages/auth/Cadastro";
-import CadastroUnidade from "./pages/auth/CadastroUnidade";
+import CadastroUnidade from "./pages/sindico/CadastroUnidade";
 import PaginaInicialMorador from "./pages/morador/PaginaInicialMorador";
 import BoletoMorador from "./pages/morador/BoletoMorador";
 import EntregasMorador from "./pages/morador/EntregasMorador";
