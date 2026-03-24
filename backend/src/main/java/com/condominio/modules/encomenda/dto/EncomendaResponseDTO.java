@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class EncomendaResponseDTO {
-    private Long id;
-    private String descricao;
-    private String status;
-    private LocalDateTime dataRecebimento;
-    private LocalDateTime dataRetirada;
+    private Long                id;
+    private String              descricao;
+    private String              status;
+    private LocalDateTime       dataRecebimento;
+    private LocalDateTime       dataRetirada;
 
     // --- DADOS PARA O FRONTEND ---
     private String blocoUnidade;

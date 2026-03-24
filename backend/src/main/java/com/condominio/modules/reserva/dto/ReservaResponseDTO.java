@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservaResponseDTO {
-    private Long id;
-    private String nomeAreaLazer;
-    private Double valorAreaLazer;
-    private LocalDate dataReserva;
-    private StatusReserva status;
+    private Long                id;
+    private String              nomeAreaLazer;
+    private Double              valorAreaLazer;
+    private LocalDate           dataReserva;
+    private StatusReserva       status;
 }

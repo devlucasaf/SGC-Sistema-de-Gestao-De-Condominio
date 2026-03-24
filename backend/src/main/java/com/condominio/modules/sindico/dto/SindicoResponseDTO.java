@@ -8,14 +8,14 @@ import java.time.LocalDate;
 @Data
 public class SindicoResponseDTO {
 
-    private Long id;
-    private String nome;
-    private String email;
-    private String cpf;
-    private String telefone;
-    private LocalDate dataInicioMandato;
-    private LocalDate dataFimMandato;
-    private String status;
+    private Long            id;
+    private String          nome;
+    private String          email;
+    private String          cpf;
+    private String          telefone;
+    private LocalDate       dataInicioMandato;
+    private LocalDate       dataFimMandato;
+    private String          status;
 
     public static SindicoResponseDTO fromEntity(Sindico sindico) {
         SindicoResponseDTO dto = new SindicoResponseDTO();

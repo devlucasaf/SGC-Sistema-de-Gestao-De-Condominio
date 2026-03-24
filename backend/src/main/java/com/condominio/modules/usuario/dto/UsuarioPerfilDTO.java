@@ -8,11 +8,11 @@ import lombok.Data;
 
 @Data
 public class UsuarioPerfilDTO {
-    private Long id;
-    private String nome;
-    private String email;
-    private String tipoUsuario; // "MORADOR" ou "PORTEIRO"
-    private String detalheExtra; // Apto/Bloco para morador, ou Matrícula para porteiro
+    private Long    id;
+    private String  nome;
+    private String  email;
+    private String  tipoUsuario;
+    private String  detalheExtra;
 
     public static UsuarioPerfilDTO fromEntity(Usuario usuario) {
         UsuarioPerfilDTO dto = new UsuarioPerfilDTO();

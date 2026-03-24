@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 @Data
 public class AvisoResponseDTO {
 
-    private Long id;
-    private String titulo;
-    private String mensagem;
+    private Long          id;
+    private String        titulo;
+    private String        mensagem;
     private LocalDateTime dataCriacao;
-    private String nomeSindico;
+    private String        nomeSindico;
 
     public static AvisoResponseDTO fromEntity(Aviso aviso) {
         AvisoResponseDTO dto = new AvisoResponseDTO();

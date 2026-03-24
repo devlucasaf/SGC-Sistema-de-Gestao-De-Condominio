@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class UnidadeResponseDTO {
 
-    private Long id;
-    private String bloco;
-    private Integer andar;
-    private String numeroApto;
+    private Long        id;
+    private String      bloco;
+    private Integer     andar;
+    private String      numeroApto;
 
     public static UnidadeResponseDTO fromEntity(Unidade unidade) {
         UnidadeResponseDTO dto = new UnidadeResponseDTO();

@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class VisitanteResponseDTO {
-    private Long idAcesso;
-    private String nomeVisitante;
-    private String blocoAptoDestino;
-    private LocalDateTime entrada;
-    private LocalDateTime saida;
+    private Long            idAcesso;
+    private String          nomeVisitante;
+    private String          blocoAptoDestino;
+    private LocalDateTime   entrada;
+    private LocalDateTime   saida;
 
     public static VisitanteResponseDTO fromEntity(RegistrarAcesso acesso) {
         VisitanteResponseDTO dto = new VisitanteResponseDTO();

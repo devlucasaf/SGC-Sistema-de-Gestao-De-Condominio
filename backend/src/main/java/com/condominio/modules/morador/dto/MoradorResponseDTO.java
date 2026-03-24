@@ -9,15 +9,14 @@ import java.time.LocalDate;
 @Data
 public class MoradorResponseDTO {
 
-    private Long id;
-    private String nome;
-    private LocalDate dataNascimento;
-    private String email;
-    private String telefone;
-    private String cpf;
-    private String tipoMorador;
-
-    private String unidade;
+    private Long            id;
+    private String          nome;
+    private LocalDate       dataNascimento;
+    private String          email;
+    private String          telefone;
+    private String          cpf;
+    private String          tipoMorador;
+    private String          unidade;
 
     public static MoradorResponseDTO fromEntity(Morador morador) {
         MoradorResponseDTO dto = new MoradorResponseDTO();

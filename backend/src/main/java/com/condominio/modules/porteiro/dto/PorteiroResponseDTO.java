@@ -8,15 +8,14 @@ import java.time.LocalDate;
 
 @Data
 public class PorteiroResponseDTO {
-    private Long id;
-    private String nome;
-    private String cpf;
-    private String email;
-    private String telefone;
-    private LocalDate dataNascimento;
-
-    private String matricula;
-    private LocalDate dataEntrada;
+    private Long        id;
+    private String      nome;
+    private String      cpf;
+    private String      email;
+    private String      telefone;
+    private LocalDate   dataNascimento;
+    private String      matricula;
+    private LocalDate   dataEntrada;
 
     public static PorteiroResponseDTO fromEntity(Porteiro porteiro) {
         PorteiroResponseDTO dto = new PorteiroResponseDTO();
