@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/EntregasMorador.css";
+import "../../styles/Entregas.css";
 
 import { FiSun, FiMoon, FiPackage, FiClock, FiUser, FiArrowLeft } from "react-icons/fi";
 
-function EntregasMorador() {
+function Entregas() {
     const navigate = useNavigate();
 
     const [entregas, setEntregas] = useState([]);
@@ -63,7 +63,7 @@ function EntregasMorador() {
         <div className="entregas-container">
             <nav className="navbar">
                 <div className="navbar-logo">
-                    <h2>SGC - Entregas</h2>
+                    <h2>Entregas</h2>
                 </div>
 
                 <div className="perfil-container">
@@ -114,4 +114,4 @@ function EntregasMorador() {
     );
 }
 
-export default EntregasMorador;
+export default Entregas;

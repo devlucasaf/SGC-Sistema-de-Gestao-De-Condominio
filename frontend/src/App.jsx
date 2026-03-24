@@ -8,7 +8,7 @@ import GerenciarReclamacoes from          "./pages/sindico/GerenciarReclamacoes"
 
 import Home                 from          "./pages/morador/Home";
 import BoletoMorador        from          "./pages/morador/BoletoMorador";
-import EntregasMorador      from          "./pages/morador/EntregasMorador";
+import Entregas             from          "./pages/morador/Entregas";
 import ReclamacaoMorador    from          "./pages/morador/ReclamacaoMorador";
 import ReservaMorador       from          "./pages/morador/ReservaMorador";
 
@@ -62,10 +62,10 @@ function App() {
         />
 
         <Route
-          path="/entregasmorador"
+          path="/entregas"
           element={
             //<RotaPrivada>
-              <EntregasMorador />
+              <Entregas />
             //</RotaPrivada>
           }
         />
