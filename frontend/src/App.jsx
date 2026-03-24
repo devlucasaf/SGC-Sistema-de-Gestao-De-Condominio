@@ -6,13 +6,13 @@ import Cadastro             from          "./pages/auth/Cadastro";
 import CadastroUnidade      from          "./pages/sindico/CadastroUnidade";
 import GerenciarReclamacoes from          "./pages/sindico/GerenciarReclamacoes";
 
-import PaginaInicialMorador from          "./pages/morador/PaginaInicialMorador";
+import Home                 from          "./pages/morador/Home";
 import BoletoMorador        from          "./pages/morador/BoletoMorador";
 import EntregasMorador      from          "./pages/morador/EntregasMorador";
 import ReclamacaoMorador    from          "./pages/morador/ReclamacaoMorador";
 import ReservaMorador       from          "./pages/morador/ReservaMorador";
 
-import RotaPrivada from "./components/RotaPrivada";
+import RotaPrivada          from          "./components/RotaPrivada";
 
 import "./App.css";
 
@@ -44,10 +44,10 @@ function App() {
         />
 
         <Route
-          path="/paginainicialmorador"
+          path="/home"
           element={
             //<RotaPrivada>
-              <PaginaInicialMorador />
+              <Home />
             //</RotaPrivada>
           }
         />
