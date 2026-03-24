@@ -1,102 +1,137 @@
-.tela-entregas {
+.entregas-container {
     min-height: 100vh;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--bg-primary);
 }
 
-.navbar-entregas {
-    width: 100%;
+/* Navbar personalizada com cantos arredondados */
+.entregas-container .navbar {
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-md) auto;
+    margin-top: -10px;
+    max-width: calc(200% - var(--spacing-lg));
+    width: auto;
+}
+
+/* Conteúdo centralizado */
+.entregas-conteudo {
     max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+/* Cabeçalho com botão voltar */
+.entregas-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background: transparent;
+    border: none;
+    color: var(--primary-green);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.btn-voltar:hover {
+    background-color: var(--overlay-dark);
+    transform: translateX(-2px);
+}
+
+/* Lista de entregas */
+.entregas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Card de entrega (aproveita a classe global .card) */
+.entregas-card {
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.entregas-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Cabeçalho do card com título e badge */
+.entregas-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 }
 
-.tema-escuro .navbar-entregas {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-}
-
-.navbar-entregas h2 {
-    margin: 0;
-}
-
-.conteiner-entregas {
-    width: 100%;
-    max-width: 800px;
-}
-
-.cabecalho-entregas {
-    margin-bottom: 1.5rem;
-}
-
-.lista-entregas {
+.card-title {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.cartao-entrega {
-    background-color: #ffffff;
-    color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.tema-escuro .cartao-entrega {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-}
-
-.info-entrega h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #e67e22; /* Laranjinha para dar destaque */
-}
-
-.acao-entrega {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-    text-align: right;
-}
-
-.etiqueta-status-entrega {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-/* Cores das etiquetas de entrega */
-.status-aguardando {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-}
-
-.status-retirado {
-    background-color: #e2e3e5;
-    color: #383d41;
-}
-
-.aviso-portaria {
-    font-size: 0.8rem;
-    color: #e74c3c;
+    gap: var(--spacing-xs);
     margin: 0;
-    max-width: 150px;
+    font-size: 1.125rem;
+}
+
+.card-icon {
+    color: var(--primary-green);
+    font-size: 1.25rem;
+}
+
+/* Corpo do card com informações */
+.card-body p {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-secondary);
+}
+
+.card-body p svg {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* Aviso de retirada pendente */
+.aviso-retirada {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: rgba(231, 76, 60, 0.1);
+    border-left: 3px solid var(--accent-red);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    color: var(--accent-red);
+}
+
+/* Badge secundário (caso não esteja no global) */
+.badge-secondary {
+    background: rgba(100, 100, 100, 0.1);
+    color: var(--text-muted);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .entregas-container .navbar {
+        margin: var(--spacing-sm);
+        max-width: calc(100% - var(--spacing-sm));
+    }
+
+    .entregas-conteudo {
+        padding: var(--spacing-md);
+    }
+
+    .entregas-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
 }

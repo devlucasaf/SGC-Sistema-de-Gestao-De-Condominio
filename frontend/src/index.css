@@ -95,14 +95,14 @@
 
 /* --- TEMA ESCURO --- */
 [dark-theme="dark"] {
-  --primary-green: #1a7e30;
+  --primary-green: #0be53a;
   --primary-dark-green: #076316;
   --primary-cyan: #0ac3aa;
   --primary-medium-sea-green: #35a655;
   --accent-light-green: #3bdf32;
   --accent-water-green: #17ddab;
   --accent-white: #ffffff;
-  --accent-red: #a7291c;
+  --accent-red: #eb2610;
   
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
@@ -719,8 +719,11 @@ a:hover {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.8rem;
+  line-height: 1;
+  padding: 0.4rem;
   margin-right: var(--spacing-md);
+  margin-top: -4px;
+  transform: translateY(-2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -735,4 +738,9 @@ a:hover {
 .btn-tema:hover {
   background-color: var(--overlay-dark);
   transform: scale(1.05);
+}
+
+.badge-secondary {
+  background: rgba(100, 100, 100, 0.1);
+  color: var(--text-muted);
 }
