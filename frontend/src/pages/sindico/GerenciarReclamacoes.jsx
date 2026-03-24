@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
+import api from "../../services/api"; 
 import "../../styles/GerenciarReclamacoes.css"; 
 
 function GerenciarReclamacoes() {
@@ -14,12 +14,13 @@ function GerenciarReclamacoes() {
         async function buscarReclamacoes() {
             try {
                 const response = await api.get("/api/reclamacoes");
+                
                 setReclamacoes(response.data);
             } 
             
             catch (error) {
                 console.error("Erro ao buscar reclamações:", error);
-                setErro("Não foi possível carregar as reclamações. Verifique a conexão com o servidor.");
+                setErro("Não foi possível carregar as reclamações. Verifique a ligação ao servidor.");
             } 
             
             finally {
@@ -30,7 +31,6 @@ function GerenciarReclamacoes() {
         buscarReclamacoes();
     }, []);
 
-    // --- LÓGICA DO PAINEL DE RESUMO ---
     const totalPendentes = reclamacoes.filter(r => r.status === "PENDENTE").length;
     const totalEmAnalise = reclamacoes.filter(r => r.status === "EM_ANALISE").length;
     const totalResolvidas = reclamacoes.filter(r => r.status === "RESOLVIDA").length;
@@ -39,10 +39,9 @@ function GerenciarReclamacoes() {
         if (!dataString) {
             return "Data não informada";
         }
-
+        
         const data = new Date(dataString);
-
-        return data.toLocaleDateString("pt-BR") + " às " + data.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
+        return data.toLocaleDateString("pt-PT") + " às " + data.toLocaleTimeString("pt-PT", { hour: '2-digit', minute: '2-digit' });
     };
 
     return (
@@ -80,7 +79,7 @@ function GerenciarReclamacoes() {
                     {erro && <p className="mensagem-erro">{erro}</p>}
                     
                     {!carregando && reclamacoes.length === 0 && !erro && (
-                        <p className="mensagem-aviso">Nenhuma reclamação registrada até o momento! 🎉</p>
+                        <p className="mensagem-aviso">Nenhuma reclamação registada até ao momento! 🎉</p>
                     )}
 
                     {!carregando && reclamacoes.length > 0 && (
@@ -99,7 +98,7 @@ function GerenciarReclamacoes() {
                                     <div className="rodape-reclamacao">
                                         <p><strong>Unidade/Bloco:</strong> {reclamacao.unidade || "Não informado"}</p>
                                         <p><strong>Tipo:</strong> {reclamacao.tipo}</p>
-                                        <p className="data-reclamacao">Registrado em: {formatarData(reclamacao.dataCriacao)}</p>
+                                        <p className="data-reclamacao">Registado em: {formatarData(reclamacao.dataCriacao)}</p>
                                     </div>
                                 </div>
                             ))}

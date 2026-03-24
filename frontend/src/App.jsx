@@ -1,16 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Importações das telas (Ajuste os caminhos conforme a sua estrutura de pastas)
-import Login from "./pages/auth/Login";
-import Cadastro from "./pages/auth/Cadastro";
-import CadastroUnidade from "./pages/sindico/CadastroUnidade";
-import PaginaInicialMorador from "./pages/morador/PaginaInicialMorador";
-import BoletoMorador from "./pages/morador/BoletoMorador";
-import EntregasMorador from "./pages/morador/EntregasMorador";
-import ReclamacaoMorador from "./pages/morador/ReclamacaoMorador";
-import ReservaMorador from "./pages/morador/ReservaMorador";
+import Login                from          "./pages/auth/Login";
+import Cadastro             from          "./pages/auth/Cadastro";
 
-// Importação da proteção de rotas
+import CadastroUnidade      from          "./pages/sindico/CadastroUnidade";
+import GerenciarReclamacoes from          "./pages/sindico/GerenciarReclamacoes";
+
+import PaginaInicialMorador from          "./pages/morador/PaginaInicialMorador";
+import BoletoMorador        from          "./pages/morador/BoletoMorador";
+import EntregasMorador      from          "./pages/morador/EntregasMorador";
+import ReclamacaoMorador    from          "./pages/morador/ReclamacaoMorador";
+import ReservaMorador       from          "./pages/morador/ReservaMorador";
+
 import RotaPrivada from "./components/RotaPrivada";
 
 import "./App.css";
@@ -19,7 +20,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* --- ROTAS PÚBLICAS --- */}
         <Route
             path="/"
             element={
@@ -43,53 +43,60 @@ function App() {
           element={<CadastroUnidade />}
         />
 
-        {/* --- ROTAS PRIVADAS (Requerem Login) --- */}
         <Route
-          path="/home"
+          path="/paginainicialmorador"
           element={
-            <RotaPrivada>
+            //<RotaPrivada>
               <PaginaInicialMorador />
-            </RotaPrivada>
+            //</RotaPrivada>
           }
         />
 
         <Route
           path="/boletomorador"
           element={
-            <RotaPrivada>
+            //<RotaPrivada>
               <BoletoMorador />
-            </RotaPrivada>
+            //</RotaPrivada>
           }
         />
 
         <Route
           path="/entregasmorador"
           element={
-            <RotaPrivada>
+            //<RotaPrivada>
               <EntregasMorador />
-            </RotaPrivada>
+            //</RotaPrivada>
           }
         />
 
         <Route
           path="/reclamacaomorador"
           element={
-            <RotaPrivada>
+            //<RotaPrivada>
               <ReclamacaoMorador />
-            </RotaPrivada>
+            //</RotaPrivada>
           }
         />
 
         <Route
           path="/reservamorador"
           element={
-            <RotaPrivada>
+            //<RotaPrivada>
               <ReservaMorador />
-            </RotaPrivada>
+            //</RotaPrivada>
           }
         />
 
-        {/* --- ROTA DE ERRO 404 --- */}
+        <Route
+          path="/gerenciarreclamacoes"
+          element={
+            //<RotaPrivada>
+              <GerenciarReclamacoes />
+            //</RotaPrivada>
+          }
+        />
+
         <Route
           path="*"
           element={
