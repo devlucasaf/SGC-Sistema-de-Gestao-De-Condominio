@@ -15,24 +15,39 @@ function Login() {
 
     async function handleLogin(e) {
         e.preventDefault();
-        setErro(""); // Limpa o erro de tentativas anteriores
+        setErro("");
 
         try {
-            // --- CHAMA A API DO JAVA ---
             const response = await api.post("/auth/login", { email, senha });
-            
-            // Pega o token que o Java devolveu e salva
+
             const token = response.data.token;
             localStorage.setItem("token", token);
-            
-            alert("Login realizado com sucesso! 🎉");
-            navigate("/home");
-            
-        } 
-        
+
+            const perfil = await api.get("/perfil");
+            localStorage.setItem("perfilUsuario", JSON.stringify(perfil.data));
+
+            alert("Login realizado com sucesso!");
+
+            if (perfil.data.tipoUsuario === "SINDICO") {
+                navigate("/gerenciarreclamacoes");
+            }
+
+            else if (perfil.data.tipoUsuario === "MORADOR") {
+                navigate("/home");
+            }
+
+            else if (perfil.data.tipoUsuario === "PORTEIRO") {
+                navigate("/entregas");
+            }
+
+            else {
+                navigate("/home");
+            }
+        }
+
         catch (error) {
             console.error("Erro ao fazer login:", error);
-            setErro("Falha no login: Verifique seu e-mail e senha."); 
+            setErro("Falha no login: Verifique seu e-mail e senha.");
         }
     }
 

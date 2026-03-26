@@ -62,4 +62,11 @@ public class ReclamacaoService {
 
         return response;
     }
+
+    public List<ReclamacaoResponseDTO> buscarPorUnidade(String unidade) {
+        return repository.findByUnidade(unidade)
+                .stream()
+                .map(this::converterParaResponseDTO)
+                .collect(Collectors.toList());
+    }
 }

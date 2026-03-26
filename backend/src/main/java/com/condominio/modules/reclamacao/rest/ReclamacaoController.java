@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reclamacoes")
@@ -29,5 +30,15 @@ public class ReclamacaoController {
             @RequestParam StatusReclamacao novoStatus) {
         service.atualizarStatus(id, novoStatus);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ReclamacaoResponseDTO>> listarTodas() {
+        return ResponseEntity.ok(service.buscarTodas());
+    }
+
+    @GetMapping("/unidade/{unidade}")
+    public ResponseEntity<List<ReclamacaoResponseDTO>> listarPorUnidade(@PathVariable String unidade) {
+        return ResponseEntity.ok(service.buscarPorUnidade(unidade));
     }
 }
