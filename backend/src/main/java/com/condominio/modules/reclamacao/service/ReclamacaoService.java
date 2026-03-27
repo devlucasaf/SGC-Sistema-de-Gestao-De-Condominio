@@ -1,5 +1,8 @@
 package com.condominio.modules.reclamacao.service;
 
+import com.condominio.infra.pagination.PageMapper;
+import com.condominio.infra.pagination.PageResponseDTO;
+
 import com.condominio.modules.reclamacao.dto.ReclamacaoRequestDTO;
 import com.condominio.modules.reclamacao.dto.ReclamacaoResponseDTO;
 import com.condominio.modules.reclamacao.model.Reclamacao;
@@ -7,6 +10,8 @@ import com.condominio.modules.reclamacao.model.StatusReclamacao;
 import com.condominio.modules.reclamacao.repository.ReclamacaoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +36,17 @@ public class ReclamacaoService {
         Reclamacao entidadeSalva = repository.save(reclamacao);
 
         return converterParaResponseDTO(entidadeSalva);
+    }
+
+    public PageResponseDTO<ReclamacaoResponseDTO> buscarTodas(Pageable pageable) {
+        Page<Reclamacao> pagina = repository.findAll(pageable);
+
+        return PageMapper.toDTO(pagina, this::converterParaResponseDTO);
+    }
+
+    public PageResponseDTO<ReclamacaoResponseDTO> buscarPorUnidade(String unidade, Pageable pageable) {
+        Page<Reclamacao> pagina = repository.findByUnidade(unidade, pageable);
+        return PageMapper.toDTO(pagina, this::converterParaResponseDTO);
     }
 
     public List<ReclamacaoResponseDTO> buscarTodas() {
@@ -61,12 +77,5 @@ public class ReclamacaoService {
         response.setDataCriacao(reclamacao.getDataCriacao());
 
         return response;
-    }
-
-    public List<ReclamacaoResponseDTO> buscarPorUnidade(String unidade) {
-        return repository.findByUnidade(unidade)
-                .stream()
-                .map(this::converterParaResponseDTO)
-                .collect(Collectors.toList());
     }
 }

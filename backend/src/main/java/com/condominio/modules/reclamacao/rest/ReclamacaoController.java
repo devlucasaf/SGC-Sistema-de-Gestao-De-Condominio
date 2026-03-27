@@ -1,16 +1,19 @@
 package com.condominio.modules.reclamacao.rest;
 
+import com.condominio.infra.pagination.PageResponseDTO;
+
 import com.condominio.modules.reclamacao.dto.ReclamacaoRequestDTO;
 import com.condominio.modules.reclamacao.dto.ReclamacaoResponseDTO;
 import com.condominio.modules.reclamacao.model.StatusReclamacao;
 import com.condominio.modules.reclamacao.service.ReclamacaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/reclamacoes")
@@ -33,12 +36,15 @@ public class ReclamacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReclamacaoResponseDTO>> listarTodas() {
-        return ResponseEntity.ok(service.buscarTodas());
+    public ResponseEntity<PageResponseDTO<ReclamacaoResponseDTO>> listarTodas(
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return ResponseEntity.ok(service.buscarTodas(pageable));
     }
 
     @GetMapping("/unidade/{unidade}")
-    public ResponseEntity<List<ReclamacaoResponseDTO>> listarPorUnidade(@PathVariable String unidade) {
-        return ResponseEntity.ok(service.buscarPorUnidade(unidade));
+    public ResponseEntity<PageResponseDTO<ReclamacaoResponseDTO>> listarPorUnidade(
+            @PathVariable String unidade,
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return ResponseEntity.ok(service.buscarPorUnidade(unidade, pageable));
     }
 }
