@@ -1,8 +1,10 @@
 package com.condominio.infra.pagination;
 
 import org.springframework.data.domain.Page;
+
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PageMapper {
 
@@ -11,9 +13,9 @@ public class PageMapper {
         List<D> listaDTO = page.getContent()
                 .stream()
                 .map(mapper)
-                .toList();
+                .collect(Collectors.toList());
 
-        return new PageResponseDTO<>(
+        return new PageResponseDTO<D>(
                 listaDTO,
                 page.getNumber(),
                 page.getSize(),
