@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED) // --- HERANÇA ---
-public abstract class Usuario implements UserDetails {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
