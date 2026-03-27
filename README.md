@@ -54,11 +54,11 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 │   │   ├── 📂 dto/auth                  # DTOs de autenticação
 │   │   ├── 📂 entity                    # Entidades JPA
 │   │   ├── 📂 exception                 # Tratamento global de erros
-│   │   ├── 📂 infra                     
-│   │   │   ├── 📂 confir                
-│   │   │   ├── 📂 pagination            
+│   │   ├── 📂 infra                     # Camada de infraestrutura
+│   │   │   ├── 📂 config                # Configurações gerais
+│   │   │   ├── 📂 pagination            # Classes utilitárias para paginação
 │   │   │   └── 📂 security              # Configurações de segurança (JWT)
-│   │   └── 📂 modules
+│   │   └── 📂 modules                   # Módulos de negócio
 │   │       ├── 📂 autenticacao          # Login e controle de acesso
 │   │       ├── 📂 aviso                 # Mural de avisos
 │   │       ├── 📂 encomenda             # Gestão de encomendas
