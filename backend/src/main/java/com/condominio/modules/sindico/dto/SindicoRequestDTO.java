@@ -20,6 +20,9 @@ public class SindicoRequestDTO {
     @Email(message = "E-Mail inválido")
     private String email;
 
+    @NotBlank(message = "Senha é obrigatória")
+    private String senha;
+
     private String telefone;
 
     @NotNull(message = "Data de nascimento é obrigatória")
