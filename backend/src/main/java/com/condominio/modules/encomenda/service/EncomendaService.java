@@ -1,5 +1,8 @@
 package com.condominio.modules.encomenda.service;
 
+import com.condominio.infra.pagination.PageMapper;
+import com.condominio.infra.pagination.PageResponseDTO;
+
 import com.condominio.modules.encomenda.dto.EncomendaRequestDTO;
 import com.condominio.modules.encomenda.dto.EncomendaResponseDTO;
 import com.condominio.modules.encomenda.model.Encomenda;
@@ -14,12 +17,13 @@ import com.condominio.modules.unidade.repository.UnidadeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 
 import java.time.LocalDateTime;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,10 +72,9 @@ public class EncomendaService {
         return EncomendaResponseDTO.fromEntity(encomendaRepository.save(encomenda));
     }
 
-    public List<EncomendaResponseDTO> listarPorUnidade(Long idUnidade) {
-        return encomendaRepository.findByUnidadeId(idUnidade)
-                .stream()
-                .map(EncomendaResponseDTO::fromEntity)
-                .collect(Collectors.toList());
+    public PageResponseDTO<EncomendaResponseDTO> listarPorUnidade(Long idUnidade, Pageable pageable) {
+        Page<Encomenda> pagina = encomendaRepository.findByUnidadeId(idUnidade, pageable);
+
+        return PageMapper.toDTO(pagina, EncomendaResponseDTO::fromEntity);
     }
 }

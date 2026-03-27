@@ -1,11 +1,14 @@
 package com.condominio.modules.encomenda.rest;
 
+import com.condominio.infra.pagination.PageResponseDTO;
 import com.condominio.modules.encomenda.dto.EncomendaRequestDTO;
 import com.condominio.modules.encomenda.dto.EncomendaResponseDTO;
 import com.condominio.modules.encomenda.service.EncomendaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 import java.net.URI;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/encomendas")
@@ -47,8 +48,10 @@ public class EncomendaController {
 
     // --- ROTA PARA LISTAR AS ENCOMENDAS DE UMA UNIDADE ---
     @GetMapping("/unidade/{idUnidade}")
-    public ResponseEntity<List<EncomendaResponseDTO>> listarPorUnidade(@PathVariable Long idUnidade) {
-        List<EncomendaResponseDTO> lista = encomendaService.listarPorUnidade(idUnidade);
-        return ResponseEntity.ok(lista);
+    public ResponseEntity<PageResponseDTO<EncomendaResponseDTO>> listarPorUnidade(
+            @PathVariable Long idUnidade,
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return ResponseEntity.ok(encomendaService.listarPorUnidade(idUnidade, pageable));
     }
+
 }
