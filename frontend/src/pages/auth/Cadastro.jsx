@@ -11,7 +11,7 @@ function Cadastro() {
     const [dataNascimento, setDataNascimento] = useState("");
     const [telefone, setTelefone] = useState("");
     const [tipoMorador, setTipoMorador] = useState("");
-    const [unidadeId, setUnidadeId] = useState('');
+    const [idUnidade, setIdUnidade] = useState('');
     const [mensagem, setMensagem] = useState("");
 
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -20,7 +20,7 @@ function Cadastro() {
 
     async function handleCadastro(e) {
         e.preventDefault();
-        setMensagem();
+        setMensagem("");
 
         try {
             const dadosMorador = {
@@ -31,15 +31,17 @@ function Cadastro() {
                 dataNascimento,
                 telefone,
                 tipoMorador,
-                unidadeId: Number(unidadeId),
+                idUnidade: Number(idUnidade),
             };
 
             await api.post("/moradores", dadosMorador);
 
             alert("Morador cadastrado com sucesso!");
             
-            navigate("/home");
-        } catch (error) {
+            navigate("/login");
+        } 
+        
+        catch (error) {
             setMensagem(
                 "Erro ao cadastrar morador. Verifique se a unidade existe e os dados informados"
             );
@@ -151,8 +153,8 @@ function Cadastro() {
                     <input
                         type="number"
                         placeholder="ID da Unidade (Ex: 1)"
-                        value={unidadeId}
-                        onChange={(e) => setUnidadeId(e.target.value)}
+                        value={idUnidade}
+                        onChange={(e) => setIdUnidade(e.target.value)}
                         required
                         style={{ width: "50%" }}
                         title="Digite o ID de um apartamento já cadastrado"
