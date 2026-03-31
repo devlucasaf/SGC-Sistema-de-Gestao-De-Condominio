@@ -18,16 +18,26 @@ function Login() {
         setErro("");
 
         try {
+            // --- FAZ A REQUISIÇÃO DE LOGIN PARA O BACKEND ---
             const response = await api.post("/auth/login", { email, senha });
 
+            // --- SALVA O TOKEN JWT NO NAVEGADOR ---
             const token = response.data.token;
             localStorage.setItem("token", token);
 
-            const perfil = await api.get("/perfil");
+            // --- BUSCA OS DADOS DO USUÁRIO LOGADO ---
+            const perfil = await api.get("/perfil", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            // --- SALVA O PERFIL PARA USAR EM OUTRAS TELAS ---
             localStorage.setItem("perfilUsuario", JSON.stringify(perfil.data));
 
             alert("Login realizado com sucesso!");
 
+            // --- REDIRECIONA BASEADO NO TIPO DE USUÁRIO SALVO NO BANCO ---
             if (perfil.data.tipoUsuario === "SINDICO") {
                 navigate("/gerenciarreclamacoes");
             }
