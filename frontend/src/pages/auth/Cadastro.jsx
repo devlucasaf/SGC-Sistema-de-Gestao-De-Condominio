@@ -18,6 +18,25 @@ function Cadastro() {
 
     const navigate = useNavigate();
 
+    // --- MÁSCARA DE CPF ---
+    function formatarCpf(valor) {
+        return valor
+            .replace(/\D/g, "")
+            .slice(0, 11)
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+
+    // --- MÁSCARA DE TELEFONE ---
+    function formatarTelefone(valor) {
+        return valor
+            .replace(/\D/g, "")
+            .slice(0, 11)
+            .replace(/(\d{2})(\d)/, "($1) $2")
+            .replace(/(\d{5})(\d{1,4})$/, "$1-$2");
+    }
+
     async function handleCadastro(e) {
         e.preventDefault();
         setMensagem("");
@@ -42,10 +61,28 @@ function Cadastro() {
         } 
         
         catch (error) {
-            setMensagem(
-                "Erro ao cadastrar morador. Verifique se a unidade existe e os dados informados"
-            );
             console.error(error);
+
+            // --- EXIBE OS ERROS DE VALIDAÇÃO DO BACKEND ---
+            if (error.response && error.response.data) {
+                const data = error.response.data;
+
+                if (data.messages && Array.isArray(data.messages)) {
+                    setMensagem(data.messages.join(" | "));
+                }
+
+                else if (data.message) {
+                    setMensagem(data.message);
+                }
+
+                else {
+                    setMensagem("Erro ao cadastrar morador. Verifique os dados informados.");
+                }
+            }
+
+            else {
+                setMensagem("Erro de conexão com o servidor.");
+            }
         }
     }
 
@@ -74,9 +111,10 @@ function Cadastro() {
                 <div style={{ display: "flex", gap: "10px" }}>
                     <input
                         type="text"
-                        placeholder="CPF (Apenas números)"
+                        placeholder="CPF (Ex: 123.456.789-09)"
                         value={cpf}
-                        onChange={(e) => setCpf(e.target.value)}
+                        onChange={(e) => setCpf(formatarCpf(e.target.value))}
+                        maxLength={14}
                         required
                         style={{ width: "50%" }}
                     />
@@ -106,9 +144,10 @@ function Cadastro() {
 
                     <input
                         type="text"
-                        placeholder="Telefone"
+                        placeholder="Telefone (Ex: (11) 99999-9999)"
                         value={telefone}
-                        onChange={(e) => setTelefone(e.target.value)}
+                        onChange={(e) => setTelefone(formatarTelefone(e.target.value))}
+                        maxLength={15}
                         style={{ width: "50%" }}
                     />
                 </div>
