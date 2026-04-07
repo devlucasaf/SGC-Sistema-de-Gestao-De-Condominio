@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom"; 
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import api from "../../services/api.js";
 import "../../styles/Login.css"; 
 
@@ -7,7 +8,8 @@ function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [erro, setErro] = useState("");
-    
+    const [mostrarSenha, setMostrarSenha] = useState(false);
+
     // --- CRIANDO O ESTADO DO TEMA ---
     const [isDarkMode, setIsDarkMode] = useState(true); 
 
@@ -83,14 +85,36 @@ function Login() {
                     required
                 />
                 
-                <input 
-                    type="password" 
-                    placeholder="Sua Senha" 
-                    value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
-                    required
-                />
-                
+                <div style={{ position: "relative" }}>
+                    <input
+                        type={mostrarSenha ? "text" : "password"}
+                        placeholder="Sua Senha"
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                        required
+                        style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setMostrarSenha(!mostrarSenha)}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            color: "inherit",
+                            padding: "4px",
+                        }}
+                        aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                    >
+                        {mostrarSenha ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                    </button>
+                </div>
+
                 <button type="submit" className="btn-entrar">Entrar</button>
                 
                 {/* Se a variável 'erro' tiver texto, esse parágrafo aparece */}

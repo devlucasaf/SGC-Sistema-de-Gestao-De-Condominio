@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import api from '../../services/api.js';
 import "../../styles/Cadastro.css";
 
@@ -13,6 +14,7 @@ function Cadastro() {
     const [tipoMorador, setTipoMorador] = useState("");
     const [idUnidade, setIdUnidade] = useState('');
     const [mensagem, setMensagem] = useState("");
+    const [mostrarSenha, setMostrarSenha] = useState(false);
 
     const [isDarkMode, setIsDarkMode] = useState(true);
 
@@ -44,11 +46,11 @@ function Cadastro() {
         try {
             const dadosMorador = {
                 nome,
-                cpf,
+                cpf: cpf.replace(/\D/g, ""),
                 email,
                 senha,
                 dataNascimento,
-                telefone,
+                telefone: telefone.replace(/\D/g, ""),
                 tipoMorador,
                 idUnidade: Number(idUnidade),
             };
@@ -152,13 +154,35 @@ function Cadastro() {
                     />
                 </div>
 
-                <input
-                    type="password"
-                    placeholder="Senha de Acesso"
-                    value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
-                    required
-                />
+                <div style={{ position: "relative" }}>
+                    <input
+                        type={mostrarSenha ? "text" : "password"}
+                        placeholder="Senha de Acesso"
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                        required
+                        style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setMostrarSenha(!mostrarSenha)}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            color: "inherit",
+                            padding: "4px",
+                        }}
+                        aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                    >
+                        {mostrarSenha ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                    </button>
+                </div>
 
                 <div style={{ display: "flex", gap: "10px" }}>
                     <select
