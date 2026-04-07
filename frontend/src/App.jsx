@@ -40,60 +40,64 @@ function App() {
 
         <Route
           path="/cadastro-unidade"
-          element={<CadastroUnidade />}
+          element={
+            <RotaPrivada>
+              <CadastroUnidade />
+            </RotaPrivada>
+          }
         />
 
         <Route
           path="/home"
           element={
-            //<RotaPrivada>
+            <RotaPrivada>
               <Home />
-            //</RotaPrivada>
+            </RotaPrivada>
           }
         />
 
         <Route
           path="/boletomorador"
           element={
-            //<RotaPrivada>
+            <RotaPrivada>
               <BoletoMorador />
-            //</RotaPrivada>
+            </RotaPrivada>
           }
         />
 
         <Route
           path="/entregas"
           element={
-            //<RotaPrivada>
+            <RotaPrivada>
               <Entregas />
-            //</RotaPrivada>
+            </RotaPrivada>
           }
         />
 
         <Route
           path="/reclamacaomorador"
           element={
-            //<RotaPrivada>
+            <RotaPrivada>
               <ReclamacaoMorador />
-            //</RotaPrivada>
+            </RotaPrivada>
           }
         />
 
         <Route
           path="/reservamorador"
           element={
-            //<RotaPrivada>
+            <RotaPrivada>
               <ReservaMorador />
-            //</RotaPrivada>
+            </RotaPrivada>
           }
         />
 
         <Route
           path="/gerenciarreclamacoes"
           element={
-            //<RotaPrivada>
+            <RotaPrivada>
               <GerenciarReclamacoes />
-            //</RotaPrivada>
+            </RotaPrivada>
           }
         />
 

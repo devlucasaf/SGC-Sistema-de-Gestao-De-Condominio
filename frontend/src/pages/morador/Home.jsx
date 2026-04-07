@@ -8,16 +8,21 @@ import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun } from "react-icons
 function Home() {
     const [moradores, setMoradores] = useState([]);
 
-    const [carregando, setCarregando] = useState(false);
+    const [carregando, setCarregando] = useState(true);
     const [menuAberto, setMenuAberto] = useState(false);
+
+    const navigate = useNavigate();
+
+    function handleLogout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("perfilUsuario");
+        navigate("/login");
+    }
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
         return savedTheme === "dark";
     });
-
-    // --- SIMULA O PERFIL ---
-    //const perfilUsuario = "SINDICO"; 
 
     useEffect(() => {
         const root = document.documentElement;
@@ -33,25 +38,24 @@ function Home() {
         }
     }, [isDarkMode]);
 
-//    useEffect(() => {
-//        const buscarMoradores = async () => {
-//            try {
-//                // --- CHAMA A ROTA DO JOTA ---
-//                const resposta = await api.get("/moradores");
-//                setMoradores(resposta.data);
-//            } 
-//            
-//            catch (error) {
-//                console.error("Erro ao buscar moradores:", error);
-//            } 
-//            
-//            finally {
-//                setCarregando(false);
-//            }
-//        };
-//
-//        buscarMoradores();
-//    }, []);
+    useEffect(() => {
+        const buscarMoradores = async () => {
+            try {
+                const resposta = await api.get("/moradores");
+                setMoradores(resposta.data);
+            }
+
+            catch (error) {
+                console.error("Erro ao buscar moradores:", error);
+            }
+
+            finally {
+                setCarregando(false);
+            }
+        };
+
+        buscarMoradores();
+    }, []);
 
     function alternarTema() {
         setIsDarkMode(!isDarkMode);
@@ -67,7 +71,7 @@ function Home() {
                 <ul className="navbar-links">
                     <li><Link to="/boletomorador">Boleto</Link></li>
                     <li><Link to="/reservamorador">Reserva</Link></li>
-                    <li><Link to="/entregasmorador">Entrega</Link></li>
+                    <li><Link to="/entregas">Entrega</Link></li>
                     <li><Link to="/reclamacaomorador">Reclamação</Link></li>
                 </ul>
 
@@ -101,9 +105,9 @@ function Home() {
 
                                 <hr className="dropdown-divisor" />
 
-                                <Link to="/" className="dropdown-item sair">
+                                <button onClick={handleLogout} className="dropdown-item sair" style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", width: "100%", fontSize: "inherit", color: "inherit", padding: "8px 12px" }}>
                                     <FiLogOut className="dropdown-icon" /> Sair
-                                </Link>
+                                </button>
                             </div>
                         )}
                     </div> 
@@ -118,12 +122,11 @@ function Home() {
                     ) : moradores.length === 0 ? (
                         <p>Nenhum morador encontrado no banco de dados.</p>
                     ) : (
-                        // --- MAPEIA OS MORADORES QUE VIERAM DO BANCO DE DADOS ---
                         moradores.map((morador) => (
                             <div key={morador.id} className="cartao-aviso">
                                 <div className="aviso-cabecalho">
                                     <h3>{morador.nome}</h3>
-                                    <span className="aviso-data">Unidade: {morador.unidadeId}</span>
+                                    <span className="aviso-data">Unidade: {morador.unidade}</span>
                                 </div>
                                 <p><strong>Email:</strong> {morador.email}</p>
                                 <p><strong>CPF:</strong> {morador.cpf}</p>

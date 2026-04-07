@@ -81,7 +81,7 @@ function ReclamacaoMorador() {
 
             <div className="conteiner-reclamacao">
                 <div className="cabecalho-reclamacao">
-                    <button className="btn-voltar" onClick={() => navigate("/paginainicialmorador")}>
+                    <button className="btn-voltar" onClick={() => navigate("/home")}>
                         ⬅ Voltar para Página Inicial
                     </button>
                 </div>

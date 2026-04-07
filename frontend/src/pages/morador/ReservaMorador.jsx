@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 import "../../styles/ReservaMorador.css";
 
 function ReservaMorador() {
@@ -53,7 +54,14 @@ function ReservaMorador() {
         async function carregarHistorico() {
             try {
                 const response = await api.get("/reservas/minhas-reservas");
-                setHistorico(response.data);
+                const historicoMapeado = response.data.map((r) => ({
+                    id: r.id,
+                    area: r.nomeAreaLazer,
+                    data: r.dataReserva,
+                    valor: r.valorAreaLazer,
+                    status: r.status
+                }));
+                setHistorico(historicoMapeado);
             }
 
             catch (error) {
@@ -77,7 +85,7 @@ function ReservaMorador() {
         setAreaSelecionada(null);
     }
 
-    function confirmarReserva(e) {
+    async function confirmarReserva(e) {
         e.preventDefault();
 
         const reservaRequestDTO = {
@@ -86,14 +94,14 @@ function ReservaMorador() {
         };
 
         try {
-            // const response = await api.post("/reservas", reservaRequestDTO);
+            const response = await api.post("/reservas", reservaRequestDTO);
             const reservaSalva = response.data;
 
             const novaReservaHistorico = {
                 id: reservaSalva.id,
-                area: areaSelecionada.nome,
+                area: reservaSalva.nomeAreaLazer,
                 data: reservaSalva.dataReserva,
-                valor: areaSelecionada.valor,
+                valor: reservaSalva.valorAreaLazer,
                 status: reservaSalva.status
             };
 
@@ -104,7 +112,7 @@ function ReservaMorador() {
         }
 
         catch (error) {
-            const mensagemErro = error.response ? error.response.data : "Erro ao realizar reserva";
+            const mensagemErro = error.response?.data?.message || error.response?.data || "Erro ao realizar reserva";
             alert(mensagemErro);
         }
     }
@@ -121,7 +129,7 @@ function ReservaMorador() {
 
             <div className="conteiner-reserva">
                 <div className="cabecalho-reserva">
-                    <button className="btn-voltar" onClick={() => navigate("/paginainicialmorador")}>
+                    <button className="btn-voltar" onClick={() => navigate("/home")}>
                         ⬅ Voltar para Página Inicial
                     </button>
                     <p className="subtitulo">Selecione o espaço que deseja reservar:</p>
