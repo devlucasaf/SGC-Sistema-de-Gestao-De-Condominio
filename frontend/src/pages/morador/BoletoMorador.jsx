@@ -1,69 +1,41 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 import "../../styles/BoletoMorador.css";
 
 function BoletoMorador() {
     const navigate = useNavigate();
 
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const [carregando, setCarregando] = useState(false);
+    const [carregando, setCarregando] = useState(true);
     const [boletos, setBoletos] = useState([]);
-    
-    /*
+
     useEffect(() => {
         async function buscarBoletosDoMorador() {
-            setCarregando(true);
-
             try {
-                const response = await api.get("/boletos/meus-boletos");
-                setBoletos(response.data);
-            } 
-                
-            catch(error) {
+                const perfil = JSON.parse(localStorage.getItem("perfilUsuario"));
+                if (perfil && perfil.id) {
+                    const response = await api.get(`/boletos/morador/${perfil.id}`);
+                    const boletosMapeados = (response.data || []).map((b) => ({
+                        id: b.id,
+                        mes: b.descricao || "Condomínio",
+                        vencimento: b.dataVencimento
+                            ? new Date(b.dataVencimento).toLocaleDateString("pt-BR")
+                            : "Sem data",
+                        valor: b.valor
+                            ? `R$ ${Number(b.valor).toFixed(2).replace(".", ",")}`
+                            : "R$ 0,00",
+                        status: b.status === "PAGO" ? "Pago" : "Pendente"
+                    }));
+                    setBoletos(boletosMapeados);
+                }
+            } catch (error) {
                 console.error("Erro ao buscar boletos:", error);
-                alert("Não foi possível carregar seus boletos.");
-            } 
-                
-            finally {
+            } finally {
                 setCarregando(false);
             }
         }
         buscarBoletosDoMorador();
-    }, []);
-    */
-    
-    useEffect(() => {
-        const listaFalsa = [
-            { 
-                id: 1, 
-                mes: "Janeiro/2026", 
-                vencimento: "10/01/2026", 
-                valor: "R$ 450,00", 
-                status: "Pago" 
-            },
-            { 
-                id: 2, 
-                mes: "Fevereiro/2026", 
-                vencimento: "10/02/2026", 
-                valor: "R$ 450,00", 
-                status: "Pago" 
-            },
-            { 
-                id: 3, 
-                mes: "Março/2026", 
-                vencimento: "10/03/2026", 
-                valor: "R$ 450,00", 
-                status: "Pendente" 
-            },
-            { 
-                id: 4, 
-                mes: "Abril/2026", 
-                vencimento: "10/04/2026", 
-                valor: "R$ 450,00", 
-                status: "Pendente" 
-            }
-        ];
-        setBoletos(listaFalsa);
     }, []);
 
     function alternarTema() {
@@ -84,13 +56,15 @@ function BoletoMorador() {
             <div className="conteiner-boletos">
                 
                 <div className="cabecalho-boletos">
-                    <button className="btn-voltar" onClick={() => navigate("/paginainicialmorador")}>
+                    <button className="btn-voltar" onClick={() => navigate("/home")}>
                         ⬅ Voltar para a Página Inicial
                     </button>
                 </div>
 
                 {carregando ? (
                     <p style={{ textAlign: "center" }}>Buscando boletos...</p>
+                ) : boletos.length === 0 ? (
+                    <p style={{ textAlign: "center" }}>Nenhum boleto encontrado.</p>
                 ) : (
                     <div className="lista-boletos">
                         {boletos.map((boleto) => (

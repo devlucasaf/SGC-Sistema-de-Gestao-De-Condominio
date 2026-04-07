@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 import "../../styles/Entregas.css";
 
 import { FiSun, FiMoon, FiPackage, FiClock, FiUser, FiArrowLeft } from "react-icons/fi";
@@ -29,30 +30,30 @@ function Entregas() {
     }, [isDarkMode]);
 
     useEffect(() => {
-        const listaFalsa = [
-            {
-                id: 1,
-                descricao: "Caixa pequena - Amazon",
-                dataChegada: "09/03/2026 - 14:30",
-                recebedor: "Porteiro João",
-                status: "Aguardando Retirada"
-            },
-            {
-                id: 2,
-                descricao: "Pacote - Mercado Livre",
-                dataChegada: "05/03/2026 - 10:15",
-                recebedor: "Porteiro Carlos",
-                status: "Retirado"
-            },
-            {
-                id: 3,
-                descricao: "Envelope - Correios",
-                dataChegada: "01/03/2026 - 16:45",
-                recebedor: "Porteiro João",
-                status: "Retirado"
+        async function buscarEntregas() {
+            try {
+                // --- Busca o perfil salvo no login para pegar o ID da unidade ---
+                const perfil = JSON.parse(localStorage.getItem("perfilUsuario"));
+                if (perfil && perfil.idUnidade) {
+                    const response = await api.get(`/encomendas/unidade/${perfil.idUnidade}`);
+                    // --- O backend retorna paginado: { conteudo: [...] } ---
+                    const lista = response.data.conteudo || response.data;
+                    const entregasMapeadas = (Array.isArray(lista) ? lista : []).map((e) => ({
+                        id: e.id,
+                        descricao: e.descricao,
+                        dataChegada: e.dataRecebimento
+                            ? new Date(e.dataRecebimento).toLocaleDateString("pt-BR") + " - " + new Date(e.dataRecebimento).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+                            : "Sem data",
+                        recebedor: e.nomePorteiro || "Portaria",
+                        status: e.status === "AGUARDANDO_RETIRADA" ? "Aguardando Retirada" : e.status === "RETIRADO" ? "Retirado" : e.status
+                    }));
+                    setEntregas(entregasMapeadas);
+                }
+            } catch (error) {
+                console.error("Erro ao buscar entregas:", error);
             }
-        ];
-        setEntregas(listaFalsa);
+        }
+        buscarEntregas();
     }, []);
 
     function alternarTema() {

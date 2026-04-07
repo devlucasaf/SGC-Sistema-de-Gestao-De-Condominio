@@ -10,26 +10,38 @@ function GerenciarReclamacoes() {
     
     const navigate = useNavigate();
 
-    useEffect(() => {
-        async function buscarReclamacoes() {
-            try {
-                const response = await api.get("/api/reclamacoes");
-                
-                setReclamacoes(response.data);
-            } 
-            
-            catch (error) {
-                console.error("Erro ao buscar reclamações:", error);
-                setErro("Não foi possível carregar as reclamações. Verifique a ligação ao servidor.");
-            } 
-            
-            finally {
-                setCarregando(false);
-            }
+    async function buscarReclamacoes() {
+        try {
+            const response = await api.get("/api/reclamacoes");
+
+            // --- O backend retorna paginado: { conteudo: [...], pagina, tamanho... } ---
+            setReclamacoes(response.data.conteudo || []);
         }
 
+        catch (error) {
+            console.error("Erro ao buscar reclamações:", error);
+            setErro("Não foi possível carregar as reclamações. Verifique a ligação ao servidor.");
+        }
+
+        finally {
+            setCarregando(false);
+        }
+    }
+
+    useEffect(() => {
         buscarReclamacoes();
     }, []);
+
+    async function alterarStatus(id, novoStatus) {
+        try {
+            await api.patch(`/api/reclamacoes/${id}/status?novoStatus=${novoStatus}`);
+            alert(`Status atualizado para ${novoStatus.replace("_", " ")}!`);
+            buscarReclamacoes();
+        } catch (error) {
+            console.error("Erro ao atualizar status:", error);
+            alert("Erro ao atualizar o status da reclamação.");
+        }
+    }
 
     const totalPendentes = reclamacoes.filter(r => r.status === "PENDENTE").length;
     const totalEmAnalise = reclamacoes.filter(r => r.status === "EM_ANALISE").length;
@@ -99,6 +111,27 @@ function GerenciarReclamacoes() {
                                         <p><strong>Unidade/Bloco:</strong> {reclamacao.unidade || "Não informado"}</p>
                                         <p><strong>Tipo:</strong> {reclamacao.tipo}</p>
                                         <p className="data-reclamacao">Registado em: {formatarData(reclamacao.dataCriacao)}</p>
+
+                                        {reclamacao.status !== "RESOLVIDA" && (
+                                            <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
+                                                {reclamacao.status === "PENDENTE" && (
+                                                    <button
+                                                        className="btn-status-analise"
+                                                        onClick={() => alterarStatus(reclamacao.id, "EM_ANALISE")}
+                                                        style={{ padding: "6px 12px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: "#f39c12", color: "white", fontWeight: "bold" }}
+                                                    >
+                                                        Mover para Análise
+                                                    </button>
+                                                )}
+                                                <button
+                                                    className="btn-status-resolvida"
+                                                    onClick={() => alterarStatus(reclamacao.id, "RESOLVIDA")}
+                                                    style={{ padding: "6px 12px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: "#2ecc71", color: "white", fontWeight: "bold" }}
+                                                >
+                                                    Marcar como Resolvida
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}

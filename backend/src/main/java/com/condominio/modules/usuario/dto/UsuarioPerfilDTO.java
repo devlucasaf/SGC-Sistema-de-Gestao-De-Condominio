@@ -13,6 +13,7 @@ public class UsuarioPerfilDTO {
     private String  email;
     private String  tipoUsuario;
     private String  detalheExtra;
+    private Long    idUnidade;
 
     public static UsuarioPerfilDTO fromEntity(Usuario usuario) {
         UsuarioPerfilDTO dto = new UsuarioPerfilDTO();
@@ -26,6 +27,7 @@ public class UsuarioPerfilDTO {
         if (usuario instanceof Morador) {
             Morador m = (Morador) usuario;
             dto.setDetalheExtra("Apto: " + m.getUnidade().getNumeroApto() + " - Bloco: " + m.getUnidade().getBloco());
+            dto.setIdUnidade(m.getUnidade().getId());
         }
         
         else if (usuario instanceof Porteiro) {
