@@ -1,31 +1,69 @@
-/* Container que ocupa a tela toda para centralizar */
-.tela-login {
+/* ===== LAYOUT GERAL ===== */
+.tela-auth {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
-    transition: background-color 0.3s ease; /* Animação suave ao trocar de tema */
-    position: relative;
+    transition: background-color 0.3s ease;
 }
 
 /* --- TEMAS --- */
 .tema-claro {
-    background-color: #f5f5f7; /* Branco um pouquinho escuro (off-white) */
+    background-color: #f5f5f7;
     color: #333333;
 }
 
 .tema-escuro {
-    background-color: #1e1e24; /* Cinza bem escuro */
+    background-color: #1e1e24;
     color: #f5f5f7;
 }
 
-/* --- CAIXA DE LOGIN --- */
+/* ===== NAVBAR DO TOPO ===== */
+.navbar-auth {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 30px;
+    border-bottom: 2px solid #2ecc71;
+}
+
+.navbar-auth h1 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+    color: #2ecc71;
+}
+
+.btn-tema {
+    padding: 8px 16px;
+    background: transparent;
+    border: 2px solid #2ecc71;
+    color: inherit;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+}
+
+.btn-tema:hover {
+    background-color: rgba(46, 204, 113, 0.1);
+}
+
+/* ===== ÁREA DO FORMULÁRIO (CENTRALIZADO) ===== */
+.auth-conteudo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+/* ===== CAIXA DE LOGIN ===== */
 .caixa-login {
     background-color: inherit;
     padding: 40px;
     border-radius: 12px;
-    /* Aqui está a sua borda verde (3px = espessura média) */
-    border: 3px solid #2ecc71; 
+    border: 3px solid #2ecc71;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     width: 100%;
     max-width: 400px;
@@ -40,7 +78,7 @@
     margin-bottom: 10px;
 }
 
-/* --- INPUTS --- */
+/* ===== INPUTS ===== */
 .caixa-login input {
     padding: 12px;
     border: 1px solid #888;
@@ -52,11 +90,11 @@
 
 .caixa-login input:focus {
     outline: none;
-    border-color: #2ecc71; /* Fica verde quando clica */
+    border-color: #2ecc71;
     box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
 }
 
-/* --- BOTÕES --- */
+/* ===== BOTÃO ENTRAR ===== */
 .btn-entrar {
     padding: 14px;
     background-color: #2ecc71;
@@ -74,16 +112,8 @@
     background-color: #27ae60;
 }
 
-/* Botão de trocar tema no topo da tela */
-.btn-tema {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background: transparent;
-    border: 2px solid #2ecc71;
-    color: inherit;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
+/* ===== RODAPÉ DO FORMULÁRIO ===== */
+.rodape-login {
+    text-align: center;
+    margin-top: 5px;
 }
