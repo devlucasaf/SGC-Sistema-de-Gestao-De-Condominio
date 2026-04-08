@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api.js";
 import "../../styles/Home.css";
 
-import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
+import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun, FiLock } from "react-icons/fi";
 
 function Home() {
     const [moradores, setMoradores] = useState([]);
@@ -101,6 +101,10 @@ function Home() {
 
                                 <Link to="/minha-unidade" className="dropdown-item">
                                     <FiHome className="dropdown-icon" /> Minha Unidade
+                                </Link>
+
+                                <Link to="/alterar-senha" className="dropdown-item">
+                                    <FiLock className="dropdown-icon" /> Alterar Senha
                                 </Link>
 
                                 <hr className="dropdown-divisor" />
