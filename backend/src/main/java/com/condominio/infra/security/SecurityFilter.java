@@ -34,13 +34,20 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = recuperarToken(request);
 
         if (token != null) {
-            // --- DESCOBRE O DONO DO TOKEN ---
-            var subject = tokenService.getSubject(token);
-            UserDetails usuario = repository.findByEmail(subject).orElse(null);
+            try {
+                // --- DESCOBRE O DONO DO TOKEN ---
+                var subject = tokenService.getSubject(token);
+                UserDetails usuario = repository.findByEmail(subject).orElse(null);
 
-            if (usuario != null) {
-                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (usuario != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+
+            catch (Exception e) {
+                // --- TOKEN INVÁLIDO OU EXPIRADO ---
+                System.out.println("Token inválido ignorado: " + e.getMessage());
             }
         }
 
