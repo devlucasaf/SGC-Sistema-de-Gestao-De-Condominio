@@ -60,9 +60,14 @@ function GerenciarReclamacoes() {
         <div className="tela-gerenciar-reclamacoes">
             <nav className="navbar-sindico">
                 <h2>Gerenciamento de Reclamações</h2>
-                <button className="btn-voltar-sindico" onClick={() => navigate("/home")}>
-                    ⬅ Voltar para Home
-                </button>
+                <div style={{ display: "flex", gap: "10px" }}>
+                    <button className="btn-voltar-sindico" onClick={() => navigate("/redefinir-senha")}>
+                        🔑 Redefinir Senha
+                    </button>
+                    <button className="btn-voltar-sindico" onClick={() => navigate("/home")}>
+                        ⬅ Voltar para Home
+                    </button>
+                </div>
             </nav>
 
             <div className="conteudo-reclamacoes">
