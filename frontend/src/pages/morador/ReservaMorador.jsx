@@ -3,13 +3,31 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import "../../styles/ReservaMorador.css";
 
+import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiUsers, FiXCircle } from "react-icons/fi";
+
 function ReservaMorador() {
     const [areaSelecionada, setAreaSelecionada] = useState(null); 
     const [dataReserva, setDataReserva] = useState("");
     const [historico, setHistorico] = useState([]);
+    const [carregandoHistorico, setCarregandoHistorico] = useState(true);
 
     const navigate = useNavigate();
-    const [isDarkMode, setIsDarkMode] = useState(true);
+
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedTheme = localStorage.getItem("theme");
+        return savedTheme === "dark";
+    });
+
+    useEffect(() => {
+        const root = document.documentElement;
+        if (isDarkMode) {
+            root.setAttribute("dark-theme", "dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            root.removeAttribute("dark-theme");
+            localStorage.setItem("theme", "light");
+        }
+    }, [isDarkMode]);
 
     const areasDeLazer = [
         {
@@ -67,6 +85,10 @@ function ReservaMorador() {
             catch (error) {
                 console.error("Erro ao buscar histórico:", error);
             }
+
+            finally {
+                setCarregandoHistorico(false);
+            }
         }
 
         carregarHistorico();
@@ -118,19 +140,23 @@ function ReservaMorador() {
     }
 
     return (
-        <div className={`tela-reserva ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
-            
-            <nav className="navbar-reserva">
-                <h2>Reservar Espaços</h2>
-                <button className="btn-tema-reserva" onClick={alternarTema}>
-                    {isDarkMode ? "☀️ Modo Claro" : "🌙 Modo Escuro"}
-                </button>
+        <div className="entregas-container">
+
+            <nav className="navbar">
+                <div className="navbar-logo">
+                    <h2>Reservar Espaços</h2>
+                </div>
+                <div className="perfil-container">
+                    <button className="btn-tema" onClick={alternarTema} aria-label="Alternar Tema">
+                        {isDarkMode ? <FiSun /> : <FiMoon />}
+                    </button>
+                </div>
             </nav>
 
-            <div className="conteiner-reserva">
-                <div className="cabecalho-reserva">
+            <main className="entregas-conteudo">
+                <div className="entregas-header">
                     <button className="btn-voltar" onClick={() => navigate("/home")}>
-                        ⬅ Voltar para Página Inicial
+                        <FiArrowLeft /> Voltar para Página Inicial
                     </button>
                     <p className="subtitulo">Selecione o espaço que deseja reservar:</p>
                 </div>
@@ -139,7 +165,7 @@ function ReservaMorador() {
                 <div className="grid-areas">
                     {areasDeLazer.map((area) => (
                         <div key={area.id} className="cartao-area">
-                            <div className="icone-area">{area.icone}</div>
+                            <div className="icone-area"><FiCalendar /></div>
                             <h3>{area.nome}</h3>
                             <p>Máximo: <strong>{area.capacidade} pessoas</strong></p>
                             <p>Valor: <strong>{area.valor === 0 ? "Gratuito" : `R$ ${area.valor.toFixed(2)}`}</strong></p>
@@ -153,7 +179,9 @@ function ReservaMorador() {
                 {/* NOVO: SEÇÃO DE HISTÓRICO */}
                 <div className="secao-historico" style={{ marginTop: '40px' }}>
                     <h3>Histórico de Reservas</h3>
-                    {historico.length === 0 ? (
+                    {carregandoHistorico ? (
+                        <p>Carregando histórico...</p>
+                    ) : historico.length === 0 ? (
                         <p>Você ainda não possui reservas feitas.</p>
                     ) : (
                         <div className="tabela-container">
@@ -200,14 +228,14 @@ function ReservaMorador() {
                         </div>
                     )}
                 </div>
-            </div>
+            </main>
 
             {areaSelecionada && (
                 <div className="overlay-modal">
                     <div className="caixa-modal fadeIn">
                         <h3>Confirmar Reserva</h3>
-                        <p>Você selecionou: <strong>{areaSelecionada.icone} {areaSelecionada.nome}</strong></p>
-                        
+                        <p>Você selecionou: <strong>{areaSelecionada.nome}</strong></p>
+
                         <form onSubmit={confirmarReserva} className="form-modal">
                             <label>Escolha a Data:</label>
 

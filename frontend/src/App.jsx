@@ -2,11 +2,15 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import Login                from          "./pages/auth/Login";
 import Cadastro             from          "./pages/auth/Cadastro";
+import RecuperarSenha       from          "./pages/auth/RecuperarSenha";
 
 import CadastroUnidade      from          "./pages/sindico/CadastroUnidade";
 import GerenciarReclamacoes from          "./pages/sindico/GerenciarReclamacoes";
+import RedefinirSenha       from          "./pages/sindico/RedefinirSenha";
+import PainelSindico        from          "./pages/sindico/PainelSindico";
 
 import Home                 from          "./pages/morador/Home";
+import AlterarSenha         from          "./pages/morador/AlterarSenha";
 import BoletoMorador        from          "./pages/morador/BoletoMorador";
 import Entregas             from          "./pages/morador/Entregas";
 import ReclamacaoMorador    from          "./pages/morador/ReclamacaoMorador";
@@ -39,6 +43,11 @@ function App() {
         />
 
         <Route
+          path="/recuperar-senha"
+          element={<RecuperarSenha />}
+        />
+
+        <Route
           path="/cadastro-unidade"
           element={
             <RotaPrivada>
@@ -52,6 +61,15 @@ function App() {
           element={
             <RotaPrivada>
               <Home />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/alterar-senha"
+          element={
+            <RotaPrivada>
+              <AlterarSenha />
             </RotaPrivada>
           }
         />
@@ -93,10 +111,28 @@ function App() {
         />
 
         <Route
+          path="/painel-sindico"
+          element={
+            <RotaPrivada>
+              <PainelSindico />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
           path="/gerenciarreclamacoes"
           element={
             <RotaPrivada>
               <GerenciarReclamacoes />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/redefinir-senha"
+          element={
+            <RotaPrivada>
+              <RedefinirSenha />
             </RotaPrivada>
           }
         />

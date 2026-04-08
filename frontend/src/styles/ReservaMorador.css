@@ -1,148 +1,33 @@
-/* Variáveis CSS para fácil manutenção */
-:root {
-    --primary-color: #27ae60;
-    --primary-hover: #219653;
-    --danger-color: #e74c3c;
-    --info-color: #3498db;
-    --warning-bg: #fff3cd;
-    --warning-text: #856404;
-    --border-radius-sm: 6px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
-    --transition-default: all 0.3s ease;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --box-shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
-}
+/* ==========================================
+   ReservaMorador.css
+   Usa variáveis globais do tema (App.css)
+   e reutiliza classes de Entregas.css
+   ========================================== */
 
-/* Tema claro (padrão) */
-:root,
-.tema-claro {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --card-bg: #ffffff;
-    --navbar-bg: #ffffff;
-    --modal-bg: #ffffff;
-    --border-color: #e0e0e0;
-}
-
-/* Tema escuro */
-.tema-escuro {
-    --bg-primary: #1a2634;
-    --bg-secondary: #2c3e50;
-    --text-primary: #ecf0f1;
-    --text-secondary: #bdc3c7;
-    --card-bg: #2c3e50;
-    --navbar-bg: #2c3e50;
-    --modal-bg: #34495e;
-    --border-color: #405d7a;
-}
-
-/* Reset e estilos base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    line-height: 1.6;
-}
-
-/* Container principal */
-.tela-reserva {
-    min-height: 100vh;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    transition: var(--transition-default);
-}
-
-/* Navbar */
-.navbar-reserva {
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: var(--navbar-bg);
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius-md);
-    margin-bottom: 2rem;
-    transition: var(--transition-default);
-}
-
-.navbar-reserva h2 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-/* Botão de tema */
-.btn-tema-reserva {
-    padding: 0.5rem 1.2rem;
-    border-radius: 2rem;
-    border: 1px solid var(--border-color);
-    background: transparent;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: var(--transition-default);
-}
-
-.btn-tema-reserva:hover {
-    background-color: var(--border-color);
-    transform: translateY(-2px);
-}
-
-/* Container de conteúdo */
-.conteiner-reserva {
-    width: 100%;
-    max-width: 900px;
-}
-
-/* Cabeçalho */
-.cabecalho-reserva {
-    margin-bottom: 2.5rem;
-    text-align: center;
-}
-
-.cabecalho-reserva h1 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
+/* --- Subtítulo --- */
 .subtitulo {
     font-size: 1.1rem;
     color: var(--text-secondary);
     font-weight: 400;
+    margin-top: var(--spacing-sm);
 }
 
-/* Grid de áreas */
+/* --- Grid de áreas --- */
 .grid-areas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-md);
 }
 
-/* Cards */
+/* --- Cards de área --- */
 .cartao-area {
-    background-color: var(--card-bg);
-    padding: 1.5rem;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--box-shadow);
+    background-color: var(--bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     text-align: center;
-    transition: var(--transition-default);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -151,14 +36,15 @@ body {
 
 .cartao-area:hover {
     transform: translateY(-5px);
-    box-shadow: var(--box-shadow-hover);
+    box-shadow: var(--shadow-lg);
     border-color: var(--border-color);
 }
 
 .icone-area {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    transition: var(--transition-default);
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-green);
+    transition: transform var(--transition-fast);
 }
 
 .cartao-area:hover .icone-area {
@@ -166,38 +52,34 @@ body {
 }
 
 .cartao-area h3 {
-    margin: 0 0 1rem 0;
-    font-size: 1.4rem;
-}
-
-.cartao-area p {
-    margin: 0.5rem 0;
-    color: var(--text-secondary);
-}
-
-.cartao-area p:first-of-type {
-    font-weight: 600;
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 1.3rem;
     color: var(--text-primary);
 }
 
-/* Botão reservar */
+.cartao-area p {
+    margin: 0.4rem 0;
+    color: var(--text-secondary);
+}
+
+/* --- Botão Reservar --- */
 .btn-reservar {
-    margin-top: 1.2rem;
+    margin-top: var(--spacing-md);
     padding: 0.8rem;
-    background-color: var(--primary-color);
+    background-color: var(--primary-green);
     color: white;
     border: none;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: var(--transition-default);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .btn-reservar:hover {
-    background-color: var(--primary-hover);
+    background-color: #219653;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
 }
@@ -206,7 +88,29 @@ body {
     transform: translateY(0);
 }
 
-/* Modal */
+/* --- Botão Pagar (Boletos) --- */
+.btn-pagar {
+    margin-top: var(--spacing-sm);
+    padding: 0.6rem 1.2rem;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-pagar:hover {
+    background-color: #219653;
+    transform: translateY(-1px);
+}
+
+/* --- Modal Overlay --- */
 .overlay-modal {
     position: fixed;
     top: 0;
@@ -218,87 +122,77 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    padding: 1rem;
+    padding: var(--spacing-md);
     backdrop-filter: blur(3px);
 }
 
 .caixa-modal {
-    background-color: var(--modal-bg);
+    background-color: var(--bg-secondary);
     padding: 2rem;
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--radius-lg);
     width: 100%;
     max-width: 450px;
     color: var(--text-primary);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    transition: var(--transition-default);
-}
-
-.caixa-modal h2 {
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-size: 1.8rem;
 }
 
 .caixa-modal h3 {
-    margin: 1rem 0 0.5rem;
-    color: var(--text-secondary);
-    font-weight: 500;
+    margin: 0 0 var(--spacing-sm) 0;
+    color: var(--text-primary);
+    font-size: 1.4rem;
 }
 
-/* Formulário do modal */
+.caixa-modal p {
+    color: var(--text-secondary);
+}
+
+/* --- Formulário do Modal --- */
 .form-modal {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    margin: 1.5rem 0;
+    margin: var(--spacing-md) 0;
 }
 
 .form-modal label {
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: -0.5rem;
 }
 
 .form-modal input[type="date"] {
     padding: 0.9rem;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
     font-size: 1rem;
     font-family: inherit;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    transition: var(--transition-default);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .form-modal input[type="date"]:focus {
     outline: none;
-    border-color: var(--info-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
 }
 
-/* Aviso de cobrança */
+/* --- Aviso de cobrança --- */
 .aviso-cobranca {
-    background-color: var(--warning-bg);
-    color: var(--warning-text);
-    padding: 1rem;
-    border-radius: var(--border-radius-sm);
+    background-color: rgba(230, 184, 0, 0.15);
+    color: var(--accent-orange);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
     font-size: 0.95rem;
     text-align: center;
     font-weight: 600;
-    border-left: 4px solid #e6b800;
+    border-left: 4px solid var(--accent-orange);
 }
 
-.tema-escuro .aviso-cobranca {
-    background-color: #665c3c;
-    color: #ffd966;
-    border-left-color: #ffd966;
-}
-
-/* Botões do modal */
+/* --- Botões do Modal --- */
 .botoes-modal {
     display: flex;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: var(--spacing-md);
 }
 
 .btn-cancelar,
@@ -306,43 +200,80 @@ body {
     flex: 1;
     padding: 0.9rem;
     border: none;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: var(--transition-default);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .btn-cancelar {
-    background-color: var(--danger-color);
+    background-color: var(--accent-red);
     color: white;
 }
 
 .btn-cancelar:hover {
     background-color: #c0392b;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
 }
 
 .btn-confirmar {
-    background-color: var(--info-color);
+    background-color: var(--accent-blue);
     color: white;
 }
 
 .btn-confirmar:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
 
-.btn-cancelar:active,
-.btn-confirmar:active {
-    transform: translateY(0);
+/* --- Seção de Histórico --- */
+.secao-historico {
+    margin-top: var(--spacing-xl);
+    width: 100%;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Animações */
+.secao-historico h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.tabela-container {
+    overflow-x: auto;
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-md);
+}
+
+.tabela-reservas {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabela-reservas th {
+    font-weight: bold;
+    color: var(--text-muted);
+    padding: 12px 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tabela-reservas td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.tabela-reservas tbody tr:hover {
+    background-color: var(--overlay-dark);
+}
+
+/* --- Animações --- */
 .fadeIn {
     animation: fadeIn 0.3s ease-in-out;
 }
@@ -358,42 +289,14 @@ body {
     }
 }
 
-/* Media queries para responsividade */
+/* --- Responsividade --- */
 @media (max-width: 768px) {
-    .tela-reserva {
-        padding: 1rem;
-    }
-
-    .navbar-reserva {
-        padding: 1rem;
-    }
-
-    .navbar-reserva h2 {
-        font-size: 1.2rem;
-    }
-
-    .cabecalho-reserva h1 {
-        font-size: 1.8rem;
-    }
-
-    .subtitulo {
-        font-size: 1rem;
-    }
-
     .grid-areas {
         grid-template-columns: 1fr;
     }
 
-    .cartao-area {
-        padding: 1.2rem;
-    }
-
     .caixa-modal {
         padding: 1.5rem;
-    }
-
-    .caixa-modal h2 {
-        font-size: 1.5rem;
     }
 }
 
@@ -408,108 +311,16 @@ body {
     }
 }
 
-/* Acessibilidade */
+/* --- Acessibilidade --- */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
 
-/* Estados de foco para acessibilidade por teclado */
 button:focus-visible,
 input:focus-visible {
-    outline: 2px solid var(--info-color);
+    outline: 2px solid var(--primary-green);
     outline-offset: 2px;
-}
-
-/* Utilitários */
-.text-center {
-    text-align: center;
-}
-
-.mt-1 {
-    margin-top: 0.5rem;
-}
-
-.mt-2 {
-    margin-top: 1rem;
-}
-
-.mt-3 {
-    margin-top: 1.5rem;
-}
-
-.mb-1 {
-    margin-bottom: 0.5rem;
-}
-
-.mb-2 {
-    margin-bottom: 1rem;
-}
-
-.mb-3 {
-    margin-bottom: 1.5rem;
-}
-
-.secao-historico {
-    margin-top: 40px;
-    width: 100%;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.secao-historico h3 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-}
-
-.tabela-container {
-    overflow-x: auto;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    padding: 20px;
-}
-
-.tabela-reservas {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.tabela-reservas th {
-    font-weight: bold;
-    color: #555;
-    padding: 12px 15px;
-    border-bottom: 2px solid #eee;
-}
-
-.tabela-reservas td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
-    color: #333;
-}
-
-.tabela-reservas tbody tr:hover {
-    background-color: #f9f9f9;
-}
-
-.tema-escuro .tabela-container {
-    background-color: #2c3e50; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.tema-escuro .tabela-reservas th {
-    color: #bdc3c7;
-    border-bottom: 2px solid #455a64;
-}
-
-.tema-escuro .tabela-reservas td {
-    color: #ecf0f1;
-    border-bottom: 1px solid #455a64;
-}
-
-.tema-escuro .tabela-reservas tbody tr:hover {
-    background-color: #34495e;
 }

@@ -4,8 +4,6 @@ import com.condominio.modules.morador.model.TipoMorador;
 
 import lombok.Data;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import javax.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -16,7 +14,10 @@ public class MoradorRequestDTO {
     private String nome;
 
     @NotBlank(message = "O CPF é obrigatório")
-    @CPF(message = "CPF inválido")
+    @Pattern(
+            regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$",
+            message = "CPF inválido. Use o formato 000.000.000-00 ou 00000000000"
+    )
     private String cpf;
 
     @NotBlank(message = "O email é obrigatório")

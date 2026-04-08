@@ -9,6 +9,7 @@ function Entregas() {
     const navigate = useNavigate();
 
     const [entregas, setEntregas] = useState([]);
+    const [carregando, setCarregando] = useState(true);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -51,6 +52,8 @@ function Entregas() {
                 }
             } catch (error) {
                 console.error("Erro ao buscar entregas:", error);
+            } finally {
+                setCarregando(false);
             }
         }
         buscarEntregas();
@@ -89,26 +92,32 @@ function Entregas() {
                 </div>
 
                 <div className="entregas-lista">
-                    {entregas.map((entrega) => (
-                        <div key={entrega.id} className="card entregas-card">
-                            <div className="card-header entregas-card-header">
-                                <h3 className="card-title">
-                                    <FiPackage className="card-icon" /> {entrega.descricao}
-                                </h3>
-                                
-                                <span className={`badge ${entrega.status === "Aguardando Retirada" ? "badge-warning" : "badge-secondary"}`}>
-                                    {entrega.status}
-                                </span>
+                    {carregando ? (
+                        <p style={{ textAlign: "center", padding: "40px" }}>Buscando entregas...</p>
+                    ) : entregas.length === 0 ? (
+                        <p style={{ textAlign: "center", padding: "40px" }}>Nenhuma entrega encontrada para sua unidade.</p>
+                    ) : (
+                        entregas.map((entrega) => (
+                            <div key={entrega.id} className="card entregas-card">
+                                <div className="card-header entregas-card-header">
+                                    <h3 className="card-title">
+                                        <FiPackage className="card-icon" /> {entrega.descricao}
+                                    </h3>
+
+                                    <span className={`badge ${entrega.status === "Aguardando Retirada" ? "badge-warning" : "badge-secondary"}`}>
+                                        {entrega.status}
+                                    </span>
+                                </div>
+                                <div className="card-body">
+                                    <p><FiClock /> <strong>Chegou em:</strong> {entrega.dataChegada}</p>
+                                    <p><FiUser /> <strong>Recebido por:</strong> {entrega.recebedor}</p>
+                                    {entrega.status === "Aguardando Retirada" && (
+                                        <p className="aviso-retirada">Disponível para retirada na portaria.</p>
+                                    )}
+                                </div>
                             </div>
-                            <div className="card-body">
-                                <p><FiClock /> <strong>Chegou em:</strong> {entrega.dataChegada}</p>
-                                <p><FiUser /> <strong>Recebido por:</strong> {entrega.recebedor}</p>
-                                {entrega.status === "Aguardando Retirada" && (
-                                    <p className="aviso-retirada">📦 Disponível para retirada na portaria.</p>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
             </main>
         </div>

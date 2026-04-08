@@ -15,6 +15,8 @@
   --accent-water-green: #17ddab;
   --accent-green: #2ecc71;
   --accent-red: #a7291c;
+  --accent-orange: #f59e0b;
+  --accent-blue: #3498db;
   --accent-white: #ffffff;
 
   --gradient-primary: linear-gradient(
@@ -103,7 +105,9 @@
   --accent-water-green: #17ddab;
   --accent-white: #ffffff;
   --accent-red: #eb2610;
-  
+  --accent-orange: #fbbf24;
+  --accent-blue: #60a5fa;
+
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
   --bg-card: #1e293b;

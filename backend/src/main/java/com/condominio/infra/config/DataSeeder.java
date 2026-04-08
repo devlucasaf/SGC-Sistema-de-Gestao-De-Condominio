@@ -2,14 +2,21 @@ package com.condominio.infra.config;
 
 import com.condominio.modules.porteiro.model.Porteiro;
 import com.condominio.modules.porteiro.repository.PorteiroRepository;
+import com.condominio.modules.sindico.model.Sindico;
+import com.condominio.modules.sindico.repository.SindicoRepository;
 import com.condominio.modules.unidade.model.Unidade;
 import com.condominio.modules.unidade.repository.UnidadeRepository;
 import com.condominio.modules.usuario.model.TipoUsuario;
+import com.condominio.modules.usuario.model.Usuario;
+import com.condominio.modules.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -20,9 +27,22 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private PorteiroRepository porteiroRepository;
 
+    @Autowired
+    private SindicoRepository sindicoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         System.out.println("Iniciando o Data Seeder... Verificando o banco de dados...");
+
+        // --- CORRIGE SENHAS QUE ESTÃO EM TEXTO PURO (SEM BCRYPT) ---
+        corrigirSenhasEmTextoPuro();
 
         if (unidadeRepository.count() == 0) {
             System.out.println("Criando unidades padrão...");
@@ -52,7 +72,7 @@ public class DataSeeder implements CommandLineRunner {
             porteiro1.setNome("Leanderson");
             porteiro1.setCpf("12345678901");
             porteiro1.setEmail("leanderson.porteirogames@email.com");
-            porteiro1.setSenhaHash("EuSouOPorteiro123");
+            porteiro1.setSenhaHash(passwordEncoder.encode("EuSouOPorteiro123"));
             porteiro1.setDataNascimento(java.time.LocalDate.of(1976, 5, 25));
             porteiro1.setTipoUsuario(TipoUsuario.PORTEIRO);
             porteiro1.setDataEntrada(java.time.LocalDate.now());
@@ -62,7 +82,7 @@ public class DataSeeder implements CommandLineRunner {
             porteiro2.setNome("Francisco");
             porteiro2.setCpf("98765432109");
             porteiro2.setEmail("franciscolimpalobbyportaria123@email.com");
-            porteiro2.setSenhaHash("PorteiroFranciscoLegal123");
+            porteiro2.setSenhaHash(passwordEncoder.encode("PorteiroFranciscoLegal123"));
             porteiro2.setDataNascimento(java.time.LocalDate.of(1981, 6, 27));
             porteiro2.setTipoUsuario(TipoUsuario.PORTEIRO);
             porteiro2.setDataEntrada(java.time.LocalDate.now());
@@ -71,6 +91,70 @@ public class DataSeeder implements CommandLineRunner {
             porteiroRepository.saveAll(Arrays.asList(porteiro1, porteiro2));
         }
 
+        // --- CRIA O SÍNDICO PADRÃO ---
+        if (sindicoRepository.count() == 0) {
+            System.out.println("Criando síndico padrão...");
+
+            Usuario usuarioSindico = usuarioRepository.findByEmail("sindico@condominio.com").orElse(null);
+
+            if (usuarioSindico == null) {
+                usuarioSindico = usuarioRepository.findByEmail("sergio.augusto123@condominio.com").orElse(null);
+            }
+
+            if (usuarioSindico == null) {
+                usuarioSindico = new Usuario();
+
+                usuarioSindico.setNome("Administrador Síndico");
+                usuarioSindico.setCpf("00011122233");
+                usuarioSindico.setEmail("sindico@condominio.com");
+                usuarioSindico.setSenhaHash(passwordEncoder.encode("Sindico123"));
+                usuarioSindico.setDataNascimento(java.time.LocalDate.of(1990, 1, 15));
+                usuarioSindico.setTipoUsuario(TipoUsuario.SINDICO);
+                usuarioRepository.save(usuarioSindico);
+            }
+
+            else {
+                if (usuarioSindico.getTipoUsuario() != TipoUsuario.SINDICO) {
+                    usuarioSindico.setTipoUsuario(TipoUsuario.SINDICO);
+                    usuarioRepository.save(usuarioSindico);
+                }
+            }
+
+            Sindico sindico = new Sindico();
+            sindico.setUsuario(usuarioSindico);
+            sindico.setDataInicioMandato(java.time.LocalDate.now());
+            sindico.setStatus("ATIVO");
+            sindicoRepository.save(sindico);
+        }
+
         System.out.println("Banco de dados populado e pronto para uso!");
+    }
+
+    /**
+     * Verifica todos os usuários no banco de dados.
+     * Se a senha NÃO começa com "$2a$", significa que está em texto puro.
+     */
+    private void corrigirSenhasEmTextoPuro() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        int corrigidos = 0;
+
+        for (Usuario usuario : usuarios) {
+            String senhaAtual = usuario.getPassword();
+
+            if (senhaAtual != null && !senhaAtual.startsWith("$2a$")) {
+                usuario.setSenhaHash(passwordEncoder.encode(senhaAtual));
+                usuarioRepository.save(usuario);
+                corrigidos++;
+                System.out.println("Senha corrigida para: " + usuario.getEmail());
+            }
+        }
+
+        if (corrigidos > 0) {
+            System.out.println(corrigidos + " senha(s) em texto puro foram criptografadas com BCrypt.");
+        }
+
+        else {
+            System.out.println("Todas as senhas já estão criptografadas.");
+        }
     }
 }

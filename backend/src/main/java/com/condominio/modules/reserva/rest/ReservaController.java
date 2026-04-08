@@ -1,6 +1,7 @@
 package com.condominio.modules.reserva.rest;
 
 import com.condominio.modules.morador.model.Morador;
+import com.condominio.modules.usuario.model.Usuario;
 
 import com.condominio.modules.reserva.dto.ReservaRequestDTO;
 import com.condominio.modules.reserva.dto.ReservaResponseDTO;
@@ -25,12 +26,21 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
+    // --- EXTRAI O MORADOR LOGADO COM VALIDAÇÃO DE TIPO ---
+    private Morador extrairMorador(Usuario usuario) {
+        if (!(usuario instanceof Morador)) {
+            throw new RuntimeException("Apenas moradores podem acessar o módulo de reservas.");
+        }
+        return (Morador) usuario;
+    }
+
     // --- ROTA POST PARA DEVOLVER O DTO ---
     @PostMapping
     public ResponseEntity<ReservaResponseDTO> reservar(
             @RequestBody @Valid ReservaRequestDTO dto,
-            @AuthenticationPrincipal Morador moradorLogado) {
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
+        Morador moradorLogado = extrairMorador(usuarioLogado);
         ReservaResponseDTO response = reservaService.reservar(dto, moradorLogado);
         return ResponseEntity.ok(response);
     }
@@ -38,18 +48,20 @@ public class ReservaController {
     // --- ROTA GET PARA O REACT BUSCAR O HISTÓRICO ---
     @GetMapping("/minhas-reservas")
     public ResponseEntity<List<ReservaResponseDTO>> listarMinhasReservas(
-            @AuthenticationPrincipal Morador moradorLogado) {
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
-        List<ReservaResponseDTO> histórico = reservaService.buscarPorMorador(moradorLogado.getId());
-        return ResponseEntity.ok(histórico);
+        Morador moradorLogado = extrairMorador(usuarioLogado);
+        List<ReservaResponseDTO> historico = reservaService.buscarPorMorador(moradorLogado.getId());
+        return ResponseEntity.ok(historico);
     }
 
-    // --- ROTA DE CANCELAR CONTINUA IGUAL ---
+    // --- ROTA DE CANCELAR ---
     @PutMapping("/{id}/cancelar")
     public ResponseEntity<Void> cancelar(
             @PathVariable Long id,
-            @AuthenticationPrincipal Morador moradorLogado) {
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
+        Morador moradorLogado = extrairMorador(usuarioLogado);
         reservaService.cancelar(id, moradorLogado.getId());
         return ResponseEntity.noContent().build();
     }
