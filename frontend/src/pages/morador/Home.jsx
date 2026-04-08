@@ -109,7 +109,21 @@ function Home() {
 
                                 <hr className="dropdown-divisor" />
 
-                                <button onClick={handleLogout} className="dropdown-item sair" style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", width: "100%", fontSize: "inherit", color: "inherit", padding: "8px 12px" }}>
+                                <button 
+                                    onClick={handleLogout} 
+                                    className="dropdown-item sair" 
+                                    style={{ 
+                                        background: "none", 
+                                        border: "none", 
+                                        cursor: "pointer", 
+                                        display: "flex", 
+                                        alignItems: "center", 
+                                        gap: "8px", 
+                                        width: "100%", 
+                                        fontSize: "inherit", 
+                                        color: "inherit", 
+                                        padding: "8px 12px" 
+                                    }}>
                                     <FiLogOut className="dropdown-icon" /> Sair
                                 </button>
                             </div>

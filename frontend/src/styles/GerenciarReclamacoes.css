@@ -1,7 +1,7 @@
 /* --- CONTAINER PRINCIPAL --- */
 .tela-gerenciar-reclamacoes {
     min-height: 100vh;
-    background-color: #1e1e24; /* Mantendo o padrão de tema escuro */
+    background-color: #1e1e24; 
     color: #f5f5f7;
     font-family: 'Inter', Arial, sans-serif;
 }
@@ -38,14 +38,12 @@
     color: #1e1e24;
 }
 
-/* --- CONTEÚDO PRINCIPAL --- */
 .conteudo-reclamacoes {
     padding: 30px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- PAINEL DE RESUMO (CARDS NO TOPO) --- */
 .painel-resumo {
     display: flex;
     gap: 20px;
@@ -56,7 +54,7 @@
 .cartao-resumo {
     flex: 1;
     min-width: 200px;
-    background-color: #2a2a35; /* Fundo dos cartões um pouco mais claro que o fundo geral */
+    background-color: #2a2a35; 
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -177,7 +175,7 @@
     border: 1px solid rgba(243, 156, 18, 0.3);
 }
 
-.status-em_analise, .status-em.analise /* Prevenindo formatação estranha do replace */ {
+.status-em_analise, .status-em.analise {
     background-color: rgba(52, 152, 219, 0.15);
     color: #3498db;
     border: 1px solid rgba(52, 152, 219, 0.3);
@@ -195,7 +193,7 @@
     color: #d1d5db;
     line-height: 1.5;
     margin-bottom: 20px;
-    flex-grow: 1; /* Faz o rodapé ficar sempre embaixo, mesmo com textos curtos */
+    flex-grow: 1; 
 }
 
 .rodape-reclamacao {
@@ -220,7 +218,6 @@
     text-align: right;
 }
 
-/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .painel-resumo {
         flex-direction: column;

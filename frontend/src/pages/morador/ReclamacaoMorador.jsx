@@ -79,19 +79,41 @@ function ReclamacaoMorador() {
 
     function getIconeStatus(status) {
         switch (status) {
-            case "PENDENTE": return <FiClock className="status-icon pendente" />;
-            case "EM_ANALISE": return <FiAlertCircle className="status-icon em-analise" />;
-            case "RESOLVIDA": return <FiCheckCircle className="status-icon resolvida" />;
-            default: return <FiClock className="status-icon" />;
+            case "PENDENTE": {
+                return <FiClock className="status-icon pendente" />;
+            }
+
+            case "EM_ANALISE": {
+                return <FiAlertCircle className="status-icon em-analise" />;
+            }
+
+            case "RESOLVIDA": {
+                return <FiCheckCircle className="status-icon resolvida" />;
+            }
+
+            default: {
+                return <FiClock className="status-icon" />;
+            }
         }
     }
 
     function formatarStatus(status) {
         switch (status) {
-            case "PENDENTE": return "Pendente";
-            case "EM_ANALISE": return "Em Análise";
-            case "RESOLVIDA": return "Resolvida";
-            default: return status;
+            case "PENDENTE": {
+                return "Pendente";
+            }
+
+            case "EM_ANALISE": {
+                return "Em Análise";
+            }
+
+            case "RESOLVIDA": {
+                return "Resolvida";
+            }
+
+            default: {
+                return status;
+            }
         }
     }
 
@@ -116,18 +138,22 @@ function ReclamacaoMorador() {
 
             alert("Reclamação enviada com sucesso para o Síndico!");
 
-            // Adiciona a nova reclamação ao histórico local
+            // --- ADICIONA A NOVA RECLAMAÇÃO AO HISTÓRICO LOCAL ---
             setMinhasReclamacoes([response.data, ...minhasReclamacoes]);
 
             setTipo("");
             setCategoria("");
             setDescricao("");
             setUnidadeInfrator("");
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.error("Erro ao enviar reclamação:", error);
             const msg = error.response?.data?.erros?.join(", ") || "Erro ao enviar reclamação. Verifique os dados e tente novamente.";
             alert(msg);
-        } finally {
+        } 
+        
+        finally {
             setEnviando(false);
         }
     }
@@ -152,7 +178,7 @@ function ReclamacaoMorador() {
                     </button>
                 </div>
 
-                {/* FORMULÁRIO DE NOVA RECLAMAÇÃO */}
+                {/* --- FORMULÁRIO DE NOVA RECLAMAÇÃO --- */}
                 <div className="cartao-formulario">
                     <h3>Registrar Nova Reclamação</h3>
                     <p>Selecione abaixo sobre o que você deseja relatar.</p>
@@ -222,7 +248,7 @@ function ReclamacaoMorador() {
                     </form>
                 </div>
 
-                {/* HISTÓRICO DE RECLAMAÇÕES */}
+                {/* --- HISTÓRICO DE RECLAMAÇÕES --- */}
                 <div className="secao-historico">
                     <h3>Minhas Reclamações</h3>
                     {minhasReclamacoes.length === 0 ? (
@@ -243,6 +269,7 @@ function ReclamacaoMorador() {
                                             {formatarStatus(rec.status)}
                                         </span>
                                     </div>
+                                    
                                     <div className="card-body">
                                         <p><strong>Tipo:</strong> {rec.tipo === "condominio" ? "Problema no Condomínio" : "Problema com Morador"}</p>
                                         <p><strong>Descrição:</strong> {rec.descricao}</p>

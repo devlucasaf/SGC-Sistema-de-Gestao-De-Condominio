@@ -33,11 +33,10 @@ function Entregas() {
     useEffect(() => {
         async function buscarEntregas() {
             try {
-                // --- Busca o perfil salvo no login para pegar o ID da unidade ---
                 const perfil = JSON.parse(localStorage.getItem("perfilUsuario"));
+                
                 if (perfil && perfil.idUnidade) {
                     const response = await api.get(`/encomendas/unidade/${perfil.idUnidade}`);
-                    // --- O backend retorna paginado: { conteudo: [...] } ---
                     const lista = response.data.conteudo || response.data;
                     const entregasMapeadas = (Array.isArray(lista) ? lista : []).map((e) => ({
                         id: e.id,
@@ -50,9 +49,13 @@ function Entregas() {
                     }));
                     setEntregas(entregasMapeadas);
                 }
-            } catch (error) {
+            } 
+            
+            catch (error) {
                 console.error("Erro ao buscar entregas:", error);
-            } finally {
+            } 
+            
+            finally {
                 setCarregando(false);
             }
         }

@@ -13,8 +13,6 @@ function GerenciarReclamacoes() {
     async function buscarReclamacoes() {
         try {
             const response = await api.get("/api/reclamacoes");
-
-            // --- O backend retorna paginado: { conteudo: [...], pagina, tamanho... } ---
             setReclamacoes(response.data.conteudo || []);
         }
 
@@ -37,7 +35,9 @@ function GerenciarReclamacoes() {
             await api.patch(`/api/reclamacoes/${id}/status?novoStatus=${novoStatus}`);
             alert(`Status atualizado para ${novoStatus.replace("_", " ")}!`);
             buscarReclamacoes();
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.error("Erro ao atualizar status:", error);
             alert("Erro ao atualizar o status da reclamação.");
         }
@@ -62,8 +62,9 @@ function GerenciarReclamacoes() {
                 <h2>Gerenciamento de Reclamações</h2>
                 <div style={{ display: "flex", gap: "10px" }}>
                     <button className="btn-voltar-sindico" onClick={() => navigate("/redefinir-senha")}>
-                        🔑 Redefinir Senha
+                        Redefinir Senha
                     </button>
+                    
                     <button className="btn-voltar-sindico" onClick={() => navigate("/home")}>
                         ⬅ Voltar para Home
                     </button>
@@ -78,10 +79,12 @@ function GerenciarReclamacoes() {
                         <h3>Pendentes</h3>
                         <p>{totalPendentes}</p>
                     </div>
+
                     <div className="cartao-resumo analise">
                         <h3>Em Análise</h3>
                         <p>{totalEmAnalise}</p>
                     </div>
+
                     <div className="cartao-resumo resolvida">
                         <h3>Resolvidas</h3>
                         <p>{totalResolvidas}</p>
@@ -123,7 +126,15 @@ function GerenciarReclamacoes() {
                                                     <button
                                                         className="btn-status-analise"
                                                         onClick={() => alterarStatus(reclamacao.id, "EM_ANALISE")}
-                                                        style={{ padding: "6px 12px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: "#f39c12", color: "white", fontWeight: "bold" }}
+                                                        style={{ 
+                                                            padding: "6px 12px", 
+                                                            borderRadius: "6px", 
+                                                            border: "none", 
+                                                            cursor: "pointer", 
+                                                            backgroundColor: "#f39c12", 
+                                                            color: "white", 
+                                                            fontWeight: "bold" 
+                                                        }}
                                                     >
                                                         Mover para Análise
                                                     </button>
@@ -131,7 +142,15 @@ function GerenciarReclamacoes() {
                                                 <button
                                                     className="btn-status-resolvida"
                                                     onClick={() => alterarStatus(reclamacao.id, "RESOLVIDA")}
-                                                    style={{ padding: "6px 12px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: "#2ecc71", color: "white", fontWeight: "bold" }}
+                                                    style={{ 
+                                                        padding: "6px 12px", 
+                                                        borderRadius: "6px", 
+                                                        border: "none", 
+                                                        cursor: "pointer", 
+                                                        backgroundColor: "#2ecc71", 
+                                                        color: "white", 
+                                                        fontWeight: "bold" 
+                                                    }}
                                                 >
                                                     Marcar como Resolvida
                                                 </button>

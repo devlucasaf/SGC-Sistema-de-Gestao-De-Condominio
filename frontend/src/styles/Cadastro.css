@@ -1,4 +1,3 @@
-/* ===== CAIXA DE CADASTRO ===== */
 .caixa-cadastro {
     background-color: inherit;
     padding: 40px;
@@ -18,7 +17,6 @@
     margin-bottom: 10px;
 }
 
-/* ===== INPUTS E SELECT ===== */
 .caixa-cadastro input,
 .caixa-cadastro select {
     padding: 12px;
@@ -41,7 +39,6 @@
     background-color: #ffffff;
 }
 
-/* ===== BOTÃO CADASTRAR ===== */
 .btn-cadastrar {
     padding: 14px;
     background-color: #2ecc71;
@@ -59,7 +56,6 @@
     background-color: #27ae60;
 }
 
-/* ===== LINK VOLTAR ===== */
 .link-voltar {
     text-align: center;
     margin-top: 10px;

@@ -12,7 +12,7 @@ function RedefinirSenha() {
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [enviando, setEnviando] = useState(false);
     const [mensagem, setMensagem] = useState("");
-    const [tipoMensagem, setTipoMensagem] = useState(""); // "sucesso" ou "erro"
+    const [tipoMensagem, setTipoMensagem] = useState(""); 
 
     const navigate = useNavigate();
 
@@ -88,6 +88,7 @@ function RedefinirSenha() {
                 <div className="navbar-logo">
                     <h2><FiLock style={{ marginRight: "8px" }} /> Redefinir Senha</h2>
                 </div>
+
                 <div className="perfil-container">
                     <button className="btn-tema" onClick={alternarTema} aria-label="Alternar Tema">
                         {isDarkMode ? <FiSun /> : <FiMoon />}
@@ -189,4 +190,3 @@ function RedefinirSenha() {
 }
 
 export default RedefinirSenha;
-

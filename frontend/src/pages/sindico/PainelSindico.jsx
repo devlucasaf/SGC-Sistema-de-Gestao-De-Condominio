@@ -14,12 +14,12 @@ function PainelSindico() {
     const [avisos, setAvisos] = useState([]);
     const [carregando, setCarregando] = useState(true);
 
-    // --- AVISO (formulário) ---
+    // --- AVISO ---
     const [tituloAviso, setTituloAviso] = useState("");
     const [mensagemAviso, setMensagemAviso] = useState("");
     const [enviandoAviso, setEnviandoAviso] = useState(false);
 
-    // --- UNIDADE (formulário) ---
+    // --- UNIDADE ---
     const [blocoNovo, setBlocoNovo] = useState("");
     const [andarNovo, setAndarNovo] = useState("");
     const [aptoNovo, setAptoNovo] = useState("");
@@ -44,9 +44,13 @@ function PainelSindico() {
             setUnidades(resUnidades.data || []);
             setReclamacoes(resReclamacoes.data.conteudo || resReclamacoes.data || []);
             setAvisos(resAvisos.data || []);
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao carregar dados:", err);
-        } finally {
+        } 
+        
+        finally {
             setCarregando(false);
         }
     }
@@ -54,8 +58,11 @@ function PainelSindico() {
     // --- AVISOS ---
     async function publicarAviso(e) {
         e.preventDefault();
-        if (!tituloAviso.trim() || !mensagemAviso.trim()) return;
+        if (!tituloAviso.trim() || !mensagemAviso.trim()) {
+            return;
+        }
         setEnviandoAviso(true);
+        
         try {
             await api.post("/avisos", {
                 titulo: tituloAviso,
@@ -137,7 +144,9 @@ function PainelSindico() {
 
     // --- HELPERS ---
     function formatarData(dataString) {
-        if (!dataString) return "—";
+        if (!dataString) {
+            return "—";
+        }
         const d = new Date(dataString);
         return d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
     }
@@ -146,23 +155,64 @@ function PainelSindico() {
     const totalEmAnalise = reclamacoes.filter(r => r.status === "EM_ANALISE").length;
     const totalResolvidas = reclamacoes.filter(r => r.status === "RESOLVIDA").length;
 
-    // ===================== RENDER =====================
     return (
         <div className="painel-sindico">
             {/* --- SIDEBAR --- */}
             <aside className="sidebar-sindico">
                 <div className="sidebar-logo">
-                    <h2>🏢 SGC Condomínio</h2>
+                    <h2>SGC Condomínio</h2>
                     <span>Painel do Síndico</span>
                 </div>
 
                 <ul className="sidebar-menu">
-                    <li><button className={abaAtiva === "dashboard" ? "ativo" : ""} onClick={() => setAbaAtiva("dashboard")}>Dashboard</button></li>
-                    <li><button className={abaAtiva === "moradores" ? "ativo" : ""} onClick={() => setAbaAtiva("moradores")}>Moradores</button></li>
-                    <li><button className={abaAtiva === "unidades" ? "ativo" : ""} onClick={() => setAbaAtiva("unidades")}>Unidades</button></li>
-                    <li><button className={abaAtiva === "reclamacoes" ? "ativo" : ""} onClick={() => setAbaAtiva("reclamacoes")}>Reclamações</button></li>
-                    <li><button className={abaAtiva === "avisos" ? "ativo" : ""} onClick={() => setAbaAtiva("avisos")}>Mural de Avisos</button></li>
-                    <li><button className={abaAtiva === "senha" ? "ativo" : ""} onClick={() => setAbaAtiva("senha")}>Redefinir Senhas</button></li>
+                    <li>
+                        <button 
+                            className={abaAtiva === "dashboard" ? "ativo" : ""} 
+                            onClick={() => setAbaAtiva("dashboard")}
+                            >
+                                Dashboard
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={abaAtiva === "moradores" ? "ativo" : ""} 
+                            onClick={() => setAbaAtiva("moradores")}
+                            >
+                                Moradores
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={abaAtiva === "unidades" ? "ativo" : ""} 
+                            onClick={() => setAbaAtiva("unidades")}
+                            >
+                                Unidades
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={abaAtiva === "reclamacoes" ? "ativo" : ""} 
+                            onClick={() => setAbaAtiva("reclamacoes")}
+                            >
+                                Reclamações
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={abaAtiva === "avisos" ? "ativo" : ""} 
+                            onClick={() => setAbaAtiva("avisos")}
+                            >
+                                Mural de Avisos
+                        </button>
+                    </li>
+                    <li>
+                        <button 
+                            className={abaAtiva === "senha" ? "ativo" : ""} 
+                            onClick={() => setAbaAtiva("senha")}
+                            >
+                                Redefinir Senhas
+                        </button>
+                    </li>
                 </ul>
 
                 <div className="sidebar-logout">
@@ -202,8 +252,6 @@ function PainelSindico() {
         </div>
     );
 
-    // ===================== ABAS =====================
-
     function renderDashboard() {
         return (
             <>
@@ -212,14 +260,17 @@ function PainelSindico() {
                         <h3>Total de Moradores</h3>
                         <div className="valor">{moradores.length}</div>
                     </div>
+
                     <div className="dashboard-card azul">
                         <h3>Unidades Cadastradas</h3>
                         <div className="valor">{unidades.length}</div>
                     </div>
+
                     <div className="dashboard-card amarelo">
                         <h3>Reclamações Pendentes</h3>
                         <div className="valor">{totalPendentes}</div>
                     </div>
+
                     <div className="dashboard-card vermelho">
                         <h3>Em Análise</h3>
                         <div className="valor">{totalEmAnalise}</div>
@@ -235,6 +286,7 @@ function PainelSindico() {
                             <div className="card-aviso" key={a.id}>
                                 <h4>{a.titulo}</h4>
                                 <p>{a.mensagem}</p>
+
                                 <div className="meta-aviso">
                                     <span>{formatarData(a.dataCriacao)}</span>
                                     <span>{a.nomeSindico}</span>
@@ -262,6 +314,7 @@ function PainelSindico() {
                         <th>Tipo</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {moradores.map(m => (
                         <tr key={m.id}>
@@ -355,17 +408,32 @@ function PainelSindico() {
                 <tbody>
                     {reclamacoes.map(r => (
                         <tr key={r.id}>
-                            <td>{r.categoria}</td>
-                            <td style={{ maxWidth: "300px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            <td>
+                                {r.categoria}
+                            </td>
+
+                            <td 
+                                style={{ 
+                                    maxWidth: "300px", 
+                                    overflow: "hidden", 
+                                    textOverflow: "ellipsis", 
+                                    whiteSpace: "nowrap" 
+                                }}>
                                 {r.descricao}
                             </td>
-                            <td>{r.unidade || "—"}</td>
+
+                            <td>
+                                {r.unidade || "—"}
+                            </td>
+
                             <td>
                                 <span className={`badge ${r.status === "PENDENTE" ? "badge-amarelo" : r.status === "EM_ANALISE" ? "badge-azul" : "badge-verde"}`}>
                                     {r.status.replace("_", " ")}
                                 </span>
                             </td>
+
                             <td style={{ fontSize: "0.85rem" }}>{formatarData(r.dataCriacao)}</td>
+
                             <td>
                                 {r.status !== "RESOLVIDA" && (
                                     <div style={{ display: "flex", gap: "6px" }}>
@@ -398,12 +466,14 @@ function PainelSindico() {
                         onChange={(e) => setTituloAviso(e.target.value)}
                         required
                     />
+
                     <textarea
                         placeholder="Escreva a mensagem do aviso para os moradores..."
                         value={mensagemAviso}
                         onChange={(e) => setMensagemAviso(e.target.value)}
                         required
                     />
+
                     <button type="submit" className="btn-publicar" disabled={enviandoAviso}>
                         {enviandoAviso ? "Publicando..." : "📢 Publicar Aviso"}
                     </button>
@@ -437,7 +507,6 @@ function PainelSindico() {
     }
 }
 
-// ===== COMPONENTE INLINE PARA REDEFINIR SENHA =====
 function RedefinirSenhaInline() {
     const [email, setEmail] = useState("");
     const [novaSenha, setNovaSenha] = useState("");
@@ -449,17 +518,30 @@ function RedefinirSenhaInline() {
     async function handleRedefinir(e) {
         e.preventDefault();
         setMsg("");
-        if (novaSenha !== confirmar) { setMsg("As senhas não coincidem!"); setTipoMsg("erro"); return; }
-        if (novaSenha.length < 6) { setMsg("Mínimo de 6 caracteres."); setTipoMsg("erro"); return; }
+        if (novaSenha !== confirmar) { 
+            setMsg("As senhas não coincidem!"); 
+            setTipoMsg("erro"); 
+            return; 
+        }
+
+        if (novaSenha.length < 6) { 
+            setMsg("Mínimo de 6 caracteres."); 
+            setTipoMsg("erro"); 
+            return; 
+        }
 
         setEnviando(true);
         try {
             const res = await api.patch("/admin/usuarios/redefinir-senha", { email, novaSenha });
             setMsg(res.data.mensagem); setTipoMsg("ok");
             setEmail(""); setNovaSenha(""); setConfirmar("");
-        } catch (err) {
+        } 
+        
+        catch (err) {
             setMsg(err.response?.data?.messages?.[0] || "Erro ao redefinir senha."); setTipoMsg("erro");
-        } finally {
+        } 
+        
+        finally {
             setEnviando(false);
         }
     }
@@ -468,20 +550,42 @@ function RedefinirSenhaInline() {
         <form className="form-aviso" onSubmit={handleRedefinir} style={{ maxWidth: "500px" }}>
             <h3 style={{ margin: 0, color: "#2ecc71" }}>Redefinir Senha de Usuário</h3>
             <p style={{ margin: 0, color: "#888", fontSize: "0.9rem" }}>Informe o e-mail do morador/porteiro e defina uma nova senha.</p>
-            <input type="email" placeholder="E-mail do usuário" value={email} onChange={e => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Nova senha (mín. 6 caracteres)" value={novaSenha} onChange={e => setNovaSenha(e.target.value)} required />
-            <input type="password" placeholder="Confirmar nova senha" value={confirmar} onChange={e => setConfirmar(e.target.value)} required />
+            
+            <input 
+                type="email" 
+                placeholder="E-mail do usuário" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                required 
+            />
+            <input 
+                type="password" 
+                placeholder="Nova senha (mín. 6 caracteres)" 
+                value={novaSenha} 
+                onChange={e => setNovaSenha(e.target.value)} 
+                required 
+            />
+            <input 
+                type="password" 
+                placeholder="Confirmar nova senha" 
+                value={confirmar} 
+                onChange={e => setConfirmar(e.target.value)} 
+                required 
+            />
 
             {msg && (
                 <p style={{
-                    padding: "10px", borderRadius: "8px", fontWeight: "bold", textAlign: "center",
+                    padding: "10px", 
+                    borderRadius: "8px", 
+                    fontWeight: "bold", 
+                    textAlign: "center",
                     backgroundColor: tipoMsg === "ok" ? "rgba(46,204,113,0.15)" : "rgba(231,76,60,0.15)",
                     color: tipoMsg === "ok" ? "#2ecc71" : "#e74c3c"
                 }}>{msg}</p>
             )}
 
             <button type="submit" className="btn-publicar" disabled={enviando}>
-                {enviando ? "Redefinindo..." : "🔑 Redefinir Senha"}
+                {enviando ? "Redefinindo..." : "Redefinir Senha"}
             </button>
         </form>
     );

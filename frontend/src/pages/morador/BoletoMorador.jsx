@@ -21,7 +21,9 @@ function BoletoMorador() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        } 
+        
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -47,9 +49,13 @@ function BoletoMorador() {
                     }));
                     setBoletos(boletosMapeados);
                 }
-            } catch (error) {
+            } 
+            
+            catch (error) {
                 console.error("Erro ao buscar boletos:", error);
-            } finally {
+            } 
+            
+            finally {
                 setCarregando(false);
             }
         }

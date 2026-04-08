@@ -100,15 +100,25 @@ function AlterarSenha() {
                             value={senhaAtual}
                             onChange={(e) => setSenhaAtual(e.target.value)}
                             required
-                            style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                            style={{ 
+                                width: "100%", 
+                                paddingRight: "45px", 
+                                boxSizing: "border-box" 
+                            }}
                         />
                         <button
                             type="button"
                             onClick={() => setMostrarSenhaAtual(!mostrarSenhaAtual)}
                             style={{
-                                position: "absolute", right: "10px", top: "50%",
-                                transform: "translateY(-50%)", background: "none",
-                                border: "none", cursor: "pointer", color: "inherit", padding: "4px",
+                                position: "absolute", 
+                                right: "10px", 
+                                top: "50%",
+                                transform: "translateY(-50%)", 
+                                background: "none",
+                                border: "none", 
+                                cursor: "pointer", 
+                                color: "inherit", 
+                                padding: "4px",
                             }}
                             aria-label={mostrarSenhaAtual ? "Ocultar" : "Mostrar"}
                         >
@@ -124,15 +134,25 @@ function AlterarSenha() {
                             value={novaSenha}
                             onChange={(e) => setNovaSenha(e.target.value)}
                             required
-                            style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                            style={{ 
+                                width: "100%", 
+                                paddingRight: "45px", 
+                                boxSizing: "border-box" 
+                            }}
                         />
                         <button
                             type="button"
                             onClick={() => setMostrarNovaSenha(!mostrarNovaSenha)}
                             style={{
-                                position: "absolute", right: "10px", top: "50%",
-                                transform: "translateY(-50%)", background: "none",
-                                border: "none", cursor: "pointer", color: "inherit", padding: "4px",
+                                position: "absolute", 
+                                right: "10px", 
+                                top: "50%",
+                                transform: "translateY(-50%)", 
+                                background: "none",
+                                border: "none", 
+                                cursor: "pointer", 
+                                color: "inherit", 
+                                padding: "4px",
                             }}
                             aria-label={mostrarNovaSenha ? "Ocultar" : "Mostrar"}
                         >
@@ -168,7 +188,11 @@ function AlterarSenha() {
                         <p>
                             <span
                                 onClick={() => navigate(-1)}
-                                style={{ color: "#2ecc71", fontWeight: "bold", cursor: "pointer" }}
+                                style={{ 
+                                    color: "#2ecc71", 
+                                    fontWeight: "bold", 
+                                    cursor: "pointer" 
+                                }}
                             >
                                 ← Voltar
                             </span>

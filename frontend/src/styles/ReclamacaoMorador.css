@@ -1,10 +1,3 @@
-/* ==========================================
-   ReclamacaoMorador.css
-   Usa variáveis globais do tema (App.css)
-   e reutiliza classes de Entregas.css
-   ========================================== */
-
-/* --- CARTÃO DO FORMULÁRIO --- */
 .cartao-formulario {
     background-color: var(--bg-secondary);
     padding: 40px;
@@ -162,9 +155,17 @@
     margin-right: 4px;
 }
 
-.status-icon.pendente { color: var(--accent-orange); }
-.status-icon.em-analise { color: var(--accent-blue); }
-.status-icon.resolvida { color: var(--primary-green); }
+.status-icon.pendente { 
+    color: var(--accent-orange); 
+}
+
+.status-icon.em-analise { 
+    color: var(--accent-blue); 
+}
+
+.status-icon.resolvida { 
+    color: var(--primary-green); 
+}
 
 /* --- BADGE EXTRAS --- */
 .badge-info {
@@ -187,6 +188,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+    
     to {
         opacity: 1;
         transform: translateY(0);

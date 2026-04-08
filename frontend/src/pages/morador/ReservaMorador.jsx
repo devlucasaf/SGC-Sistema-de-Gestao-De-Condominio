@@ -23,7 +23,9 @@ function ReservaMorador() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        } 
+        
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -176,7 +178,7 @@ function ReservaMorador() {
                     ))}
                 </div>
 
-                {/* NOVO: SEÇÃO DE HISTÓRICO */}
+                {/* --- NOVO: SEÇÃO DE HISTÓRICO --- */}
                 <div className="secao-historico" style={{ marginTop: '40px' }}>
                     <h3>Histórico de Reservas</h3>
                     {carregandoHistorico ? (

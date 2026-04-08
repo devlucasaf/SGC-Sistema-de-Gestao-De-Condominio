@@ -48,7 +48,7 @@ function CadastroUnidade() {
         <div className={`tela-cadastro-unidade ${isDarkMode ? 'tema-escuro' : 'tema-claro'}`}>
 
             <button className="btn-tema" onClick={alternarTema}>
-                {isDarkMode ? '☀️ Modo Claro' : '🌙 Modo Escuro'}
+                {isDarkMode ? '☀️' : '🌙'}
             </button>
 
             <form className="caixa-unidade" onSubmit={handleCadastro}>

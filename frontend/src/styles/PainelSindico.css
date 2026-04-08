@@ -1,4 +1,3 @@
-/* ===== LAYOUT DO PAINEL DO SÍNDICO ===== */
 .painel-sindico {
     display: flex;
     min-height: 100vh;
@@ -7,7 +6,6 @@
     font-family: 'Inter', Arial, sans-serif;
 }
 
-/* ===== SIDEBAR (MENU LATERAL) ===== */
 .sidebar-sindico {
     width: 260px;
     background-color: #16161b;
@@ -98,7 +96,6 @@
     color: white;
 }
 
-/* ===== CONTEÚDO PRINCIPAL ===== */
 .conteudo-sindico {
     flex: 1;
     display: flex;
@@ -106,7 +103,6 @@
     overflow-y: auto;
 }
 
-/* ===== HEADER DO CONTEÚDO ===== */
 .header-sindico {
     display: flex;
     justify-content: space-between;
@@ -122,13 +118,11 @@
     color: #f5f5f7;
 }
 
-/* ===== CORPO DO CONTEÚDO ===== */
 .corpo-sindico {
     padding: 30px;
     flex: 1;
 }
 
-/* ===== DASHBOARD — CARDS DE RESUMO ===== */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -158,14 +152,30 @@
     color: #2ecc71;
 }
 
-.dashboard-card.amarelo { border-left-color: #f39c12; }
-.dashboard-card.amarelo .valor { color: #f39c12; }
-.dashboard-card.azul { border-left-color: #3498db; }
-.dashboard-card.azul .valor { color: #3498db; }
-.dashboard-card.vermelho { border-left-color: #e74c3c; }
-.dashboard-card.vermelho .valor { color: #e74c3c; }
+.dashboard-card.amarelo { 
+    border-left-color: #f39c12; 
+}
 
-/* ===== TABELA GENÉRICA ===== */
+.dashboard-card.amarelo .valor { 
+    color: #f39c12; 
+}
+
+.dashboard-card.azul { 
+    border-left-color: #3498db; 
+}
+
+.dashboard-card.azul .valor { 
+    color: #3498db; 
+}
+
+.dashboard-card.vermelho { 
+    border-left-color: #e74c3c; 
+}
+
+.dashboard-card.vermelho .valor { 
+    color: #e74c3c; 
+}
+
 .tabela-sindico {
     width: 100%;
     border-collapse: collapse;
@@ -191,7 +201,6 @@
     background-color: #2a2a35;
 }
 
-/* ===== FORMULÁRIO INLINE (AVISOS) ===== */
 .form-aviso {
     display: flex;
     flex-direction: column;
@@ -248,7 +257,6 @@
     cursor: not-allowed;
 }
 
-/* ===== CARDS DE AVISO ===== */
 .lista-avisos {
     display: flex;
     flex-direction: column;
@@ -299,7 +307,6 @@
     color: white;
 }
 
-/* ===== STATUS BADGES ===== */
 .badge {
     display: inline-block;
     padding: 3px 10px;
@@ -319,14 +326,19 @@
     color: #f39c12;
 }
 
-.badge-azul { background-color: rgba(52,152,219,0.15); color: #3498db; }
-.badge-vermelho { background-color: rgba(231,76,60,0.15); color: #e74c3c; }
+.badge-azul { 
+    background-color: rgba(52,152,219,0.15); 
+    color: #3498db; 
+}
 
-/* ===== MENSAGEM VAZIA ===== */
+.badge-vermelho { 
+    background-color: rgba(231,76,60,0.15);
+    color: #e74c3c; 
+}
+
 .msg-vazia {
     text-align: center;
     padding: 40px;
     color: #777;
     font-size: 1rem;
 }
-
