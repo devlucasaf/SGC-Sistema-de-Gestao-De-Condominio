@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { useToast } from "../../components/Toast";
+import Loading from "../../components/Loading";
 import "../../styles/ReservaMorador.css";
 
-import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiUsers, FiXCircle } from "react-icons/fi";
+import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiXCircle } from "react-icons/fi";
 
 function ReservaMorador() {
-    const [areaSelecionada, setAreaSelecionada] = useState(null); 
+    const [areasDeLazer, setAreasDeLazer] = useState([]);
+    const [carregandoAreas, setCarregandoAreas] = useState(true);
+    const [areaSelecionada, setAreaSelecionada] = useState(null);
     const [dataReserva, setDataReserva] = useState("");
     const [historico, setHistorico] = useState([]);
     const [carregandoHistorico, setCarregandoHistorico] = useState(true);
 
     const navigate = useNavigate();
+    const toast = useToast();
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -31,45 +36,24 @@ function ReservaMorador() {
         }
     }, [isDarkMode]);
 
-    const areasDeLazer = [
-        {
-            id: 1,
-            nome: "Churrasqueira",
-            capacidade: 50,
-            valor: 80
-        },
-        {
-            id: 2,
-            nome: "Salão de Festas",
-            capacidade: 100,
-            valor: 120
-        },
-        {
-            id: 3,
-            nome: "Salão Gourmet",
-            capacidade: 30,
-            valor: 95
-        },
-        {
-            id: 4,
-            nome: "Cinema",
-            capacidade: 15,
-            valor: 70
-        },
-        {
-            id: 5,
-            nome: "Sauna",
-            capacidade: 10,
-            valor: 40
-        },
-        {
-            id: 6,
-            nome: "Hidromassagem",
-            capacidade: 8,
-            valor: 50
+    // --- BUSCA AS ÁREAS DE LAZER DO BACKEND ---
+    useEffect(() => {
+        async function carregarAreas() {
+            try {
+                const response = await api.get("/reservas/areas-lazer");
+                setAreasDeLazer(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar áreas de lazer:", error);
+                toast.erro("Erro ao carregar áreas de lazer.", "Erro");
+            } finally {
+                setCarregandoAreas(false);
+            }
         }
-    ];
 
+        carregarAreas();
+    }, []);
+
+    // --- BUSCA O HISTÓRICO DE RESERVAS ---
     useEffect(() => {
         async function carregarHistorico() {
             try {
@@ -131,13 +115,29 @@ function ReservaMorador() {
 
             setHistorico([novaReservaHistorico, ...historico]);
 
-            alert(`Reserva do ${areaSelecionada.nome} confirmada`);
+            toast.sucesso(`Reserva do ${areaSelecionada.nome} confirmada!`, "Reserva realizada");
             fecharModal();
         }
 
         catch (error) {
-            const mensagemErro = error.response?.data?.message || error.response?.data || "Erro ao realizar reserva";
-            alert(mensagemErro);
+            const mensagemErro = error.response?.data?.messages?.[0]
+                || error.response?.data?.message
+                || error.response?.data
+                || "Erro ao realizar reserva";
+            toast.erro(String(mensagemErro), "Erro na reserva");
+        }
+    }
+
+    async function cancelarReserva(idReserva) {
+        try {
+            await api.put(`/reservas/${idReserva}/cancelar`);
+            setHistorico(historico.map(item =>
+                item.id === idReserva ? { ...item, status: "CANCELADA" } : item
+            ));
+            toast.sucesso("Reserva cancelada com sucesso!", "Cancelada");
+        } catch (error) {
+            const msg = error.response?.data?.messages?.[0] || "Erro ao cancelar reserva.";
+            toast.erro(msg, "Erro");
         }
     }
 
@@ -164,64 +164,72 @@ function ReservaMorador() {
                 </div>
 
                 {/* GRID DE ÁREAS */}
-                <div className="grid-areas">
-                    {areasDeLazer.map((area) => (
-                        <div key={area.id} className="cartao-area">
-                            <div className="icone-area"><FiCalendar /></div>
-                            <h3>{area.nome}</h3>
-                            <p>Máximo: <strong>{area.capacidade} pessoas</strong></p>
-                            <p>Valor: <strong>{area.valor === 0 ? "Gratuito" : `R$ ${area.valor.toFixed(2)}`}</strong></p>
-                            <button className="btn-reservar" onClick={() => abrirModal(area)}>
-                                Escolher Data
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                {carregandoAreas ? (
+                    <Loading mensagem="Carregando áreas de lazer..." />
+                ) : areasDeLazer.length === 0 ? (
+                    <p style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>
+                        Nenhuma área de lazer cadastrada no sistema.
+                    </p>
+                ) : (
+                    <div className="grid-areas">
+                        {areasDeLazer.map((area) => (
+                            <div key={area.id} className="cartao-area">
+                                <div className="icone-area"><FiCalendar /></div>
+                                <h3>{area.nome}</h3>
+                                <p>Máximo: <strong>{area.capacidadeMaxima} pessoas</strong></p>
+                                <p>Valor: <strong>{!area.valor || area.valor === 0 ? "Gratuito" : `R$ ${area.valor.toFixed(2)}`}</strong></p>
+                                <button className="btn-reservar" onClick={() => abrirModal(area)}>
+                                    Escolher Data
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
-                {/* --- NOVO: SEÇÃO DE HISTÓRICO --- */}
+                {/* --- SEÇÃO DE HISTÓRICO --- */}
                 <div className="secao-historico" style={{ marginTop: '40px' }}>
                     <h3>Histórico de Reservas</h3>
                     {carregandoHistorico ? (
-                        <p>Carregando histórico...</p>
+                        <Loading mensagem="Carregando histórico..." />
                     ) : historico.length === 0 ? (
                         <p>Você ainda não possui reservas feitas.</p>
                     ) : (
                         <div className="tabela-container">
-                            <table className="tabela-reservas" style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+                            <table className="tabela-reservas">
                                 <thead>
                                     <tr>
-                                        <th     
-                                            style={{ 
-                                                padding: '10px', 
-                                                borderBottom: '1px solid #ccc' 
-                                            }}>
-                                                Área
-                                        </th>
-                                        <th 
-                                            style={{ 
-                                                padding: '10px', 
-                                                borderBottom: '1px solid #ccc' 
-                                            }}>
-                                                Data
-                                        </th>
-                                        <th 
-                                            style={{ 
-                                                padding: '10px', 
-                                                borderBottom: '1px solid #ccc' 
-                                            }}>
-                                                Status
-                                        </th>
+                                        <th>Área</th>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     {historico.map((item) => (
                                         <tr key={item.id}>
-                                            <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{item.area}</td>
-                                            <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
-                                                {new Date(item.data).toLocaleDateString('pt-BR')}
+                                            <td>{item.area}</td>
+                                            <td>
+                                                {new Date(item.data + "T00:00:00").toLocaleDateString('pt-BR')}
                                             </td>
-                                            <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
-                                                <strong>{item.status}</strong>
+                                            <td>
+                                                <span className={`badge-status ${
+                                                    item.status === "APROVADA" ? "status-aprovada" :
+                                                    item.status === "CANCELADA" ? "status-cancelada" : "status-pendente"
+                                                }`}>
+                                                    {item.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {item.status === "APROVADA" && (
+                                                    <button
+                                                        className="btn-cancelar-reserva"
+                                                        onClick={() => cancelarReserva(item.id)}
+                                                        title="Cancelar reserva"
+                                                    >
+                                                        <FiXCircle /> Cancelar
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}
@@ -246,6 +254,7 @@ function ReservaMorador() {
                                 required 
                                 value={dataReserva}
                                 onChange={(e) => setDataReserva(e.target.value)}
+                                min={new Date().toISOString().split("T")[0]}
                             />
                             
                             {areaSelecionada.valor > 0 && (
