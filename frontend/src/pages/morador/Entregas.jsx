@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import Loading from "../../components/Loading";
 import "../../styles/Entregas.css";
 
 import { FiSun, FiMoon, FiPackage, FiClock, FiUser, FiArrowLeft } from "react-icons/fi";
@@ -96,7 +97,7 @@ function Entregas() {
 
                 <div className="entregas-lista">
                     {carregando ? (
-                        <p style={{ textAlign: "center", padding: "40px" }}>Buscando entregas...</p>
+                        <Loading mensagem="Buscando entregas..." />
                     ) : entregas.length === 0 ? (
                         <p style={{ textAlign: "center", padding: "40px" }}>Nenhuma entrega encontrada para sua unidade.</p>
                     ) : (
@@ -111,6 +112,7 @@ function Entregas() {
                                         {entrega.status}
                                     </span>
                                 </div>
+
                                 <div className="card-body">
                                     <p><FiClock /> <strong>Chegou em:</strong> {entrega.dataChegada}</p>
                                     <p><FiUser /> <strong>Recebido por:</strong> {entrega.recebedor}</p>

@@ -342,3 +342,89 @@
     color: #777;
     font-size: 1rem;
 }
+
+@media (max-width: 768px) {
+    .painel-sindico {
+        flex-direction: column;
+    }
+
+    .sidebar-sindico {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #2a2a35;
+    }
+
+    .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 8px;
+    }
+
+    .sidebar-menu li {
+        margin: 0;
+        flex: 1 1 auto;
+    }
+
+    .sidebar-menu button {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .sidebar-logo {
+        padding: 14px 16px;
+    }
+
+    .sidebar-logout {
+        padding: 8px;
+    }
+
+    .header-sindico {
+        padding: 14px 16px;
+    }
+
+    .header-sindico h1 {
+        font-size: 1.1rem;
+    }
+
+    .corpo-sindico {
+        padding: 16px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .dashboard-card {
+        padding: 16px;
+    }
+
+    .dashboard-card .valor {
+        font-size: 1.6rem;
+    }
+
+    .tabela-sindico th,
+    .tabela-sindico td {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .form-aviso {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-menu button {
+        font-size: 0.75rem;
+        padding: 6px 8px;
+    }
+}
+

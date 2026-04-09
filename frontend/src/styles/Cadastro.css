@@ -61,3 +61,50 @@
     margin-top: 10px;
     cursor: pointer;
 }
+
+.campo-duplo {
+    display: flex;
+    gap: 10px;
+}
+
+.campo-duplo > * {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .caixa-cadastro {
+        padding: 28px 20px;
+        max-width: 100%;
+        border-width: 2px;
+    }
+
+    .caixa-cadastro h2 {
+        font-size: 1.3rem;
+    }
+
+    .caixa-cadastro input,
+    .caixa-cadastro select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-cadastrar {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .campo-duplo {
+        flex-direction: column;
+    }
+
+    .campo-duplo > * {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .caixa-cadastro {
+        padding: 24px 16px;
+        gap: 12px;
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api.js";
+import Loading from "../../components/Loading";
 import "../../styles/Home.css";
 
 import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun, FiLock } from "react-icons/fi";
@@ -136,7 +137,7 @@ function Home() {
             <main className="home-conteudo">
                 <div className="frame-comunicados">
                     {carregando ? (
-                        <p>Buscando dados no servidor Java...</p>
+                        <Loading mensagem="Buscando dados no servidor..." />
                     ) : moradores.length === 0 ? (
                         <p>Nenhum morador encontrado no banco de dados.</p>
                     ) : (
