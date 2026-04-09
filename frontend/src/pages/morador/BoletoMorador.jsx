@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { useToast } from "../../components/Toast";
+import Loading from "../../components/Loading";
 import "../../styles/BoletoMorador.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiDollarSign, FiCalendar, FiCopy, FiCheckCircle, FiClock } from "react-icons/fi";
 
 function BoletoMorador() {
     const navigate = useNavigate();
+    const toast = useToast();
 
     const [carregando, setCarregando] = useState(true);
     const [boletos, setBoletos] = useState([]);
@@ -68,7 +71,7 @@ function BoletoMorador() {
 
     function copiarPix() {
         navigator.clipboard.writeText("00020126580014br.gov.bcb.pix0136sgc-condominio@pix.com.br5204000053039865802BR5925SGC CONDOMINIO6009SAO PAULO62070503***6304ABCD");
-        alert("Código PIX copiado para a área de transferência!");
+        toast.sucesso("Código PIX copiado para a área de transferência!", "Copiado");
     }
 
     return (
@@ -92,7 +95,7 @@ function BoletoMorador() {
                 </div>
 
                 {carregando ? (
-                    <p style={{ textAlign: "center", padding: "40px" }}>Buscando boletos...</p>
+                    <Loading mensagem="Buscando boletos..." />
                 ) : boletos.length === 0 ? (
                     <p style={{ textAlign: "center", padding: "40px" }}>Nenhum boleto encontrado.</p>
                 ) : (
@@ -103,10 +106,12 @@ function BoletoMorador() {
                                     <h3 className="card-title">
                                         <FiDollarSign className="card-icon" /> Referência: {boleto.mes}
                                     </h3>
+
                                     <span className={`badge ${boleto.status === "Pago" ? "badge-success" : "badge-warning"}`}>
                                         {boleto.status === "Pago" ? <FiCheckCircle /> : <FiClock />} {boleto.status}
                                     </span>
                                 </div>
+
                                 <div className="card-body">
                                     <p><FiCalendar /> <strong>Vencimento:</strong> {boleto.vencimento}</p>
                                     <p><FiDollarSign /> <strong>Valor:</strong> {boleto.valor}</p>

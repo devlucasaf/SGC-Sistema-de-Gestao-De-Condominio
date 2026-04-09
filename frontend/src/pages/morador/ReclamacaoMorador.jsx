@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { useToast } from "../../components/Toast";
 import "../../styles/ReclamacaoMorador.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiSend, FiAlertCircle, FiClock, FiCheckCircle } from "react-icons/fi";
@@ -14,6 +15,7 @@ function ReclamacaoMorador() {
     const [enviando, setEnviando] = useState(false);
 
     const navigate = useNavigate();
+    const toast = useToast();
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -25,7 +27,9 @@ function ReclamacaoMorador() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        }
+
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -66,7 +70,9 @@ function ReclamacaoMorador() {
                     const response = await api.get(`/api/reclamacoes/unidade/${encodeURIComponent(unidade)}`);
                     setMinhasReclamacoes(response.data.conteudo || []);
                 }
-            } catch (error) {
+            }
+
+            catch (error) {
                 console.error("Erro ao buscar reclamações:", error);
             }
         }
@@ -136,7 +142,7 @@ function ReclamacaoMorador() {
 
             const response = await api.post("/api/reclamacoes", dados);
 
-            alert("Reclamação enviada com sucesso para o Síndico!");
+            toast.sucesso("Reclamação enviada com sucesso para o Síndico!", "Reclamação registrada");
 
             // --- ADICIONA A NOVA RECLAMAÇÃO AO HISTÓRICO LOCAL ---
             setMinhasReclamacoes([response.data, ...minhasReclamacoes]);
@@ -150,8 +156,8 @@ function ReclamacaoMorador() {
         catch (error) {
             console.error("Erro ao enviar reclamação:", error);
             const msg = error.response?.data?.erros?.join(", ") || "Erro ao enviar reclamação. Verifique os dados e tente novamente.";
-            alert(msg);
-        } 
+            toast.erro(msg, "Erro na reclamação");
+        }
         
         finally {
             setEnviando(false);
@@ -192,6 +198,7 @@ function ReclamacaoMorador() {
                             >
                                 Problema no Condomínio
                             </button>
+
                             <button
                                 type="button"
                                 className={`btn-tipo ${tipo === "morador" ? "ativo" : ""}`}
@@ -261,6 +268,7 @@ function ReclamacaoMorador() {
                                         <h3 className="card-title">
                                             {getIconeStatus(rec.status)} {rec.categoria}
                                         </h3>
+
                                         <span className={`badge ${
                                             rec.status === "PENDENTE" ? "badge-warning" :
                                             rec.status === "EM_ANALISE" ? "badge-info" :

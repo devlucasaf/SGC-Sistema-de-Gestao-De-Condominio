@@ -1,0 +1,121 @@
+/* --- CONTAINER DE TOASTS (CANTO SUPERIOR DIREITO) --- */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+/* --- TOAST INDIVIDUAL --- */
+.toast-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    animation: toastSlideIn 0.35s ease-out;
+    pointer-events: all;
+    backdrop-filter: blur(10px);
+    border-left: 4px solid;
+    min-width: 300px;
+}
+
+/* --- TIPOS DE TOAST --- */
+.toast-sucesso {
+    background: rgba(16, 185, 129, 0.15);
+    border-left-color: #10b981;
+    color: #10b981;
+}
+
+.toast-erro {
+    background: rgba(239, 68, 68, 0.15);
+    border-left-color: #ef4444;
+    color: #ef4444;
+}
+
+.toast-aviso {
+    background: rgba(245, 158, 11, 0.15);
+    border-left-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.toast-info {
+    background: rgba(59, 130, 246, 0.15);
+    border-left-color: #3b82f6;
+    color: #3b82f6;
+}
+
+/* --- ÍCONE --- */
+.toast-icone {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* --- CONTEÚDO --- */
+.toast-conteudo {
+    flex: 1;
+}
+
+.toast-titulo {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.toast-mensagem {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* --- BOTÃO FECHAR --- */
+.toast-fechar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+    padding: 2px;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.toast-fechar:hover {
+    opacity: 1;
+}
+
+/* --- ANIMAÇÃO --- */
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 480px) {
+    .toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: 100%;
+    }
+
+    .toast-item {
+        min-width: unset;
+    }
+}
+

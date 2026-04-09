@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { useToast } from "../../components/Toast";
 import "../../styles/PainelSindico.css";
 
 function PainelSindico() {
     const [abaAtiva, setAbaAtiva] = useState("dashboard");
     const navigate = useNavigate();
+    const toast = useToast();
 
     // --- DADOS ---
     const [moradores, setMoradores] = useState([]);
@@ -77,7 +79,7 @@ function PainelSindico() {
 
         catch (err) {
             console.error("Erro ao publicar aviso:", err);
-            alert("Erro ao publicar aviso.");
+            toast.erro("Erro ao publicar aviso.", "Falha");
         }
 
         finally {
@@ -97,7 +99,7 @@ function PainelSindico() {
 
         catch (err) {
             console.error("Erro ao deletar aviso:", err);
-            alert("Erro ao deletar aviso.");
+            toast.erro("Erro ao deletar aviso.", "Falha");
         }
     }
 
@@ -111,7 +113,7 @@ function PainelSindico() {
 
         catch (err) {
             console.error("Erro ao atualizar status:", err);
-            alert("Erro ao atualizar status.");
+            toast.erro("Erro ao atualizar status.", "Falha");
         }
     }
 
@@ -131,7 +133,7 @@ function PainelSindico() {
 
         catch (err) {
             console.error("Erro ao cadastrar unidade:", err);
-            alert("Erro ao cadastrar unidade.");
+            toast.erro("Erro ao cadastrar unidade.", "Falha");
         }
     }
 

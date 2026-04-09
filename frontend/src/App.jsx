@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ToastProvider } from "./components/Toast";
 
 import Login                from          "./pages/auth/Login";
 import Cadastro             from          "./pages/auth/Cadastro";
@@ -19,9 +20,11 @@ import ReservaMorador       from          "./pages/morador/ReservaMorador";
 import RotaPrivada          from          "./components/RotaPrivada";
 
 import "./App.css";
+import "./styles/Toast.css";
 
 function App() {
   return (
+    <ToastProvider>
     <Router>
       <Routes>
         <Route
@@ -140,19 +143,42 @@ function App() {
         <Route
           path="*"
           element={
-            <h2
-              style={{
-                textAlign: "center",
-                marginTop: "50px",
-                color: "white"
-              }}
-            >
-              404 - Página não encontrada!
-            </h2>
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "100vh",
+              gap: "16px",
+              padding: "20px",
+            }}>
+              <h1 style={{ fontSize: "4rem", margin: 0, color: "#2ecc71" }}>404</h1>
+              <h2 style={{ margin: 0, color: "var(--text-primary, white)" }}>
+                Página não encontrada
+              </h2>
+              <p style={{ color: "var(--text-muted, #888)", textAlign: "center" }}>
+                A página que você procura não existe ou foi movida.
+              </p>
+              <a
+                href="/login"
+                style={{
+                  marginTop: "10px",
+                  padding: "10px 24px",
+                  background: "#2ecc71",
+                  color: "white",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Voltar ao Início
+              </a>
+            </div>
           }
         />
       </Routes>
     </Router>
+    </ToastProvider>
   );
 }
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import api from '../../services/api.js';
+import { useToast } from "../../components/Toast";
 import "../../styles/Login.css";
 import "../../styles/Cadastro.css";
 
@@ -20,6 +21,7 @@ function Cadastro() {
     const [isDarkMode, setIsDarkMode] = useState(true);
 
     const navigate = useNavigate();
+    const toast = useToast();
 
     // --- MÁSCARA DE CPF ---
     function formatarCpf(valor) {
@@ -58,10 +60,10 @@ function Cadastro() {
 
             await api.post("/moradores", dadosMorador);
 
-            alert("Morador cadastrado com sucesso!");
-            
-            navigate("/login");
-        } 
+            toast.sucesso("Morador cadastrado com sucesso!", "Cadastro realizado");
+
+            setTimeout(() => navigate("/login"), 1500);
+        }
         
         catch (error) {
             console.error(error);
@@ -115,7 +117,7 @@ function Cadastro() {
                         required
                     />
 
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <div className="campo-duplo">
                         <input
                             type="text"
                             placeholder="CPF (Ex: 123.456.789-09)"
@@ -123,7 +125,6 @@ function Cadastro() {
                             onChange={(e) => setCpf(formatarCpf(e.target.value))}
                             maxLength={14}
                             required
-                            style={{ width: "50%" }}
                         />
 
                         <input
@@ -133,20 +134,18 @@ function Cadastro() {
                             onChange={(e) => setDataNascimento(e.target.value)}
                             required
                             style={{
-                                width: "50%",
                                 color: dataNascimento ? "inherit" : "#888",
                             }}
                         />
                     </div>
 
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <div className="campo-duplo">
                         <input
                             type="email"
                             placeholder="E-mail"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            style={{ width: "50%" }}
                         />
 
                         <input
@@ -155,7 +154,6 @@ function Cadastro() {
                             value={telefone}
                             onChange={(e) => setTelefone(formatarTelefone(e.target.value))}
                             maxLength={15}
-                            style={{ width: "50%" }}
                         />
                     </div>
 
@@ -189,13 +187,12 @@ function Cadastro() {
                         </button>
                     </div>
 
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <div className="campo-duplo">
                         <select
                             value={tipoMorador}
                             onChange={(e) => setTipoMorador(e.target.value)}
                             required
                             style={{
-                                width: "50%",
                                 padding: "12px",
                                 borderRadius: "6px",
                                 border: "1px solid #888",
@@ -224,7 +221,6 @@ function Cadastro() {
                             value={idUnidade}
                             onChange={(e) => setIdUnidade(e.target.value)}
                             required
-                            style={{ width: "50%" }}
                             title="Digite o ID de um apartamento já cadastrado"
                         />
                     </div>
