@@ -2,6 +2,9 @@ package com.condominio.infra.security;
 
 import com.condominio.modules.usuario.repository.UsuarioRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +24,8 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
 
     @Autowired
     private TokenService tokenService;
@@ -47,7 +52,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             catch (Exception e) {
                 // --- TOKEN INVÁLIDO OU EXPIRADO ---
-                System.out.println("Token inválido ignorado: " + e.getMessage());
+                log.debug("Token inválido ignorado: {}", e.getMessage());
             }
         }
 
