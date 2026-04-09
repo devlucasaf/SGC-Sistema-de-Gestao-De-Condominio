@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiMoon, FiSun } from "react-icons/fi";
 import api from "../../services/api.js";
 import "../../styles/CadastroUnidade.css";
 
@@ -9,9 +10,23 @@ function CadastroUnidade() {
     const [numeroApto, setNumeroApto] = useState("");
     const [mensagem, setMensagem] = useState("");
 
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedTheme = localStorage.getItem("theme");
+        return savedTheme === "dark";
+    });
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const root = document.documentElement;
+        if (isDarkMode) {
+            root.setAttribute("dark-theme", "dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            root.removeAttribute("dark-theme");
+            localStorage.setItem("theme", "light");
+        }
+    }, [isDarkMode]);
 
     async function handleCadastro(e) {
         e.preventDefault();
@@ -45,10 +60,10 @@ function CadastroUnidade() {
     }
 
     return (
-        <div className={`tela-cadastro-unidade ${isDarkMode ? 'tema-escuro' : 'tema-claro'}`}>
+        <div className="tela-cadastro-unidade">
 
-            <button className="btn-tema" onClick={alternarTema}>
-                {isDarkMode ? '☀️' : '🌙'}
+            <button className="btn-tema" onClick={alternarTema} aria-label="Alternar Tema">
+                {isDarkMode ? <FiSun /> : <FiMoon />}
             </button>
 
             <form className="caixa-unidade" onSubmit={handleCadastro}>

@@ -1,70 +1,81 @@
 .caixa-cadastro {
-    background-color: inherit;
-    padding: 40px;
-    border-radius: 12px;
-    border: 3px solid #2ecc71;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-secondary);
+    padding: 36px 32px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     width: 100%;
-    max-width: 550px;
+    max-width: 520px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 14px;
 }
 
 .caixa-cadastro h2 {
     text-align: center;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
 }
 
 .caixa-cadastro input,
 .caixa-cadastro select {
-    padding: 12px;
-    border: 1px solid #888;
-    border-radius: 6px;
-    font-size: 16px;
-    background-color: transparent;
-    color: inherit;
+    padding: 11px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .caixa-cadastro input:focus,
 .caixa-cadastro select:focus {
     outline: none;
-    border-color: #2ecc71;
-    box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
 }
 
 .caixa-cadastro select option {
-    color: #333333;
-    background-color: #ffffff;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
 }
 
 .btn-cadastrar {
-    padding: 14px;
-    background-color: #2ecc71;
+    padding: 12px;
+    background-color: var(--primary-green);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
-    transition: 0.2s;
+    margin-top: 6px;
+    transition: background-color var(--transition-fast);
 }
 
 .btn-cadastrar:hover {
-    background-color: #27ae60;
+    background-color: var(--primary-dark-green);
 }
 
 .link-voltar {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 8px;
     cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.link-voltar a {
+    color: var(--primary-green);
+    font-weight: 500;
 }
 
 .campo-duplo {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .campo-duplo > * {
@@ -73,24 +84,8 @@
 
 @media (max-width: 768px) {
     .caixa-cadastro {
-        padding: 28px 20px;
+        padding: 28px 22px;
         max-width: 100%;
-        border-width: 2px;
-    }
-
-    .caixa-cadastro h2 {
-        font-size: 1.3rem;
-    }
-
-    .caixa-cadastro input,
-    .caixa-cadastro select {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .btn-cadastrar {
-        padding: 12px;
-        font-size: 15px;
     }
 
     .campo-duplo {
@@ -104,7 +99,7 @@
 
 @media (max-width: 480px) {
     .caixa-cadastro {
-        padding: 24px 16px;
+        padding: 24px 18px;
         gap: 12px;
     }
 }

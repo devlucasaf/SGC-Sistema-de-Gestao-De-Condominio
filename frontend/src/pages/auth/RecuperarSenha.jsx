@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiMoon, FiSun } from "react-icons/fi";
 import api from "../../services/api.js";
 import "../../styles/Login.css";
 
@@ -16,8 +16,22 @@ function RecuperarSenha() {
     const [sucesso, setSucesso] = useState("");
     const [enviando, setEnviando] = useState(false);
 
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedTheme = localStorage.getItem("theme");
+        return savedTheme === "dark";
+    });
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const root = document.documentElement;
+        if (isDarkMode) {
+            root.setAttribute("dark-theme", "dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            root.removeAttribute("dark-theme");
+            localStorage.setItem("theme", "light");
+        }
+    }, [isDarkMode]);
 
     function alternarTema() {
         setIsDarkMode(!isDarkMode);
@@ -95,11 +109,11 @@ function RecuperarSenha() {
     }
 
     return (
-        <div className={`tela-auth ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
+        <div className="tela-auth">
             <nav className="navbar-auth">
                 <h1>SGC Condomínio</h1>
-                <button className="btn-tema" onClick={alternarTema} type="button">
-                    {isDarkMode ? "☀️" : "🌙"}
+                <button className="btn-tema" onClick={alternarTema} type="button" aria-label="Alternar Tema">
+                    {isDarkMode ? <FiSun /> : <FiMoon />}
                 </button>
             </nav>
 

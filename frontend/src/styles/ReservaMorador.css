@@ -65,23 +65,19 @@
 /* --- Botão Reservar --- */
 .btn-reservar {
     margin-top: var(--spacing-md);
-    padding: 0.8rem;
+    padding: 0.7rem;
     background-color: var(--primary-green);
     color: white;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color var(--transition-fast), transform var(--transition-fast);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: background-color var(--transition-fast);
 }
 
 .btn-reservar:hover {
-    background-color: #219653;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+    background-color: var(--primary-dark-green);
 }
 
 .btn-reservar:active {
@@ -198,15 +194,13 @@
 .btn-cancelar,
 .btn-confirmar {
     flex: 1;
-    padding: 0.9rem;
+    padding: 0.8rem;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color var(--transition-fast), transform var(--transition-fast);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: background-color var(--transition-fast);
 }
 
 .btn-cancelar {
@@ -215,8 +209,7 @@
 }
 
 .btn-cancelar:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
+    background-color: #a82315;
 }
 
 .btn-confirmar {
@@ -225,8 +218,7 @@
 }
 
 .btn-confirmar:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+    background-color: #2468c2;
 }
 
 /* --- Seção de Histórico --- */

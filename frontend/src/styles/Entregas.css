@@ -3,22 +3,12 @@
     background-color: var(--bg-primary);
 }
 
-/* Navbar personalizada com cantos arredondados */
-.entregas-container .navbar {
-    border-radius: var(--radius-lg);
-    margin: var(--spacing-md) auto;
-    margin-top: -10px;
-    max-width: calc(200% - var(--spacing-lg));
-    width: auto;
-}
-
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--bg-secondary);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    box-shadow: var(--shadow-md);
+    padding: 10px 24px;
     border-bottom: 1px solid var(--border-color);
 }
 

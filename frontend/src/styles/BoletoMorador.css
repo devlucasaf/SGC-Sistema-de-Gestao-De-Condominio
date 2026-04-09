@@ -1,102 +1,112 @@
 .tela-boleto {
     min-height: 100vh;
-    padding: 2rem;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 .conteiner-boletos {
     width: 100%;
     max-width: 800px;
-    margin-top: 2rem;
+    margin-top: 24px;
+    padding: 0 20px;
 }
 
 .cabecalho-boletos {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 24px;
 }
 
 .btn-voltar {
-    padding: 8px 16px;
-    background-color: #3498db;
+    padding: 8px 14px;
+    background-color: var(--info-color);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: opacity var(--transition-fast);
 }
 
 .btn-voltar:hover {
-    background-color: #2980b9;
+    opacity: 0.85;
 }
 
 .lista-boletos {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
 .cartao-boleto {
-    background-color: #ffffff;
-    color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.tema-escuro .cartao-boleto {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-}
-
 .info-boleto h3 {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.info-boleto p {
+    margin: 2px 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
 }
 
 .acao-boleto {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 8px;
 }
 
 .etiqueta-status {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 600;
 }
 
 .status-pago {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
 }
 
 .status-pendente {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error-color);
 }
 
 .btn-pagar {
-    background-color: #2ecc71;
+    background-color: var(--primary-green);
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: background-color var(--transition-fast);
 }
 
 .btn-pagar:hover {
-    background-color: #27ae60;
+    background-color: var(--primary-dark-green);
 }
 
 .navbar-boletos {
@@ -105,30 +115,34 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-bottom: 20px;
+    padding: 12px 24px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    margin-bottom: 0;
     box-sizing: border-box;
-}
-
-.tema-escuro .navbar-boletos {
-    background-color: #2c3e50;
-    color: #ecf0f1;
 }
 
 .navbar-boletos h2 {
     margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-green);
 }
 
-.btn-tema {
-    margin: 0;
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    background: transparent;
-    cursor: pointer;
-    font-weight: bold;
-    color: inherit;
+@media (max-width: 768px) {
+    .cartao-boleto {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .acao-boleto {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .conteiner-boletos {
+        padding: 0 16px;
+    }
 }
