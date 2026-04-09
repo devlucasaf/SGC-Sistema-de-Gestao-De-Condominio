@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -52,10 +50,26 @@ public class MoradorController {
         return ResponseEntity.ok(morador);
     }
 
-    // --- LISTAR TODOS OS GET ---
+    // --- LISTAR TODOS ---
     @GetMapping
     public ResponseEntity<List<MoradorResponseDTO>> listarTodos() {
         List<MoradorResponseDTO> lista = moradorService.listarTodos();
         return ResponseEntity.ok(lista);
+    }
+
+    // --- ATUALIZAR MORADOR ---
+    @PutMapping("/{id}")
+    public ResponseEntity<MoradorResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid MoradorRequestDTO dto) {
+        MoradorResponseDTO moradorAtualizado = moradorService.atualizar(id, dto);
+        return ResponseEntity.ok(moradorAtualizado);
+    }
+
+    // --- REMOVER MORADOR ---
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> remover(@PathVariable Long id) {
+        moradorService.remover(id);
+        return ResponseEntity.noContent().build();
     }
 }
