@@ -7,7 +7,7 @@ import "../../styles/Home.css";
 import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun, FiLock } from "react-icons/fi";
 
 function Home() {
-    const [moradores, setMoradores] = useState([]);
+    const [avisos, setAvisos] = useState([]);
 
     const [carregando, setCarregando] = useState(true);
     const [menuAberto, setMenuAberto] = useState(false);
@@ -40,14 +40,14 @@ function Home() {
     }, [isDarkMode]);
 
     useEffect(() => {
-        const buscarMoradores = async () => {
+        const buscarAvisos = async () => {
             try {
-                const resposta = await api.get("/moradores");
-                setMoradores(resposta.data);
+                const resposta = await api.get("/avisos");
+                setAvisos(resposta.data);
             }
 
             catch (error) {
-                console.error("Erro ao buscar moradores:", error);
+                console.error("Erro ao buscar avisos:", error);
             }
 
             finally {
@@ -55,7 +55,7 @@ function Home() {
             }
         };
 
-        buscarMoradores();
+        buscarAvisos();
     }, []);
 
     function alternarTema() {
@@ -136,19 +136,28 @@ function Home() {
             {/* --- CONTEÚDO PRINCIPAL --- */}
             <main className="home-conteudo">
                 <div className="frame-comunicados">
+                    <h2 className="comunicados-titulo">Mural de Avisos</h2>
                     {carregando ? (
-                        <Loading mensagem="Buscando dados no servidor..." />
-                    ) : moradores.length === 0 ? (
-                        <p>Nenhum morador encontrado no banco de dados.</p>
+                        <Loading mensagem="Buscando avisos..." />
+                    ) : avisos.length === 0 ? (
+                        <p className="sem-avisos">Nenhum aviso publicado no momento.</p>
                     ) : (
-                        moradores.map((morador) => (
-                            <div key={morador.id} className="cartao-aviso">
+                        avisos.map((aviso) => (
+                            <div key={aviso.id} className="cartao-aviso">
                                 <div className="aviso-cabecalho">
-                                    <h3>{morador.nome}</h3>
-                                    <span className="aviso-data">Unidade: {morador.unidade}</span>
+                                    <h3>{aviso.titulo}</h3>
+                                    <span className="aviso-data">
+                                        {new Date(aviso.dataCriacao).toLocaleDateString("pt-BR", {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "numeric",
+                                            hour: "2-digit",
+                                            minute: "2-digit"
+                                        })}
+                                    </span>
                                 </div>
-                                <p><strong>Email:</strong> {morador.email}</p>
-                                <p><strong>CPF:</strong> {morador.cpf}</p>
+                                <p className="aviso-mensagem">{aviso.mensagem}</p>
+                                <p className="aviso-autor">Publicado por: <strong>{aviso.nomeSindico}</strong></p>
                             </div>
                         ))
                     )}

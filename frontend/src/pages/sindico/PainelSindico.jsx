@@ -207,14 +207,6 @@ function PainelSindico() {
                                 Mural de Avisos
                         </button>
                     </li>
-                    <li>
-                        <button 
-                            className={abaAtiva === "senha" ? "ativo" : ""} 
-                            onClick={() => setAbaAtiva("senha")}
-                            >
-                                Redefinir Senhas
-                        </button>
-                    </li>
                 </ul>
 
                 <div className="sidebar-logout">
@@ -231,7 +223,6 @@ function PainelSindico() {
                         {abaAtiva === "unidades" && "Unidades"}
                         {abaAtiva === "reclamacoes" && "Reclamações"}
                         {abaAtiva === "avisos" && "Mural de Avisos"}
-                        {abaAtiva === "senha" && "Redefinir Senhas"}
                     </h1>
                     <span style={{ color: "#888", fontSize: "0.85rem" }}>Olá, {perfil.nome || "Síndico"}</span>
                 </header>
@@ -246,7 +237,6 @@ function PainelSindico() {
                             {abaAtiva === "unidades" && renderUnidades()}
                             {abaAtiva === "reclamacoes" && renderReclamacoes()}
                             {abaAtiva === "avisos" && renderAvisos()}
-                            {abaAtiva === "senha" && renderSenha()}
                         </>
                     )}
                 </div>
@@ -477,7 +467,7 @@ function PainelSindico() {
                     />
 
                     <button type="submit" className="btn-publicar" disabled={enviandoAviso}>
-                        {enviandoAviso ? "Publicando..." : "📢 Publicar Aviso"}
+                        {enviandoAviso ? "Publicando..." : "Publicar Aviso"}
                     </button>
                 </form>
 
@@ -493,7 +483,7 @@ function PainelSindico() {
                                 <div className="meta-aviso">
                                     <span>{formatarData(a.dataCriacao)} — {a.nomeSindico}</span>
                                     <button className="btn-deletar-aviso" onClick={() => deletarAviso(a.id)}>
-                                        🗑 Excluir
+                                        Excluir
                                     </button>
                                 </div>
                             </div>
@@ -503,95 +493,6 @@ function PainelSindico() {
             </>
         );
     }
-
-    function renderSenha() {
-        return <RedefinirSenhaInline />;
-    }
-}
-
-function RedefinirSenhaInline() {
-    const [email, setEmail] = useState("");
-    const [novaSenha, setNovaSenha] = useState("");
-    const [confirmar, setConfirmar] = useState("");
-    const [msg, setMsg] = useState("");
-    const [tipoMsg, setTipoMsg] = useState("");
-    const [enviando, setEnviando] = useState(false);
-
-    async function handleRedefinir(e) {
-        e.preventDefault();
-        setMsg("");
-        if (novaSenha !== confirmar) { 
-            setMsg("As senhas não coincidem!"); 
-            setTipoMsg("erro"); 
-            return; 
-        }
-
-        if (novaSenha.length < 6) { 
-            setMsg("Mínimo de 6 caracteres."); 
-            setTipoMsg("erro"); 
-            return; 
-        }
-
-        setEnviando(true);
-        try {
-            const res = await api.patch("/admin/usuarios/redefinir-senha", { email, novaSenha });
-            setMsg(res.data.mensagem); setTipoMsg("ok");
-            setEmail(""); setNovaSenha(""); setConfirmar("");
-        } 
-        
-        catch (err) {
-            setMsg(err.response?.data?.messages?.[0] || "Erro ao redefinir senha."); setTipoMsg("erro");
-        } 
-        
-        finally {
-            setEnviando(false);
-        }
-    }
-
-    return (
-        <form className="form-aviso" onSubmit={handleRedefinir} style={{ maxWidth: "500px" }}>
-            <h3 style={{ margin: 0, color: "#2ecc71" }}>Redefinir Senha de Usuário</h3>
-            <p style={{ margin: 0, color: "#888", fontSize: "0.9rem" }}>Informe o e-mail do morador/porteiro e defina uma nova senha.</p>
-            
-            <input 
-                type="email" 
-                placeholder="E-mail do usuário" 
-                value={email} 
-                onChange={e => setEmail(e.target.value)} 
-                required 
-            />
-            <input 
-                type="password" 
-                placeholder="Nova senha (mín. 6 caracteres)" 
-                value={novaSenha} 
-                onChange={e => setNovaSenha(e.target.value)} 
-                required 
-            />
-            <input 
-                type="password" 
-                placeholder="Confirmar nova senha" 
-                value={confirmar} 
-                onChange={e => setConfirmar(e.target.value)} 
-                required 
-            />
-
-            {msg && (
-                <p style={{
-                    padding: "10px", 
-                    borderRadius: "8px", 
-                    fontWeight: "bold", 
-                    textAlign: "center",
-                    backgroundColor: tipoMsg === "ok" ? "rgba(46,204,113,0.15)" : "rgba(231,76,60,0.15)",
-                    color: tipoMsg === "ok" ? "#2ecc71" : "#e74c3c"
-                }}>{msg}</p>
-            )}
-
-            <button type="submit" className="btn-publicar" disabled={enviando}>
-                {enviando ? "Redefinindo..." : "Redefinir Senha"}
-            </button>
-        </form>
-    );
 }
 
 export default PainelSindico;
-

@@ -175,6 +175,20 @@
     transition: all var(--transition-normal);
 }
 
+.comunicados-titulo {
+    margin: 0 0 var(--spacing-md) 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.sem-avisos {
+    text-align: center;
+    color: var(--text-muted);
+    padding: var(--spacing-xl) 0;
+    font-style: italic;
+}
+
 .cartao-aviso {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: var(--spacing-md);
@@ -215,6 +229,18 @@
     margin: var(--spacing-xs) 0;
     color: var(--text-secondary);
     line-height: 1.5;
+}
+
+.aviso-mensagem {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.aviso-autor {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-sm);
 }
 
 /* --- ESTADOS DE CARREGAMENTO E VAZIO --- */

@@ -87,7 +87,7 @@ function Login() {
 
             <main className="auth-conteudo">
                 <form className="caixa-login" onSubmit={handleLogin}>
-                    <h2>Login Residencial</h2>
+                    <h2>Login</h2>
 
                     <input
                         type="email"
