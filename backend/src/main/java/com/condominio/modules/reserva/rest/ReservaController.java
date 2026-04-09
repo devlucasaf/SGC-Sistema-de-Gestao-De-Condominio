@@ -5,6 +5,8 @@ import com.condominio.modules.usuario.model.Usuario;
 
 import com.condominio.modules.reserva.dto.ReservaRequestDTO;
 import com.condominio.modules.reserva.dto.ReservaResponseDTO;
+import com.condominio.modules.reserva.model.AreaLazer;
+import com.condominio.modules.reserva.repository.AreaLazerRepository;
 import com.condominio.modules.reserva.service.ReservaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,21 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
+    @Autowired
+    private AreaLazerRepository areaLazerRepository;
+
     // --- EXTRAI O MORADOR LOGADO COM VALIDAÇÃO DE TIPO ---
     private Morador extrairMorador(Usuario usuario) {
         if (!(usuario instanceof Morador)) {
             throw new RuntimeException("Apenas moradores podem acessar o módulo de reservas.");
         }
         return (Morador) usuario;
+    }
+
+    // --- LISTAR TODAS AS ÁREAS DE LAZER DISPONÍVEIS ---
+    @GetMapping("/areas-lazer")
+    public ResponseEntity<List<AreaLazer>> listarAreasLazer() {
+        return ResponseEntity.ok(areaLazerRepository.findAll());
     }
 
     // --- ROTA POST PARA DEVOLVER O DTO ---
