@@ -79,7 +79,7 @@ function Login() {
     return (
         <div className={`tela-auth ${isDarkMode ? "tema-escuro" : "tema-claro"}`}>
             <nav className="navbar-auth">
-                <h1>SGC Condomínio</h1>
+                <h1>SGC</h1>
                 <button className="btn-tema" onClick={alternarTema} type="button">
                     {isDarkMode ? "☀️" : "🌙"}
                 </button>
