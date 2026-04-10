@@ -1,13 +1,3 @@
-# ===========================================
-# SGC - Credenciais Locais (EXEMPLO)
-# ===========================================
-# Copie este arquivo para "application-local.properties"
-# e preencha com suas credenciais REAIS.
-#
-# O application-local.properties esta no .gitignore
-# e NUNCA deve ir para o repositorio.
-# ===========================================
-
 # --- Banco de Dados ---
 DB_URL=jdbc:sqlserver://localhost;databaseName=condominio_db;encrypt=false
 DB_USERNAME=SEU_USUARIO_AQUI

@@ -35,7 +35,6 @@ public class SindicoService {
             throw new RuntimeException("CPF já cadastrado no sistema.");
         }
 
-        // 2. Criar e Salvar o Usuário base
         Usuario novoUsuario = new Usuario();
 
         novoUsuario.setNome(dto.getNome());
@@ -43,15 +42,13 @@ public class SindicoService {
         novoUsuario.setEmail(dto.getEmail());
         novoUsuario.setTelefone(dto.getTelefone());
         novoUsuario.setDataNascimento(dto.getDataNascimento());
-        novoUsuario.setTipoUsuario(TipoUsuario.SINDICO); // Definindo o cargo
+        novoUsuario.setTipoUsuario(TipoUsuario.SINDICO); 
 
-        // Criptografar a senha antes de salvar
         String senhaCripto = passwordEncoder.encode(dto.getSenha());
         novoUsuario.setSenhaHash(senhaCripto);
 
         Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
 
-        // 3. Criar e Salvar o Perfil de Síndico vinculado ao Usuário
         Sindico novoSindico = new Sindico();
 
         novoSindico.setUsuario(usuarioSalvo);
@@ -61,7 +58,6 @@ public class SindicoService {
 
         Sindico sindicoSalvo = sindicoRepository.save(novoSindico);
 
-        // 4. Retornar o DTO de resposta (seguro)
         return SindicoResponseDTO.fromEntity(sindicoSalvo);
     }
 
