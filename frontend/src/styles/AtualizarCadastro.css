@@ -1,0 +1,214 @@
+/* ===== ATUALIZAR CADASTRO ===== */
+.atualizar-conteudo {
+    padding: 32px 24px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.atualizar-header {
+    margin-bottom: 28px;
+}
+
+.atualizar-header h2 {
+    margin: 16px 0 6px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.atualizar-header p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.btn-voltar-atualizar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-voltar-atualizar:hover {
+    color: var(--primary-green);
+    background-color: var(--overlay-dark);
+}
+
+/* --- FORMULÁRIO --- */
+.atualizar-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.atualizar-secao {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.atualizar-secao-titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* --- CAMPOS --- */
+.atualizar-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.atualizar-campo label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.atualizar-campo-duplo {
+    display: flex;
+    gap: 16px;
+}
+
+.atualizar-campo-duplo > .atualizar-campo {
+    flex: 1;
+}
+
+.atualizar-campo-triplo {
+    display: flex;
+    gap: 16px;
+}
+
+.atualizar-campo-triplo > .atualizar-campo {
+    flex: 1;
+}
+
+/* --- INPUT COM ÍCONE --- */
+.input-com-icone {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icone {
+    position: absolute;
+    left: 12px;
+    color: var(--text-muted);
+    font-size: 16px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.input-com-icone input {
+    width: 100%;
+    padding: 11px 14px 11px 38px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    box-sizing: border-box;
+}
+
+.input-com-icone input:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
+}
+
+.input-com-icone input::placeholder {
+    color: var(--text-muted);
+}
+
+/* --- ANDAR CALCULADO --- */
+.andar-calculado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 14px;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    background-color: rgba(33, 122, 69, 0.06);
+    min-height: 42px;
+    box-sizing: border-box;
+    transition: all var(--transition-fast);
+}
+
+/* --- BOTÃO SALVAR --- */
+.btn-salvar-cadastro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-salvar-cadastro:hover:not(:disabled) {
+    background-color: var(--primary-dark-green);
+    transform: translateY(-1px);
+}
+
+.btn-salvar-cadastro:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .atualizar-conteudo {
+        padding: 20px 16px;
+    }
+
+    .atualizar-secao {
+        padding: 18px;
+    }
+
+    .atualizar-campo-duplo,
+    .atualizar-campo-triplo {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .atualizar-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .atualizar-secao {
+        padding: 16px;
+        gap: 14px;
+    }
+}
+

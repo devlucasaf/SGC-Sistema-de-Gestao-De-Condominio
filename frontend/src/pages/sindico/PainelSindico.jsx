@@ -162,7 +162,7 @@ function PainelSindico() {
             {/* --- SIDEBAR --- */}
             <aside className="sidebar-sindico">
                 <div className="sidebar-logo">
-                    <h2>SGC Condomínio</h2>
+                    <h2>Residencial Boca de Pedreiro</h2>
                     <span>Painel do Síndico</span>
                 </div>
 

@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
 import Loading from "../../components/Loading";
 import "../../styles/ReservaMorador.css";
+import "../../styles/Cadastro.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiXCircle } from "react-icons/fi";
+
+registerLocale("pt-BR", ptBR);
 
 function ReservaMorador() {
     const [areasDeLazer, setAreasDeLazer] = useState([]);
     const [carregandoAreas, setCarregandoAreas] = useState(true);
     const [areaSelecionada, setAreaSelecionada] = useState(null);
-    const [dataReserva, setDataReserva] = useState("");
+    const [dataReserva, setDataReserva] = useState(null);
     const [historico, setHistorico] = useState([]);
     const [carregandoHistorico, setCarregandoHistorico] = useState(true);
 
@@ -86,7 +92,7 @@ function ReservaMorador() {
 
     function abrirModal(area) {
         setAreaSelecionada(area);
-        setDataReserva("");
+        setDataReserva(null);
     }
 
     function fecharModal() {
@@ -99,6 +105,8 @@ function ReservaMorador() {
         const reservaRequestDTO = {
             idAreaLazer: areaSelecionada.id,
             dataReserva: dataReserva
+                ? dataReserva.toISOString().split("T")[0]
+                : ""
         };
 
         try {
@@ -249,14 +257,22 @@ function ReservaMorador() {
                         <form onSubmit={confirmarReserva} className="form-modal">
                             <label>Escolha a Data:</label>
 
-                            <input 
-                                type="date" 
-                                required 
-                                value={dataReserva}
-                                onChange={(e) => setDataReserva(e.target.value)}
-                                min={new Date().toISOString().split("T")[0]}
-                            />
-                            
+                            <div className="datepicker-wrapper" style={{ width: "100%" }}>
+                                <DatePicker
+                                    selected={dataReserva}
+                                    onChange={(date) => setDataReserva(date)}
+                                    locale="pt-BR"
+                                    dateFormat="dd/MM/yyyy"
+                                    placeholderText="Selecione a data da reserva"
+                                    minDate={new Date()}
+                                    className="datepicker-input"
+                                    calendarClassName="datepicker-calendario"
+                                    required
+                                    autoComplete="off"
+                                />
+                                <FiCalendar className="datepicker-icone" />
+                            </div>
+
                             {areaSelecionada.valor > 0 && (
                                 <div className="aviso-cobranca">
                                     Atenção: R$ {areaSelecionada.valor.toFixed(2)} serão cobrados no próximo boleto.

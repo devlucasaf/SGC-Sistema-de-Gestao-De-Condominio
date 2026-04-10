@@ -93,7 +93,7 @@ function Login() {
     return (
         <div className="tela-auth">
             <nav className="navbar-auth">
-                <h1>SGC</h1>
+                <h1>Residencial Boca de Pedreiro</h1>
                 <button className="btn-tema" onClick={alternarTema} type="button" aria-label="Alternar Tema">
                     {isDarkMode ? <FiSun /> : <FiMoon />}
                 </button>

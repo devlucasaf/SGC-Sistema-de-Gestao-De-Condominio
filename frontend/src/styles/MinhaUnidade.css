@@ -1,0 +1,296 @@
+/* ===== MINHA UNIDADE ===== */
+.unidade-conteudo {
+    padding: 32px 24px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.unidade-header {
+    margin-bottom: 28px;
+}
+
+.unidade-header h2 {
+    margin: 16px 0 6px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.unidade-header p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.btn-voltar-unidade {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-voltar-unidade:hover {
+    color: var(--primary-green);
+    background-color: var(--overlay-dark);
+}
+
+/* --- GRID DE CARDS --- */
+.unidade-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- CARD --- */
+.unidade-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow var(--transition-fast);
+}
+
+.unidade-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.unidade-card-destaque {
+    border-left: 4px solid var(--primary-green);
+}
+
+.unidade-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 24px 0;
+}
+
+.unidade-card-icone {
+    font-size: 1.2rem;
+    color: var(--primary-green);
+}
+
+.unidade-card-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.unidade-card-corpo {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* --- NÚMERO GRANDE DO APTO --- */
+.unidade-apto-grande {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(33, 122, 69, 0.08), rgba(33, 122, 69, 0.03));
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(33, 122, 69, 0.15);
+}
+
+.apto-numero {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--primary-green);
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.apto-bloco {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* --- LINHAS DE INFO --- */
+.unidade-info-row {
+    display: flex;
+    gap: 16px;
+}
+
+.unidade-info-item {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.info-icone {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.info-valor {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* --- STATUS COLORS --- */
+.info-status {
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    display: inline-block;
+}
+
+.status-ativo {
+    background-color: rgba(33, 122, 69, 0.12);
+    color: var(--primary-green);
+}
+
+.status-inadimplente {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error-color);
+}
+
+.status-aguardando {
+    background-color: rgba(255, 193, 7, 0.12);
+    color: #e6a800;
+}
+
+.status-suspenso {
+    background-color: rgba(255, 120, 0, 0.1);
+    color: #e67300;
+}
+
+.status-inativo {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+/* --- CARD DADOS PESSOAIS --- */
+.unidade-dado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.unidade-dado:last-child {
+    border-bottom: none;
+}
+
+.dado-icone {
+    font-size: 1rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.dado-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 1px;
+}
+
+.dado-valor {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* --- BOTÃO EDITAR --- */
+.btn-editar-dados {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    margin: 0 24px 20px;
+    background-color: transparent;
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-editar-dados:hover {
+    background-color: var(--primary-green);
+    color: #fff;
+}
+
+/* --- SEM DADOS --- */
+.unidade-sem-dados {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 48px 0;
+    font-size: 0.9rem;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .unidade-conteudo {
+        padding: 20px 16px;
+    }
+
+    .unidade-info-row {
+        flex-direction: column;
+    }
+
+    .unidade-apto-grande {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+    }
+
+    .unidade-card-corpo {
+        padding: 16px 18px 20px;
+    }
+
+    .btn-editar-dados {
+        margin: 0 18px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .unidade-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .apto-numero {
+        font-size: 2rem;
+    }
+}
+

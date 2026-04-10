@@ -1,22 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiEye, FiEyeOff, FiMoon, FiSun } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiMoon, FiSun, FiChevronDown, FiCalendar } from "react-icons/fi";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 import api from '../../services/api.js';
 import { useToast } from "../../components/Toast";
 import "../../styles/Login.css";
 import "../../styles/Cadastro.css";
+
+registerLocale("pt-BR", ptBR);
 
 function Cadastro() {
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [dataNascimento, setDataNascimento] = useState("");
+    const [dataNascimento, setDataNascimento] = useState(null);
     const [telefone, setTelefone] = useState("");
     const [tipoMorador, setTipoMorador] = useState("");
     const [idUnidade, setIdUnidade] = useState('');
     const [mensagem, setMensagem] = useState("");
     const [mostrarSenha, setMostrarSenha] = useState(false);
+    const [dropdownAberto, setDropdownAberto] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const opcoesTipoMorador = [
+        {
+            valor: "PROPRIETARIO",
+            label: "Proprietário"
+        },
+        {
+            valor: "INQUILINO",
+            label: "Inquilino"
+        },
+        {
+            valor: "DEPENDENTE",
+            label: "Dependente"
+        },
+    ];
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -31,11 +53,24 @@ function Cadastro() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        }
+
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
     }, [isDarkMode]);
+
+    // --- FECHAR DROPDOWN AO CLICAR FORA ---
+    useEffect(() => {
+        function handleClickFora(e) {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setDropdownAberto(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickFora);
+        return () => document.removeEventListener("mousedown", handleClickFora);
+    }, []);
 
     // --- MÁSCARA DE CPF ---
     function formatarCpf(valor) {
@@ -66,7 +101,9 @@ function Cadastro() {
                 cpf: cpf.replace(/\D/g, ""),
                 email,
                 senha,
-                dataNascimento,
+                dataNascimento: dataNascimento
+                    ? dataNascimento.toISOString().split("T")[0]
+                    : "",
                 telefone: telefone.replace(/\D/g, ""),
                 tipoMorador,
                 idUnidade: Number(idUnidade),
@@ -113,7 +150,7 @@ function Cadastro() {
         <div className="tela-auth">
 
             <nav className="navbar-auth">
-                <h1>SGC Condomínio</h1>
+                <h1>Residencial Boca de Pedreiro</h1>
                 <button className="btn-tema" onClick={alternarTema} type="button" aria-label="Alternar Tema">
                     {isDarkMode ? <FiSun /> : <FiMoon />}
                 </button>
@@ -141,16 +178,27 @@ function Cadastro() {
                             required
                         />
 
-                        <input
-                            type="date"
-                            title="Data de Nascimento"
-                            value={dataNascimento}
-                            onChange={(e) => setDataNascimento(e.target.value)}
-                            required
-                            style={{
-                                color: dataNascimento ? "inherit" : "#888",
-                            }}
-                        />
+                        <div className="datepicker-wrapper">
+                            <DatePicker
+                                selected={dataNascimento}
+                                onChange={(date) => setDataNascimento(date)}
+                                locale="pt-BR"
+                                dateFormat="dd/MM/yyyy"
+                                placeholderText="Data de Nascimento"
+                                showYearDropdown
+                                showMonthDropdown
+                                dropdownMode="select"
+                                yearDropdownItemNumber={100}
+                                scrollableYearDropdown
+                                maxDate={new Date()}
+                                minDate={new Date(1920, 0, 1)}
+                                className="datepicker-input"
+                                calendarClassName="datepicker-calendario"
+                                required
+                                autoComplete="off"
+                            />
+                            <FiCalendar className="datepicker-icone" />
+                        </div>
                     </div>
 
                     <div className="campo-duplo">
@@ -202,32 +250,43 @@ function Cadastro() {
                     </div>
 
                     <div className="campo-duplo">
-                        <select
-                            value={tipoMorador}
-                            onChange={(e) => setTipoMorador(e.target.value)}
-                            required
-                            style={{
-                                padding: "12px",
-                                borderRadius: "6px",
-                                border: "1px solid #888",
-                                backgroundColor: "transparent",
-                                color: "inherit",
-                                fontSize: "16px",
-                            }}
-                        >
-                            <option value="" disabled style={{ color: "black" }}>
-                                Tipo de Morador
-                            </option>
-                            <option value="PROPRIETARIO" style={{ color: "black" }}>
-                                Proprietário
-                            </option>
-                            <option value="INQUILINO" style={{ color: "black" }}>
-                                Inquilino
-                            </option>
-                            <option value="DEPENDENTE" style={{ color: "black" }}>
-                                Dependente
-                            </option>
-                        </select>
+                        <div className="custom-select-wrapper" ref={dropdownRef}>
+                            <div
+                                className={`custom-select-trigger ${dropdownAberto ? "aberto" : ""} ${tipoMorador ? "selecionado" : ""}`}
+                                onClick={() => setDropdownAberto(!dropdownAberto)}
+                            >
+                                <span>
+                                    {tipoMorador
+                                        ? opcoesTipoMorador.find(o => o.valor === tipoMorador)?.label
+                                        : "Tipo de Morador"}
+                                </span>
+                                <FiChevronDown className={`custom-select-arrow ${dropdownAberto ? "girar" : ""}`} />
+                            </div>
+                            {dropdownAberto && (
+                                <ul className="custom-select-opcoes">
+                                    {opcoesTipoMorador.map((opcao) => (
+                                        <li
+                                            key={opcao.valor}
+                                            className={`custom-select-item ${tipoMorador === opcao.valor ? "ativo" : ""}`}
+                                            onClick={() => {
+                                                setTipoMorador(opcao.valor);
+                                                setDropdownAberto(false);
+                                            }}
+                                        >
+                                            {opcao.label}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            <input
+                                type="text"
+                                value={tipoMorador}
+                                required
+                                tabIndex={-1}
+                                style={{ position: "absolute", opacity: 0, height: 0, width: 0, pointerEvents: "none" }}
+                                onChange={() => {}}
+                            />
+                        </div>
 
                         <input
                             type="number"

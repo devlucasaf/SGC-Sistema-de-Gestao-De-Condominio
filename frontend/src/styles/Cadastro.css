@@ -43,6 +43,104 @@
     background-color: var(--bg-secondary);
 }
 
+/* ===== CUSTOM SELECT (DROPDOWN MODERNO) ===== */
+.custom-select-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background-color: var(--bg-primary);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    user-select: none;
+}
+
+.custom-select-trigger.selecionado {
+    color: var(--text-primary);
+}
+
+.custom-select-trigger:hover {
+    border-color: var(--primary-green);
+}
+
+.custom-select-trigger.aberto {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
+}
+
+.custom-select-arrow {
+    font-size: 18px;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.custom-select-arrow.girar {
+    transform: rotate(180deg);
+}
+
+.custom-select-opcoes {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    animation: dropdownEntrar 0.2s ease;
+    overflow: hidden;
+}
+
+@keyframes dropdownEntrar {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-select-item {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.custom-select-item:hover {
+    background-color: var(--primary-green);
+    color: #fff;
+}
+
+.custom-select-item.ativo {
+    background-color: rgba(33, 122, 69, 0.12);
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.custom-select-item.ativo:hover {
+    background-color: var(--primary-green);
+    color: #fff;
+}
+/* ===== FIM CUSTOM SELECT ===== */
+
 .btn-cadastrar {
     padding: 12px;
     background-color: var(--primary-green);
@@ -81,6 +179,194 @@
 .campo-duplo > * {
     flex: 1;
 }
+
+.datepicker-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.datepicker-wrapper .react-datepicker-wrapper {
+    width: 100%;
+}
+
+.datepicker-input {
+    width: 100%;
+    padding: 11px 40px 11px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.datepicker-input:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
+}
+
+.datepicker-input::placeholder {
+    color: var(--text-muted);
+}
+
+.datepicker-icone {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 17px;
+    pointer-events: none;
+}
+
+/* --- Calendário popup --- */
+.react-datepicker-popper {
+    z-index: 100 !important;
+}
+
+.react-datepicker {
+    font-family: inherit !important;
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: var(--shadow-lg) !important;
+    color: var(--text-primary) !important;
+    overflow: hidden;
+}
+
+.react-datepicker__triangle {
+    display: none !important;
+}
+
+/* Header do calendário */
+.react-datepicker__header {
+    background-color: var(--primary-green) !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    padding: 12px 10px 8px !important;
+}
+
+.react-datepicker__current-month {
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 6px;
+}
+
+.react-datepicker__day-names {
+    margin-top: 4px;
+}
+
+.react-datepicker__day-name {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500 !important;
+    font-size: 0.78rem !important;
+    width: 2.2rem !important;
+    line-height: 2.2rem !important;
+    margin: 1px !important;
+}
+
+/* Dias do calendário */
+.react-datepicker__month {
+    margin: 6px !important;
+}
+
+.react-datepicker__day {
+    color: var(--text-primary) !important;
+    width: 2.2rem !important;
+    line-height: 2.2rem !important;
+    margin: 1px !important;
+    border-radius: 50% !important;
+    font-size: 0.85rem !important;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.react-datepicker__day:hover {
+    background-color: rgba(33, 122, 69, 0.15) !important;
+    color: var(--primary-green) !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: var(--primary-green) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+
+.react-datepicker__day--selected:hover {
+    background-color: var(--primary-dark-green) !important;
+    color: #fff !important;
+}
+
+.react-datepicker__day--today {
+    font-weight: 700 !important;
+    border: 2px solid var(--primary-green) !important;
+    line-height: calc(2.2rem - 4px) !important;
+}
+
+.react-datepicker__day--outside-month {
+    color: var(--text-muted) !important;
+    opacity: 0.4;
+}
+
+.react-datepicker__day--disabled {
+    color: var(--text-muted) !important;
+    opacity: 0.3;
+    cursor: not-allowed !important;
+}
+
+/* Navegação (setas < >) */
+.react-datepicker__navigation {
+    top: 10px !important;
+}
+
+.react-datepicker__navigation-icon::before {
+    border-color: #fff !important;
+    border-width: 2px 2px 0 0 !important;
+    height: 8px !important;
+    width: 8px !important;
+}
+
+.react-datepicker__navigation:hover *::before {
+    border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Dropdowns de mês e ano */
+.react-datepicker__month-dropdown-container,
+.react-datepicker__year-dropdown-container {
+    margin: 0 4px !important;
+}
+
+.react-datepicker__month-dropdown-container select,
+.react-datepicker__year-dropdown-container select {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 0.85rem !important;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.react-datepicker__month-dropdown-container select:focus,
+.react-datepicker__year-dropdown-container select:focus {
+    outline: none;
+    border-color: #fff !important;
+}
+
+.react-datepicker__month-dropdown-container select option,
+.react-datepicker__year-dropdown-container select option {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ===== FIM DATEPICKER ===== */
 
 @media (max-width: 768px) {
     .caixa-cadastro {

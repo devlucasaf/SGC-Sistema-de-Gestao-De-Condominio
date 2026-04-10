@@ -11,6 +11,8 @@ import RedefinirSenha       from          "./pages/sindico/RedefinirSenha";
 import PainelSindico        from          "./pages/sindico/PainelSindico";
 
 import Home                 from          "./pages/morador/Home";
+import AtualizarCadastro    from          "./pages/morador/AtualizarCadastro";
+import MinhaUnidade         from          "./pages/morador/MinhaUnidade";
 import AlterarSenha         from          "./pages/morador/AlterarSenha";
 import BoletoMorador        from          "./pages/morador/BoletoMorador";
 import Entregas             from          "./pages/morador/Entregas";
@@ -64,6 +66,24 @@ function App() {
           element={
             <RotaPrivada>
               <Home />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/atualizar-cadastro"
+          element={
+            <RotaPrivada>
+              <AtualizarCadastro />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/minha-unidade"
+          element={
+            <RotaPrivada>
+              <MinhaUnidade />
             </RotaPrivada>
           }
         />

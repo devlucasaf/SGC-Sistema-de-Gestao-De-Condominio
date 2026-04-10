@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FiEye, FiEyeOff, FiMoon, FiSun } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiMoon, FiSun, FiCalendar } from "react-icons/fi";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 import api from "../../services/api.js";
 import "../../styles/Login.css";
+import "../../styles/Cadastro.css";
+
+registerLocale("pt-BR", ptBR);
 
 function RecuperarSenha() {
     const [etapa, setEtapa] = useState(1); // 1 = verificar identidade, 2 = nova senha
     const [email, setEmail] = useState("");
     const [cpf, setCpf] = useState("");
-    const [dataNascimento, setDataNascimento] = useState("");
+    const [dataNascimento, setDataNascimento] = useState(null);
     const [novaSenha, setNovaSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
     const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -27,7 +33,9 @@ function RecuperarSenha() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        }
+
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -85,7 +93,9 @@ function RecuperarSenha() {
             const response = await api.post("/auth/recuperar-senha", {
                 email,
                 cpf: cpf.replace(/\D/g, ""),
-                dataNascimento,
+                dataNascimento: dataNascimento
+                    ? dataNascimento.toISOString().split("T")[0]
+                    : "",
                 novaSenha
             });
 
@@ -111,7 +121,7 @@ function RecuperarSenha() {
     return (
         <div className="tela-auth">
             <nav className="navbar-auth">
-                <h1>SGC Condomínio</h1>
+                <h1>Residencial Boca de Pedreiro</h1>
                 <button className="btn-tema" onClick={alternarTema} type="button" aria-label="Alternar Tema">
                     {isDarkMode ? <FiSun /> : <FiMoon />}
                 </button>
@@ -141,14 +151,27 @@ function RecuperarSenha() {
                             required
                         />
 
-                        <input
-                            type="date"
-                            placeholder="Data de Nascimento"
-                            value={dataNascimento}
-                            onChange={(e) => setDataNascimento(e.target.value)}
-                            required
-                            style={{ colorScheme: isDarkMode ? "dark" : "light" }}
-                        />
+                        <div className="datepicker-wrapper">
+                            <DatePicker
+                                selected={dataNascimento}
+                                onChange={(date) => setDataNascimento(date)}
+                                locale="pt-BR"
+                                dateFormat="dd/MM/yyyy"
+                                placeholderText="Data de Nascimento"
+                                showYearDropdown
+                                showMonthDropdown
+                                dropdownMode="select"
+                                yearDropdownItemNumber={100}
+                                scrollableYearDropdown
+                                maxDate={new Date()}
+                                minDate={new Date(1920, 0, 1)}
+                                className="datepicker-input"
+                                calendarClassName="datepicker-calendario"
+                                required
+                                autoComplete="off"
+                            />
+                            <FiCalendar className="datepicker-icone" />
+                        </div>
 
                         <button type="submit" className="btn-entrar">
                             Verificar Identidade

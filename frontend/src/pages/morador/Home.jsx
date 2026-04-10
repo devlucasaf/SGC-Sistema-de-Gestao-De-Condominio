@@ -8,11 +8,33 @@ import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun, FiLock } from "rea
 
 function Home() {
     const [avisos, setAvisos] = useState([]);
+    const [perfil, setPerfil] = useState({});
 
     const [carregando, setCarregando] = useState(true);
     const [menuAberto, setMenuAberto] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const dados = localStorage.getItem("perfilUsuario");
+        if (dados) {
+            const perfilLocal = JSON.parse(dados);
+            setPerfil(perfilLocal);
+        }
+
+        const atualizarPerfil = async () => {
+            try {
+                const resposta = await api.get("/perfil");
+                setPerfil(resposta.data);
+                localStorage.setItem("perfilUsuario", JSON.stringify(resposta.data));
+            }
+
+            catch (err) {
+                console.error("Erro ao atualizar perfil:", err);
+            }
+        };
+        atualizarPerfil();
+    }, []);
 
     function handleLogout() {
         localStorage.removeItem("token");
@@ -66,7 +88,7 @@ function Home() {
         <div className="home-container">
             <nav className="navbar">
                 <div className="navbar-logo">
-                    <h2>SGC</h2>
+                    <h2>Residencial Boca de Pedreiro</h2>
                 </div>
 
                 <ul className="navbar-links">
@@ -96,6 +118,13 @@ function Home() {
 
                         {menuAberto && (
                             <div className="menu-dropdown">
+                                <div className="dropdown-perfil-info">
+                                    <p className="dropdown-perfil-nome">{perfil.nome || "Usuário"}</p>
+                                    <p className="dropdown-perfil-detalhe">{perfil.detalheExtra || ""}</p>
+                                </div>
+
+                                <hr className="dropdown-divisor" />
+
                                 <Link to="/atualizar-cadastro" className="dropdown-item">
                                     <FiSettings className="dropdown-icon" /> Atualizar Cadastro
                                 </Link>
