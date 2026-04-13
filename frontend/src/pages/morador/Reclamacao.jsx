@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
-import "../../styles/ReclamacaoMorador.css";
+import "../../styles/Reclamacao.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiSend, FiAlertCircle, FiClock, FiCheckCircle } from "react-icons/fi";
 
-function ReclamacaoMorador() {
+function Reclamacao() {
     const [tipo, setTipo] = useState("");
     const [categoria, setCategoria] = useState("");
     const [descricao, setDescricao] = useState("");
@@ -293,4 +293,4 @@ function ReclamacaoMorador() {
     );
 }
 
-export default ReclamacaoMorador;
+export default Reclamacao;

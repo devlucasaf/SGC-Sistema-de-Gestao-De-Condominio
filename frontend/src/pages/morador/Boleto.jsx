@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
 import Loading from "../../components/Loading";
-import "../../styles/BoletoMorador.css";
+import "../../styles/Boleto.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiDollarSign, FiCalendar, FiCopy, FiCheckCircle, FiClock } from "react-icons/fi";
 
-function BoletoMorador() {
+function Boleto() {
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -130,4 +130,4 @@ function BoletoMorador() {
     );
 }
 
-export default BoletoMorador;
+export default Boleto;

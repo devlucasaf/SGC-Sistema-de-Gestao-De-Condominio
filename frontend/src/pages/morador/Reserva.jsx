@@ -6,14 +6,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
 import Loading from "../../components/Loading";
-import "../../styles/ReservaMorador.css";
+import "../../styles/Reserva.css";
 import "../../styles/Cadastro.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiXCircle } from "react-icons/fi";
 
 registerLocale("pt-BR", ptBR);
 
-function ReservaMorador() {
+function Reserva() {
     const [areasDeLazer, setAreasDeLazer] = useState([]);
     const [carregandoAreas, setCarregandoAreas] = useState(true);
     const [areaSelecionada, setAreaSelecionada] = useState(null);
@@ -291,4 +291,4 @@ function ReservaMorador() {
     );
 }
 
-export default ReservaMorador;
+export default Reserva;
