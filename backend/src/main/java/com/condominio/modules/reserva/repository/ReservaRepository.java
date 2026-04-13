@@ -13,4 +13,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     Optional<Reserva> findByAreaLazerIdAndDataReservaAndStatusNot(Long areaLazerId, LocalDate data, StatusReserva status);
 
     List<Reserva> findByMoradorIdOrderByDataReservaDesc(Long idMorador);
+
+    List<Reserva> findAllByOrderByDataReservaDesc();
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EncomendaRepository extends JpaRepository<Encomenda, Long> {
 
@@ -16,4 +18,7 @@ public interface EncomendaRepository extends JpaRepository<Encomenda, Long> {
 
     // --- BUSCA APENAS AS ENCOMENDAS QUE ESTÃO PENDENTES DE RETIRADA ---
     Page<Encomenda> findByUnidadeIdAndStatus(Long idUnidade, StatusEncomenda status, Pageable pageable);
+
+    // --- LISTA TODAS AS ENCOMENDAS ORDENADAS POR DATA ---
+    List<Encomenda> findAllByOrderByDataRecebimentoDesc();
 }

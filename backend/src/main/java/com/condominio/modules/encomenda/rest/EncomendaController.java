@@ -17,6 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 import java.net.URI;
+import java.util.List;
+import java.util.List;
 
 @RestController
 @RequestMapping("/encomendas")
@@ -44,6 +46,13 @@ public class EncomendaController {
     public ResponseEntity<EncomendaResponseDTO> registrarRetirada(@PathVariable Long id) {
         EncomendaResponseDTO response = encomendaService.registrarRetirada(id);
         return ResponseEntity.ok(response);
+    }
+
+    // --- ROTA PARA LISTAR TODAS AS ENCOMENDAS ---
+    @GetMapping
+    public ResponseEntity<List<EncomendaResponseDTO>> listarTodas() {
+        List<EncomendaResponseDTO> lista = encomendaService.listarTodas();
+        return ResponseEntity.ok(lista);
     }
 
     // --- ROTA PARA LISTAR AS ENCOMENDAS DE UMA UNIDADE ---

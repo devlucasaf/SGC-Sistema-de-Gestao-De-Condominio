@@ -5,8 +5,10 @@ import com.condominio.modules.usuario.model.Usuario;
 
 import com.condominio.modules.reserva.dto.ReservaRequestDTO;
 import com.condominio.modules.reserva.dto.ReservaResponseDTO;
+import com.condominio.modules.reserva.dto.ReservaPorteiroDTO;
 import com.condominio.modules.reserva.model.AreaLazer;
 import com.condominio.modules.reserva.repository.AreaLazerRepository;
+import com.condominio.modules.reserva.repository.ReservaRepository;
 import com.condominio.modules.reserva.service.ReservaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,19 @@ public class ReservaController {
 
     @Autowired
     private AreaLazerRepository areaLazerRepository;
+
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    // --- LISTAR TODAS AS RESERVAS (VISÃO PORTEIRO/SÍNDICO) ---
+    @GetMapping("/todas")
+    public ResponseEntity<List<ReservaPorteiroDTO>> listarTodas() {
+        List<ReservaPorteiroDTO> lista = reservaRepository.findAllByOrderByDataReservaDesc()
+                .stream()
+                .map(ReservaPorteiroDTO::fromEntity)
+                .collect(java.util.stream.Collectors.toList());
+        return ResponseEntity.ok(lista);
+    }
 
     // --- EXTRAI O MORADOR LOGADO COM VALIDAÇÃO DE TIPO ---
     private Morador extrairMorador(Usuario usuario) {

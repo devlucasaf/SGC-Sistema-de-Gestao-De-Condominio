@@ -24,6 +24,7 @@ import javax.transaction.Transactional;
 
 import java.time.LocalDateTime;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,5 +77,12 @@ public class EncomendaService {
         Page<Encomenda> pagina = encomendaRepository.findByUnidadeId(idUnidade, pageable);
 
         return PageMapper.toDTO(pagina, EncomendaResponseDTO::fromEntity);
+    }
+
+    public List<EncomendaResponseDTO> listarTodas() {
+        return encomendaRepository.findAllByOrderByDataRecebimentoDesc()
+                .stream()
+                .map(EncomendaResponseDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }

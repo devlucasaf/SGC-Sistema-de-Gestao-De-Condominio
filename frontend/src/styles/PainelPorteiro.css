@@ -1,0 +1,501 @@
+.painel-porteiro {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+}
+
+/* --- SIDEBAR --- */
+.sidebar-porteiro {
+    width: 240px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-porteiro .sidebar-logo {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.sidebar-porteiro .sidebar-logo h2 {
+    margin: 0;
+    color: var(--primary-green);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.sidebar-porteiro .sidebar-logo span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+}
+
+.sidebar-porteiro .sidebar-menu {
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    flex: 1;
+}
+
+.sidebar-porteiro .sidebar-menu li {
+    margin: 2px 6px;
+}
+
+.sidebar-porteiro .sidebar-menu button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    position: relative;
+}
+
+.sidebar-porteiro .sidebar-menu button:hover {
+    background-color: var(--overlay-dark);
+    color: var(--text-primary);
+}
+
+.sidebar-porteiro .sidebar-menu button.ativo {
+    background-color: rgba(33, 122, 69, 0.1);
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.badge-count {
+    background-color: var(--error-color);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: var(--radius-full);
+    margin-left: auto;
+}
+
+.sidebar-porteiro .sidebar-logout {
+    padding: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.sidebar-porteiro .sidebar-logout button {
+    width: 100%;
+    padding: 9px;
+    background: transparent;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all var(--transition-fast);
+    font-family: var(--font-body);
+}
+
+.sidebar-porteiro .sidebar-logout button:hover {
+    background-color: var(--error-color);
+    color: white;
+}
+
+/* --- CONTEÚDO --- */
+.conteudo-porteiro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.header-porteiro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+}
+
+.header-porteiro h1 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.header-acoes {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-nome {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.corpo-porteiro {
+    padding: 24px 28px;
+    flex: 1;
+}
+
+/* --- FORMULÁRIO --- */
+.porteiro-form-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.porteiro-form-card h3 {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.porteiro-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.porteiro-form input,
+.porteiro-form select {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-family: var(--font-body);
+    transition: border-color var(--transition-fast);
+}
+
+.porteiro-form input:focus,
+.porteiro-form select:focus {
+    outline: none;
+    border-color: var(--primary-green);
+}
+
+.btn-registrar {
+    padding: 10px 20px;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    font-family: var(--font-body);
+}
+
+.btn-registrar:hover {
+    background-color: var(--primary-green-hover);
+}
+
+.btn-registrar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- RESUMO --- */
+.porteiro-resumo {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.resumo-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    flex: 1;
+    min-width: 160px;
+}
+
+.resumo-card svg {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.resumo-card.pendente svg {
+    color: #f39c12;
+}
+
+.resumo-card.retirado svg {
+    color: #2ecc71;
+}
+
+.resumo-card.analise svg {
+    color: #3498db;
+}
+
+.resumo-valor {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: block;
+    line-height: 1;
+}
+
+.resumo-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+}
+
+/* --- SUBTÍTULO --- */
+.porteiro-subtitulo {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin: 0 0 14px;
+    font-weight: 600;
+}
+
+.porteiro-subtitulo.destaque {
+    color: var(--primary-green);
+}
+
+/* --- LISTA --- */
+.porteiro-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+/* --- CARD --- */
+.porteiro-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    transition: border-color var(--transition-fast);
+}
+
+.porteiro-card:hover {
+    border-color: rgba(33, 122, 69, 0.3);
+}
+
+.porteiro-card.card-retirado {
+    opacity: 0.65;
+}
+
+.porteiro-card-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 1;
+}
+
+.porteiro-card-icone {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(33, 122, 69, 0.1);
+    color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.porteiro-card-icone.icone-reclamacao {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--error-color);
+}
+
+.porteiro-card-icone.icone-reserva {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--info-color);
+}
+
+.porteiro-card-dados h4 {
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.porteiro-card-desc {
+    margin: 0 0 6px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.porteiro-card-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.porteiro-card-meta span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.porteiro-card-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* --- BADGES --- */
+.badge-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.badge-verde {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+}
+
+.badge-amarelo {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+}
+
+.badge-azul {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+.badge-vermelho {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+/* --- BOTÃO DAR BAIXA --- */
+.btn-retirada {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    font-family: var(--font-body);
+}
+
+.btn-retirada:hover {
+    background-color: var(--primary-green-hover);
+}
+
+/* --- MENSAGEM VAZIA --- */
+.corpo-porteiro .msg-vazia {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 768px) {
+    .painel-porteiro {
+        flex-direction: column;
+    }
+
+    .sidebar-porteiro {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-porteiro .sidebar-logo {
+        display: none;
+    }
+
+    .sidebar-porteiro .sidebar-menu {
+        display: flex;
+        padding: 6px 10px;
+        gap: 4px;
+        overflow-x: auto;
+    }
+
+    .sidebar-porteiro .sidebar-menu li {
+        margin: 0;
+    }
+
+    .sidebar-porteiro .sidebar-menu button {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .sidebar-porteiro .sidebar-logout {
+        padding: 6px 10px;
+        border-top: none;
+        border-left: 1px solid var(--border-color);
+    }
+
+    .header-porteiro {
+        padding: 14px 16px;
+    }
+
+    .corpo-porteiro {
+        padding: 16px;
+    }
+
+    .porteiro-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .porteiro-card-acoes {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .porteiro-form {
+        flex-direction: column;
+    }
+
+    .porteiro-form input,
+    .porteiro-form select {
+        min-width: 100%;
+    }
+}
