@@ -14,10 +14,13 @@ import Home                 from          "./pages/morador/Home";
 import AtualizarCadastro    from          "./pages/morador/AtualizarCadastro";
 import MinhaUnidade         from          "./pages/morador/MinhaUnidade";
 import AlterarSenha         from          "./pages/morador/AlterarSenha";
-import BoletoMorador        from          "./pages/morador/BoletoMorador";
+import Boleto               from          "./pages/morador/Boleto";
 import Entregas             from          "./pages/morador/Entregas";
-import ReclamacaoMorador    from          "./pages/morador/ReclamacaoMorador";
-import ReservaMorador       from          "./pages/morador/ReservaMorador";
+import Reclamacao           from          "./pages/morador/Reclamacao";
+import Reserva              from          "./pages/morador/Reserva";
+import Documentos           from          "./pages/morador/Documentos";
+
+import PainelPorteiro       from          "./pages/portaria/PainelPorteiro";
 
 import RotaPrivada          from          "./components/RotaPrivada";
 
@@ -98,10 +101,10 @@ function App() {
         />
 
         <Route
-          path="/boletomorador"
+          path="/boleto"
           element={
             <RotaPrivada>
-              <BoletoMorador />
+              <Boleto />
             </RotaPrivada>
           }
         />
@@ -116,19 +119,28 @@ function App() {
         />
 
         <Route
-          path="/reclamacaomorador"
+          path="/reclamacao"
           element={
             <RotaPrivada>
-              <ReclamacaoMorador />
+              <Reclamacao />
             </RotaPrivada>
           }
         />
 
         <Route
-          path="/reservamorador"
+          path="/reserva"
           element={
             <RotaPrivada>
-              <ReservaMorador />
+              <Reserva />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/documentos"
+          element={
+            <RotaPrivada>
+              <Documentos />
             </RotaPrivada>
           }
         />
@@ -138,6 +150,15 @@ function App() {
           element={
             <RotaPrivada>
               <PainelSindico />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/painel-porteiro"
+          element={
+            <RotaPrivada>
+              <PainelPorteiro />
             </RotaPrivada>
           }
         />

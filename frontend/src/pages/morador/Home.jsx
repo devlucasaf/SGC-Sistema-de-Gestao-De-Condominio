@@ -92,10 +92,13 @@ function Home() {
                 </div>
 
                 <ul className="navbar-links">
-                    <li><Link to="/boletomorador">Boleto</Link></li>
-                    <li><Link to="/reservamorador">Reserva</Link></li>
+                    {perfil.tipoMorador !== "Dependente" && (
+                        <li><Link to="/boleto">Boleto</Link></li>
+                    )}
+                    <li><Link to="/reserva">Reserva</Link></li>
                     <li><Link to="/entregas">Entrega</Link></li>
-                    <li><Link to="/reclamacaomorador">Reclamação</Link></li>
+                    <li><Link to="/reclamacao">Reclamação</Link></li>
+                    <li><Link to="/documentos">Documentos</Link></li>
                 </ul>
 
                 <div className="acoes-usuario">
