@@ -61,6 +61,7 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 │   │   └── 📂 modules                   # Módulos de negócio
 │   │       ├── 📂 autenticacao          # Login e controle de acesso
 │   │       ├── 📂 aviso                 # Mural de avisos
+│   │       ├── 📂 documento             # Gerenciamento de documentos
 │   │       ├── 📂 encomenda             # Gestão de encomendas
 │   │       ├── 📂 financeiro            # Controle financeiro de boletos
 │   │       ├── 📂 morador               # Cadastro de moradores
@@ -79,6 +80,7 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
     │   ├── 📂 pages                     # Páginas da aplicação
     │   │   ├── 📂 auth                  # Telas de Login/Registro
     │   │   ├── 📂 morador               # Painel do Morador
+    │   │   ├── 📂 portaria              # Painel Administrativo da Portaria
     │   │   └── 📂 sindico               # Painel Administrativo do Síndico
     │   ├── 📂 services                  # Chamadas à API
     │   └── 📂 styles                    # Estilos globais
@@ -118,6 +120,13 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
         width="40px" 
         style="padding: 5px;" 
         src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" 
+    />
+    <img 
+        alt="Vite" 
+        title="Vite" 
+        width="40px" 
+        style="padding: 5px;" 
+        src="https://skillicons.dev/icons?i=vite" 
     />
     <img 
         alt="HTML" 
