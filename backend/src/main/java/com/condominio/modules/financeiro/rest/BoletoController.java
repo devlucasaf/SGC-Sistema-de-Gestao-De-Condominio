@@ -4,6 +4,7 @@ import com.condominio.modules.financeiro.dto.AlterarVencimentoDTO;
 import com.condominio.modules.financeiro.dto.BoletoRequestDTO;
 import com.condominio.modules.financeiro.dto.BoletoResponseDTO;
 import com.condominio.modules.financeiro.repository.BoletoRepository;
+import com.condominio.modules.financeiro.scheduler.BoletoScheduler;
 import com.condominio.modules.financeiro.service.BoletoService;
 
 import com.condominio.modules.morador.model.Morador;
@@ -27,6 +28,9 @@ public class BoletoController {
 
     @Autowired
     private BoletoRepository boletoRepository;
+
+    @Autowired
+    private BoletoScheduler boletoScheduler;
 
     // --- ROTA PARA O MORADOR BUSCAR SEUS PRÓPRIOS BOLETOS ---
     @GetMapping("/meus-boletos")
@@ -71,5 +75,15 @@ public class BoletoController {
 
         boletoService.prorrogarVencimento(id, dto);
         return ResponseEntity.noContent().build();
+    }
+
+    // --- ROTA PARA O SÍNDICO GERAR BOLETOS MANUALMENTE ---
+    @PostMapping("/gerar-mensal")
+    public ResponseEntity<java.util.Map<String, String>> gerarBoletosMensal() {
+        boletoScheduler.gerarBoletosMensais();
+        java.util.Map<String, String> resposta = new java.util.HashMap<>();
+        resposta.put("mensagem", "Geração de boletos mensais executada com sucesso!");
+
+        return ResponseEntity.ok(resposta);
     }
 }
