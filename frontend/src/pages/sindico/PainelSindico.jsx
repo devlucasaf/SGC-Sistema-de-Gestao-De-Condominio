@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
-import { FiSun, FiMoon } from "react-icons/fi";
+import { FiSun, FiMoon, FiPackage, FiClock, FiUser, FiCalendar, FiXCircle } from "react-icons/fi";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/PainelSindico.css";
+
+registerLocale("pt-BR", ptBR);
 
 function PainelSindico() {
     const [abaAtiva, setAbaAtiva] = useState("dashboard");
@@ -31,6 +36,17 @@ function PainelSindico() {
     const [meuAndarCalc, setMeuAndarCalc] = useState("");
     const [salvandoPerfil, setSalvandoPerfil] = useState(false);
     const [perfilCompleto, setPerfilCompleto] = useState(null);
+
+    // --- ENTREGAS ---
+    const [minhasEntregas, setMinhasEntregas] = useState([]);
+    const [carregandoEntregas, setCarregandoEntregas] = useState(false);
+
+    // --- RESERVAS ---
+    const [areasDeLazer, setAreasDeLazer] = useState([]);
+    const [historicoReservas, setHistoricoReservas] = useState([]);
+    const [areaSelecionada, setAreaSelecionada] = useState(null);
+    const [dataReserva, setDataReserva] = useState(null);
+    const [carregandoReservas, setCarregandoReservas] = useState(false);
 
     // --- DOCUMENTOS ---
     const [documentos, setDocumentos] = useState([]);
@@ -314,6 +330,81 @@ function PainelSindico() {
         return data;
     }
 
+    // --- ENTREGAS: CARREGAR ---
+    async function carregarMinhasEntregas() {
+        setCarregandoEntregas(true);
+        try {
+            const p = JSON.parse(localStorage.getItem("perfilUsuario") || "{}");
+            if (p.idUnidade) {
+                const res = await api.get(`/encomendas/unidade/${p.idUnidade}`);
+                const lista = res.data.conteudo || res.data;
+                setMinhasEntregas(Array.isArray(lista) ? lista : []);
+            }
+        }
+
+        catch (err) {
+            console.error("Erro ao carregar entregas:", err);
+        }
+
+        finally {
+            setCarregandoEntregas(false);
+        }
+    }
+
+    // --- RESERVAS: CARREGAR ---
+    async function carregarMinhasReservas() {
+        setCarregandoReservas(true);
+        try {
+            const [resAreas, resHistorico] = await Promise.all([
+                api.get("/reservas/areas-lazer").catch(() => ({ data: [] })),
+                api.get("/reservas/minhas-reservas").catch(() => ({ data: [] })),
+            ]);
+            setAreasDeLazer(resAreas.data || []);
+            setHistoricoReservas(resHistorico.data || []);
+        }
+
+        catch (err) {
+            console.error("Erro ao carregar reservas:", err);
+        }
+
+        finally {
+            setCarregandoReservas(false);
+        }
+    }
+
+    async function confirmarReservaSindico(e) {
+        e.preventDefault();
+        try {
+            const res = await api.post("/reservas", {
+                idAreaLazer: areaSelecionada.id,
+                dataReserva: dataReserva ? dataReserva.toISOString().split("T")[0] : "",
+            });
+            setHistoricoReservas([res.data, ...historicoReservas]);
+            toast.sucesso(`Reserva do ${areaSelecionada.nome} confirmada!`, "Sucesso");
+            setAreaSelecionada(null);
+            setDataReserva(null);
+        }
+
+        catch (err) {
+            const msg = err.response?.data?.messages?.[0] || err.response?.data?.message || "Erro ao reservar.";
+            toast.erro(String(msg), "Erro");
+        }
+    }
+
+    async function cancelarReservaSindico(id) {
+        try {
+            await api.put(`/reservas/${id}/cancelar`);
+            setHistoricoReservas(historicoReservas.map(r =>
+                r.id === id ? { ...r, status: "CANCELADA" } : r
+            ));
+            toast.sucesso("Reserva cancelada!", "Sucesso");
+        }
+
+        catch (err) {
+            toast.erro("Erro ao cancelar reserva.", "Erro");
+        }
+    }
+
     // --- HELPERS ---
     function formatarData(dataString) {
         if (!dataString) {
@@ -393,6 +484,24 @@ function PainelSindico() {
 
                     <li style={{ borderTop: "1px solid var(--border-color)", marginTop: "8px", paddingTop: "8px" }}>
                         <button
+                            className={abaAtiva === "minhas-entregas" ? "ativo" : ""}
+                            onClick={() => { setAbaAtiva("minhas-entregas"); carregarMinhasEntregas(); }}
+                            >
+                                Minhas Entregas
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            className={abaAtiva === "minhas-reservas" ? "ativo" : ""}
+                            onClick={() => { setAbaAtiva("minhas-reservas"); carregarMinhasReservas(); }}
+                            >
+                                Reservas
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
                             className={abaAtiva === "meu-perfil" ? "ativo" : ""}
                             onClick={() => { setAbaAtiva("meu-perfil"); carregarMeuPerfil(); }}
                             >
@@ -425,6 +534,8 @@ function PainelSindico() {
                         {abaAtiva === "reclamacoes" && "Reclamações"}
                         {abaAtiva === "avisos" && "Mural de Avisos"}
                         {abaAtiva === "documentos" && "Documentos e Regimento"}
+                        {abaAtiva === "minhas-entregas" && "Minhas Entregas"}
+                        {abaAtiva === "minhas-reservas" && "Reservas de Espaços"}
                         {abaAtiva === "meu-perfil" && "Meu Perfil"}
                         {abaAtiva === "minha-unidade" && "Minha Unidade"}
                     </h1>
@@ -446,6 +557,8 @@ function PainelSindico() {
                             {abaAtiva === "reclamacoes" && renderReclamacoes()}
                             {abaAtiva === "avisos" && renderAvisos()}
                             {abaAtiva === "documentos" && renderDocumentos()}
+                            {abaAtiva === "minhas-entregas" && renderMinhasEntregas()}
+                            {abaAtiva === "minhas-reservas" && renderMinhasReservas()}
                             {abaAtiva === "meu-perfil" && renderMeuPerfil()}
                             {abaAtiva === "minha-unidade" && renderMinhaUnidade()}
                         </>
@@ -933,6 +1046,147 @@ function PainelSindico() {
         );
     }
 
+    function renderMinhasEntregas() {
+        if (carregandoEntregas) {
+            return <p className="msg-vazia">Carregando entregas...</p>;
+        }
+
+        if (minhasEntregas.length === 0) {
+            return <p className="msg-vazia">Nenhuma encomenda registrada para sua unidade.</p>;
+        }
+
+        return (
+            <div className="lista-entregas-sindico">
+                {minhasEntregas.map(e => (
+                    <div key={e.id} className={`card-entrega-sindico ${e.status === "RETIRADO" ? "entrega-retirada" : ""}`}>
+                        <div className="entrega-icone">
+                            <FiPackage />
+                        </div>
+
+                        <div className="entrega-info">
+                            <h4>{e.descricao}</h4>
+
+                            <div className="entrega-meta">
+                                <span><FiClock /> {e.dataRecebimento ? new Date(e.dataRecebimento).toLocaleDateString("pt-BR") + " — " + new Date(e.dataRecebimento).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—"}</span>
+                                <span><FiUser /> {e.nomePorteiro || "Portaria"}</span>
+                            </div>
+                            {e.dataRetirada && (
+                                <span className="entrega-retirada-info">Retirado em {new Date(e.dataRetirada).toLocaleDateString("pt-BR")}</span>
+                            )}
+                        </div>
+                        <span className={`badge ${e.status === "RETIRADO" ? "badge-verde" : "badge-amarelo"}`}>
+                            {e.status === "RETIRADO" ? "Retirado" : "Aguardando"}
+                        </span>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    function renderMinhasReservas() {
+        if (carregandoReservas) {
+            return <p className="msg-vazia">Carregando reservas...</p>;
+        }
+
+        return (
+            <>
+                {/* Grid de áreas de lazer */}
+                <h3 style={{ color: "var(--primary-green)", marginBottom: "14px" }}>Áreas Disponíveis</h3>
+                {areasDeLazer.length === 0 ? (
+                    <p className="msg-vazia">Nenhuma área de lazer cadastrada.</p>
+                ) : (
+                    <div className="grid-areas-sindico">
+                        {areasDeLazer.map(area => (
+                            <div key={area.id} className="card-area-sindico">
+                                <div className="area-icone"><FiCalendar /></div>
+                                <h4>{area.nome}</h4>
+                                <p>Máximo: <strong>{area.capacidadeMaxima} pessoas</strong></p>
+                                <p>Valor: <strong>{!area.valor || area.valor === 0 ? "Gratuito" : `R$ ${area.valor.toFixed(2)}`}</strong></p>
+
+                                <button className="btn-publicar" style={{ marginTop: "8px", width: "100%" }} onClick={() => { setAreaSelecionada(area); setDataReserva(null); }}>
+                                    Escolher Data
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Modal de confirmação */}
+                {areaSelecionada && (
+                    <div className="modal-overlay" onClick={() => setAreaSelecionada(null)}>
+                        <div className="modal-confirm" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "400px" }}>
+                            <h3>Confirmar Reserva</h3>
+                            <p>Espaço: <strong>{areaSelecionada.nome}</strong></p>
+
+                            <form onSubmit={confirmarReservaSindico} style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "10px" }}>
+                                <label style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Escolha a data:</label>
+                                <DatePicker
+                                    selected={dataReserva}
+                                    onChange={(date) => setDataReserva(date)}
+                                    locale="pt-BR"
+                                    dateFormat="dd/MM/yyyy"
+                                    placeholderText="Selecione a data"
+                                    minDate={new Date()}
+                                    className="datepicker-input"
+                                    calendarClassName="datepicker-calendario"
+                                    required
+                                    autoComplete="off"
+                                />
+                                {areaSelecionada.valor > 0 && (
+                                    <p style={{ fontSize: "0.8rem", color: "var(--warning-color)" }}>
+                                        R$ {areaSelecionada.valor.toFixed(2)} serão cobrados no próximo boleto.
+                                    </p>
+                                )}
+
+                                <div className="modal-confirm-botoes">
+                                    <button type="button" className="btn-cancelar" onClick={() => setAreaSelecionada(null)}>Cancelar</button>
+                                    <button type="submit" className="btn-publicar">Confirmar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
+
+                {/* Histórico */}
+                <h3 style={{ color: "var(--primary-green)", margin: "28px 0 14px" }}>Histórico de Reservas</h3>
+                {historicoReservas.length === 0 ? (
+                    <p className="msg-vazia">Você ainda não possui reservas.</p>
+                ) : (
+                    <table className="tabela-sindico">
+                        <thead>
+                            <tr>
+                                <th>Área</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {historicoReservas.map(r => (
+                                <tr key={r.id}>
+                                    <td>{r.nomeAreaLazer}</td>
+                                    <td>{new Date(r.dataReserva + "T00:00:00").toLocaleDateString("pt-BR")}</td>
+                                    <td>
+                                        <span className={`badge ${r.status === "APROVADA" ? "badge-verde" : r.status === "CANCELADA" ? "badge-vermelho" : "badge-amarelo"}`}>
+                                            {r.status}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {r.status === "APROVADA" && (
+                                            <button className="btn-deletar-aviso" onClick={() => cancelarReservaSindico(r.id)} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                                                <FiXCircle /> Cancelar
+                                            </button>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </>
+        );
+    }
+
     function renderMeuPerfil() {
         return (
             <div className="perfil-sindico-container">
@@ -1071,6 +1325,7 @@ function PainelSindico() {
                             <span className="unidade-info-label">Data de Entrada</span>
                             <span className="unidade-info-valor">{formatarDataPerfil(p.dataEntrada)}</span>
                         </div>
+
                         <div className="unidade-info-item">
                             <span className="unidade-info-label">Status</span>
                             <span className="unidade-info-valor badge badge-verde" style={{ display: "inline-block" }}>

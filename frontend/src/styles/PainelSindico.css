@@ -677,3 +677,123 @@
         border-right: none;
     }
 }
+
+/* ===== ENTREGAS DO SÍNDICO ===== */
+.lista-entregas-sindico {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-entrega-sindico {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    transition: border-color var(--transition-fast);
+}
+
+.card-entrega-sindico:hover {
+    border-color: rgba(33, 122, 69, 0.3);
+}
+
+.card-entrega-sindico.entrega-retirada {
+    opacity: 0.6;
+}
+
+.entrega-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(33, 122, 69, 0.1);
+    color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.entrega-info {
+    flex: 1;
+}
+
+.entrega-info h4 {
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.entrega-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.entrega-meta span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.entrega-retirada-info {
+    font-size: 0.78rem;
+    color: #2ecc71;
+    margin-top: 4px;
+    display: block;
+}
+
+/* ===== RESERVAS DO SÍNDICO ===== */
+.grid-areas-sindico {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card-area-sindico {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+    transition: border-color var(--transition-fast);
+}
+
+.card-area-sindico:hover {
+    border-color: rgba(33, 122, 69, 0.3);
+}
+
+.card-area-sindico .area-icone {
+    font-size: 1.6rem;
+    color: var(--primary-green);
+    margin-bottom: 8px;
+}
+
+.card-area-sindico h4 {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.card-area-sindico p {
+    margin: 2px 0;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .card-entrega-sindico {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .grid-areas-sindico {
+        grid-template-columns: 1fr;
+    }
+}
