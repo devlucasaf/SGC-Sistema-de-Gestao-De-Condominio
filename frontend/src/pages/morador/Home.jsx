@@ -178,6 +178,7 @@ function Home() {
                             <div key={aviso.id} className="cartao-aviso">
                                 <div className="aviso-cabecalho">
                                     <h3>{aviso.titulo}</h3>
+
                                     <span className="aviso-data">
                                         {new Date(aviso.dataCriacao).toLocaleDateString("pt-BR", {
                                             day: "2-digit",
@@ -188,6 +189,7 @@ function Home() {
                                         })}
                                     </span>
                                 </div>
+
                                 <p className="aviso-mensagem">{aviso.mensagem}</p>
                                 <p className="aviso-autor">Publicado por: <strong>{aviso.nomeSindico}</strong></p>
                             </div>
