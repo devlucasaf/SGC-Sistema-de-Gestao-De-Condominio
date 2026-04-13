@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
-import "../../styles/ReclamacaoMorador.css";
+import "../../styles/Reclamacao.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiLock, FiMail, FiEye, FiEyeOff } from "react-icons/fi";
 
