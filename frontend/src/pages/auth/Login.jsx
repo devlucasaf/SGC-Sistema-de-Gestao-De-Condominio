@@ -65,7 +65,7 @@ function Login() {
                 }
 
                 else if (perfil.data.tipoUsuario === "PORTEIRO") {
-                    navigate("/entregas");
+                    navigate("/painel-porteiro");
                 }
 
                 else {
