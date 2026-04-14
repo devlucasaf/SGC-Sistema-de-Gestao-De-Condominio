@@ -98,6 +98,8 @@ function Home() {
                     <li><Link to="/reserva">Reserva</Link></li>
                     <li><Link to="/entregas">Entrega</Link></li>
                     <li><Link to="/reclamacao">Reclamação</Link></li>
+                    <li><Link to="/solicitacoes">Solicitações</Link></li>
+                    <li><Link to="/minhas-infracoes">Multas</Link></li>
                     <li><Link to="/documentos">Documentos</Link></li>
                 </ul>
 

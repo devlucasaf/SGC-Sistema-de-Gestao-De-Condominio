@@ -19,6 +19,8 @@ import Entregas             from          "./pages/morador/Entregas";
 import Reclamacao           from          "./pages/morador/Reclamacao";
 import Reserva              from          "./pages/morador/Reserva";
 import Documentos           from          "./pages/morador/Documentos";
+import Solicitacoes         from          "./pages/morador/Solicitacoes";
+import MinhasInfracoes      from          "./pages/morador/MinhasInfracoes";
 
 import PainelPorteiro       from          "./pages/portaria/PainelPorteiro";
 
@@ -141,6 +143,24 @@ function App() {
           element={
             <RotaPrivada>
               <Documentos />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/solicitacoes"
+          element={
+            <RotaPrivada>
+              <Solicitacoes />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/minhas-infracoes"
+          element={
+            <RotaPrivada>
+              <MinhasInfracoes />
             </RotaPrivada>
           }
         />
