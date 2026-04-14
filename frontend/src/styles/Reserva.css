@@ -1,9 +1,3 @@
-/* ==========================================
-   ReservaMorador.css
-   Usa variáveis globais do tema (App.css)
-   e reutiliza classes de Entregas.css
-   ========================================== */
-
 /* --- Subtítulo --- */
 .subtitulo {
     font-size: 1.1rem;
