@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
-import { FiSun, FiMoon, FiPackage, FiAlertCircle, FiCalendar, FiCheck, FiClock, FiArrowRight } from "react-icons/fi";
+import { FiSun, FiMoon, FiPackage, FiAlertCircle, FiCalendar, FiCheck, FiClock, FiArrowRight, FiFileText, FiUser } from "react-icons/fi";
 import "../../styles/PainelPorteiro.css";
 
 function PainelPorteiro() {
@@ -15,12 +15,21 @@ function PainelPorteiro() {
     const [reclamacoes, setReclamacoes] = useState([]);
     const [reservas, setReservas] = useState([]);
     const [unidades, setUnidades] = useState([]);
+    const [solicitacoes, setSolicitacoes] = useState([]);
+    const [filtroTipoSol, setFiltroTipoSol] = useState("TODOS");
+    const [filtroStatusSol, setFiltroStatusSol] = useState("TODOS");
     const [carregando, setCarregando] = useState(true);
 
     // --- NOVA ENCOMENDA ---
     const [descricaoEncomenda, setDescricaoEncomenda] = useState("");
     const [idUnidadeEncomenda, setIdUnidadeEncomenda] = useState("");
     const [enviandoEncomenda, setEnviandoEncomenda] = useState(false);
+
+    // --- MEU PERFIL ---
+    const [meuNome, setMeuNome] = useState("");
+    const [meuEmail, setMeuEmail] = useState("");
+    const [meuTelefone, setMeuTelefone] = useState("");
+    const [salvandoPerfil, setSalvandoPerfil] = useState(false);
 
     // --- TEMA ---
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -54,17 +63,19 @@ function PainelPorteiro() {
     async function carregarDados() {
         setCarregando(true);
         try {
-            const [resEncomendas, resReclamacoes, resReservas, resUnidades] = await Promise.all([
+            const [resEncomendas, resReclamacoes, resReservas, resUnidades, resSolicitacoes] = await Promise.all([
                 api.get("/encomendas").catch(() => ({ data: [] })),
                 api.get("/api/reclamacoes").catch(() => ({ data: { conteudo: [] } })),
                 api.get("/reservas/todas").catch(() => ({ data: [] })),
                 api.get("/unidades").catch(() => ({ data: [] })),
+                api.get("/api/solicitacoes").catch(() => ({ data: { conteudo: [] } })),
             ]);
 
             setEncomendas(resEncomendas.data || []);
             setReclamacoes(resReclamacoes.data.conteudo || resReclamacoes.data || []);
             setReservas(resReservas.data || []);
             setUnidades(resUnidades.data || []);
+            setSolicitacoes(resSolicitacoes.data.conteudo || resSolicitacoes.data || []);
         }
 
         catch (err) {
@@ -121,6 +132,45 @@ function PainelPorteiro() {
         }
     }
 
+    // --- MEU PERFIL: CARREGAR ---
+    async function carregarMeuPerfilPorteiro() {
+        try {
+            const res = await api.get("/perfil");
+            const p = res.data;
+            setMeuNome(p.nome || "");
+            setMeuEmail(p.email || "");
+            setMeuTelefone(formatarTelefone(p.telefone || ""));
+        } catch (err) {
+            console.error("Erro ao carregar perfil:", err);
+        }
+    }
+
+    function formatarTelefone(valor) {
+        const numeros = valor.replace(/\D/g, "").slice(0, 11);
+        return numeros
+            .replace(/(\d{2})(\d)/, "($1) $2")
+            .replace(/(\d{5})(\d{1,4})$/, "$1-$2");
+    }
+
+    async function salvarPerfilPorteiro(e) {
+        e.preventDefault();
+        setSalvandoPerfil(true);
+        try {
+            const res = await api.patch("/perfil/atualizar-cadastro", {
+                nome: meuNome.trim(),
+                email: meuEmail.trim(),
+                telefone: meuTelefone.replace(/\D/g, ""),
+            });
+            localStorage.setItem("perfilUsuario", JSON.stringify(res.data));
+            toast.sucesso("Cadastro atualizado com sucesso!");
+        } catch (err) {
+            console.error("Erro ao salvar perfil:", err);
+            toast.erro(err.response?.data?.erro || "Erro ao atualizar cadastro.");
+        } finally {
+            setSalvandoPerfil(false);
+        }
+    }
+
     // --- LOGOUT ---
     function handleLogout() {
         localStorage.removeItem("token");
@@ -152,6 +202,8 @@ function PainelPorteiro() {
         const hoje = new Date().toISOString().split("T")[0];
         return r.dataReserva === hoje;
     }).length;
+
+    const solicitacoesPendentes = solicitacoes.filter(s => s.status === "PENDENTE").length;
 
     return (
         <div className="painel-porteiro">
@@ -198,6 +250,26 @@ function PainelPorteiro() {
                             )}
                         </button>
                     </li>
+
+                    <li>
+                        <button
+                            className={abaAtiva === "solicitacoes" ? "ativo" : ""}
+                            onClick={() => setAbaAtiva("solicitacoes")}
+                        >
+                            <FiFileText /> Solicitações
+                            {solicitacoesPendentes > 0 && (
+                                <span className="badge-count">{solicitacoesPendentes}</span>
+                            )}
+                        </button>
+                    </li>
+                    <li style={{ borderTop: "1px solid var(--border-color)", marginTop: "8px", paddingTop: "8px" }}>
+                        <button
+                            className={abaAtiva === "meu-cadastro" ? "ativo" : ""}
+                            onClick={() => { setAbaAtiva("meu-cadastro"); carregarMeuPerfilPorteiro(); }}
+                        >
+                            <FiUser /> Meu Cadastro
+                        </button>
+                    </li>
                 </ul>
 
                 <div className="sidebar-logout">
@@ -212,6 +284,8 @@ function PainelPorteiro() {
                         {abaAtiva === "entregas" && "Entregas / Encomendas"}
                         {abaAtiva === "reclamacoes" && "Reclamações"}
                         {abaAtiva === "reservas" && "Reservas de Áreas"}
+                        {abaAtiva === "solicitacoes" && "Solicitações dos Moradores"}
+                        {abaAtiva === "meu-cadastro" && "Meu Cadastro"}
                     </h1>
 
                     <div className="header-acoes">
@@ -230,6 +304,8 @@ function PainelPorteiro() {
                             {abaAtiva === "entregas" && renderEntregas()}
                             {abaAtiva === "reclamacoes" && renderReclamacoes()}
                             {abaAtiva === "reservas" && renderReservas()}
+                            {abaAtiva === "solicitacoes" && renderSolicitacoesPorteiro()}
+                            {abaAtiva === "meu-cadastro" && renderMeuCadastroPorteiro()}
                         </>
                     )}
                 </div>
@@ -389,8 +465,10 @@ function PainelPorteiro() {
                                         rec.status === "RESOLVIDA" ? "badge-verde" :
                                         rec.status === "EM_ANALISE" ? "badge-azul" : "badge-amarelo"
                                     }`}>
-                                        {rec.status === "RESOLVIDA" ? "Resolvida" :
-                                         rec.status === "EM_ANALISE" ? "Em Análise" : "Pendente"}
+                                        {
+                                            rec.status === "RESOLVIDA" ? "Resolvida" :
+                                            rec.status === "EM_ANALISE" ? "Em Análise" : "Pendente"
+                                        }
                                     </span>
                                 </div>
                             </div>
@@ -469,6 +547,288 @@ function PainelPorteiro() {
         );
     }
 
+    function renderMeuCadastroPorteiro() {
+        return (
+            <div className="porteiro-form-card">
+                <h3><FiUser /> Atualizar Meu Cadastro</h3>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "16px" }}>
+                    Atualize seus dados pessoais abaixo.
+                </p>
+
+                <form className="porteiro-form" onSubmit={salvarPerfilPorteiro} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                            <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>
+                                Nome completo
+                            </label>
+                            <input
+                                type="text"
+                                value={meuNome}
+                                onChange={(e) => setMeuNome(e.target.value)}
+                                placeholder="Seu nome"
+                                required
+                                style={{
+                                    padding: "10px 14px",
+                                    borderRadius: "8px",
+                                    border: "1px solid var(--border-color)",
+                                    background: "var(--bg-input, var(--bg-card))",
+                                    color: "var(--text-primary)",
+                                    fontSize: "0.9rem"
+                                }}
+                            />
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                            <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>
+                                E-mail
+                            </label>
+                            <input
+                                type="email"
+                                value={meuEmail}
+                                onChange={(e) => setMeuEmail(e.target.value)}
+                                placeholder="seu@email.com"
+                                required
+                                style={{
+                                    padding: "10px 14px",
+                                    borderRadius: "8px",
+                                    border: "1px solid var(--border-color)",
+                                    background: "var(--bg-input, var(--bg-card))",
+                                    color: "var(--text-primary)",
+                                    fontSize: "0.9rem"
+                                }}
+                            />
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                            <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>
+                                Telefone
+                            </label>
+                            <input
+                                type="text"
+                                value={meuTelefone}
+                                onChange={(e) => setMeuTelefone(formatarTelefone(e.target.value))}
+                                placeholder="(00) 00000-0000"
+                                style={{
+                                    padding: "10px 14px",
+                                    borderRadius: "8px",
+                                    border: "1px solid var(--border-color)",
+                                    background: "var(--bg-input, var(--bg-card))",
+                                    color: "var(--text-primary)",
+                                    fontSize: "0.9rem"
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="btn-registrar"
+                        disabled={salvandoPerfil}
+                        style={{ alignSelf: "flex-start", marginTop: "8px" }}
+                    >
+                        {salvandoPerfil ? "Salvando..." : "Salvar Alterações"}
+                    </button>
+                </form>
+            </div>
+        );
+    }
+
+    function renderSolicitacoesPorteiro() {
+        const pendentes = solicitacoes.filter(s => s.status === "PENDENTE").length;
+        const emAnalise = solicitacoes.filter(s => s.status === "EM_ANALISE").length;
+        const aprovadas = solicitacoes.filter(s => s.status === "APROVADO").length;
+        const recusadas = solicitacoes.filter(s => s.status === "RECUSADO").length;
+
+        const filtradas = solicitacoes.filter(s => {
+            const passaTipo = filtroTipoSol === "TODOS" || s.tipo === filtroTipoSol;
+            const passaStatus = filtroStatusSol === "TODOS" || s.status === filtroStatusSol;
+            return passaTipo && passaStatus;
+        });
+
+        function getNomeTipo(tipo) {
+            switch (tipo) {
+                case "OBRA":
+                    return "Obra";
+                case "MUDANCA":
+                    return "Mudança";
+                case "ENTREGA":
+                    return "Entrega";
+                case "PRESTADOR":
+                    return "Prestador";
+                default:
+                    return tipo;
+            }
+        }
+
+        function getIconeTipo(tipo) {
+            switch (tipo) {
+                case "OBRA":
+                    return "";
+                case "MUDANCA":
+                    return "";
+                case "ENTREGA":
+                    return "";
+                case "PRESTADOR":
+                    return "";
+                default:
+                    return "";
+            }
+        }
+
+        function getCorTipo(tipo) {
+            switch (tipo) {
+                case "OBRA":
+                    return "#e67e22";
+                case "MUDANCA":
+                    return "#3498db";
+                case "ENTREGA":
+                    return "#2ecc71";
+                case "PRESTADOR":
+                    return "#9b59b6";
+                default:
+                    return "#888";
+            }
+        }
+
+        return (
+            <>
+                {/* Resumo */}
+                <div className="porteiro-resumo">
+                    <div className="resumo-card pendente">
+                        <FiClock />
+                        <div>
+                            <span className="resumo-valor">{pendentes}</span>
+                            <span className="resumo-label">Pendentes</span>
+                        </div>
+                    </div>
+
+                    <div className="resumo-card analise">
+                        <FiAlertCircle />
+                        <div>
+                            <span className="resumo-valor">{emAnalise}</span>
+                            <span className="resumo-label">Em Análise</span>
+                        </div>
+                    </div>
+
+                    <div className="resumo-card retirado">
+                        <FiCheck />
+                        <div>
+                            <span className="resumo-valor">{aprovadas}</span>
+                            <span className="resumo-label">Aprovadas</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Filtros */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", margin: "16px 0" }}>
+                    {["TODOS", "OBRA", "MUDANCA", "ENTREGA", "PRESTADOR"].map(t => (
+                        <button
+                            key={t}
+                            onClick={() => setFiltroTipoSol(t)}
+                            style={{
+                                padding: "6px 14px", borderRadius: "20px",
+                                border: filtroTipoSol === t ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                                background: filtroTipoSol === t ? "rgba(46,204,113,0.12)" : "transparent",
+                                color: filtroTipoSol === t ? "var(--primary-green)" : "var(--text-secondary)",
+                                cursor: "pointer", fontSize: "0.85rem",
+                                fontWeight: filtroTipoSol === t ? "600" : "400"
+                            }}
+                        >
+                            {t === "TODOS" ? "Todos" : `${getIconeTipo(t)} ${getNomeTipo(t)}`}
+                        </button>
+                    ))}
+
+                    <span style={{ width: "1px", background: "var(--border-color)", margin: "0 4px" }} />
+
+                    {["TODOS", "PENDENTE", "EM_ANALISE", "APROVADO", "RECUSADO"].map(s => (
+                        <button
+                            key={s}
+                            onClick={() => setFiltroStatusSol(s)}
+                            style={{
+                                padding: "6px 14px", borderRadius: "20px",
+                                border: filtroStatusSol === s ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                                background: filtroStatusSol === s ? "rgba(46,204,113,0.12)" : "transparent",
+                                color: filtroStatusSol === s ? "var(--primary-green)" : "var(--text-secondary)",
+                                cursor: "pointer", fontSize: "0.85rem",
+                                fontWeight: filtroStatusSol === s ? "600" : "400"
+                            }}
+                        >
+                            {
+                                s === "TODOS" ? "Todos Status" :
+                                s === "PENDENTE" ? "Pendente" :
+                                s === "EM_ANALISE" ? "Em Análise" :
+                                s === "APROVADO" ? "Aprovado" : "Recusado"
+                            }
+                        </button>
+                    ))}
+                </div>
+
+                <h3 className="porteiro-subtitulo">
+                    Solicitações dos Moradores ({filtradas.length})
+                </h3>
+
+                {/* Lista - somente visualização */}
+                {filtradas.length === 0 ? (
+                    <p className="msg-vazia">Nenhuma solicitação encontrada.</p>
+                ) : (
+                    <div className="porteiro-lista">
+                        {filtradas
+                            .sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao))
+                            .map(sol => (
+                            <div key={sol.id} className="porteiro-card" style={{ borderLeft: `4px solid ${getCorTipo(sol.tipo)}` }}>
+                                <div className="porteiro-card-info">
+                                    <div className="porteiro-card-icone" style={{ color: getCorTipo(sol.tipo) }}>
+                                        <FiFileText />
+                                    </div>
+
+                                    <div className="porteiro-card-dados">
+                                        <h4>{getIconeTipo(sol.tipo)} {sol.titulo}</h4>
+                                        <p className="porteiro-card-desc">{sol.descricao}</p>
+                                        <div className="porteiro-card-meta">
+                                            <span>
+                                                Tipo: {getNomeTipo(sol.tipo)}
+                                            </span>
+
+                                            <span>
+                                                Data prevista: {sol.dataPrevista ? new Date(sol.dataPrevista + "T00:00:00").toLocaleDateString("pt-BR") : "—"}
+                                            </span>
+
+                                            <span>
+                                                {sol.nomeMorador || "—"}
+                                            </span>
+
+                                            <span>
+                                                {sol.apartamentoMorador || sol.unidade || "—"}
+                                            </span>
+
+                                            <span>
+                                                Criada em: {formatarData(sol.dataCriacao)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="porteiro-card-acoes">
+                                    <span className={`badge-status ${
+                                        sol.status === "APROVADO" ? "badge-verde" :
+                                        sol.status === "EM_ANALISE" ? "badge-azul" :
+                                        sol.status === "RECUSADO" ? "badge-vermelho" :
+                                        "badge-amarelo"
+                                    }`}>
+                                        {
+                                            sol.status === "PENDENTE" ? "Pendente" :
+                                            sol.status === "EM_ANALISE" ? "Em Análise" :
+                                            sol.status === "APROVADO" ? "Aprovado" : "Recusado"
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </>
+        );
+    }
+
     function renderCardReserva(res) {
         return (
             <div key={res.id} className="porteiro-card">
@@ -476,6 +836,7 @@ function PainelPorteiro() {
                     <div className="porteiro-card-icone icone-reserva">
                         <FiCalendar />
                     </div>
+
                     <div className="porteiro-card-dados">
                         <h4>{res.nomeAreaLazer}</h4>
                         <div className="porteiro-card-meta">
@@ -490,8 +851,10 @@ function PainelPorteiro() {
                         res.status === "CONFIRMADA" ? "badge-verde" :
                         res.status === "CANCELADA" ? "badge-vermelho" : "badge-amarelo"
                     }`}>
-                        {res.status === "CONFIRMADA" ? "Confirmada" :
-                         res.status === "CANCELADA" ? "Cancelada" : "Pendente"}
+                        {
+                            res.status === "CONFIRMADA" ? "Confirmada" :
+                            res.status === "CANCELADA" ? "Cancelada" : "Pendente"
+                        }
                     </span>
                 </div>
             </div>
