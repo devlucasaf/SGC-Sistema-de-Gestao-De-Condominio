@@ -82,19 +82,27 @@ function Documentos() {
 
     function getLabelCategoria(categoria) {
         switch (categoria) {
-            case "REGRA": return "Regra";
-            case "MULTA": return "Multa";
-            case "REGIMENTO": return "Regimento";
-            default: return categoria;
+            case "REGRA":
+                return "Regra";
+            case "MULTA":
+                return "Multa";
+            case "REGIMENTO":
+                return "Regimento";
+            default:
+                return categoria;
         }
     }
 
     function getBadgeClasse(categoria) {
         switch (categoria) {
-            case "REGRA": return "badge-doc badge-regra";
-            case "MULTA": return "badge-doc badge-multa";
-            case "REGIMENTO": return "badge-doc badge-regimento";
-            default: return "badge-doc";
+            case "REGRA":
+                return "badge-doc badge-regra";
+            case "MULTA":
+                return "badge-doc badge-multa";
+            case "REGIMENTO":
+                return "badge-doc badge-regimento";
+            default:
+                return "badge-doc";
         }
     }
 
@@ -105,10 +113,6 @@ function Documentos() {
     return (
         <div className="documentos-container">
             <nav className="doc-navbar">
-                <button className="btn-voltar-doc" onClick={() => navigate("/home")}>
-                    <FiArrowLeft /> Voltar
-                </button>
-
                 <h2 className="doc-navbar-titulo">
                     <FiFileText /> Documentos e Regimento
                 </h2>
@@ -119,6 +123,21 @@ function Documentos() {
             </nav>
 
             <main className="doc-conteudo">
+                <div
+                    className="entregas-header"
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: "12px"
+                    }}
+                >
+                    <button className="btn-voltar" onClick={() => navigate("/home")}>
+                        <FiArrowLeft /> Voltar para Página Inicial
+                    </button>
+                </div>
+
                 {/* Filtros */}
                 <div className="doc-filtros">
                     {["TODOS", "REGIMENTO", "REGRA", "MULTA"].map(cat => (
