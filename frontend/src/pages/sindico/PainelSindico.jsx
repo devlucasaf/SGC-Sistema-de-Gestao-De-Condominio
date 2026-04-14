@@ -57,6 +57,24 @@ function PainelSindico() {
     const [editandoDoc, setEditandoDoc] = useState(null);
     const [modalConfirmDoc, setModalConfirmDoc] = useState({ aberto: false, idDoc: null });
 
+    // --- SOLICITAÇÕES ---
+    const [solicitacoes, setSolicitacoes] = useState([]);
+    const [filtroTipoSol, setFiltroTipoSol] = useState("TODOS");
+    const [filtroStatusSol, setFiltroStatusSol] = useState("TODOS");
+
+    // --- INFRAÇÕES (MULTAS E ADVERTÊNCIAS) ---
+    const [infracoes, setInfracoes] = useState([]);
+    const [filtroTipoInf, setFiltroTipoInf] = useState("TODOS");
+    const [filtroStatusInf, setFiltroStatusInf] = useState("TODOS");
+    const [tipoInfracao, setTipoInfracao] = useState("MULTA");
+    const [motivoInfracao, setMotivoInfracao] = useState("");
+    const [descricaoInfracao, setDescricaoInfracao] = useState("");
+    const [valorInfracao, setValorInfracao] = useState("");
+    const [moradorInfracao, setMoradorInfracao] = useState("");
+    const [dataInfracao, setDataInfracao] = useState(null);
+    const [enviandoInfracao, setEnviandoInfracao] = useState(false);
+    const [mostrarFormInfracao, setMostrarFormInfracao] = useState(false);
+
     // --- MODAL CONFIRMAÇÃO ---
     const [modalConfirm, setModalConfirm] = useState({ aberto: false, idAviso: null });
 
@@ -97,12 +115,14 @@ function PainelSindico() {
     async function carregarDados() {
         setCarregando(true);
         try {
-            const [resMoradores, resUnidades, resReclamacoes, resAvisos, resDocumentos] = await Promise.all([
+            const [resMoradores, resUnidades, resReclamacoes, resAvisos, resDocumentos, resSolicitacoes, resInfracoes] = await Promise.all([
                 api.get("/moradores").catch(() => ({ data: [] })),
                 api.get("/unidades").catch(() => ({ data: [] })),
                 api.get("/api/reclamacoes").catch(() => ({ data: { conteudo: [] } })),
                 api.get("/avisos").catch(() => ({ data: [] })),
                 api.get("/documentos").catch(() => ({ data: [] })),
+                api.get("/api/solicitacoes").catch(() => ({ data: { conteudo: [] } })),
+                api.get("/api/infracoes").catch(() => ({ data: [] })),
             ]);
 
             setMoradores(resMoradores.data || []);
@@ -110,6 +130,8 @@ function PainelSindico() {
             setReclamacoes(resReclamacoes.data.conteudo || resReclamacoes.data || []);
             setAvisos(resAvisos.data || []);
             setDocumentos(resDocumentos.data || []);
+            setSolicitacoes(resSolicitacoes.data.conteudo || resSolicitacoes.data || []);
+            setInfracoes(resInfracoes.data || []);
         }
         
         catch (err) {
@@ -482,6 +504,50 @@ function PainelSindico() {
                         </button>
                     </li>
 
+                    <li>
+                        <button
+                            className={abaAtiva === "solicitacoes" ? "ativo" : ""}
+                            onClick={() => setAbaAtiva("solicitacoes")}
+                            >
+                                Solicitações
+                                {solicitacoes.filter(s => s.status === "PENDENTE").length > 0 && (
+                                    <span style={{
+                                        marginLeft: "8px",
+                                        background: "#e67e22",
+                                        color: "white",
+                                        borderRadius: "10px",
+                                        padding: "1px 8px",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold"
+                                    }}>
+                                        {solicitacoes.filter(s => s.status === "PENDENTE").length}
+                                    </span>
+                                )}
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            className={abaAtiva === "infracoes" ? "ativo" : ""}
+                            onClick={() => setAbaAtiva("infracoes")}
+                            >
+                                Multas / Advertências
+                                {infracoes.filter(i => i.status === "PENDENTE" || i.status === "CONTESTADA").length > 0 && (
+                                    <span style={{
+                                        marginLeft: "8px",
+                                        background: "#e74c3c",
+                                        color: "white",
+                                        borderRadius: "10px",
+                                        padding: "1px 8px",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold"
+                                    }}>
+                                        {infracoes.filter(i => i.status === "PENDENTE" || i.status === "CONTESTADA").length}
+                                    </span>
+                                )}
+                        </button>
+                    </li>
+
                     <li style={{ borderTop: "1px solid var(--border-color)", marginTop: "8px", paddingTop: "8px" }}>
                         <button
                             className={abaAtiva === "minhas-entregas" ? "ativo" : ""}
@@ -534,6 +600,8 @@ function PainelSindico() {
                         {abaAtiva === "reclamacoes" && "Reclamações"}
                         {abaAtiva === "avisos" && "Mural de Avisos"}
                         {abaAtiva === "documentos" && "Documentos e Regimento"}
+                        {abaAtiva === "solicitacoes" && "Solicitações dos Moradores"}
+                        {abaAtiva === "infracoes" && "Multas e Advertências"}
                         {abaAtiva === "minhas-entregas" && "Minhas Entregas"}
                         {abaAtiva === "minhas-reservas" && "Reservas de Espaços"}
                         {abaAtiva === "meu-perfil" && "Meu Perfil"}
@@ -557,6 +625,8 @@ function PainelSindico() {
                             {abaAtiva === "reclamacoes" && renderReclamacoes()}
                             {abaAtiva === "avisos" && renderAvisos()}
                             {abaAtiva === "documentos" && renderDocumentos()}
+                            {abaAtiva === "solicitacoes" && renderSolicitacoes()}
+                            {abaAtiva === "infracoes" && renderInfracoes()}
                             {abaAtiva === "minhas-entregas" && renderMinhasEntregas()}
                             {abaAtiva === "minhas-reservas" && renderMinhasReservas()}
                             {abaAtiva === "meu-perfil" && renderMeuPerfil()}
@@ -1248,11 +1318,753 @@ function PainelSindico() {
                         </div>
                     </div>
 
-                    <button type="submit" className="btn-publicar" disabled={salvandoPerfil} style={{ marginTop: "16px" }}>
+                    <button
+                        type="submit"
+                        className="btn-publicar"
+                        disabled={salvandoPerfil}
+                        style={{
+                            marginTop: "16px"
+                        }}
+                    >
                         {salvandoPerfil ? "Salvando..." : "Salvar Alterações"}
                     </button>
                 </form>
             </div>
+        );
+    }
+
+    // --- INFRAÇÕES: CRIAR ---
+    async function criarInfracao(e) {
+        e.preventDefault();
+        if (!motivoInfracao.trim() || !moradorInfracao || !dataInfracao) {
+            return;
+        }
+        setEnviandoInfracao(true);
+        try {
+            await api.post("/api/infracoes", {
+                tipo: tipoInfracao,
+                motivo: motivoInfracao,
+                descricao: descricaoInfracao,
+                valor: tipoInfracao === "MULTA" ? parseFloat(valorInfracao || "0") : 0,
+                moradorId: Number(moradorInfracao),
+                dataInfracao: dataInfracao.toISOString().split("T")[0],
+            });
+            setMotivoInfracao("");
+            setDescricaoInfracao("");
+            setValorInfracao("");
+            setMoradorInfracao("");
+            setDataInfracao(null);
+            setMostrarFormInfracao(false);
+            toast.sucesso("Infração registrada com sucesso!");
+            const res = await api.get("/api/infracoes");
+            setInfracoes(res.data || []);
+        }
+
+        catch (err) {
+            console.error("Erro ao criar infração:", err);
+            toast.erro("Erro ao registrar infração.");
+        }
+
+        finally {
+            setEnviandoInfracao(false);
+        }
+    }
+
+    async function alterarStatusInfracao(id, novoStatus) {
+        try {
+            await api.patch(`/api/infracoes/${id}/status?novoStatus=${novoStatus}`);
+            const res = await api.get("/api/infracoes");
+            setInfracoes(res.data || []);
+            toast.sucesso("Status atualizado!");
+        }
+
+        catch (err) {
+            toast.erro("Erro ao atualizar status.");
+        }
+    }
+
+    function renderInfracoes() {
+        const pendentes = infracoes.filter(i => i.status === "PENDENTE").length;
+        const contestadas = infracoes.filter(i => i.status === "CONTESTADA").length;
+        const pagas = infracoes.filter(i => i.status === "PAGA").length;
+        const canceladas = infracoes.filter(i => i.status === "CANCELADA").length;
+
+        const filtradas = infracoes.filter(i => {
+            const passaTipo = filtroTipoInf === "TODOS" || i.tipo === filtroTipoInf;
+            const passaStatus = filtroStatusInf === "TODOS" || i.status === filtroStatusInf;
+            return passaTipo && passaStatus;
+        });
+
+        return (
+            <>
+                {/* Resumo */}
+                <div className="dashboard-grid">
+                    <div className="dashboard-card amarelo">
+                        <h3>Pendentes</h3>
+                        <div className="valor">{pendentes}</div>
+                    </div>
+
+                    <div className="dashboard-card azul">
+                        <h3>Contestadas</h3>
+                        <div className="valor">{contestadas}</div>
+                    </div>
+
+                    <div className="dashboard-card">
+                        <h3>Pagas</h3>
+                        <div className="valor">{pagas}</div>
+                    </div>
+
+                    <div className="dashboard-card vermelho">
+                        <h3>Canceladas</h3>
+                        <div className="valor">{canceladas}</div>
+                    </div>
+                </div>
+
+                {/* Botão nova infração */}
+                <button
+                    onClick={() => setMostrarFormInfracao(!mostrarFormInfracao)}
+                    className="btn-publicar"
+                    style={{ marginBottom: "16px" }}
+                >
+                    {mostrarFormInfracao ? "Fechar Formulário" : "+ Nova Multa / Advertência"}
+                </button>
+
+                {/* Formulário */}
+                {mostrarFormInfracao && (
+                    <div style={{
+                        background: "var(--bg-card)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "12px",
+                        padding: "20px",
+                        marginBottom: "20px"
+                    }}>
+                        <h3 style={{ margin: "0 0 16px", color: "var(--text-primary)" }}>Registrar Infração</h3>
+                        <form onSubmit={criarInfracao} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
+                                {/* Tipo */}
+                                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                    <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Tipo</label>
+                                    <div style={{ display: "flex", gap: "8px" }}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setTipoInfracao("MULTA")}
+                                            style={{
+                                                flex: 1,
+                                                padding: "10px",
+                                                borderRadius: "8px",
+                                                cursor: "pointer",
+                                                border: tipoInfracao === "MULTA" ? "2px solid #e74c3c" : "1px solid var(--border-color)",
+                                                background: tipoInfracao === "MULTA" ? "rgba(231,76,60,0.1)" : "transparent",
+                                                color: tipoInfracao === "MULTA" ? "#e74c3c" : "var(--text-secondary)",
+                                                fontWeight: tipoInfracao === "MULTA" ? "600" : "400"
+                                            }}
+                                        >
+                                            Multa
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setTipoInfracao("ADVERTENCIA")}
+                                            style={{
+                                                flex: 1, padding: "10px", borderRadius: "8px", cursor: "pointer",
+                                                border: tipoInfracao === "ADVERTENCIA" ? "2px solid #f1c40f" : "1px solid var(--border-color)",
+                                                background: tipoInfracao === "ADVERTENCIA" ? "rgba(241,196,15,0.1)" : "transparent",
+                                                color: tipoInfracao === "ADVERTENCIA" ? "#f1c40f" : "var(--text-secondary)",
+                                                fontWeight: tipoInfracao === "ADVERTENCIA" ? "600" : "400"
+                                            }}
+                                        >
+                                            Advertência
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Morador */}
+                                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                    <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Morador</label>
+                                    <select
+                                        value={moradorInfracao}
+                                        onChange={(e) => setMoradorInfracao(e.target.value)}
+                                        required
+                                        style={{
+                                            padding: "10px", borderRadius: "8px",
+                                            border: "1px solid var(--border-color)",
+                                            background: "var(--bg-input, var(--bg-card))",
+                                            color: "var(--text-primary)", fontSize: "0.9rem"
+                                        }}
+                                    >
+                                        <option value="">Selecione o morador</option>
+                                        {moradores.map(m => (
+                                            <option key={m.id} value={m.id}>
+                                                {m.nome} — {m.unidade || "Sem unidade"}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Motivo */}
+                                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                    <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Motivo</label>
+                                    <input
+                                        type="text"
+                                        value={motivoInfracao}
+                                        onChange={(e) => setMotivoInfracao(e.target.value)}
+                                        placeholder="Ex: Barulho após 22h"
+                                        required
+                                        style={{
+                                            padding: "10px",
+                                            borderRadius: "8px",
+                                            border: "1px solid var(--border-color)",
+                                            background: "var(--bg-input, var(--bg-card))",
+                                            color: "var(--text-primary)",
+                                            fontSize: "0.9rem"
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Data */}
+                                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                    <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data da infração</label>
+                                    <DatePicker
+                                        selected={dataInfracao}
+                                        onChange={(date) => setDataInfracao(date)}
+                                        locale="pt-BR"
+                                        dateFormat="dd/MM/yyyy"
+                                        maxDate={new Date()}
+                                        placeholderText="Selecione a data"
+                                        className="input-datepicker"
+                                        required
+                                    />
+                                </div>
+
+                                {/* Valor (só se MULTA) */}
+                                {tipoInfracao === "MULTA" && (
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                        <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Valor (R$)</label>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            value={valorInfracao}
+                                            onChange={(e) => setValorInfracao(e.target.value)}
+                                            placeholder="Ex: 150.00"
+                                            style={{
+                                                padding: "10px", borderRadius: "8px",
+                                                border: "1px solid var(--border-color)",
+                                                background: "var(--bg-input, var(--bg-card))",
+                                                color: "var(--text-primary)", fontSize: "0.9rem"
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Descrição */}
+                            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Descrição (opcional)</label>
+                                <textarea
+                                    value={descricaoInfracao}
+                                    onChange={(e) => setDescricaoInfracao(e.target.value)}
+                                    placeholder="Detalhes sobre a infração..."
+                                    rows={3}
+                                    style={{
+                                        padding: "10px",
+                                        borderRadius: "8px",
+                                        border: "1px solid var(--border-color)",
+                                        background: "var(--bg-input, var(--bg-card))",
+                                        color: "var(--text-primary)",
+                                        fontSize: "0.9rem",
+                                        resize: "vertical"
+                                    }}
+                                />
+                            </div>
+
+                            <button type="submit" className="btn-publicar" disabled={enviandoInfracao} style={{ alignSelf: "flex-start" }}>
+                                {enviandoInfracao ? "Registrando..." : "Registrar Infração"}
+                            </button>
+                        </form>
+                    </div>
+                )}
+
+                {/* Filtros */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", margin: "0 0 16px" }}>
+                    {["TODOS", "MULTA", "ADVERTENCIA"].map(t => (
+                        <button
+                            key={t}
+                            onClick={() => setFiltroTipoInf(t)}
+                            style={{
+                                padding: "6px 14px", borderRadius: "20px",
+                                border: filtroTipoInf === t ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                                background: filtroTipoInf === t ? "rgba(46,204,113,0.12)" : "transparent",
+                                color: filtroTipoInf === t ? "var(--primary-green)" : "var(--text-secondary)",
+                                cursor: "pointer", fontSize: "0.85rem",
+                                fontWeight: filtroTipoInf === t ? "600" : "400"
+                            }}
+                        >
+                            {t === "TODOS" ? "Todos" : t === "MULTA" ? "Multas" : "Advertências"}
+                        </button>
+                    ))}
+
+                    <span style={{ width: "1px", background: "var(--border-color)", margin: "0 4px" }} />
+
+                    {["TODOS", "PENDENTE", "CONTESTADA", "PAGA", "CANCELADA"].map(s => (
+                        <button
+                            key={s}
+                            onClick={() => setFiltroStatusInf(s)}
+                            style={{
+                                padding: "6px 14px",
+                                borderRadius: "20px",
+                                border: filtroStatusInf === s ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                                background: filtroStatusInf === s ? "rgba(46,204,113,0.12)" : "transparent",
+                                color: filtroStatusInf === s ? "var(--primary-green)" : "var(--text-secondary)",
+                                cursor: "pointer",
+                                fontSize: "0.85rem",
+                                fontWeight: filtroStatusInf === s ? "600" : "400"
+                            }}
+                        >
+                            {s === "TODOS" ? "Todos Status" :
+                             s === "PENDENTE" ? "Pendente" :
+                             s === "CONTESTADA" ? "Contestada" :
+                             s === "PAGA" ? "Paga" : "Cancelada"}
+                        </button>
+                    ))}
+                </div>
+
+                <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "12px" }}>
+                    {filtradas.length} infração(ões) encontrada(s)
+                </p>
+
+                {/* Lista */}
+                {filtradas.length === 0 ? (
+                    <p className="msg-vazia">Nenhuma infração encontrada.</p>
+                ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                        {filtradas
+                            .sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao))
+                            .map(inf => (
+                            <div key={inf.id} style={{
+                                background: "var(--bg-card)",
+                                border: "1px solid var(--border-color)",
+                                borderRadius: "12px",
+                                padding: "20px",
+                                borderLeft: `4px solid ${inf.tipo === "MULTA" ? "#e74c3c" : "#f1c40f"}`
+                            }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
+                                    <div>
+                                        <span style={{
+                                            fontSize: "0.72rem", fontWeight: "700", textTransform: "uppercase",
+                                            letterSpacing: "0.5px", color: "var(--text-muted)"
+                                        }}>
+                                            {inf.tipo === "MULTA" ? "MULTA" : "ADVERTÊNCIA"}
+                                        </span>
+                                        <h4 style={{ margin: "4px 0 0", color: "var(--text-primary)" }}>{inf.motivo}</h4>
+                                    </div>
+                                    <span style={{
+                                        padding: "4px 12px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "600",
+                                        background:
+                                            inf.status === "PENDENTE" ? "rgba(241,196,15,0.12)" :
+                                            inf.status === "CONTESTADA" ? "rgba(52,152,219,0.12)" :
+                                            inf.status === "PAGA" ? "rgba(46,204,113,0.12)" :
+                                            "rgba(149,165,166,0.12)",
+                                        color:
+                                            inf.status === "PENDENTE" ? "#f1c40f" :
+                                            inf.status === "CONTESTADA" ? "#3498db" :
+                                            inf.status === "PAGA" ? "#2ecc71" :
+                                            "#95a5a6"
+                                    }}>
+                                        {inf.status === "PENDENTE" ? "Pendente" :
+                                         inf.status === "CONTESTADA" ? "Contestada" :
+                                         inf.status === "PAGA" ? "Paga" : "Cancelada"}
+                                    </span>
+                                </div>
+
+                                {inf.descricao && (
+                                    <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", marginBottom: "8px" }}>{inf.descricao}</p>
+                                )}
+
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: "12px" }}>
+                                    <span>{inf.nomeMorador || "—"}</span>
+                                    <span>{inf.unidadeMorador || "—"}</span>
+                                    <span>{inf.dataInfracao ? new Date(inf.dataInfracao + "T00:00:00").toLocaleDateString("pt-BR") : "—"}</span>
+                                    {inf.tipo === "MULTA" && (
+                                        <span style={{ fontWeight: "700", color: "#e74c3c" }}>
+                                            R$ {(inf.valor || 0).toFixed(2).replace(".", ",")}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Botões de ação */}
+                                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                    {inf.status !== "PAGA" && inf.tipo === "MULTA" && (
+                                        <button
+                                            onClick={() => alterarStatusInfracao(inf.id, "PAGA")}
+                                            style={{
+                                                padding: "6px 14px",
+                                                borderRadius: "6px",
+                                                border: "1px solid #2ecc71",
+                                                background: "rgba(46,204,113,0.1)",
+                                                color: "#2ecc71",
+                                                cursor: "pointer",
+                                                fontSize: "0.8rem",
+                                                fontWeight: "500"
+                                            }}
+                                        >
+                                            Marcar como Paga
+                                        </button>
+                                    )}
+                                    {inf.status !== "CANCELADA" && (
+                                        <button
+                                            onClick={() => alterarStatusInfracao(inf.id, "CANCELADA")}
+                                            style={{
+                                                padding: "6px 14px",
+                                                borderRadius: "6px",
+                                                border: "1px solid #95a5a6",
+                                                background: "rgba(149,165,166,0.1)",
+                                                color: "#95a5a6",
+                                                cursor: "pointer",
+                                                fontSize: "0.8rem",
+                                                fontWeight: "500"
+                                            }}
+                                        >
+                                            Cancelar
+                                        </button>
+                                    )}
+                                    {inf.status === "CONTESTADA" && (
+                                        <button
+                                            onClick={() => alterarStatusInfracao(inf.id, "PENDENTE")}
+                                            style={{
+                                                padding: "6px 14px",
+                                                borderRadius: "6px",
+                                                border: "1px solid #f1c40f",
+                                                background: "rgba(241,196,15,0.1)",
+                                                color: "#f1c40f",
+                                                cursor: "pointer",
+                                                fontSize: "0.8rem",
+                                                fontWeight: "500"
+                                            }}
+                                        >
+                                            Recusar Contestação
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </>
+        );
+    }
+
+    // --- SOLICITAÇÕES: ALTERAR STATUS ---
+    async function alterarStatusSolicitacao(id, novoStatus) {
+        try {
+            await api.patch(`/api/solicitacoes/${id}/status?novoStatus=${novoStatus}`);
+            const res = await api.get("/api/solicitacoes");
+            setSolicitacoes(res.data.conteudo || res.data || []);
+            toast.sucesso("Status atualizado!", "Sucesso");
+        }
+
+        catch (err) {
+            console.error("Erro ao atualizar status da solicitação:", err);
+            toast.erro("Erro ao atualizar status.", "Falha");
+        }
+    }
+
+    function getNomeTipoSol(tipo) {
+        switch (tipo) {
+            case "OBRA":
+                return "Obra";
+            case "MUDANCA":
+                return "Mudança";
+            case "ENTREGA":
+                return "Entrega";
+            case "PRESTADOR":
+                return "Prestador";
+            default:
+                return tipo;
+        }
+    }
+
+    function getIconeTipoSol(tipo) {
+        switch (tipo) {
+            case "OBRA":
+                return "";
+            case "MUDANCA":
+                return "";
+            case "ENTREGA":
+                return "";
+            case "PRESTADOR":
+                return "";
+            default:
+                return "";
+        }
+    }
+
+    function getCorTipoSol(tipo) {
+        switch (tipo) {
+            case "OBRA":
+                return "#e67e22";
+            case "MUDANCA":
+                return "#3498db";
+            case "ENTREGA":
+                return "#2ecc71";
+            case "PRESTADOR":
+                return "#9b59b6";
+            default:
+                return "#888";
+        }
+    }
+
+    function renderSolicitacoes() {
+        const pendentes = solicitacoes.filter(s => s.status === "PENDENTE").length;
+        const emAnalise = solicitacoes.filter(s => s.status === "EM_ANALISE").length;
+        const aprovadas = solicitacoes.filter(s => s.status === "APROVADO").length;
+        const recusadas = solicitacoes.filter(s => s.status === "RECUSADO").length;
+
+        const filtradas = solicitacoes.filter(s => {
+            const passaTipo = filtroTipoSol === "TODOS" || s.tipo === filtroTipoSol;
+            const passaStatus = filtroStatusSol === "TODOS" || s.status === filtroStatusSol;
+            return passaTipo && passaStatus;
+        });
+
+        return (
+            <>
+                {/* Resumo */}
+                <div className="dashboard-grid">
+                    <div className="dashboard-card amarelo">
+                        <h3>Pendentes</h3>
+                        <div className="valor">{pendentes}</div>
+                    </div>
+
+                    <div className="dashboard-card azul">
+                        <h3>Em Análise</h3>
+                        <div className="valor">{emAnalise}</div>
+                    </div>
+
+                    <div className="dashboard-card">
+                        <h3>Aprovadas</h3>
+                        <div className="valor">{aprovadas}</div>
+                    </div>
+
+                    <div className="dashboard-card vermelho">
+                        <h3>Recusadas</h3>
+                        <div className="valor">{recusadas}</div>
+                    </div>
+                </div>
+
+                {/* Filtros */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", margin: "20px 0" }}>
+                    {["TODOS", "OBRA", "MUDANCA", "ENTREGA", "PRESTADOR"].map(t => (
+                        <button
+                            key={t}
+                            onClick={() => setFiltroTipoSol(t)}
+                            style={{
+                                padding: "6px 14px",
+                                borderRadius: "20px",
+                                border: filtroTipoSol === t ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                                background: filtroTipoSol === t ? "rgba(46,204,113,0.12)" : "transparent",
+                                color: filtroTipoSol === t ? "var(--primary-green)" : "var(--text-secondary)",
+                                cursor: "pointer",
+                                fontSize: "0.85rem",
+                                fontWeight: filtroTipoSol === t ? "600" : "400",
+                                transition: "all 0.2s"
+                            }}
+                        >
+                            {t === "TODOS" ? "Todos Tipos" : `${getIconeTipoSol(t)} ${getNomeTipoSol(t)}`}
+                        </button>
+                    ))}
+
+                    <span style={{ width: "1px", background: "var(--border-color)", margin: "0 4px" }} />
+
+                    {["TODOS", "PENDENTE", "EM_ANALISE", "APROVADO", "RECUSADO"].map(s => (
+                        <button
+                            key={s}
+                            onClick={() => setFiltroStatusSol(s)}
+                            style={{
+                                padding: "6px 14px",
+                                borderRadius: "20px",
+                                border: filtroStatusSol === s ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                                background: filtroStatusSol === s ? "rgba(46,204,113,0.12)" : "transparent",
+                                color: filtroStatusSol === s ? "var(--primary-green)" : "var(--text-secondary)",
+                                cursor: "pointer",
+                                fontSize: "0.85rem",
+                                fontWeight: filtroStatusSol === s ? "600" : "400",
+                                transition: "all 0.2s"
+                            }}
+                        >
+                            {
+                                s === "TODOS" ? "Todos Status" :
+                                s === "PENDENTE" ? "Pendente" :
+                                s === "EM_ANALISE" ? "Em Análise" :
+                                s === "APROVADO" ? "Aprovado" : "Recusado"
+                            }
+                        </button>
+                    ))}
+                </div>
+
+                <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "12px" }}>
+                    {filtradas.length} solicitação(ões) encontrada(s)
+                </p>
+
+                {/* Lista */}
+                {filtradas.length === 0 ? (
+                    <p className="msg-vazia">Nenhuma solicitação encontrada.</p>
+                ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                        {filtradas
+                            .sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao))
+                            .map(sol => (
+                            <div
+                                key={sol.id}
+                                style={{
+                                    background: "var(--bg-card)",
+                                    border: "1px solid var(--border-color)",
+                                    borderRadius: "12px",
+                                    padding: "20px",
+                                    borderLeft: `4px solid ${getCorTipoSol(sol.tipo)}`,
+                                    transition: "box-shadow 0.2s"
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "flex-start",
+                                        flexWrap: "wrap",
+                                        gap: "10px",
+                                        marginBottom: "12px"
+                                    }}
+                                >
+                                    <div>
+                                        <h4 style={{ margin: 0, color: "var(--text-primary)" }}>
+                                            {getIconeTipoSol(sol.tipo)} {sol.titulo}
+                                        </h4>
+                                        <span style={{
+                                            display: "inline-block",
+                                            marginTop: "4px",
+                                            padding: "2px 10px",
+                                            borderRadius: "20px",
+                                            fontSize: "0.72rem",
+                                            fontWeight: "600",
+                                            background: `${getCorTipoSol(sol.tipo)}20`,
+                                            color: getCorTipoSol(sol.tipo)
+                                        }}>
+                                            {getNomeTipoSol(sol.tipo)}
+                                        </span>
+                                    </div>
+
+                                    <span style={{
+                                        padding: "4px 12px",
+                                        borderRadius: "20px",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "600",
+                                        background:
+                                            sol.status === "PENDENTE" ? "rgba(241,196,15,0.12)" :
+                                            sol.status === "EM_ANALISE" ? "rgba(52,152,219,0.12)" :
+                                            sol.status === "APROVADO" ? "rgba(46,204,113,0.12)" :
+                                            "rgba(231,76,60,0.12)",
+                                        color:
+                                            sol.status === "PENDENTE" ? "#f1c40f" :
+                                            sol.status === "EM_ANALISE" ? "#3498db" :
+                                            sol.status === "APROVADO" ? "#2ecc71" :
+                                            "#e74c3c"
+                                    }}>
+                                        {
+                                            sol.status === "PENDENTE" ? "Pendente" :
+                                            sol.status === "EM_ANALISE" ? "Em Análise" :
+                                            sol.status === "APROVADO" ? "Aprovado" : "Recusado"
+                                        }
+                                    </span>
+                                </div>
+
+                                <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", marginBottom: "8px" }}>
+                                    {sol.descricao}
+                                </p>
+
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        gap: "16px",
+                                        fontSize: "0.82rem",
+                                        color: "var(--text-muted)",
+                                        marginBottom: "12px"
+                                    }}
+                                >
+                                    <span>
+                                        Data prevista: {sol.dataPrevista ? new Date(sol.dataPrevista + "T00:00:00").toLocaleDateString("pt-BR") : "—"}
+                                    </span>
+
+                                    <span>
+                                        Morador: {sol.nomeMorador || "—"}
+                                    </span>
+
+                                    <span>
+                                        {sol.apartamentoMorador || sol.unidade || "—"}
+                                    </span>
+
+                                    <span>
+                                        Criada em: {sol.dataCriacao ? formatarData(sol.dataCriacao) : "—"}
+                                    </span>
+                                </div>
+
+                                {/* Botões de ação */}
+                                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                    {sol.status !== "EM_ANALISE" && (
+                                        <button
+                                            onClick={() => alterarStatusSolicitacao(sol.id, "EM_ANALISE")}
+                                            style={{
+                                                padding: "6px 14px",
+                                                borderRadius: "6px",
+                                                border: "1px solid #3498db",
+                                                background: "rgba(52,152,219,0.1)",
+                                                color: "#3498db",
+                                                cursor: "pointer",
+                                                fontSize: "0.8rem",
+                                                fontWeight: "500"
+                                            }}
+                                        >
+                                            Em Análise
+                                        </button>
+                                    )}
+                                    {sol.status !== "APROVADO" && (
+                                        <button
+                                            onClick={() => alterarStatusSolicitacao(sol.id, "APROVADO")}
+                                            style={{
+                                                padding: "6px 14px",
+                                                borderRadius: "6px",
+                                                border: "1px solid #2ecc71",
+                                                background: "rgba(46,204,113,0.1)",
+                                                color: "#2ecc71",
+                                                cursor: "pointer",
+                                                fontSize: "0.8rem",
+                                                fontWeight: "500"
+                                            }}
+                                        >
+                                            Aprovar
+                                        </button>
+                                    )}
+                                    {sol.status !== "RECUSADO" && (
+                                        <button
+                                            onClick={() => alterarStatusSolicitacao(sol.id, "RECUSADO")}
+                                            style={{
+                                                padding: "6px 14px",
+                                                borderRadius: "6px",
+                                                border: "1px solid #e74c3c",
+                                                background: "rgba(231,76,60,0.1)",
+                                                color: "#e74c3c",
+                                                cursor: "pointer",
+                                                fontSize: "0.8rem",
+                                                fontWeight: "500"
+                                            }}
+                                        >
+                                            Recusar
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </>
         );
     }
 
