@@ -1,0 +1,331 @@
+/* --- FILTROS --- */
+.solicitacoes-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.filtro-btn {
+    padding: 8px 18px;
+    border: 1.5px solid var(--border-color);
+    background-color: transparent;
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filtro-btn:hover {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+    background-color: rgba(46, 204, 113, 0.05);
+}
+
+.filtro-btn.ativo {
+    border-color: var(--primary-green);
+    background-color: rgba(46, 204, 113, 0.12);
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+/* --- CARD DE SOLICITAÇÃO --- */
+.solicitacao-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.solicitacao-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+}
+
+.solicitacao-card.tipo-OBRA::before {
+    background: #e67e22;
+}
+
+.solicitacao-card.tipo-MUDANCA::before {
+    background: #3498db;
+}
+
+.solicitacao-card.tipo-ENTREGA::before {
+    background: #2ecc71;
+}
+
+.solicitacao-card.tipo-PRESTADOR::before {
+    background: #9b59b6;
+}
+
+.solicitacao-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.solicitacao-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.solicitacao-card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- TAG DE TIPO --- */
+.tag-tipo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.tag-tipo.OBRA {
+    background: rgba(230, 126, 34, 0.12);
+    color: #e67e22;
+}
+
+.tag-tipo.MUDANCA {
+    background: rgba(52, 152, 219, 0.12);
+    color: #3498db;
+}
+
+.tag-tipo.ENTREGA {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+}
+
+.tag-tipo.PRESTADOR {
+    background: rgba(155, 89, 182, 0.12);
+    color: #9b59b6;
+}
+
+/* --- TAG DE STATUS --- */
+.tag-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tag-status.PENDENTE {
+    background: rgba(241, 196, 15, 0.12);
+    color: #f1c40f;
+}
+
+.tag-status.EM_ANALISE {
+    background: rgba(52, 152, 219, 0.12);
+    color: #3498db;
+}
+
+.tag-status.APROVADO {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+}
+
+.tag-status.RECUSADO {
+    background: rgba(231, 76, 60, 0.12);
+    color: #e74c3c;
+}
+
+/* --- CORPO DO CARD --- */
+.solicitacao-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.solicitacao-card-body p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.solicitacao-card-body p svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.solicitacao-card-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+/* --- FORMULÁRIO NOVA SOLICITAÇÃO --- */
+.form-solicitacao {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grupo-tipos-solicitacao {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.tipo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 12px;
+    border: 2px solid var(--border-color);
+    background-color: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+}
+
+.tipo-card:hover {
+    border-color: var(--primary-green);
+    background-color: rgba(46, 204, 113, 0.04);
+}
+
+.tipo-card.selecionado {
+    border-color: var(--primary-green);
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--primary-green);
+}
+
+.tipo-card-icone {
+    font-size: 1.8rem;
+}
+
+.tipo-card-nome {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* --- BOTÃO NOVA SOLICITAÇÃO --- */
+.btn-nova-solicitacao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-nova-solicitacao:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* --- LISTA VAZIA --- */
+.solicitacoes-vazio {
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    color: var(--text-muted);
+}
+
+.solicitacoes-vazio-icone {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.5;
+}
+
+.solicitacoes-vazio h3 {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.solicitacoes-vazio p {
+    font-size: 0.9rem;
+}
+
+/* --- CONTADOR DE SOLICITAÇÕES --- */
+.solicitacoes-contador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.solicitacoes-contador h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.solicitacoes-contador span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--overlay-dark);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 600px) {
+    .solicitacoes-filtros {
+        gap: 8px;
+    }
+
+    .filtro-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .solicitacao-card-header {
+        flex-direction: column;
+    }
+
+    .grupo-tipos-solicitacao {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .solicitacoes-contador {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
