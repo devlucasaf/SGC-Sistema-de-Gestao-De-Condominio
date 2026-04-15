@@ -28,17 +28,26 @@ function SindicoReclamacoes({ reclamacoes, setReclamacoes, api, toast, formatarD
             <tbody>
                 {reclamacoes.map(r => (
                     <tr key={r.id}>
-                        <td>{r.categoria}</td>
+                        <td>
+                            {r.categoria}
+                        </td>
+
                         <td style={{ maxWidth: "300px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {r.descricao}
                         </td>
-                        <td>{r.unidade || "—"}</td>
+
+                        <td>
+                            {r.unidade || "—"}
+                        </td>
+
                         <td>
                             <span className={`badge ${r.status === "PENDENTE" ? "badge-amarelo" : r.status === "EM_ANALISE" ? "badge-azul" : "badge-verde"}`}>
                                 {r.status.replace("_", " ")}
                             </span>
                         </td>
+                        
                         <td style={{ fontSize: "0.85rem" }}>{formatarData(r.dataCriacao)}</td>
+                        
                         <td>
                             {r.status !== "RESOLVIDA" && (
                                 <div style={{ display: "flex", gap: "6px" }}>

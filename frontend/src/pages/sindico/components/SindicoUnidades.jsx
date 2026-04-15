@@ -16,7 +16,9 @@ function SindicoUnidades({ unidades, setUnidades, api, toast }) {
             setBlocoNovo(""); setAndarNovo(""); setAptoNovo("");
             const res = await api.get("/unidades");
             setUnidades(res.data || []);
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao cadastrar unidade:", err);
             toast.erro("Erro ao cadastrar unidade.", "Falha");
         }
@@ -31,7 +33,10 @@ function SindicoUnidades({ unidades, setUnidades, api, toast }) {
                     value={blocoNovo}
                     onChange={(e) => setBlocoNovo(e.target.value)}
                     required
-                    style={{ flex: 1, minWidth: "120px" }}
+                    style={{ 
+                        flex: 1, 
+                        minWidth: "120px"
+                    }}
                 />
                 <input
                     type="number"
@@ -39,7 +44,10 @@ function SindicoUnidades({ unidades, setUnidades, api, toast }) {
                     value={andarNovo}
                     onChange={(e) => setAndarNovo(e.target.value)}
                     required
-                    style={{ flex: 1, minWidth: "120px" }}
+                    style={{ 
+                        flex: 1, 
+                        minWidth: "120px" 
+                    }}
                 />
                 <input
                     type="text"
@@ -47,7 +55,10 @@ function SindicoUnidades({ unidades, setUnidades, api, toast }) {
                     value={aptoNovo}
                     onChange={(e) => setAptoNovo(e.target.value)}
                     required
-                    style={{ flex: 1, minWidth: "120px" }}
+                    style={{ 
+                        flex: 1, 
+                        minWidth: "120px" 
+                    }}
                 />
                 <button type="submit" className="btn-publicar">+ Cadastrar</button>
             </form>

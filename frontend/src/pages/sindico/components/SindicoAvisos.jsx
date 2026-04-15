@@ -8,7 +8,10 @@ function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) 
 
     async function publicarAviso(e) {
         e.preventDefault();
-        if (!tituloAviso.trim() || !mensagemAviso.trim()) return;
+        if (!tituloAviso.trim() || !mensagemAviso.trim()) { 
+            return;
+        }
+
         setEnviandoAviso(true);
         try {
             await api.post("/avisos", {
@@ -16,36 +19,54 @@ function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) 
                 mensagem: mensagemAviso,
                 idSindico: perfil.id,
             });
+
             setTituloAviso("");
             setMensagemAviso("");
+
             const res = await api.get("/avisos");
             setAvisos(res.data || []);
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao publicar aviso:", err);
             toast.erro("Erro ao publicar aviso.", "Falha");
-        } finally {
+        } 
+        
+        finally {
             setEnviandoAviso(false);
         }
     }
 
     function pedirConfirmacaoDeletar(id) {
-        setModalConfirm({ aberto: true, idAviso: id });
+        setModalConfirm({ 
+            aberto: true, 
+            idAviso: id 
+        });
     }
 
     async function confirmarDeletar() {
         const id = modalConfirm.idAviso;
-        setModalConfirm({ aberto: false, idAviso: null });
+        setModalConfirm({ 
+            aberto: false, 
+            idAviso: null 
+        });
+
         try {
             await api.delete(`/avisos/${id}`);
             setAvisos(avisos.filter(a => a.id !== id));
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao deletar aviso:", err);
             toast.erro("Erro ao deletar aviso.", "Falha");
         }
     }
 
     function cancelarDeletar() {
-        setModalConfirm({ aberto: false, idAviso: null });
+        setModalConfirm({ 
+            aberto: false, 
+            idAviso: null 
+        });
     }
 
     return (
@@ -78,6 +99,7 @@ function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) 
                         <div className="card-aviso" key={a.id}>
                             <h4>{a.titulo}</h4>
                             <p>{a.mensagem}</p>
+
                             <div className="meta-aviso">
                                 <span>{formatarData(a.dataCriacao)} — {a.nomeSindico}</span>
                                 <button className="btn-deletar-aviso" onClick={() => pedirConfirmacaoDeletar(a.id)}>

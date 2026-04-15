@@ -17,7 +17,11 @@ function SindicoEntregas({ minhasEntregas, carregandoEntregas }) {
                     <div className="entrega-info">
                         <h4>{e.descricao}</h4>
                         <div className="entrega-meta">
-                            <span><FiClock /> {e.dataRecebimento ? new Date(e.dataRecebimento).toLocaleDateString("pt-BR") + " — " + new Date(e.dataRecebimento).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—"}</span>
+                            <span>
+                                <FiClock /> 
+                                {e.dataRecebimento ? new Date(e.dataRecebimento).toLocaleDateString("pt-BR") + " — " + new Date(e.dataRecebimento).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—"}
+                            </span>
+                            
                             <span><FiUser /> {e.nomePorteiro || "Portaria"}</span>
                         </div>
                         {e.dataRetirada && (

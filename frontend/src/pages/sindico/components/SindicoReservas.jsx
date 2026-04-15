@@ -22,9 +22,13 @@ function SindicoReservas({ api, toast }) {
                 ]);
                 setAreasDeLazer(resAreas.data || []);
                 setHistoricoReservas(resHistorico.data || []);
-            } catch (err) {
+            } 
+            
+            catch (err) {
                 console.error("Erro ao carregar reservas:", err);
-            } finally {
+            } 
+            
+            finally {
                 setCarregandoReservas(false);
             }
         })();
@@ -41,7 +45,9 @@ function SindicoReservas({ api, toast }) {
             toast.sucesso(`Reserva do ${areaSelecionada.nome} confirmada!`, "Sucesso");
             setAreaSelecionada(null);
             setDataReserva(null);
-        } catch (err) {
+        } 
+        
+        catch (err) {
             const msg = err.response?.data?.messages?.[0] || err.response?.data?.message || "Erro ao reservar.";
             toast.erro(String(msg), "Erro");
         }
@@ -52,7 +58,9 @@ function SindicoReservas({ api, toast }) {
             await api.put(`/reservas/${id}/cancelar`);
             setHistoricoReservas(historicoReservas.map(r => r.id === id ? { ...r, status: "CANCELADA" } : r));
             toast.sucesso("Reserva cancelada!", "Sucesso");
-        } catch (err) {
+        } 
+        
+        catch (err) {
             toast.erro("Erro ao cancelar reserva.", "Erro");
         }
     }
@@ -107,6 +115,7 @@ function SindicoReservas({ api, toast }) {
                                     R$ {areaSelecionada.valor.toFixed(2)} serão cobrados no próximo boleto.
                                 </p>
                             )}
+
                             <div className="modal-confirm-botoes">
                                 <button type="button" className="btn-cancelar" onClick={() => setAreaSelecionada(null)}>Cancelar</button>
                                 <button type="submit" className="btn-publicar">Confirmar</button>
@@ -123,18 +132,42 @@ function SindicoReservas({ api, toast }) {
             ) : (
                 <table className="tabela-sindico">
                     <thead>
-                        <tr><th>Área</th><th>Data</th><th>Status</th><th>Ações</th></tr>
+                        <tr>
+                            <th>
+                                Área
+                            </th>
+
+                            <th>
+                                Data
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Ações
+                            </th>
+                        </tr>
                     </thead>
+
                     <tbody>
                         {historicoReservas.map(r => (
                             <tr key={r.id}>
-                                <td>{r.nomeAreaLazer}</td>
-                                <td>{new Date(r.dataReserva + "T00:00:00").toLocaleDateString("pt-BR")}</td>
+                                <td>
+                                    {r.nomeAreaLazer}
+                                </td>
+
+                                <td>
+                                    {new Date(r.dataReserva + "T00:00:00").toLocaleDateString("pt-BR")}
+                                </td>
+
                                 <td>
                                     <span className={`badge ${r.status === "APROVADA" ? "badge-verde" : r.status === "CANCELADA" ? "badge-vermelho" : "badge-amarelo"}`}>
                                         {r.status}
                                     </span>
                                 </td>
+
                                 <td>
                                     {r.status === "APROVADA" && (
                                         <button className="btn-deletar-aviso" onClick={() => cancelarReservaSindico(r.id)} style={{ display: "flex", alignItems: "center", gap: "4px" }}>

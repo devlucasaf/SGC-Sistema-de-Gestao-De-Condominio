@@ -10,8 +10,12 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
 
     async function salvarDocumento(e) {
         e.preventDefault();
-        if (!tituloDoc.trim() || !conteudoDoc.trim()) return;
+        if (!tituloDoc.trim() || !conteudoDoc.trim()) {
+            return;
+        }
+
         setEnviandoDoc(true);
+
         try {
             if (editandoDoc) {
                 await api.put(`/documentos/${editandoDoc}`, {
@@ -21,7 +25,9 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                     idSindico: perfil.id,
                 });
                 toast.sucesso("Documento atualizado!", "Sucesso");
-            } else {
+            } 
+            
+            else {
                 await api.post("/documentos", {
                     titulo: tituloDoc,
                     conteudo: conteudoDoc,
@@ -36,10 +42,14 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
             setEditandoDoc(null);
             const res = await api.get("/documentos");
             setDocumentos(res.data || []);
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao salvar documento:", err);
             toast.erro("Erro ao salvar documento.", "Falha");
-        } finally {
+        } 
+        
+        finally {
             setEnviandoDoc(false);
         }
     }
@@ -59,24 +69,36 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
     }
 
     function pedirConfirmacaoDeletarDoc(id) {
-        setModalConfirmDoc({ aberto: true, idDoc: id });
+        setModalConfirmDoc({ 
+            aberto: true, 
+            idDoc: id 
+        });
     }
 
     async function confirmarDeletarDoc() {
         const id = modalConfirmDoc.idDoc;
-        setModalConfirmDoc({ aberto: false, idDoc: null });
+        setModalConfirmDoc({ 
+            aberto: false, 
+            idDoc: null 
+        });
+
         try {
             await api.delete(`/documentos/${id}`);
             setDocumentos(documentos.filter(d => d.id !== id));
             toast.sucesso("Documento excluído!", "Sucesso");
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao deletar documento:", err);
             toast.erro("Erro ao deletar documento.", "Falha");
         }
     }
 
     function cancelarDeletarDoc() {
-        setModalConfirmDoc({ aberto: false, idDoc: null });
+        setModalConfirmDoc({ 
+            aberto: false, 
+            idDoc: null 
+        });
     }
 
     function getLabelCat(cat) {
@@ -151,7 +173,9 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                                     {getLabelCat(d.categoria)}
                                 </span>
                             </div>
+
                             <p style={{ whiteSpace: "pre-line" }}>{d.conteudo}</p>
+
                             <div className="meta-aviso">
                                 <span>
                                     {d.dataAtualizacao
@@ -159,10 +183,12 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                                         : formatarData(d.dataCriacao)
                                     } — {d.nomeSindico}
                                 </span>
+
                                 <div style={{ display: "flex", gap: "6px" }}>
                                     <button className="badge badge-azul" style={{ cursor: "pointer", border: "none", fontSize: "0.75rem" }} onClick={() => iniciarEdicaoDoc(d)}>
                                         Editar
                                     </button>
+
                                     <button className="btn-deletar-aviso" onClick={() => pedirConfirmacaoDeletarDoc(d.id)}>
                                         Excluir
                                     </button>

@@ -10,7 +10,9 @@ function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, format
             const res = await api.get("/api/solicitacoes");
             setSolicitacoes(res.data.conteudo || res.data || []);
             toast.sucesso("Status atualizado!", "Sucesso");
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao atualizar status da solicitação:", err);
             toast.erro("Erro ao atualizar status.", "Falha");
         }
