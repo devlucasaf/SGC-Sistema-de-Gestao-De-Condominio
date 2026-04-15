@@ -430,6 +430,337 @@
     font-size: 0.9rem;
 }
 
+.porteiro-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- SAUDAÇÃO --- */
+.dashboard-saudacao {
+    margin-bottom: 4px;
+}
+
+.dashboard-saudacao h2 {
+    margin: 0 0 4px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.dashboard-saudacao p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: capitalize;
+}
+
+/* --- CARDS DE RESUMO --- */
+.dashboard-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.dash-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.dash-card-encomendas::before {
+    background: #f39c12;
+}
+
+.dash-card-reclamacoes::before {
+    background: #e74c3c;
+}
+
+.dash-card-reservas::before {
+    background: #3498db;
+}
+
+.dash-card-solicitacoes::before {
+    background: #9b59b6;
+}
+
+.dash-card:hover {
+    border-color: rgba(33, 122, 69, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dash-card-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.dash-card-encomendas .dash-card-icone {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+}
+
+.dash-card-reclamacoes .dash-card-icone {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+.dash-card-reservas .dash-card-icone {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+.dash-card-solicitacoes .dash-card-icone {
+    background: rgba(155, 89, 182, 0.1);
+    color: #9b59b6;
+}
+
+.dash-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-card-valor {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.dash-card-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.dash-card-extra {
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    margin-top: 2px;
+}
+
+.dash-card-extra span {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* --- SEÇÕES DO DASHBOARD --- */
+.dashboard-secoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dashboard-secao {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+}
+
+.dashboard-secao-full {
+    grid-column: 1 / -1;
+}
+
+.secao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.secao-header h3 {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.secao-header h3 svg {
+    color: var(--primary-green);
+}
+
+.secao-ver-todas {
+    background: none;
+    border: none;
+    color: var(--primary-green);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s;
+    font-family: var(--font-body);
+}
+
+.secao-ver-todas:hover {
+    opacity: 0.8;
+}
+
+.secao-sub-header {
+    margin: 16px 0 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* --- LISTA DO DASHBOARD --- */
+.secao-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.secao-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-primary);
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.secao-item:hover {
+    border-color: var(--border-color);
+}
+
+.secao-item-futuro {
+    opacity: 0.7;
+}
+
+.secao-item-icone {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.secao-item-icone.pendente {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+}
+
+.secao-item-icone.reserva {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+.secao-item-icone.reclamacao {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+.secao-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.secao-item-info strong {
+    display: block;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.secao-item-info span {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.secao-item-tempo {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* --- SEÇÃO VAZIA --- */
+.secao-vazia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 16px;
+    gap: 8px;
+}
+
+.secao-vazia-icone {
+    font-size: 1.6rem;
+    color: var(--primary-green);
+    opacity: 0.5;
+}
+
+.secao-vazia p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* --- RESPONSIVO DASHBOARD --- */
+@media (max-width: 1024px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-secoes {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-card-valor {
+        font-size: 1.4rem;
+    }
+}
+
 /* --- RESPONSIVO --- */
 @media (max-width: 768px) {
     .painel-porteiro {
