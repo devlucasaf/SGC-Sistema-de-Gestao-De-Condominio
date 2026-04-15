@@ -43,7 +43,6 @@
     background-color: var(--bg-secondary);
 }
 
-/* ===== CUSTOM SELECT (DROPDOWN MODERNO) ===== */
 .custom-select-wrapper {
     position: relative;
     flex: 1;
@@ -139,7 +138,6 @@
     background-color: var(--primary-green);
     color: #fff;
 }
-/* ===== FIM CUSTOM SELECT ===== */
 
 .btn-cadastrar {
     padding: 12px;

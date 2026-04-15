@@ -37,14 +37,15 @@ public class InfracaoService {
         infracao.setMoradorId(dto.getMoradorId());
         infracao.setDataInfracao(LocalDate.parse(dto.getDataInfracao()));
 
-        // Se for MULTA, valor obrigatório; se ADVERTENCIA, valor = 0
         if (dto.getTipo() == TipoInfracao.MULTA) {
             infracao.setValor(dto.getValor() != null ? dto.getValor() : BigDecimal.ZERO);
-        } else {
+        } 
+        
+        else {
             infracao.setValor(BigDecimal.ZERO);
         }
 
-        // Buscar dados do morador
+        // --- BUSCA DADOS DO MORADOR ---
         usuarioRepository.findById(dto.getMoradorId()).ifPresent(usuario -> {
             infracao.setNomeMorador(usuario.getNome());
             if (usuario instanceof Morador) {
@@ -88,6 +89,7 @@ public class InfracaoService {
 
     private InfracaoResponseDTO toDTO(Infracao i) {
         InfracaoResponseDTO dto = new InfracaoResponseDTO();
+
         dto.setId(i.getId());
         dto.setTipo(i.getTipo());
         dto.setMotivo(i.getMotivo());
@@ -99,6 +101,7 @@ public class InfracaoService {
         dto.setUnidadeMorador(i.getUnidadeMorador());
         dto.setDataInfracao(i.getDataInfracao());
         dto.setDataCriacao(i.getDataCriacao());
+        
         return dto;
     }
 }

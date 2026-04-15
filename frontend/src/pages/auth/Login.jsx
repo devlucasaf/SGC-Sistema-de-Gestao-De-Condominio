@@ -23,7 +23,9 @@ function Login() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        } 
+        
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -118,7 +120,11 @@ function Login() {
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             required
-                            style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                            style={{ 
+                                width: "100%", 
+                                paddingRight: "45px",
+                                boxSizing: "border-box" 
+                            }}
                         />
                         <button
                             type="button"

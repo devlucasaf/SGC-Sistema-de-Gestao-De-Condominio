@@ -62,21 +62,14 @@ function Documentos() {
 
     function getIconeCategoria(categoria) {
         switch (categoria) {
-            case "REGRA": {
+            case "REGRA": 
                 return <FiAlertTriangle />;
-            }
-
-            case "MULTA": {
+            case "MULTA": 
                 return <FiAlertTriangle />;
-            }
-
-            case "REGIMENTO": {
+            case "REGIMENTO": 
                 return <FiBook />;
-            }
-
-            default: {
+            default: 
                 return <FiFileText />;
-            }
         }
     }
 

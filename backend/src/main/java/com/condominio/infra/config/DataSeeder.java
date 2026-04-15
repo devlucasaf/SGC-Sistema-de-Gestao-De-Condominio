@@ -132,9 +132,11 @@ public class DataSeeder implements CommandLineRunner {
             }
 
             Sindico sindico = new Sindico();
+
             sindico.setUsuario(usuarioSindico);
             sindico.setDataInicioMandato(java.time.LocalDate.now());
             sindico.setStatus("ATIVO");
+
             sindicoRepository.save(sindico);
         }
 
@@ -186,10 +188,7 @@ public class DataSeeder implements CommandLineRunner {
         log.info("Banco de dados populado e pronto para uso!");
     }
 
-    /**
-     * Verifica todos os usuários no banco de dados.
-     * Se a senha NÃO começa com "$2a$", significa que está em texto puro.
-     */
+    // --- MÉTODO PARA CORRIGIR SENHAS ---
     private void corrigirSenhasEmTextoPuro() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         int corrigidos = 0;

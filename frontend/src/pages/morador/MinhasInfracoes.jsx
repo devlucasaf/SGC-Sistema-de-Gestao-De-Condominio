@@ -174,12 +174,14 @@ function MinhasInfracoes() {
                         className={`filtro-pill ${filtro === f ? "ativo" : ""}`}
                         onClick={() => setFiltro(f)}
                     >
-                        {f === "TODOS" ? "Todas" :
-                         f === "MULTA" ? "Multas" :
-                         f === "ADVERTENCIA" ? "Advertências" :
-                         f === "PENDENTE" ? "Pendentes" :
-                         f === "CONTESTADA" ? "Contestadas" :
-                         f === "PAGA" ? "Pagas" : "Canceladas"}
+                        {
+                            f === "TODOS" ? "Todas" :
+                            f === "MULTA" ? "Multas" :
+                            f === "ADVERTENCIA" ? "Advertências" :
+                            f === "PENDENTE" ? "Pendentes" :
+                            f === "CONTESTADA" ? "Contestadas" :
+                            f === "PAGA" ? "Pagas" : "Canceladas"
+                        }
                     </button>
                 ))}
             </div>

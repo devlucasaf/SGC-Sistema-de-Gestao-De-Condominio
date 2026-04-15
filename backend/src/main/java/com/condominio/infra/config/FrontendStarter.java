@@ -53,9 +53,9 @@ public class FrontendStarter {
                 // --- EXIBE OS LINKS ---
                 System.out.println();
                 System.out.println("  ╔═══════════════════════════════════════════════════════╗");
-                System.out.println("  ║  🌐 Frontend (React):  " + FRONTEND_URL + "            ║");
-                System.out.println("  ║  📚 Swagger (API):     " + SWAGGER_URL + "  ║");
-                System.out.println("  ║  🔧 Backend (API):     http://localhost:8080            ║");
+                System.out.println("  ║  Frontend (React):  " + FRONTEND_URL + "              ║");
+                System.out.println("  ║  Swagger (API):     " + SWAGGER_URL + "               ║");
+                System.out.println("  ║  Backend (API):     http://localhost:8080             ║");
                 System.out.println("  ╚═══════════════════════════════════════════════════════╝");
                 System.out.println();
 

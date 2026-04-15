@@ -129,7 +129,11 @@ function RedefinirSenha() {
                                         value={novaSenha}
                                         onChange={(e) => setNovaSenha(e.target.value)}
                                         required
-                                        style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                                        style={{ 
+                                            width: "100%", 
+                                            paddingRight: "45px", 
+                                            boxSizing: "border-box" 
+                                        }}
                                     />
                                     <button
                                         type="button"

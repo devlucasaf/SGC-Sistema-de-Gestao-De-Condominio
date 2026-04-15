@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class ErrorResponseDTO {
-    private LocalDateTime timestamp;
-    private int status;
-    private String error;
-    private List<String> messages;
+    private LocalDateTime   timestamp;
+    private int             status;
+    private String          error;
+    private List<String>    messages;
 }

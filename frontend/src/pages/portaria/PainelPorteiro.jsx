@@ -140,7 +140,9 @@ function PainelPorteiro() {
             setMeuNome(p.nome || "");
             setMeuEmail(p.email || "");
             setMeuTelefone(formatarTelefone(p.telefone || ""));
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao carregar perfil:", err);
         }
     }
@@ -163,10 +165,14 @@ function PainelPorteiro() {
             });
             localStorage.setItem("perfilUsuario", JSON.stringify(res.data));
             toast.sucesso("Cadastro atualizado com sucesso!");
-        } catch (err) {
+        } 
+        
+        catch (err) {
             console.error("Erro ao salvar perfil:", err);
             toast.erro(err.response?.data?.erro || "Erro ao atualizar cadastro.");
-        } finally {
+        } 
+        
+        finally {
             setSalvandoPerfil(false);
         }
     }
@@ -624,7 +630,10 @@ function PainelPorteiro() {
                         type="submit"
                         className="btn-registrar"
                         disabled={salvandoPerfil}
-                        style={{ alignSelf: "flex-start", marginTop: "8px" }}
+                        style={{ 
+                            alignSelf: "flex-start", 
+                            marginTop: "8px" 
+                        }}
                     >
                         {salvandoPerfil ? "Salvando..." : "Salvar Alterações"}
                     </button>
@@ -726,11 +735,13 @@ function PainelPorteiro() {
                             key={t}
                             onClick={() => setFiltroTipoSol(t)}
                             style={{
-                                padding: "6px 14px", borderRadius: "20px",
+                                padding: "6px 14px", 
+                                borderRadius: "20px",
                                 border: filtroTipoSol === t ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
                                 background: filtroTipoSol === t ? "rgba(46,204,113,0.12)" : "transparent",
                                 color: filtroTipoSol === t ? "var(--primary-green)" : "var(--text-secondary)",
-                                cursor: "pointer", fontSize: "0.85rem",
+                                cursor: "pointer", 
+                                fontSize: "0.85rem",
                                 fontWeight: filtroTipoSol === t ? "600" : "400"
                             }}
                         >

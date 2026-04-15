@@ -250,6 +250,7 @@ function PainelSindico() {
         try {
             const res = await api.get("/perfil");
             const p = res.data;
+            
             setPerfilCompleto(p);
             setMeuNome(p.nome || "");
             setMeuEmail(p.email || "");
@@ -609,6 +610,7 @@ function PainelSindico() {
                     </h1>
 
                     <span style={{ color: "#888", fontSize: "0.85rem" }}>Olá, {perfil.nome || "Síndico"}</span>
+
                     <button className="btn-tema" onClick={alternarTema} aria-label="Alternar Tema">
                         {isDarkMode ? <FiSun /> : <FiMoon />}
                     </button>
@@ -748,7 +750,10 @@ function PainelSindico() {
                         value={blocoNovo}
                         onChange={(e) => setBlocoNovo(e.target.value)}
                         required
-                        style={{ flex: 1, minWidth: "120px" }}
+                        style={{ 
+                            flex: 1,
+                            minWidth: "120px" 
+                        }}
                     />
 
                     <input
@@ -757,7 +762,10 @@ function PainelSindico() {
                         value={andarNovo}
                         onChange={(e) => setAndarNovo(e.target.value)}
                         required
-                        style={{ flex: 1, minWidth: "120px" }}
+                        style={{ 
+                            flex: 1, 
+                            minWidth: "120px" 
+                        }}
                     />
 
                     <input
@@ -766,7 +774,10 @@ function PainelSindico() {
                         value={aptoNovo}
                         onChange={(e) => setAptoNovo(e.target.value)}
                         required
-                        style={{ flex: 1, minWidth: "120px" }}
+                        style={{ 
+                            flex: 1, 
+                            minWidth: "120px" 
+                        }}
                     />
                     <button type="submit" className="btn-publicar">+ Cadastrar</button>
                 </form>
@@ -802,7 +813,7 @@ function PainelSindico() {
 
     function renderReclamacoes() {
         return reclamacoes.length === 0 ? (
-            <p className="msg-vazia">Nenhuma reclamação registrada. 🎉</p>
+            <p className="msg-vazia">Nenhuma reclamação registrada.</p>
         ) : (
             <table className="tabela-sindico">
                 <thead>
@@ -1000,10 +1011,14 @@ function PainelSindico() {
 
     function getLabelCat(cat) {
         switch (cat) {
-            case "REGRA": return "Regra";
-            case "MULTA": return "Multa";
-            case "REGIMENTO": return "Regimento";
-            default: return cat;
+            case "REGRA": 
+                return "Regra";
+            case "MULTA": 
+                return "Multa";
+            case "REGIMENTO": 
+                return "Regimento";
+            default: 
+                return cat;
         }
     }
 
@@ -1070,7 +1085,9 @@ function PainelSindico() {
                                         {getLabelCat(d.categoria)}
                                     </span>
                                 </div>
+
                                 <p style={{ whiteSpace: "pre-line" }}>{d.conteudo}</p>
+
                                 <div className="meta-aviso">
                                     <span>
                                         {d.dataAtualizacao
@@ -1082,7 +1099,11 @@ function PainelSindico() {
                                     <div style={{ display: "flex", gap: "6px" }}>
                                         <button
                                             className="badge badge-azul"
-                                            style={{ cursor: "pointer", border: "none", fontSize: "0.75rem" }}
+                                            style={{ 
+                                                cursor: "pointer", 
+                                                border: "none", 
+                                                fontSize: "0.75rem" 
+                                            }}
                                             onClick={() => iniciarEdicaoDoc(d)}
                                         >
                                             Editar
@@ -1603,7 +1624,12 @@ function PainelSindico() {
                         </button>
                     ))}
 
-                    <span style={{ width: "1px", background: "var(--border-color)", margin: "0 4px" }} />
+                    <span style={{ 
+                            width: "1px", 
+                            background: "var(--border-color)", 
+                            margin: "0 4px" 
+                        }} 
+                    />
 
                     {["TODOS", "PENDENTE", "CONTESTADA", "PAGA", "CANCELADA"].map(s => (
                         <button
@@ -1620,10 +1646,12 @@ function PainelSindico() {
                                 fontWeight: filtroStatusInf === s ? "600" : "400"
                             }}
                         >
-                            {s === "TODOS" ? "Todos Status" :
-                             s === "PENDENTE" ? "Pendente" :
-                             s === "CONTESTADA" ? "Contestada" :
-                             s === "PAGA" ? "Paga" : "Cancelada"}
+                            {
+                                s === "TODOS" ? "Todos Status" :
+                                s === "PENDENTE" ? "Pendente" :
+                                s === "CONTESTADA" ? "Contestada" :
+                                s === "PAGA" ? "Paga" : "Cancelada"
+                            }
                         </button>
                     ))}
                 </div>
@@ -1640,39 +1668,56 @@ function PainelSindico() {
                         {filtradas
                             .sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao))
                             .map(inf => (
-                            <div key={inf.id} style={{
-                                background: "var(--bg-card)",
-                                border: "1px solid var(--border-color)",
-                                borderRadius: "12px",
-                                padding: "20px",
-                                borderLeft: `4px solid ${inf.tipo === "MULTA" ? "#e74c3c" : "#f1c40f"}`
-                            }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
+                            <div 
+                                key={inf.id} 
+                                style={{
+                                    background: "var(--bg-card)",
+                                    border: "1px solid var(--border-color)",
+                                    borderRadius: "12px",
+                                    padding: "20px",
+                                    borderLeft: `4px solid ${inf.tipo === "MULTA" ? "#e74c3c" : "#f1c40f"}`
+                                }}
+                            >
+                                <div style={{ 
+                                        display: "flex", 
+                                        justifyContent: "space-between", 
+                                        alignItems: "flex-start", 
+                                        flexWrap: "wrap", 
+                                        gap: "10px", 
+                                        marginBottom: "10px" 
+                                    }}
+                                >
                                     <div>
-                                        <span style={{
-                                            fontSize: "0.72rem", fontWeight: "700", textTransform: "uppercase",
-                                            letterSpacing: "0.5px", color: "var(--text-muted)"
-                                        }}>
-                                            {inf.tipo === "MULTA" ? "MULTA" : "ADVERTÊNCIA"}
-                                        </span>
+                                        <span 
+                                            style={{
+                                                fontSize: "0.72rem", 
+                                                fontWeight: "700", 
+                                                textTransform: "uppercase",
+                                                letterSpacing: "0.5px", 
+                                                color: "var(--text-muted)"
+                                            }}
+                                        >{inf.tipo === "MULTA" ? "MULTA" : "ADVERTÊNCIA"}</span>
                                         <h4 style={{ margin: "4px 0 0", color: "var(--text-primary)" }}>{inf.motivo}</h4>
                                     </div>
                                     <span style={{
-                                        padding: "4px 12px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "600",
-                                        background:
-                                            inf.status === "PENDENTE" ? "rgba(241,196,15,0.12)" :
-                                            inf.status === "CONTESTADA" ? "rgba(52,152,219,0.12)" :
-                                            inf.status === "PAGA" ? "rgba(46,204,113,0.12)" :
-                                            "rgba(149,165,166,0.12)",
-                                        color:
-                                            inf.status === "PENDENTE" ? "#f1c40f" :
-                                            inf.status === "CONTESTADA" ? "#3498db" :
-                                            inf.status === "PAGA" ? "#2ecc71" :
-                                            "#95a5a6"
-                                    }}>
-                                        {inf.status === "PENDENTE" ? "Pendente" :
-                                         inf.status === "CONTESTADA" ? "Contestada" :
-                                         inf.status === "PAGA" ? "Paga" : "Cancelada"}
+                                            padding: "4px 12px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "600",
+                                            background:
+                                                inf.status === "PENDENTE" ? "rgba(241,196,15,0.12)" :
+                                                inf.status === "CONTESTADA" ? "rgba(52,152,219,0.12)" :
+                                                inf.status === "PAGA" ? "rgba(46,204,113,0.12)" :
+                                                "rgba(149,165,166,0.12)",
+                                            color:
+                                                inf.status === "PENDENTE" ? "#f1c40f" :
+                                                inf.status === "CONTESTADA" ? "#3498db" :
+                                                inf.status === "PAGA" ? "#2ecc71" :
+                                                "#95a5a6"
+                                        }}
+                                    >
+                                        {
+                                            inf.status === "PENDENTE" ? "Pendente" :
+                                            inf.status === "CONTESTADA" ? "Contestada" :
+                                            inf.status === "PAGA" ? "Paga" : "Cancelada"
+                                        }
                                     </span>
                                 </div>
 
@@ -1680,7 +1725,15 @@ function PainelSindico() {
                                     <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", marginBottom: "8px" }}>{inf.descricao}</p>
                                 )}
 
-                                <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: "12px" }}>
+                                <div style={{ 
+                                        display: "flex", 
+                                        flexWrap: "wrap", 
+                                        gap: "16px", 
+                                        fontSize: "0.82rem", 
+                                        color: "var(--text-muted)", 
+                                        marginBottom: "12px" 
+                                    }}
+                                >
                                     <span>{inf.nomeMorador || "—"}</span>
                                     <span>{inf.unidadeMorador || "—"}</span>
                                     <span>{inf.dataInfracao ? new Date(inf.dataInfracao + "T00:00:00").toLocaleDateString("pt-BR") : "—"}</span>

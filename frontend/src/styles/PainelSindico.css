@@ -600,7 +600,6 @@
     font-weight: 500;
 }
 
-/* ===== MINHA UNIDADE DO SÍNDICO ===== */
 .unidade-sindico-container {
     display: flex;
     flex-direction: column;
@@ -678,7 +677,6 @@
     }
 }
 
-/* ===== ENTREGAS DO SÍNDICO ===== */
 .lista-entregas-sindico {
     display: flex;
     flex-direction: column;
@@ -748,7 +746,6 @@
     display: block;
 }
 
-/* ===== RESERVAS DO SÍNDICO ===== */
 .grid-areas-sindico {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

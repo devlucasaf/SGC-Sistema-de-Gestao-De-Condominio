@@ -25,7 +25,9 @@ function AlterarSenha() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } else {
+        } 
+        
+        else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }

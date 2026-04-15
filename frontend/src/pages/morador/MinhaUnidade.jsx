@@ -53,7 +53,7 @@ function MinhaUnidade() {
         buscarPerfil();
     }, []);
 
-    // --- FORMATA CPF: 12345678901 -> 123.456.789-01 ---
+    // --- FORMATA CPF ---
     function formatarCpf(cpf) {
         if (!cpf) {
             return "—";
@@ -79,7 +79,7 @@ function MinhaUnidade() {
         return tel;
     }
 
-    // --- FORMATA DATA: 2026-01-15 -> 15/01/2026 ---
+    // --- FORMATA DATA ---
     function formatarData(data) {
         if (!data) {
             return "—";

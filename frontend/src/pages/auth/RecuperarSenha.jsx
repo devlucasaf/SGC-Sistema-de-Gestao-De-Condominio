@@ -11,7 +11,7 @@ import "../../styles/Cadastro.css";
 registerLocale("pt-BR", ptBR);
 
 function RecuperarSenha() {
-    const [etapa, setEtapa] = useState(1); // 1 = verificar identidade, 2 = nova senha
+    const [etapa, setEtapa] = useState(1); 
     const [email, setEmail] = useState("");
     const [cpf, setCpf] = useState("");
     const [dataNascimento, setDataNascimento] = useState(null);
@@ -202,7 +202,11 @@ function RecuperarSenha() {
                                 value={novaSenha}
                                 onChange={(e) => setNovaSenha(e.target.value)}
                                 required
-                                style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                                style={{ 
+                                    width: "100%", 
+                                    paddingRight: "45px", 
+                                    boxSizing: "border-box" 
+                                }}
                             />
                             <button
                                 type="button"
@@ -245,7 +249,14 @@ function RecuperarSenha() {
                                 <button
                                     type="button"
                                     onClick={() => { setEtapa(1); setErro(""); setSucesso(""); }}
-                                    style={{ background: "none", border: "none", color: "#2ecc71", fontWeight: "bold", cursor: "pointer", fontSize: "inherit" }}
+                                    style={{ 
+                                        background: "none", 
+                                        border: "none", 
+                                        color: "#2ecc71", 
+                                        fontWeight: "bold", 
+                                        cursor: "pointer", 
+                                        fontSize: "inherit" 
+                                    }}
                                 >
                                     ← Voltar para verificação
                                 </button>

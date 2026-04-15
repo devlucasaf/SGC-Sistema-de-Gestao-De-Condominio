@@ -48,10 +48,14 @@ function Reserva() {
             try {
                 const response = await api.get("/reservas/areas-lazer");
                 setAreasDeLazer(response.data);
-            } catch (error) {
+            } 
+            
+            catch (error) {
                 console.error("Erro ao buscar áreas de lazer:", error);
                 toast.erro("Erro ao carregar áreas de lazer.", "Erro");
-            } finally {
+            } 
+            
+            finally {
                 setCarregandoAreas(false);
             }
         }
@@ -143,7 +147,9 @@ function Reserva() {
                 item.id === idReserva ? { ...item, status: "CANCELADA" } : item
             ));
             toast.sucesso("Reserva cancelada com sucesso!", "Cancelada");
-        } catch (error) {
+        } 
+        
+        catch (error) {
             const msg = error.response?.data?.messages?.[0] || "Erro ao cancelar reserva.";
             toast.erro(msg, "Erro");
         }
@@ -156,6 +162,7 @@ function Reserva() {
                 <div className="navbar-logo">
                     <h2>Reservar Espaços</h2>
                 </div>
+                
                 <div className="perfil-container">
                     <button className="btn-tema" onClick={alternarTema} aria-label="Alternar Tema">
                         {isDarkMode ? <FiSun /> : <FiMoon />}

@@ -59,13 +59,12 @@ function Reclamacao() {
         "Outros"
     ];
 
-    // --- Buscar histórico de reclamações do morador ---
+    // --- BUSCA HISTÓRICO DE RECLAMAÇÕES DO MORADOR ---
     useEffect(() => {
         async function buscarMinhasReclamacoes() {
             try {
                 const perfil = JSON.parse(localStorage.getItem("perfilUsuario"));
                 if (perfil && perfil.detalheExtra) {
-                    // Extrai "Apto: 101 - Bloco: A" para buscar por unidade
                     const unidade = perfil.detalheExtra;
                     const response = await api.get(`/api/reclamacoes/unidade/${encodeURIComponent(unidade)}`);
                     setMinhasReclamacoes(response.data.conteudo || []);
@@ -85,41 +84,28 @@ function Reclamacao() {
 
     function getIconeStatus(status) {
         switch (status) {
-            case "PENDENTE": {
+            case "PENDENTE": 
                 return <FiClock className="status-icon pendente" />;
-            }
-
-            case "EM_ANALISE": {
+            case "EM_ANALISE": 
                 return <FiAlertCircle className="status-icon em-analise" />;
-            }
-
-            case "RESOLVIDA": {
+            case "RESOLVIDA": 
                 return <FiCheckCircle className="status-icon resolvida" />;
-            }
-
-            default: {
+            default: 
                 return <FiClock className="status-icon" />;
-            }
         }
     }
 
     function formatarStatus(status) {
         switch (status) {
-            case "PENDENTE": {
+            case "PENDENTE": 
                 return "Pendente";
-            }
-
-            case "EM_ANALISE": {
+            case "EM_ANALISE": 
                 return "Em Análise";
-            }
-
-            case "RESOLVIDA": {
+            case "RESOLVIDA": 
                 return "Resolvida";
-            }
-
-            default: {
+            default: 
                 return status;
-            }
+            
         }
     }
 

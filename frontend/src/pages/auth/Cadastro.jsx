@@ -226,7 +226,11 @@ function Cadastro() {
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             required
-                            style={{ width: "100%", paddingRight: "45px", boxSizing: "border-box" }}
+                            style={{ 
+                                width: "100%", 
+                                paddingRight: "45px", 
+                                boxSizing: "border-box" 
+                            }}
                         />
                         <button
                             type="button"
@@ -283,7 +287,13 @@ function Cadastro() {
                                 value={tipoMorador}
                                 required
                                 tabIndex={-1}
-                                style={{ position: "absolute", opacity: 0, height: 0, width: 0, pointerEvents: "none" }}
+                                style={{ 
+                                    position: "absolute", 
+                                    opacity: 0, 
+                                    height: 0, 
+                                    width: 0, 
+                                    pointerEvents: "none" 
+                                }}
                                 onChange={() => {}}
                             />
                         </div>
@@ -305,7 +315,12 @@ function Cadastro() {
                     <span
                         className="link-voltar"
                         onClick={() => navigate("/")}
-                        style={{ color: "#2ecc71", fontWeight: "bold", textAlign: "center", cursor: "pointer" }}
+                        style={{ 
+                            color: "#2ecc71", 
+                            fontWeight: "bold", 
+                            textAlign: "center", 
+                            cursor: "pointer" 
+                        }}
                     >
                         Voltar para o Login
                     </span>

@@ -61,10 +61,21 @@
     font-size: 1.8rem;
 }
 
-.resumo-item.vermelho svg { color: #e74c3c; }
-.resumo-item.amarelo svg { color: #f1c40f; }
-.resumo-item.azul svg { color: #3498db; }
-.resumo-item.verde svg { color: #2ecc71; }
+.resumo-item.vermelho svg { 
+    color: #e74c3c; 
+}
+
+.resumo-item.amarelo svg { 
+    color: #f1c40f; 
+}
+
+.resumo-item.azul svg { 
+    color: #3498db; 
+}
+
+.resumo-item.verde svg { 
+    color: #2ecc71; 
+}
 
 .resumo-item div {
     display: flex;
