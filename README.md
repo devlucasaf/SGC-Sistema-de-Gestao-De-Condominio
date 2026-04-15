@@ -64,11 +64,13 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 │   │       ├── 📂 documento             # Gerenciamento de documentos
 │   │       ├── 📂 encomenda             # Gestão de encomendas
 │   │       ├── 📂 financeiro            # Controle financeiro de boletos
+│   │       ├── 📂 infracao              # Controle de multas e advertência
 │   │       ├── 📂 morador               # Cadastro de moradores
 │   │       ├── 📂 porteiro              # Gestão de porteiros
 │   │       ├── 📂 reclamacao            # Central de reclamações
 │   │       ├── 📂 reserva               # Reservas de áreas comuns
 │   │       ├── 📂 sindico               # Controle de síndico
+│   │       ├── 📂 solicitacao           # Central de solicitações
 │   │       ├── 📂 unidade               # Unidades do condomínio
 │   │       ├── 📂 usuario               # Controle de usuários
 │   │       ├── 📂 visitante             # Registro de visitantes
@@ -81,7 +83,9 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
     │   │   ├── 📂 auth                  # Telas de Login/Registro
     │   │   ├── 📂 morador               # Painel do Morador
     │   │   ├── 📂 portaria              # Painel Administrativo da Portaria
+    │   │   │   └── 📂 components        # Componentes pertencentes a tela da Portaria
     │   │   └── 📂 sindico               # Painel Administrativo do Síndico
+    │   │   │   └── 📂 components        # Componentes pertencentes a tela do Síndico
     │   ├── 📂 services                  # Chamadas à API
     │   └── 📂 styles                    # Estilos globais
     └── 📄 package.json
