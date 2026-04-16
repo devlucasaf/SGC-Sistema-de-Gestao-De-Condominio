@@ -8,13 +8,16 @@
         src="https://img.shields.io/badge/status-em%20progresso-yellow?style=for-the-badge" 
     />
     <img 
-        src="https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" 
+        src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" 
     />
     <img 
-        src="https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" 
+        src="https://img.shields.io/badge/Spring%20Boot-2.7.14-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" 
     />
     <img 
-      https://github.com/devlucasaf/SGC-Sistema-de-Gestao-De-Condominio/commits/main/README.md  src="https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black" 
+        src="https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black" 
+    />
+    <img 
+        src="https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white" 
     />
     <img 
         src="https://img.shields.io/badge/license-MIT-A020F0?style=for-the-badge" 
@@ -23,23 +26,24 @@
 
 <br/>
 
-> **SGC** é um sistema web completo para gestão de condomínios, permitindo o controle de moradores, visitantes, encomendas, reservas e muito mais — tudo em uma única plataforma.
+> **SGC** é um sistema web completo para gestão de condomínios, permitindo o controle de moradores, porteiros, encomendas, reservas, boletos, reclamações, solicitações e muito mais — tudo em uma única plataforma.
 
 ---
 
 ## 📋 Sobre o Projeto
 
-O **SGC - Sistema de Gestão de Condomínio** foi desenvolvido para digitalizar e simplificar a administração condominial. A plataforma oferece controle centralizado de todas as operações do condomínio, facilitando a comunicação entre porteiros, moradores e administradores.
-
+O **SGC - Sistema de Gestão de Condomínio** foi desenvolvido para digitalizar e simplificar a administração condominial. A plataforma oferece controle centralizado de todas as operações do condomínio, facilitando a comunicação entre **síndico**, **porteiros** e **moradores**.
 ---
 
 ## 🏗️ Arquitetura
 
 O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separação clara entre frontend e backend:
 
-- **Frontend:** aplicação React responsável pela interface do usuário.
-- **Backend:** API REST desenvolvida com Spring Boot, responsável pelas regras de negócio e acesso ao banco de dados.
-- **Banco de Dados:** SQL Server para persistência dos dados.
+- **Frontend:** React 18 + Vite, responsável pela interface do usuário
+- **Backend:** API REST com Spring Boot 2.7.14, Spring Security (JWT Stateless), Spring Data JPA
+- **Banco de Dados:** SQL Server (produção) / H2 (testes)
+- **Segurança:** JWT para autenticação, BCrypt para senhas, CORS configurado globalmente
+- **Padrão DTO:** Separação completa entre entidades JPA e objetos de transferência
 
 > 📖 Para mais detalhes sobre a arquitetura utilizada, consulte a [documentação de introdução](https://cloudsupport.dev/manual/introducao/).
 
@@ -48,53 +52,50 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 ## 🗂️ Estrutura do Projeto
 
 ```
-📂 SGC-Sistema-de-Gestao
+📂 SGC-Sistema-de-Gestao-De-Condominio
 ├── 📂 backend
 │   ├── 📂 src/main/java/com/condominio
 │   │   ├── 📂 dto/auth                  # DTOs de autenticação
 │   │   ├── 📂 entity                    # Entidades JPA
 │   │   ├── 📂 exception                 # Tratamento global de erros
 │   │   ├── 📂 infra                     # Camada de infraestrutura
-│   │   │   ├── 📂 config                # Configurações gerais
+│   │   │   ├── 📂 config                # Configurações gerais + DataSeeder
 │   │   │   ├── 📂 pagination            # Classes utilitárias para paginação
-│   │   │   └── 📂 security              # Configurações de segurança (JWT)
+│   │   │   └── 📂 security              # JWT, SecurityConfig, SecurityFilter
 │   │   └── 📂 modules                   # Módulos de negócio
-│   │       ├── 📂 autenticacao          # Login e controle de acesso
-│   │       ├── 📂 aviso                 # Mural de avisos
-│   │       ├── 📂 documento             # Gerenciamento de documentos
-│   │       ├── 📂 encomenda             # Gestão de encomendas
-│   │       ├── 📂 financeiro            # Controle financeiro de boletos
-│   │       ├── 📂 infracao              # Controle de multas e advertência
-│   │       ├── 📂 morador               # Cadastro de moradores
-│   │       ├── 📂 porteiro              # Gestão de porteiros
-│   │       ├── 📂 reclamacao            # Central de reclamações
-│   │       ├── 📂 reserva               # Reservas de áreas comuns
-│   │       ├── 📂 sindico               # Controle de síndico
-│   │       ├── 📂 solicitacao           # Central de solicitações
-│   │       ├── 📂 unidade               # Unidades do condomínio
-│   │       ├── 📂 usuario               # Controle de usuários
-│   │       ├── 📂 visitante             # Registro de visitantes
-│   │       └── SgcApplication.java      # Classe principal
+│   │       ├── 📂 autenticacao           # Login e controle de acesso
+│   │       ├── 📂 aviso                  # Mural de avisos
+│   │       ├── 📂 documento              # Gerenciamento de documentos
+│   │       ├── 📂 encomenda              # Gestão de encomendas
+│   │       ├── 📂 financeiro             # Boletos (geração automática)
+│   │       ├── 📂 infracao               # Multas e advertências
+│   │       ├── 📂 morador                # Cadastro de moradores
+│   │       ├── 📂 porteiro               # Gestão de porteiros
+│   │       ├── 📂 reclamacao             # Central de reclamações
+│   │       ├── 📂 reserva                # Reservas de áreas comuns
+│   │       ├── 📂 sindico                # Controle de síndico
+│   │       ├── 📂 solicitacao            # Solicitações 
+│   │       ├── 📂 unidade                # Unidades do condomínio
+│   │       ├── 📂 usuario                # Controle de usuários 
+│   │       └── 📂 visitante              # Registro de visitantes
 │   └── 📄 pom.xml
-└── 📂 frontend
-    ├── 📂 src
-    │   ├── 📂 components                # Componentes reutilizáveis
-    │   ├── 📂 pages                     # Páginas da aplicação
-    │   │   ├── 📂 auth                  # Telas de Login/Registro
-    │   │   ├── 📂 morador               # Painel do Morador
-    │   │   ├── 📂 portaria              # Painel Administrativo da Portaria
-    │   │   │   └── 📂 components        # Componentes pertencentes a tela da Portaria
-    │   │   └── 📂 sindico               # Painel Administrativo do Síndico
-    │   │   │   └── 📂 components        # Componentes pertencentes a tela do Síndico
-    │   ├── 📂 services                  # Chamadas à API
-    │   └── 📂 styles                    # Estilos globais
-    └── 📄 package.json
+├── 📂 frontend
+│   ├── 📂 src
+│   │   ├── 📂 components                # Componentes reutilizáveis (Toast, Loading, RotaPrivada)
+│   │   ├── 📂 pages
+│   │   │   ├── 📂 auth                  # Login, Cadastro, RecuperarSenha
+│   │   │   ├── 📂 morador               # Home, Boleto, Entregas, Reserva, Reclamação, Solicitações...
+│   │   │   ├── 📂 portaria              # PainelPorteiro + components/
+│   │   │   └── 📂 sindico               # PainelSindico + components/
+│   │   ├── 📂 services                  # api.js, authService.js, perfilService.js
+│   │   └── 📂 styles                    # CSS de cada página
+│   └── 📄 package.json
+└── 📄 README.md
 ```
 
 ---
 
 ## 🛠️ Tecnologias
-
 
 <div align="center">
     <img 
@@ -189,16 +190,15 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 
 ### Pré-requisitos
 
-Certifique-se de ter instalado em sua máquina:
-
 - [Java 17+](https://adoptium.net/)
 - [Node.js 18+](https://nodejs.org/)
-- SQL Server rodando na porta padrão `1433`
+- [SQL Server](https://www.microsoft.com/sql-server) rodando na porta `1433`
+- [Maven](https://maven.apache.org/) (ou use o wrapper `mvnw` incluso)
 
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/devlucasaf/SGC-Sistema-de-Gestao-De-Condominio
+git clone https://github.com/devlucasaf/SGC-Sistema-de-Gestao-De-Condominio.git
 cd SGC-Sistema-de-Gestao-De-Condominio
 ```
 
@@ -208,21 +208,24 @@ cd SGC-Sistema-de-Gestao-De-Condominio
 cd backend
 ```
 
-Edite o arquivo `src/main/resources/application.properties` com as credenciais do seu banco de dados:
+Crie o arquivo `src/main/resources/application-local.properties` baseado no exemplo:
 
 ```properties
-spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=sgc
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=sgc;encrypt=true;trustServerCertificate=true
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
+
+api.security.token.secret=sua-chave-secreta-jwt
 ```
 
-Em seguida, inicie o servidor:
+Inicie o servidor:
 
 ```bash
-./mvnw spring-boot:run
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-> A API ficará disponível em `http://localhost:8080`
+> ✅ API disponível em `http://localhost:8080`  
+> 📚 Swagger disponível em `http://localhost:8080/swagger-ui/index.html`
 
 ### 3. Configure o Frontend
 
@@ -232,22 +235,7 @@ npm install
 npm run dev
 ```
 
-> A aplicação ficará disponível em `http://localhost:5173`
-
----
-
-## 📌 Funcionalidades
-
-- [x] 🔐 Autenticação e controle de acesso (JWT)
-- [x] 👥 Cadastro e gerenciamento de moradores
-- [x] 🚪 Controle de visitantes
-- [x] 📦 Gestão de encomendas
-- [x] 🏊 Reserva de áreas comuns
-- [x] 🏠 Gestão de unidades
-- [x] 👮 Cadastro de porteiros
-- [ ] 📊 Dashboard administrativo
-- [ ] 📱 Layout responsivo
-- [ ] 🔔 Notificações em tempo real
+> ✅ Aplicação disponível em `http://localhost:5173`
 
 ---
 
@@ -266,7 +254,7 @@ npm run dev
                 <br/>
                 <sub><b>Lucas Freitas</b></sub>
             </a><br/>
-            <sub>BackEnd Developer</sub>
+            <sub>Fullstack Developer</sub>
         </td>
     </tr>
 </table>
