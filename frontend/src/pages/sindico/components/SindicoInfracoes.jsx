@@ -13,23 +13,54 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
     const [enviandoInfracao, setEnviandoInfracao] = useState(false);
     const [mostrarFormInfracao, setMostrarFormInfracao] = useState(false);
 
+    // --- FORMATADOR DE DINHEIRO ---
+    function formatarDinheiro(valor) {
+        const numeros = valor.replace(/\D/g, "");
+        const centavos = parseInt(numeros || "0", 10);
+        return (centavos / 100).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function handleValorChange(e) {
+        const raw = e.target.value.replace(/\D/g, "");
+        if (raw === "") {
+            setValorInfracao("");
+            return;
+        }
+        setValorInfracao(formatarDinheiro(raw));
+    }
+
+    function valorParaNumero(valorFormatado) {
+        if (!valorFormatado) {
+            return 0;
+        }
+        return parseFloat(valorFormatado.replace(/\./g, "").replace(",", ".")) || 0;
+    }
+
+    function exibirDinheiro(valor) {
+        const num = typeof valor === "number" ? valor : parseFloat(valor || "0");
+        return num.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
     async function criarInfracao(e) {
         e.preventDefault();
         if (!motivoInfracao.trim() || !moradorInfracao || !dataInfracao) {
+            toast.erro("Preencha todos os campos obrigatórios (morador, motivo e data).");
             return;
         }
 
         setEnviandoInfracao(true);
         
         try {
-            await api.post("/api/infracoes", {
+            const payload = {
                 tipo: tipoInfracao,
                 motivo: motivoInfracao,
                 descricao: descricaoInfracao,
-                valor: tipoInfracao === "MULTA" ? parseFloat(valorInfracao || "0") : 0,
+                valor: tipoInfracao === "MULTA" ? valorParaNumero(valorInfracao) : 0,
                 moradorId: Number(moradorInfracao),
                 dataInfracao: dataInfracao.toISOString().split("T")[0],
-            });
+            };
+            console.log("Enviando infração:", payload);
+            await api.post("/api/infracoes", payload);
 
             setMotivoInfracao(""); setDescricaoInfracao(""); setValorInfracao("");
             setMoradorInfracao(""); setDataInfracao(null); setMostrarFormInfracao(false);
@@ -40,9 +71,9 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
         } 
         
         catch (err) {
-            console.error("Erro ao criar infração:", err);
-            toast.erro("Erro ao registrar infração.");
-        } 
+            console.error("Erro ao criar infração:", err.response?.status, err.response?.data);
+            toast.erro(err.response?.data?.message || err.response?.data?.erro || "Erro ao registrar infração.");
+        }
         
         finally {
             setEnviandoInfracao(false);
@@ -189,22 +220,34 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                             {tipoInfracao === "MULTA" && (
                                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                     <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Valor (R$)</label>
-                                    <input 
-                                        type="number" 
-                                        step="0.01" 
-                                        min="0" 
-                                        value={valorInfracao} 
-                                        onChange={(e) => setValorInfracao(e.target.value)}
-                                        placeholder="Ex: 150.00"
-                                        style={{ 
-                                            padding: "10px", 
-                                            borderRadius: "8px", 
-                                            border: "1px solid var(--border-color)", 
-                                            background: "var(--bg-input, var(--bg-card))", 
-                                            color: "var(--text-primary)", 
-                                            fontSize: "0.9rem" 
-                                        }} 
-                                    />
+                                    <div style={{ position: "relative" }}>
+                                        <span style={{
+                                            position: "absolute",
+                                            left: "10px",
+                                            top: "50%",
+                                            transform: "translateY(-50%)",
+                                            color: "var(--text-secondary)",
+                                            fontWeight: "600",
+                                            fontSize: "0.9rem"
+                                        }}>R$</span>
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            value={valorInfracao}
+                                            onChange={handleValorChange}
+                                            placeholder="0,00"
+                                            style={{
+                                                padding: "10px 10px 10px 36px",
+                                                borderRadius: "8px",
+                                                border: "1px solid var(--border-color)",
+                                                background: "var(--bg-input, var(--bg-card))",
+                                                color: "var(--text-primary)",
+                                                fontSize: "0.9rem",
+                                                width: "100%",
+                                                boxSizing: "border-box"
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -331,7 +374,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                     {inf.dataInfracao ? new Date(inf.dataInfracao + "T00:00:00").toLocaleDateString("pt-BR") : "—"}
                                 </span>
                                 {inf.tipo === "MULTA" && (
-                                    <span style={{ fontWeight: "700", color: "#e74c3c" }}>R$ {(inf.valor || 0).toFixed(2).replace(".", ",")}</span>
+                                    <span style={{ fontWeight: "700", color: "#e74c3c" }}>{exibirDinheiro(inf.valor || 0)}</span>
                                 )}
                             </div>
 
