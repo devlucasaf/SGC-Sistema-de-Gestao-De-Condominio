@@ -79,6 +79,7 @@ public class MoradorService {
         return MoradorResponseDTO.fromEntity(morador);
     }
 
+    @Transactional(readOnly = true)
     public MoradorResponseDTO buscarPorId(Long id) {
         Morador morador = moradorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Morador não encontrado com id: " + id));
@@ -86,6 +87,7 @@ public class MoradorService {
         return MoradorResponseDTO.fromEntity(morador);
     }
 
+    @Transactional(readOnly = true)
     public List<MoradorResponseDTO> listarTodos() {
         return moradorRepository.findAll()
                 .stream()

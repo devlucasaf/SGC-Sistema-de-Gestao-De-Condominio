@@ -2,6 +2,7 @@ package com.condominio.modules.reserva.service;
 
 import com.condominio.modules.morador.model.Morador;
 
+import com.condominio.modules.reserva.dto.ReservaPorteiroDTO;
 import com.condominio.modules.reserva.dto.ReservaRequestDTO;
 import com.condominio.modules.reserva.dto.ReservaResponseDTO;
 import com.condominio.modules.reserva.model.AreaLazer;
@@ -81,6 +82,14 @@ public class ReservaService {
 
         return reservas.stream()
                 .map(this::converterParaDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReservaPorteiroDTO> listarTodasParaPorteiro() {
+        return reservaRepository.findAllByOrderByDataReservaDesc()
+                .stream()
+                .map(ReservaPorteiroDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 

@@ -39,10 +39,7 @@ public class ReservaController {
     // --- LISTAR TODAS AS RESERVAS (VISÃO PORTEIRO/SÍNDICO) ---
     @GetMapping("/todas")
     public ResponseEntity<List<ReservaPorteiroDTO>> listarTodas() {
-        List<ReservaPorteiroDTO> lista = reservaRepository.findAllByOrderByDataReservaDesc()
-                .stream()
-                .map(ReservaPorteiroDTO::fromEntity)
-                .collect(java.util.stream.Collectors.toList());
+        List<ReservaPorteiroDTO> lista = reservaService.listarTodasParaPorteiro();
         return ResponseEntity.ok(lista);
     }
 
