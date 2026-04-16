@@ -86,7 +86,7 @@ function PainelSindico() {
         setCarregando(true);
         try {
             const [resMoradores, resUnidades, resReclamacoes, resAvisos, resDocumentos, resSolicitacoes, resInfracoes] = await Promise.all([
-                api.get("/moradores").catch(() => ({ data: [] })),
+                api.get("/moradores").catch((err) => { console.error("Erro ao carregar moradores:", err.response?.status, err.response?.data); return { data: [] }; }),
                 api.get("/unidades").catch(() => ({ data: [] })),
                 api.get("/api/reclamacoes").catch(() => ({ data: { conteudo: [] } })),
                 api.get("/avisos").catch(() => ({ data: [] })),
@@ -120,7 +120,7 @@ function PainelSindico() {
         navigate("/login");
     }
 
-    // --- MEU PERFIL: CARREGAR ---
+    // --- MEU PERFIL ---
     async function carregarMeuPerfil() {
         try {
             const res = await api.get("/perfil");
