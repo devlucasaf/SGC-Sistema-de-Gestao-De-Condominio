@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { FiChevronDown } from "react-icons/fi";
 
 function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, formatarData }) {
     const [tituloDoc, setTituloDoc] = useState("");
@@ -7,6 +8,33 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
     const [enviandoDoc, setEnviandoDoc] = useState(false);
     const [editandoDoc, setEditandoDoc] = useState(null);
     const [modalConfirmDoc, setModalConfirmDoc] = useState({ aberto: false, idDoc: null });
+    const [dropdownCatAberto, setDropdownCatAberto] = useState(false);
+    const dropdownCatRef = useRef(null);
+
+    const opcoesCat = [
+        {
+            valor: "REGRA",
+            label: "Regra"
+        },
+        {
+            valor: "REGIMENTO",
+            label: "Regimento"
+        },
+        {
+            valor: "MULTA",
+            label: "Multa"
+        },
+    ];
+
+    useEffect(() => {
+        function handleClickFora(e) {
+            if (dropdownCatRef.current && !dropdownCatRef.current.contains(e.target)) {
+                setDropdownCatAberto(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickFora);
+        return () => document.removeEventListener("mousedown", handleClickFora);
+    }, []);
 
     async function salvarDocumento(e) {
         e.preventDefault();
@@ -124,23 +152,31 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                     onChange={(e) => setTituloDoc(e.target.value)}
                     required
                 />
-                <select
-                    value={categoriaDoc}
-                    onChange={(e) => setCategoriaDoc(e.target.value)}
-                    style={{
-                        padding: "11px 14px",
-                        border: "1px solid var(--border-color)",
-                        borderRadius: "var(--radius-sm)",
-                        backgroundColor: "var(--bg-primary)",
-                        color: "var(--text-primary)",
-                        fontSize: "0.9rem",
-                        fontFamily: "inherit",
-                    }}
-                >
-                    <option value="REGRA">Regra</option>
-                    <option value="REGIMENTO">Regimento</option>
-                    <option value="MULTA">Multa</option>
-                </select>
+                <div className="sindico-custom-select-wrapper" ref={dropdownCatRef}>
+                    <div
+                        className={`sindico-custom-select-trigger ${dropdownCatAberto ? "aberto" : ""} selecionado`}
+                        onClick={() => setDropdownCatAberto(!dropdownCatAberto)}
+                    >
+                        <span>{opcoesCat.find(o => o.valor === categoriaDoc)?.label || "Categoria"}</span>
+                        <FiChevronDown className={`sindico-custom-select-arrow ${dropdownCatAberto ? "girar" : ""}`} />
+                    </div>
+                    {dropdownCatAberto && (
+                        <ul className="sindico-custom-select-opcoes">
+                            {opcoesCat.map(op => (
+                                <li
+                                    key={op.valor}
+                                    className={`sindico-custom-select-item ${categoriaDoc === op.valor ? "ativo" : ""}`}
+                                    onClick={() => {
+                                        setCategoriaDoc(op.valor);
+                                        setDropdownCatAberto(false);
+                                    }}
+                                >
+                                    {op.label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
                 <textarea
                     placeholder="Escreva o conteúdo do documento..."
                     value={conteudoDoc}
@@ -199,7 +235,7 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                 </div>
             )}
 
-            {/* Modal de confirmação para documentos */}
+            {/* --- MODAL DE CONFIRMAÇÃO PARA DOCUMENTOS --- */}
             {modalConfirmDoc.aberto && (
                 <div className="modal-overlay" onClick={cancelarDeletarDoc}>
                     <div className="modal-confirm" onClick={(e) => e.stopPropagation()}>

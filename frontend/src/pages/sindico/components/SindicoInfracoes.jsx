@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { FiChevronDown, FiCalendar } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 
 function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
@@ -12,6 +13,26 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
     const [dataInfracao, setDataInfracao] = useState(null);
     const [enviandoInfracao, setEnviandoInfracao] = useState(false);
     const [mostrarFormInfracao, setMostrarFormInfracao] = useState(false);
+    const [dropdownMoradorAberto, setDropdownMoradorAberto] = useState(false);
+    const [buscaMorador, setBuscaMorador] = useState("");
+    const dropdownMoradorRef = useRef(null);
+
+    // Fechar dropdown ao clicar fora
+    useEffect(() => {
+        function handleClickFora(e) {
+            if (dropdownMoradorRef.current && !dropdownMoradorRef.current.contains(e.target)) {
+                setDropdownMoradorAberto(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickFora);
+        return () => document.removeEventListener("mousedown", handleClickFora);
+    }, []);
+
+    const moradorSelecionadoObj = moradores.find(m => String(m.id) === String(moradorInfracao));
+    const moradoresFiltrados = moradores.filter(m =>
+        m.nome?.toLowerCase().includes(buscaMorador.toLowerCase()) ||
+        (m.unidade || "").toLowerCase().includes(buscaMorador.toLowerCase())
+    );
 
     // --- FORMATADOR DE DINHEIRO ---
     function formatarDinheiro(valor) {
@@ -64,6 +85,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
 
             setMotivoInfracao(""); setDescricaoInfracao(""); setValorInfracao("");
             setMoradorInfracao(""); setDataInfracao(null); setMostrarFormInfracao(false);
+            setBuscaMorador("");
 
             toast.sucesso("Infração registrada com sucesso!");
             const res = await api.get("/api/infracoes");
@@ -162,24 +184,55 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                             {/* Morador */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Morador</label>
-                                <select 
-                                    value={moradorInfracao} 
-                                    onChange={(e) => setMoradorInfracao(e.target.value)} 
-                                    required
-                                    style={{ 
-                                        padding: "10px", 
-                                        borderRadius: "8px", 
-                                        border: "1px solid var(--border-color)", 
-                                        background: "var(--bg-input, var(--bg-card))", 
-                                        color: "var(--text-primary)", 
-                                        fontSize: "0.9rem" 
-                                    }}
-                                >
-                                    <option value="">Selecione o morador</option>
-                                    {moradores.map(m => (
-                                        <option key={m.id} value={m.id}>{m.nome} — {m.unidade || "Sem unidade"}</option>
-                                    ))}
-                                </select>
+                                <div className="sindico-custom-select-wrapper" ref={dropdownMoradorRef}>
+                                    <div
+                                        className={`sindico-custom-select-trigger ${dropdownMoradorAberto ? "aberto" : ""} ${moradorInfracao ? "selecionado" : ""}`}
+                                        onClick={() => setDropdownMoradorAberto(!dropdownMoradorAberto)}
+                                    >
+                                        <span>
+                                            {moradorSelecionadoObj
+                                                ? `${moradorSelecionadoObj.nome} — ${moradorSelecionadoObj.unidade || "Sem unidade"}`
+                                                : "Selecione o morador"}
+                                        </span>
+                                        <FiChevronDown className={`sindico-custom-select-arrow ${dropdownMoradorAberto ? "girar" : ""}`} />
+                                    </div>
+                                    {dropdownMoradorAberto && (
+                                        <ul className="sindico-custom-select-opcoes">
+                                            <input
+                                                type="text"
+                                                className="sindico-custom-select-busca"
+                                                placeholder="Buscar morador..."
+                                                value={buscaMorador}
+                                                onChange={(e) => setBuscaMorador(e.target.value)}
+                                                autoFocus
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
+                                            {moradoresFiltrados.length === 0 ? (
+                                                <li className="sindico-custom-select-item" style={{ color: "var(--text-muted)", cursor: "default" }}>
+                                                    Nenhum morador encontrado
+                                                </li>
+                                            ) : (
+                                                moradoresFiltrados.map(m => (
+                                                    <li
+                                                        key={m.id}
+                                                        className={`sindico-custom-select-item ${String(moradorInfracao) === String(m.id) ? "ativo" : ""}`}
+                                                        onClick={() => {
+                                                            setMoradorInfracao(String(m.id));
+                                                            setDropdownMoradorAberto(false);
+                                                            setBuscaMorador("");
+                                                        }}
+                                                    >
+                                                        {m.nome} — {m.unidade || "Sem unidade"}
+                                                    </li>
+                                                ))
+                                            )}
+                                        </ul>
+                                    )}
+                                    <input type="text" value={moradorInfracao} required tabIndex={-1}
+                                        style={{ position: "absolute", opacity: 0, height: 0, width: 0, pointerEvents: "none" }}
+                                        onChange={() => {}}
+                                    />
+                                </div>
                             </div>
 
                             {/* Motivo */}
@@ -204,16 +257,24 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                             {/* Data */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data da infração</label>
-                                <DatePicker 
-                                    selected={dataInfracao} 
-                                    onChange={(date) => setDataInfracao(date)} 
-                                    locale="pt-BR" 
-                                    dateFormat="dd/MM/yyyy"
-                                    maxDate={new Date()} 
-                                    placeholderText="Selecione a data" 
-                                    className="input-datepicker" 
-                                    required 
-                                />
+                                <div className="sindico-datepicker-wrapper">
+                                    <DatePicker
+                                        selected={dataInfracao}
+                                        onChange={(date) => setDataInfracao(date)}
+                                        locale="pt-BR"
+                                        dateFormat="dd/MM/yyyy"
+                                        maxDate={new Date()}
+                                        placeholderText="Selecione a data"
+                                        className="sindico-datepicker-input"
+                                        calendarClassName="datepicker-calendario"
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        required
+                                        autoComplete="off"
+                                    />
+                                    <FiCalendar className="sindico-datepicker-icone" />
+                                </div>
                             </div>
 
                             {/* Valor (só se MULTA) */}
