@@ -40,6 +40,7 @@ function SindicoDashboard({ moradores, unidades, reclamacoes, avisos, documentos
                         <div className="card-aviso" key={a.id}>
                             <h4>{a.titulo}</h4>
                             <p>{a.mensagem}</p>
+                            
                             <div className="meta-aviso">
                                 <span>{formatarData(a.dataCriacao)}</span>
                                 <span>{a.nomeSindico}</span>

@@ -15,9 +15,9 @@ public class EncomendaResponseDTO {
     private LocalDateTime       dataRetirada;
 
     // --- DADOS PARA O FRONTEND ---
-    private String blocoUnidade;
-    private String numeroApto;
-    private String nomePorteiro;
+    private String              blocoUnidade;
+    private String              numeroApto;
+    private String              nomePorteiro;
 
     public static EncomendaResponseDTO fromEntity(Encomenda encomenda) {
         EncomendaResponseDTO dto = new EncomendaResponseDTO();

@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect }  from "react";
+import { useNavigate }          from "react-router-dom";
 import api from "../../services/api";
 import "../../styles/Reclamacao.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiLock, FiMail, FiEye, FiEyeOff } from "react-icons/fi";
 
 function RedefinirSenha() {
-    const [email, setEmail] = useState("");
-    const [novaSenha, setNovaSenha] = useState("");
+    const [email         , setEmail         ] = useState("");
+    const [novaSenha     , setNovaSenha     ] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
-    const [mostrarSenha, setMostrarSenha] = useState(false);
-    const [enviando, setEnviando] = useState(false);
-    const [mensagem, setMensagem] = useState("");
-    const [tipoMensagem, setTipoMensagem] = useState(""); 
+    const [mostrarSenha  , setMostrarSenha  ] = useState(false);
+    const [enviando      , setEnviando      ] = useState(false);
+    const [mensagem      , setMensagem      ] = useState("");
+    const [tipoMensagem  , setTipoMensagem  ] = useState(""); 
 
     const navigate = useNavigate();
 
@@ -26,9 +26,7 @@ function RedefinirSenha() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -67,17 +65,13 @@ function RedefinirSenha() {
             setEmail("");
             setNovaSenha("");
             setConfirmarSenha("");
-        }
-
-        catch (error) {
+        } catch (error) {
             const msg = error.response?.data?.erros?.[0]
                 || error.response?.data?.mensagem
                 || "Erro ao redefinir senha. Verifique o e-mail informado.";
             setMensagem(msg);
             setTipoMensagem("erro");
-        }
-
-        finally {
+        } finally {
             setEnviando(false);
         }
     }

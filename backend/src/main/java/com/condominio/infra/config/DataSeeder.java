@@ -122,9 +122,7 @@ public class DataSeeder implements CommandLineRunner {
                 usuarioSindico.setDataNascimento(java.time.LocalDate.of(1990, 1, 15));
                 usuarioSindico.setTipoUsuario(TipoUsuario.SINDICO);
                 usuarioRepository.save(usuarioSindico);
-            }
-
-            else {
+            } else {
                 if (usuarioSindico.getTipoUsuario() != TipoUsuario.SINDICO) {
                     usuarioSindico.setTipoUsuario(TipoUsuario.SINDICO);
                     usuarioRepository.save(usuarioSindico);
@@ -206,9 +204,7 @@ public class DataSeeder implements CommandLineRunner {
 
         if (corrigidos > 0) {
             log.info("{} senha(s) em texto puro foram criptografadas com BCrypt.", corrigidos);
-        }
-
-        else {
+        } else {
             System.out.println("Todas as senhas já estão criptografadas.");
         }
     }

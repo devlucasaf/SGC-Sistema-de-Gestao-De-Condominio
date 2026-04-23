@@ -48,9 +48,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                     var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 // --- TOKEN INVÁLIDO OU EXPIRADO ---
                 log.debug("Token inválido ignorado: {}", e.getMessage());
             }

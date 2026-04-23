@@ -7,23 +7,23 @@ function PorteiroDashboard({
     const hoje = new Date().toISOString().split("T")[0];
 
     // --- CONTADORES ---
-    const encomendasPendentes = encomendas.filter(e => e.status === "AGUARDANDO_RETIRADA");
-    const encomendasRetiradas = encomendas.filter(e => e.status === "RETIRADO");
-    const reclamacoesPendentes = reclamacoes.filter(r => r.status === "PENDENTE");
-    const reclamacoesEmAnalise = reclamacoes.filter(r => r.status === "EM_ANALISE");
-    const reservasHoje = reservas.filter(r => r.dataReserva === hoje);
-    const reservasProximas = reservas.filter(r => r.dataReserva > hoje).slice(0, 3);
+    const encomendasPendentes   = encomendas.filter(e => e.status === "AGUARDANDO_RETIRADA");
+    const encomendasRetiradas   = encomendas.filter(e => e.status === "RETIRADO");
+    const reclamacoesPendentes  = reclamacoes.filter(r => r.status === "PENDENTE");
+    const reclamacoesEmAnalise  = reclamacoes.filter(r => r.status === "EM_ANALISE");
+    const reservasHoje          = reservas.filter(r => r.dataReserva === hoje);
+    const reservasProximas      = reservas.filter(r => r.dataReserva > hoje).slice(0, 3);
     const solicitacoesPendentes = solicitacoes.filter(s => s.status === "PENDENTE");
     const solicitacoesAprovadas = solicitacoes.filter(s => s.status === "APROVADO");
 
-    // Hora atual formatada
+    // ---HORA ATUAL FORMATADA ---
     const agora = new Date();
     const saudacao = agora.getHours() < 12 ? "Bom dia" : agora.getHours() < 18 ? "Boa tarde" : "Boa noite";
     const dataHoje = agora.toLocaleDateString("pt-BR", {
         weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
+        day:     "numeric",
+        month:   "long",
+        year:    "numeric"
     });
 
     return (
@@ -56,10 +56,12 @@ function PorteiroDashboard({
                     onClick={() => setAbaAtiva("reclamacoes")}
                 >
                     <div className="dash-card-icone"><FiAlertCircle /></div>
+
                     <div className="dash-card-info">
                         <span className="dash-card-valor">{reclamacoesPendentes.length}</span>
                         <span className="dash-card-label">Reclamações Pendentes</span>
                     </div>
+
                     <div className="dash-card-extra">
                         <span>{reclamacoesEmAnalise.length} em análise</span>
                     </div>
@@ -70,6 +72,7 @@ function PorteiroDashboard({
                     onClick={() => setAbaAtiva("reservas")}
                 >
                     <div className="dash-card-icone"><FiCalendar /></div>
+
                     <div className="dash-card-info">
                         <span className="dash-card-valor">{reservasHoje.length}</span>
                         <span className="dash-card-label">Reservas Hoje</span>
@@ -85,10 +88,12 @@ function PorteiroDashboard({
                     onClick={() => setAbaAtiva("solicitacoes")}
                 >
                     <div className="dash-card-icone"><FiFileText /></div>
+
                     <div className="dash-card-info">
                         <span className="dash-card-valor">{solicitacoesPendentes.length}</span>
                         <span className="dash-card-label">Solicitações Pendentes</span>
                     </div>
+                    
                     <div className="dash-card-extra">
                         <span>{solicitacoesAprovadas.length} aprovadas</span>
                     </div>
@@ -97,7 +102,7 @@ function PorteiroDashboard({
 
             {/* --- SEÇÕES RÁPIDAS --- */}
             <div className="dashboard-secoes">
-                {/* Encomendas aguardando retirada */}
+                {/* --- ENCOMENDAS AGUARDANDO RETIRADA --- */}
                 <div className="dashboard-secao">
                     <div className="secao-header">
                         <h3><FiPackage /> Encomendas Aguardando Retirada</h3>
@@ -132,7 +137,7 @@ function PorteiroDashboard({
                     )}
                 </div>
 
-                {/* Reservas do dia */}
+                {/* --- RESERVAS DO DIA --- */}
                 <div className="dashboard-secao">
                     <div className="secao-header">
                         <h3><FiCalendar /> Reservas de Hoje</h3>
@@ -168,7 +173,7 @@ function PorteiroDashboard({
                         </div>
                     )}
 
-                    {/* Próximas reservas */}
+                    {/* --- PRÓXIMAS RESERVAS --- */}
                     {reservasProximas.length > 0 && (
                         <>
                             <h4 className="secao-sub-header">Próximas reservas</h4>
@@ -206,13 +211,13 @@ function PorteiroDashboard({
                     <div className="secao-lista">
                         {solicitacoesPendentes.slice(0, 3).map(sol => {
                             const corTipo = sol.tipo === "OBRA" ? "#e67e22"
-                                : sol.tipo === "MUDANCA" ? "#3498db"
-                                : sol.tipo === "ENTREGA" ? "#2ecc71"
+                                : sol.tipo === "MUDANCA"   ? "#3498db"
+                                : sol.tipo === "ENTREGA"   ? "#2ecc71"
                                 : sol.tipo === "PRESTADOR" ? "#9b59b6" : "#888";
 
                             const nomeTipo = sol.tipo === "OBRA" ? "Obra"
-                                : sol.tipo === "MUDANCA" ? "Mudança"
-                                : sol.tipo === "ENTREGA" ? "Entrega"
+                                : sol.tipo === "MUDANCA"   ? "Mudança"
+                                : sol.tipo === "ENTREGA"   ? "Entrega"
                                 : sol.tipo === "PRESTADOR" ? "Prestador" : sol.tipo;
 
                             return (
@@ -220,6 +225,7 @@ function PorteiroDashboard({
                                     <div className="secao-item-icone" style={{ background: `${corTipo}15`, color: corTipo }}>
                                         <FiFileText />
                                     </div>
+
                                     <div className="secao-item-info">
                                         <strong>{sol.titulo}</strong>
                                         <span>

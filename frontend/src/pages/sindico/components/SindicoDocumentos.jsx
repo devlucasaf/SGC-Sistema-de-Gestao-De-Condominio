@@ -1,14 +1,15 @@
-import { useState, useRef, useEffect } from "react";
-import { FiChevronDown } from "react-icons/fi";
+import { useState, useRef, useEffect }  from "react";
+import { FiChevronDown }                from "react-icons/fi";
 
 function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, formatarData }) {
-    const [tituloDoc, setTituloDoc] = useState("");
-    const [conteudoDoc, setConteudoDoc] = useState("");
-    const [categoriaDoc, setCategoriaDoc] = useState("REGRA");
-    const [enviandoDoc, setEnviandoDoc] = useState(false);
-    const [editandoDoc, setEditandoDoc] = useState(null);
-    const [modalConfirmDoc, setModalConfirmDoc] = useState({ aberto: false, idDoc: null });
-    const [dropdownCatAberto, setDropdownCatAberto] = useState(false);
+    const [tituloDocumento       , setTituloDocumento       ]   =   useState("");
+    const [conteudoDocumento     , setConteudoDocumento     ]   =   useState("");
+    const [categoriaDocumento    , setCategoriaDocumento    ]   =   useState("REGRA");
+    const [enviandoDocumento     , setEnviandoDocumento     ]   =   useState(false);
+    const [editandoDocumento     , setEditandoDocumento     ]   =   useState(null);
+    const [modalConfirmaDocumento, setModalConfirmaDocumento]   =   useState({ aberto: false, idDocumento: null });
+    const [dropdownCatAberto     , setDropdownCatAberto     ]   =   useState(false);
+    
     const dropdownCatRef = useRef(null);
 
     const opcoesCat = [
@@ -38,94 +39,86 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
 
     async function salvarDocumento(e) {
         e.preventDefault();
-        if (!tituloDoc.trim() || !conteudoDoc.trim()) {
+        if (!tituloDocumento.trim() || !conteudoDocumento.trim()) {
             return;
         }
 
-        setEnviandoDoc(true);
+        setEnviandoDocumento(true);
 
         try {
-            if (editandoDoc) {
-                await api.put(`/documentos/${editandoDoc}`, {
-                    titulo: tituloDoc,
-                    conteudo: conteudoDoc,
-                    categoria: categoriaDoc,
-                    idSindico: perfil.id,
-                });
+            if (editandoDocumento) {
+                await api.put(`/documentos/${editandoDocumento}`, {
+                    titulo:     tituloDocumento,
+                    conteudo:   conteudoDocumento,
+                    categoria:  categoriaDocumento,
+                    idSindico:  perfil.id,
+                }); 
                 toast.sucesso("Documento atualizado!", "Sucesso");
-            } 
-            
-            else {
+            } else {
                 await api.post("/documentos", {
-                    titulo: tituloDoc,
-                    conteudo: conteudoDoc,
-                    categoria: categoriaDoc,
-                    idSindico: perfil.id,
+                    titulo:     tituloDocumento,
+                    conteudo:   conteudoDocumento,
+                    categoria:  categoriaDocumento,
+                    idSindico:  perfil.id,
                 });
                 toast.sucesso("Documento publicado!", "Sucesso");
             }
-            setTituloDoc("");
-            setConteudoDoc("");
-            setCategoriaDoc("REGRA");
-            setEditandoDoc(null);
+            setTituloDocumento("");
+            setConteudoDocumento("");
+            setCategoriaDocumento("REGRA");
+            setEditandoDocumento(null);
             const res = await api.get("/documentos");
             setDocumentos(res.data || []);
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao salvar documento:", err);
             toast.erro("Erro ao salvar documento.", "Falha");
-        } 
-        
-        finally {
-            setEnviandoDoc(false);
+        } finally {
+            setEnviandoDocumento(false);
         }
     }
 
-    function iniciarEdicaoDoc(doc) {
-        setTituloDoc(doc.titulo);
-        setConteudoDoc(doc.conteudo);
-        setCategoriaDoc(doc.categoria);
-        setEditandoDoc(doc.id);
+    function iniciarEdicaoDocumento(doc) {
+        setTituloDocumento(doc.titulo);
+        setConteudoDocumento(doc.conteudo);
+        setCategoriaDocumento(doc.categoria);
+        setEditandoDocumento(doc.id);
     }
 
-    function cancelarEdicaoDoc() {
-        setTituloDoc("");
-        setConteudoDoc("");
+    function cancelarEdicaoDocumento() {
+        setTituloDocumento("");
+        setConteudoDocumento("");
         setCategoriaDoc("REGRA");
         setEditandoDoc(null);
     }
 
-    function pedirConfirmacaoDeletarDoc(id) {
-        setModalConfirmDoc({ 
+    function pedirConfirmacaoDeletarDocumento(id) {
+        setModalConfirmaDocumento({ 
             aberto: true, 
-            idDoc: id 
+            idDocumento: id 
         });
     }
 
-    async function confirmarDeletarDoc() {
-        const id = modalConfirmDoc.idDoc;
-        setModalConfirmDoc({ 
+    async function confirmarDeletarDocumento() {
+        const id = modalConfirmaDocumento.idDocumento;
+        setModalConfirmaDocumento({ 
             aberto: false, 
-            idDoc: null 
+            idDocumento: null 
         });
 
         try {
             await api.delete(`/documentos/${id}`);
             setDocumentos(documentos.filter(d => d.id !== id));
             toast.sucesso("Documento excluído!", "Sucesso");
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao deletar documento:", err);
             toast.erro("Erro ao deletar documento.", "Falha");
         }
     }
 
-    function cancelarDeletarDoc() {
-        setModalConfirmDoc({ 
+    function cancelarDeletarDocumento() {
+        setModalConfirmaDocumento({ 
             aberto: false, 
-            idDoc: null 
+            idDocumento: null 
         });
     }
 
@@ -148,8 +141,8 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                 <input
                     type="text"
                     placeholder="Título do documento"
-                    value={tituloDoc}
-                    onChange={(e) => setTituloDoc(e.target.value)}
+                    value={tituloDocumento}
+                    onChange={(e) => setTituloDocumento(e.target.value)}
                     required
                 />
                 <div className="sindico-custom-select-wrapper" ref={dropdownCatRef}>
@@ -185,16 +178,16 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                     style={{ minHeight: "120px" }}
                 />
                 <div style={{ display: "flex", gap: "10px" }}>
-                    <button type="submit" className="btn-publicar" disabled={enviandoDoc}>
-                        {enviandoDoc ? "Salvando..." : editandoDoc ? "Atualizar Documento" : "Publicar Documento"}
+                    <button type="submit" className="btn-publicar" disabled={enviandoDocumento}>
+                        {enviandoDocumento ? "Salvando..." : editandoDocumento ? "Atualizar Documento" : "Publicar Documento"}
                     </button>
-                    {editandoDoc && (
-                        <button type="button" className="btn-deletar-aviso" onClick={cancelarEdicaoDoc} style={{ padding: "10px 20px" }}>
+                    {editandoDocumento && (
+                        <button type="button" className="btn-deletar-aviso" onClick={cancelarEdicaoDocumento} style={{ padding: "10px 20px" }}>
                             Cancelar Edição
                         </button>
                     )}
                 </div>
-            </form>
+            </form> 
 
             <h3 style={{ color: "#2ecc71", marginBottom: "14px" }}>Documentos Publicados</h3>
             {documentos.length === 0 ? (
@@ -221,11 +214,11 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                                 </span>
 
                                 <div style={{ display: "flex", gap: "6px" }}>
-                                    <button className="badge badge-azul" style={{ cursor: "pointer", border: "none", fontSize: "0.75rem" }} onClick={() => iniciarEdicaoDoc(d)}>
+                                    <button className="badge badge-azul" style={{ cursor: "pointer", border: "none", fontSize: "0.75rem" }} onClick={() => iniciarEdicaoDocumento(d)}>
                                         Editar
                                     </button>
 
-                                    <button className="btn-deletar-aviso" onClick={() => pedirConfirmacaoDeletarDoc(d.id)}>
+                                    <button className="btn-deletar-aviso" onClick={() => pedirConfirmacaoDeletarDocumento(d.id)}>
                                         Excluir
                                     </button>
                                 </div>
@@ -236,15 +229,15 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
             )}
 
             {/* --- MODAL DE CONFIRMAÇÃO PARA DOCUMENTOS --- */}
-            {modalConfirmDoc.aberto && (
-                <div className="modal-overlay" onClick={cancelarDeletarDoc}>
+            {modalConfirmaDocumento.aberto && (
+                <div className="modal-overlay" onClick={cancelarDeletarDocumento}>
                     <div className="modal-confirm" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-confirm-icone">⚠️</div>
                         <h3>Confirmar exclusão</h3>
                         <p>Tem certeza que deseja excluir este documento? Esta ação não poderá ser desfeita.</p>
                         <div className="modal-confirm-botoes">
-                            <button className="btn-cancelar" onClick={cancelarDeletarDoc}>Cancelar</button>
-                            <button className="btn-confirmar-excluir" onClick={confirmarDeletarDoc}>Excluir</button>
+                            <button className="btn-cancelar" onClick={cancelarDeletarDocumento}>Cancelar</button>
+                            <button className="btn-confirmar-excluir" onClick={confirmarDeletarDocumento}>Excluir</button>
                         </div>
                     </div>
                 </div>

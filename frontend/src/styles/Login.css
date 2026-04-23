@@ -7,7 +7,7 @@
     transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
-/* Classes de tema usadas pelos JSX */
+/* --- CLASSES DE TEMA USADAS PELOS JSX --- */
 .tema-claro {
     background-color: var(--bg-primary);
     color: var(--text-primary);

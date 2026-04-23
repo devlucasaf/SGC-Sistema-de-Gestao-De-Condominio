@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { FiEye, FiEyeOff, FiMoon, FiSun, FiCalendar } from "react-icons/fi";
-import DatePicker, { registerLocale } from "react-datepicker";
-import { ptBR } from "date-fns/locale";
+import  { useState, useEffect }                          from "react";
+import  { useNavigate, Link }                            from "react-router-dom";
+import  { FiEye, FiEyeOff, FiMoon, FiSun, FiCalendar }   from "react-icons/fi";
+import  DatePicker, { registerLocale }                   from "react-datepicker";
+import  { ptBR }                                         from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import api from "../../services/api.js";
 import "../../styles/Login.css";
@@ -11,16 +11,16 @@ import "../../styles/Cadastro.css";
 registerLocale("pt-BR", ptBR);
 
 function RecuperarSenha() {
-    const [etapa, setEtapa] = useState(1); 
-    const [email, setEmail] = useState("");
-    const [cpf, setCpf] = useState("");
-    const [dataNascimento, setDataNascimento] = useState(null);
-    const [novaSenha, setNovaSenha] = useState("");
-    const [confirmarSenha, setConfirmarSenha] = useState("");
-    const [mostrarSenha, setMostrarSenha] = useState(false);
-    const [erro, setErro] = useState("");
-    const [sucesso, setSucesso] = useState("");
-    const [enviando, setEnviando] = useState(false);
+    const [etapa         ,           setEtapa]   =  useState(1); 
+    const [email         ,           setEmail]   =  useState("");
+    const [cpf           ,             setCpf]   =  useState("");
+    const [dataNascimento,  setDataNascimento]   =  useState(null);
+    const [novaSenha     ,       setNovaSenha]   =  useState("");
+    const [confirmarSenha,  setConfirmarSenha]   =  useState("");
+    const [mostrarSenha  ,    setMostrarSenha]   =  useState(false);
+    const [erro          ,            setErro]   =  useState("");
+    const [sucesso       ,         setSucesso]   =  useState("");
+    const [enviando      ,        setEnviando]   =  useState(false);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -33,9 +33,7 @@ function RecuperarSenha() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -104,16 +102,12 @@ function RecuperarSenha() {
 
             // --- REDIRECIONA PARA O LOGIN ---
             setTimeout(() => navigate("/login"), 3000);
-        }
-
-        catch (error) {
+        } catch (error) {
             const msg = error.response?.data?.erros?.[0]
                 || error.response?.data?.message
                 || "Dados inválidos. Verifique as informações e tente novamente.";
             setErro(msg);
-        }
-
-        finally {
+        } finally {
             setEnviando(false);
         }
     }

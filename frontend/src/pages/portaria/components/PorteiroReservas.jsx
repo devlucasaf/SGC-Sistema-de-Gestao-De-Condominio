@@ -1,10 +1,10 @@
 import { FiCalendar, FiClock, FiCheck } from "react-icons/fi";
 
 function PorteiroReservas({ reservas, formatarDataCurta }) {
-    const hoje = new Date().toISOString().split("T")[0];
-    const reservasHojeList = reservas.filter(r => r.dataReserva === hoje);
-    const reservasFuturas = reservas.filter(r => r.dataReserva > hoje);
-    const reservasPassadas = reservas.filter(r => r.dataReserva < hoje);
+    const hoje              = new Date().toISOString().split("T")[0];
+    const reservasHojeList  = reservas.filter(r => r.dataReserva === hoje);
+    const reservasFuturas   = reservas.filter(r => r.dataReserva > hoje);
+    const reservasPassadas  = reservas.filter(r => r.dataReserva < hoje);
 
     function renderCardReserva(res) {
         return (

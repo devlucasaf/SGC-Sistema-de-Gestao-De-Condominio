@@ -15,21 +15,21 @@ import PorteiroMeuCadastro  from "./components/PorteiroMeuCadastro";
 
 function PainelPorteiro() {
     const [abaAtiva, setAbaAtiva] = useState("dashboard");
-    const navigate = useNavigate();
-    const toast = useToast();
+    const navigate  = useNavigate();
+    const toast     = useToast();
 
     // --- DADOS ---
-    const [encomendas, setEncomendas] = useState([]);
-    const [reclamacoes, setReclamacoes] = useState([]);
-    const [reservas, setReservas] = useState([]);
-    const [unidades, setUnidades] = useState([]);
-    const [solicitacoes, setSolicitacoes] = useState([]);
-    const [carregando, setCarregando] = useState(true);
+    const [encomendas    , setEncomendas    ] = useState([]);
+    const [reclamacoes   , setReclamacoes   ] = useState([]);
+    const [reservas      , setReservas      ] = useState([]);
+    const [unidades      , setUnidades      ] = useState([]);
+    const [solicitacoes  , setSolicitacoes  ] = useState([]);
+    const [carregando    , setCarregando    ] = useState(true);
 
     // --- MEU PERFIL ---
-    const [meuNome, setMeuNome] = useState("");
-    const [meuEmail, setMeuEmail] = useState("");
-    const [meuTelefone, setMeuTelefone] = useState("");
+    const [meuNome       , setMeuNome       ] = useState("");
+    const [meuEmail      , setMeuEmail      ] = useState("");
+    const [meuTelefone   , setMeuTelefone   ] = useState("");
     const [salvandoPerfil, setSalvandoPerfil] = useState(false);
 
     // --- TEMA ---
@@ -43,9 +43,7 @@ function PainelPorteiro() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -65,11 +63,11 @@ function PainelPorteiro() {
         setCarregando(true);
         try {
             const [resEncomendas, resReclamacoes, resReservas, resUnidades, resSolicitacoes] = await Promise.all([
-                api.get("/encomendas").catch(() => ({ data: [] })),
-                api.get("/api/reclamacoes").catch(() => ({ data: { conteudo: [] } })),
-                api.get("/reservas/todas").catch(() => ({ data: [] })),
-                api.get("/unidades").catch(() => ({ data: [] })),
-                api.get("/api/solicitacoes").catch(() => ({ data: { conteudo: [] } })),
+                api.get("/encomendas").catch(()         => ({ data: [] })),
+                api.get("/api/reclamacoes").catch(()    => ({ data: { conteudo: [] } })),
+                api.get("/reservas/todas").catch(()     => ({ data: [] })),
+                api.get("/unidades").catch(()           => ({ data: [] })),
+                api.get("/api/solicitacoes").catch(()   => ({ data: { conteudo: [] } })),
             ]);
 
             setEncomendas(resEncomendas.data || []);
@@ -77,13 +75,9 @@ function PainelPorteiro() {
             setReservas(resReservas.data || []);
             setUnidades(resUnidades.data || []);
             setSolicitacoes(resSolicitacoes.data.conteudo || resSolicitacoes.data || []);
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao carregar dados:", err);
-        }
-
-        finally {
+        } finally {
             setCarregando(false);
         }
     }
@@ -96,9 +90,7 @@ function PainelPorteiro() {
             setMeuNome(p.nome || "");
             setMeuEmail(p.email || "");
             setMeuTelefone(formatarTelefone(p.telefone || ""));
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao carregar perfil:", err);
         }
     }
@@ -121,14 +113,10 @@ function PainelPorteiro() {
             });
             localStorage.setItem("perfilUsuario", JSON.stringify(res.data));
             toast.sucesso("Cadastro atualizado com sucesso!");
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao salvar perfil:", err);
             toast.erro(err.response?.data?.erro || "Erro ao atualizar cadastro.");
-        }
-
-        finally {
+        } finally {
             setSalvandoPerfil(false);
         }
     }
@@ -157,7 +145,7 @@ function PainelPorteiro() {
     }
 
     // --- CONTADORES ---
-    const encomendasPendentes = encomendas.filter(e => e.status === "AGUARDANDO_RETIRADA").length;
+    const encomendasPendentes  = encomendas.filter(e => e.status === "AGUARDANDO_RETIRADA").length;
     const reclamacoesPendentes = reclamacoes.filter(r => r.status === "PENDENTE").length;
     const reservasHoje = reservas.filter(r => {
         const hoje = new Date().toISOString().split("T")[0];
@@ -180,6 +168,7 @@ function PainelPorteiro() {
                             Dashboard
                         </button>
                     </li>
+                    
                     <li>
                         <button className={abaAtiva === "entregas" ? "ativo" : ""} onClick={() => setAbaAtiva("entregas")}>
                             <FiPackage /> Entregas

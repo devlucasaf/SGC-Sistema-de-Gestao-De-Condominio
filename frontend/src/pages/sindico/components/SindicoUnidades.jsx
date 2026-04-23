@@ -3,7 +3,7 @@ import { useState } from "react";
 function SindicoUnidades({ unidades, setUnidades, api, toast }) {
     const [blocoNovo, setBlocoNovo] = useState("");
     const [andarNovo, setAndarNovo] = useState("");
-    const [aptoNovo, setAptoNovo] = useState("");
+    const [aptoNovo , setAptoNovo ] = useState("");
 
     async function cadastrarUnidade(e) {
         e.preventDefault();
@@ -16,9 +16,7 @@ function SindicoUnidades({ unidades, setUnidades, api, toast }) {
             setBlocoNovo(""); setAndarNovo(""); setAptoNovo("");
             const res = await api.get("/unidades");
             setUnidades(res.data || []);
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao cadastrar unidade:", err);
             toast.erro("Erro ao cadastrar unidade.", "Falha");
         }

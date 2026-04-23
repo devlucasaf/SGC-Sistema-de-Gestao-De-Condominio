@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
-import Loading from "../../components/Loading";
+import { useEffect, useState }  from    "react";
+import { useNavigate }          from    "react-router-dom";
+
+import api      from    "../../services/api";
+import Loading  from    "../../components/Loading";
+
 import "../../styles/Entregas.css";
 
 import { FiSun, FiMoon, FiPackage, FiClock, FiUser, FiArrowLeft } from "react-icons/fi";
@@ -9,8 +11,8 @@ import { FiSun, FiMoon, FiPackage, FiClock, FiUser, FiArrowLeft } from "react-ic
 function Entregas() {
     const navigate = useNavigate();
 
-    const [entregas, setEntregas] = useState([]);
-    const [carregando, setCarregando] = useState(true);
+    const [entregas  , setEntregas  ]   = useState([]);
+    const [carregando, setCarregando]   = useState(true);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");

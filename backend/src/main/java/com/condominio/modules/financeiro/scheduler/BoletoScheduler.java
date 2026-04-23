@@ -65,7 +65,7 @@ public class BoletoScheduler {
 
         log.info("Encontrados {} moradores responsáveis financeiros.", responsaveis.size());
 
-        // --- CONTROLE DE GERAÇÃO DE BOLETO---
+        // --- CONTROLE DE GERAÇÃO DE BOLETO ---
         Set<Long> unidadesJaGeradas = new HashSet<>();
         int boletosGerados = 0;
         int boletosPulados = 0;

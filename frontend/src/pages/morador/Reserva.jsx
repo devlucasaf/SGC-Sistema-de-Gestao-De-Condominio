@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DatePicker, { registerLocale } from "react-datepicker";
-import { ptBR } from "date-fns/locale";
+import  { useEffect, useState }          from "react";
+import  { useNavigate }                  from "react-router-dom";
+import  { ptBR }                         from "date-fns/locale";
+import  { useToast }                     from "../../components/Toast";
+import  DatePicker, { registerLocale }   from "react-datepicker";
+
+import  api      from  "../../services/api";
+import  Loading  from  "../../components/Loading";
+
 import "react-datepicker/dist/react-datepicker.css";
-import api from "../../services/api";
-import { useToast } from "../../components/Toast";
-import Loading from "../../components/Loading";
 import "../../styles/Reserva.css";
 import "../../styles/Cadastro.css";
 
@@ -14,15 +16,15 @@ import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiXCircle } from "react-icons/f
 registerLocale("pt-BR", ptBR);
 
 function Reserva() {
-    const [areasDeLazer, setAreasDeLazer] = useState([]);
-    const [carregandoAreas, setCarregandoAreas] = useState(true);
-    const [areaSelecionada, setAreaSelecionada] = useState(null);
-    const [dataReserva, setDataReserva] = useState(null);
-    const [historico, setHistorico] = useState([]);
-    const [carregandoHistorico, setCarregandoHistorico] = useState(true);
+    const [areasDeLazer       ,     setAreasDeLazer       ]         = useState([]);
+    const [carregandoAreas    ,     setCarregandoAreas    ]         = useState(true);
+    const [areaSelecionada    ,     setAreaSelecionada    ]         = useState(null);
+    const [dataReserva        ,     setDataReserva        ]         = useState(null);
+    const [historico          ,     setHistorico          ]         = useState([]);
+    const [carregandoHistorico,     setCarregandoHistorico]         = useState(true);
 
-    const navigate = useNavigate();
-    const toast = useToast();
+    const navigate  = useNavigate();
+    const toast     = useToast();
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -34,9 +36,7 @@ function Reserva() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } 
-        
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -48,14 +48,10 @@ function Reserva() {
             try {
                 const response = await api.get("/reservas/areas-lazer");
                 setAreasDeLazer(response.data);
-            } 
-            
-            catch (error) {
+            } catch (error) {
                 console.error("Erro ao buscar áreas de lazer:", error);
                 toast.erro("Erro ao carregar áreas de lazer.", "Erro");
-            } 
-            
-            finally {
+            } finally {
                 setCarregandoAreas(false);
             }
         }
@@ -69,20 +65,16 @@ function Reserva() {
             try {
                 const response = await api.get("/reservas/minhas-reservas");
                 const historicoMapeado = response.data.map((r) => ({
-                    id: r.id,
-                    area: r.nomeAreaLazer,
-                    data: r.dataReserva,
-                    valor: r.valorAreaLazer,
+                    id:     r.id,
+                    area:   r.nomeAreaLazer,
+                    data:   r.dataReserva,
+                    valor:  r.valorAreaLazer,
                     status: r.status
                 }));
                 setHistorico(historicoMapeado);
-            }
-
-            catch (error) {
+            } catch (error) {
                 console.error("Erro ao buscar histórico:", error);
-            }
-
-            finally {
+            } finally {
                 setCarregandoHistorico(false);
             }
         }
@@ -118,10 +110,10 @@ function Reserva() {
             const reservaSalva = response.data;
 
             const novaReservaHistorico = {
-                id: reservaSalva.id,
-                area: reservaSalva.nomeAreaLazer,
-                data: reservaSalva.dataReserva,
-                valor: reservaSalva.valorAreaLazer,
+                id:     reservaSalva.id,
+                area:   reservaSalva.nomeAreaLazer,
+                data:   reservaSalva.dataReserva,
+                valor:  reservaSalva.valorAreaLazer,
                 status: reservaSalva.status
             };
 
@@ -129,9 +121,7 @@ function Reserva() {
 
             toast.sucesso(`Reserva do ${areaSelecionada.nome} confirmada!`, "Reserva realizada");
             fecharModal();
-        }
-
-        catch (error) {
+        } catch (error) {
             const mensagemErro = error.response?.data?.messages?.[0]
                 || error.response?.data?.message
                 || error.response?.data
@@ -147,9 +137,7 @@ function Reserva() {
                 item.id === idReserva ? { ...item, status: "CANCELADA" } : item
             ));
             toast.sucesso("Reserva cancelada com sucesso!", "Cancelada");
-        } 
-        
-        catch (error) {
+        } catch (error) {
             const msg = error.response?.data?.messages?.[0] || "Erro ao cancelar reserva.";
             toast.erro(msg, "Erro");
         }
@@ -178,7 +166,7 @@ function Reserva() {
                     <p className="subtitulo">Selecione o espaço que deseja reservar:</p>
                 </div>
 
-                {/* GRID DE ÁREAS */}
+                {/* --- GRID DE ÁREAS --- */}
                 {carregandoAreas ? (
                     <Loading mensagem="Carregando áreas de lazer..." />
                 ) : areasDeLazer.length === 0 ? (

@@ -1,4 +1,4 @@
-/* Container principal para centralizar */
+/* --- CONTAINER PRINCIPAL PARA CENTRALIZAR --- */
 .tela-cadastro-unidade {
     display: flex;
     justify-content: center;
@@ -9,7 +9,7 @@
     color: var(--text-primary);
 }
 
-/* Caixa do formulário */
+/* --- CAIXA DO FORMULÁRIO --- */
 .caixa-unidade {
     background-color: var(--bg-secondary);
     padding: 36px 32px;
@@ -31,7 +31,7 @@
     font-weight: 700;
 }
 
-/* Estilização dos campos de entrada */
+/* --- ESTILIZAÇÃO DOS CAMPOS DE ENTRADA --- */
 .caixa-unidade input {
     padding: 11px 14px;
     border: 1px solid var(--border-color);
@@ -48,7 +48,7 @@
     box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
 }
 
-/* Botão de ação */
+/* --- BOTÃO DE AÇÃO --- */
 .btn-salvar-unidade {
     padding: 12px;
     background-color: var(--primary-green);
@@ -65,7 +65,7 @@
     background-color: var(--primary-dark-green);
 }
 
-/* Link para voltar */
+/* --- LINK PARA VOLTAR --- */
 .link-voltar-unidade {
     text-align: center;
     color: var(--text-muted);

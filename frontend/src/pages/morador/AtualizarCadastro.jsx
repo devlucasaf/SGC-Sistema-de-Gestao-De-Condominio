@@ -1,22 +1,25 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { FiArrowLeft, FiSun, FiMoon, FiSave, FiUser, FiMail, FiPhone, FiHome, FiLayers } from "react-icons/fi";
-import api from "../../services/api";
-import { useToast } from "../../components/Toast";
-import Loading from "../../components/Loading";
+import  { useState, useEffect }     from    "react";
+import  { useNavigate, Link }       from    "react-router-dom";
+import  { useToast }                from    "../../components/Toast";
+
+import  api         from    "../../services/api";
+import  Loading     from    "../../components/Loading";
+
 import "../../styles/Home.css";
 import "../../styles/AtualizarCadastro.css";
 
-function AtualizarCadastro() {
-    const [nome, setNome] = useState("");
-    const [email, setEmail] = useState("");
-    const [telefone, setTelefone] = useState("");
-    const [numeroApto, setNumeroApto] = useState("");
-    const [bloco, setBloco] = useState("");
-    const [andarCalculado, setAndarCalculado] = useState("");
+import { FiArrowLeft, FiSun, FiMoon, FiSave, FiUser, FiMail, FiPhone, FiHome, FiLayers } from "react-icons/fi";
 
-    const [carregando, setCarregando] = useState(true);
-    const [salvando, setSalvando] = useState(false);
+function AtualizarCadastro() {
+    const [nome             ,  setNome             ]   =  useState("");
+    const [email            ,  setEmail            ]   =  useState("");
+    const [telefone         ,  setTelefone         ]   =  useState("");
+    const [numeroApartamento,  setNumeroApartamento]   =  useState("");
+    const [bloco            ,  setBloco            ]   =  useState("");
+    const [andarCalculado   ,  setAndarCalculado   ]   =  useState("");
+
+    const [carregando       ,  setCarregando       ]   =  useState(true);
+    const [salvando         ,  setSalvando         ]   =  useState(false);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -31,9 +34,7 @@ function AtualizarCadastro() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -49,17 +50,13 @@ function AtualizarCadastro() {
                 setNome(p.nome || "");
                 setEmail(p.email || "");
                 setTelefone(formatarTelefone(p.telefone || ""));
-                setNumeroApto(p.numeroApto || "");
+                setNumeroApartamento(p.numeroApartamento || "");
                 setBloco(p.bloco || "");
-                calcularAndar(p.numeroApto || "");
-            }
-
-            catch (err) {
+                calcularAndar(p.numeroApartamento || "");
+            } catch (err) {
                 console.error("Erro ao buscar perfil:", err);
                 toast.erro("Erro ao carregar dados do perfil.");
-            }
-
-            finally {
+            } finally {
                 setCarregando(false);
             }
         };
@@ -80,19 +77,15 @@ function AtualizarCadastro() {
         if (numeros.length >= 3) {
             const andar = parseInt(numeros.substring(0, numeros.length - 2), 10);
             setAndarCalculado(andar > 0 ? `${andar}º andar` : "Térreo");
-        }
-
-        else if (numeros.length > 0) {
+        } else if (numeros.length > 0) {
             setAndarCalculado("Térreo");
-        }
-
-        else {
+        } else {
             setAndarCalculado("");
         }
     }
 
-    function handleNumeroApto(valor) {
-        setNumeroApto(valor);
+    function handleNumeroApartamento(valor) {
+        setNumeroApartamento(valor);
         calcularAndar(valor);
     }
 
@@ -105,7 +98,7 @@ function AtualizarCadastro() {
                 nome: nome.trim(),
                 email: email.trim(),
                 telefone: telefone.replace(/\D/g, ""),
-                numeroApto: numeroApto.trim(),
+                numeroApartamento: numeroApartamento.trim(),
                 bloco: bloco.trim().toUpperCase(),
             });
 
@@ -114,15 +107,11 @@ function AtualizarCadastro() {
 
             toast.sucesso("Cadastro atualizado com sucesso!");
             setTimeout(() => navigate("/home"), 1200);
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao salvar:", err);
             const msg = err.response?.data?.erro || "Erro ao atualizar cadastro.";
             toast.erro(msg);
-        }
-
-        finally {
+        } finally {
             setSalvando(false);
         }
     }
@@ -227,14 +216,14 @@ function AtualizarCadastro() {
 
                         <div className="atualizar-campo-triplo">
                             <div className="atualizar-campo">
-                                <label htmlFor="numeroApto">Nº do Apartamento</label>
+                                <label htmlFor="numeroApartamento">Nº do Apartamento</label>
                                 <div className="input-com-icone">
                                     <FiHome className="input-icone" />
                                     <input
-                                        id="numeroApto"
+                                        id="numeroApartamento"
                                         type="text"
-                                        value={numeroApto}
-                                        onChange={(e) => handleNumeroApto(e.target.value)}
+                                        value={numeroApartamento}
+                                        onChange={(e) => handleNumeroApartamento(e.target.value)}
                                         placeholder="Ex: 101, 1001"
                                         required
                                     />

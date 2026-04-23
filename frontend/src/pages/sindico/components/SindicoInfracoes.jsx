@@ -1,23 +1,24 @@
-import { useState, useRef, useEffect } from "react";
-import { FiChevronDown, FiCalendar } from "react-icons/fi";
+import { useState, useRef, useEffect }  from "react";
+import { FiChevronDown, FiCalendar }    from "react-icons/fi";
 import DatePicker from "react-datepicker";
 
 function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
-    const [filtroTipoInf, setFiltroTipoInf] = useState("TODOS");
-    const [filtroStatusInf, setFiltroStatusInf] = useState("TODOS");
-    const [tipoInfracao, setTipoInfracao] = useState("MULTA");
-    const [motivoInfracao, setMotivoInfracao] = useState("");
-    const [descricaoInfracao, setDescricaoInfracao] = useState("");
-    const [valorInfracao, setValorInfracao] = useState("");
-    const [moradorInfracao, setMoradorInfracao] = useState("");
-    const [dataInfracao, setDataInfracao] = useState(null);
-    const [enviandoInfracao, setEnviandoInfracao] = useState(false);
-    const [mostrarFormInfracao, setMostrarFormInfracao] = useState(false);
+    const [filtroTipoInfracao   , setFiltroTipoInfracao   ] = useState("TODOS");
+    const [filtroStatusInfracao , setFiltroStatusInfracao ] = useState("TODOS");
+    const [tipoInfracao         , setTipoInfracao         ] = useState("MULTA");
+    const [motivoInfracao       , setMotivoInfracao       ] = useState("");
+    const [descricaoInfracao    , setDescricaoInfracao    ] = useState("");
+    const [valorInfracao        , setValorInfracao        ] = useState("");
+    const [moradorInfracao      , setMoradorInfracao      ] = useState("");
+    const [dataInfracao         , setDataInfracao         ] = useState(null);
+    const [enviandoInfracao     , setEnviandoInfracao     ] = useState(false);
+    const [mostrarFormInfracao  , setMostrarFormInfracao  ] = useState(false);
     const [dropdownMoradorAberto, setDropdownMoradorAberto] = useState(false);
-    const [buscaMorador, setBuscaMorador] = useState("");
+    const [buscaMorador         , setBuscaMorador         ] = useState("");
+
     const dropdownMoradorRef = useRef(null);
 
-    // Fechar dropdown ao clicar fora
+    // --- FECHAR DROPDOWN AO CLICAR FORA ---
     useEffect(() => {
         function handleClickFora(e) {
             if (dropdownMoradorRef.current && !dropdownMoradorRef.current.contains(e.target)) {
@@ -90,14 +91,10 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
             toast.sucesso("Infração registrada com sucesso!");
             const res = await api.get("/api/infracoes");
             setInfracoes(res.data || []);
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao criar infração:", err.response?.status, err.response?.data);
             toast.erro(err.response?.data?.message || err.response?.data?.erro || "Erro ao registrar infração.");
-        }
-        
-        finally {
+        } finally {
             setEnviandoInfracao(false);
         }
     }
@@ -121,14 +118,14 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
     const canceladas = infracoes.filter(i => i.status === "CANCELADA").length;
 
     const filtradas = infracoes.filter(i => {
-        const passaTipo = filtroTipoInf === "TODOS" || i.tipo === filtroTipoInf;
-        const passaStatus = filtroStatusInf === "TODOS" || i.status === filtroStatusInf;
+        const passaTipo = filtroTipoInfracao === "TODOS" || i.tipo === filtroTipoInfracao;
+        const passaStatus = filtroStatusInfracao === "TODOS" || i.status === filtroStatusInfracao;
         return passaTipo && passaStatus;
     });
 
     return (
         <>
-            {/* Resumo */}
+            {/* --- RESUMO --- */}
             <div className="dashboard-grid">
                 <div className="dashboard-card amarelo"><h3>Pendentes</h3><div className="valor">{pendentes}</div></div>
                 <div className="dashboard-card azul"><h3>Contestadas</h3><div className="valor">{contestadas}</div></div>
@@ -136,18 +133,18 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                 <div className="dashboard-card vermelho"><h3>Canceladas</h3><div className="valor">{canceladas}</div></div>
             </div>
 
-            {/* Botão nova infração */}
+            {/* --- BOTÃO NOVA INFRAÇÃO --- */}
             <button onClick={() => setMostrarFormInfracao(!mostrarFormInfracao)} className="btn-publicar" style={{ marginBottom: "16px" }}>
                 {mostrarFormInfracao ? "Fechar Formulário" : "+ Nova Multa / Advertência"}
             </button>
 
-            {/* Formulário */}
+            {/* --- FORMULÁRIO --- */}
             {mostrarFormInfracao && (
                 <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "20px", marginBottom: "20px" }}>
                     <h3 style={{ margin: "0 0 16px", color: "var(--text-primary)" }}>Registrar Infração</h3>
                     <form onSubmit={criarInfracao} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
-                            {/* Tipo */}
+                            {/* --- TIPO --- */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Tipo</label>
                                 <div style={{ display: "flex", gap: "8px" }}>
@@ -181,7 +178,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                 </div>
                             </div>
 
-                            {/* Morador */}
+                            {/* --- MORADOR --- */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Morador</label>
                                 <div className="sindico-custom-select-wrapper" ref={dropdownMoradorRef}>
@@ -235,7 +232,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                 </div>
                             </div>
 
-                            {/* Motivo */}
+                            {/* --- MOTIVO --- */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Motivo</label>
                                 <input 
@@ -249,12 +246,13 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                         borderRadius: "8px", 
                                         border: "1px solid var(--border-color)", 
                                         background: "var(--bg-input, var(--bg-card))", 
-                                        color: "var(--text-primary)", fontSize: "0.9rem" 
+                                        color: "var(--text-primary)", 
+                                        fontSize: "0.9rem" 
                                     }} 
                                 />
                             </div>
 
-                            {/* Data */}
+                            {/* --- DATA --- */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data da infração</label>
                                 <div className="sindico-datepicker-wrapper">
@@ -277,7 +275,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                 </div>
                             </div>
 
-                            {/* Valor (só se MULTA) */}
+                            {/* --- VALOR --- */}
                             {tipoInfracao === "MULTA" && (
                                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                     <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Valor (R$)</label>
@@ -340,21 +338,21 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                 </div>
             )}
 
-            {/* Filtros */}
+            {/* --- FILTROS --- */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", margin: "0 0 16px" }}>
                 {["TODOS", "MULTA", "ADVERTENCIA"].map(t => (
                     <button 
                         key={t} 
-                        onClick={() => setFiltroTipoInf(t)} 
+                        onClick={() => setFiltroTipoInfracao(t)} 
                         style={{
                             padding: "6px 14px", 
                             borderRadius: "20px",
-                            border: filtroTipoInf === t ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
-                            background: filtroTipoInf === t ? "rgba(46,204,113,0.12)" : "transparent",
-                            color: filtroTipoInf === t ? "var(--primary-green)" : "var(--text-secondary)",
+                            border: filtroTipoInfracao === t ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                            background: filtroTipoInfracao === t ? "rgba(46,204,113,0.12)" : "transparent",
+                            color: filtroTipoInfracao === t ? "var(--primary-green)" : "var(--text-secondary)",
                             cursor: "pointer", 
                             fontSize: "0.85rem", 
-                            fontWeight: filtroTipoInf === t ? "600" : "400"
+                            fontWeight: filtroTipoInfracao === t ? "600" : "400"
                         }}
                     >
                         {t === "TODOS" ? "Todos" : t === "MULTA" ? "Multas" : "Advertências"}
@@ -364,16 +362,16 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                 {["TODOS", "PENDENTE", "CONTESTADA", "PAGA", "CANCELADA"].map(s => (
                     <button 
                         key={s} 
-                        onClick={() => setFiltroStatusInf(s)} 
+                        onClick={() => setFiltroStatusInfracao(s)} 
                         style={{
                             padding: "6px 14px", 
                             borderRadius: "20px",
-                            border: filtroStatusInf === s ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
-                            background: filtroStatusInf === s ? "rgba(46,204,113,0.12)" : "transparent",
-                            color: filtroStatusInf === s ? "var(--primary-green)" : "var(--text-secondary)",
+                            border: filtroStatusInfracao === s ? "2px solid var(--primary-green)" : "1px solid var(--border-color)",
+                            background: filtroStatusInfracao === s ? "rgba(46,204,113,0.12)" : "transparent",
+                            color: filtroStatusInfracao === s ? "var(--primary-green)" : "var(--text-secondary)",
                             cursor: "pointer", 
                             fontSize: "0.85rem", 
-                            fontWeight: filtroStatusInf === s ? "600" : "400"
+                            fontWeight: filtroStatusInfracao === s ? "600" : "400"
                         }}
                     >
                         {s === "TODOS" ? "Todos Status" : s === "PENDENTE" ? "Pendente" : s === "CONTESTADA" ? "Contestada" : s === "PAGA" ? "Paga" : "Cancelada"}
@@ -385,7 +383,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                 {filtradas.length} infração(ões) encontrada(s)
             </p>
 
-            {/* Lista */}
+            {/* --- LISTA --- */}
             {filtradas.length === 0 ? (
                 <p className="msg-vazia">Nenhuma infração encontrada.</p>
             ) : (
@@ -439,7 +437,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                 )}
                             </div>
 
-                            {/* Botões de ação */}
+                            {/* --- BOTÕES DE AÇÃO --- */}
                             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                 {inf.status !== "PAGA" && inf.tipo === "MULTA" && (
                                     <button 

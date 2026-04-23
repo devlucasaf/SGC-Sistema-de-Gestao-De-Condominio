@@ -2,8 +2,8 @@ import { useState } from "react";
 import { FiClock, FiAlertCircle, FiCheck, FiFileText } from "react-icons/fi";
 
 function PorteiroSolicitacoes({ solicitacoes, formatarData }) {
-    const [filtroTipoSol, setFiltroTipoSol] = useState("TODOS");
-    const [filtroStatusSol, setFiltroStatusSol] = useState("TODOS");
+    const [filtroTipoSol    , setFiltroTipoSol  ] = useState("TODOS");
+    const [filtroStatusSol  , setFiltroStatusSol] = useState("TODOS");
 
     const pendentes = solicitacoes.filter(s => s.status === "PENDENTE").length;
     const emAnalise = solicitacoes.filter(s => s.status === "EM_ANALISE").length;

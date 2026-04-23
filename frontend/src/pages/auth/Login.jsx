@@ -5,10 +5,10 @@ import api from "../../services/api.js";
 import "../../styles/Login.css"; 
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [erro, setErro] = useState("");
-    const [mostrarSenha, setMostrarSenha] = useState(false);
+    const [email,           setEmail]          =   useState("");
+    const [senha,           setSenha]          =   useState("");
+    const [erro,            setErro]           =   useState("");
+    const [mostrarSenha,    setMostrarSenha]   =   useState(false);
 
     // --- CRIANDO O ESTADO DO TEMA ---
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -23,9 +23,7 @@ function Login() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } 
-        
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -60,28 +58,18 @@ function Login() {
                 // --- REDIRECIONA BASEADO NO TIPO DE USUÁRIO SALVO NO BANCO ---
                 if (perfil.data.tipoUsuario === "SINDICO") {
                     navigate("/painel-sindico");
-                }
-
-                else if (perfil.data.tipoUsuario === "MORADOR") {
+                } else if (perfil.data.tipoUsuario === "MORADOR") {
                     navigate("/home");
-                }
-
-                else if (perfil.data.tipoUsuario === "PORTEIRO") {
+                } else if (perfil.data.tipoUsuario === "PORTEIRO") {
                     navigate("/painel-porteiro");
-                }
-
-                else {
+                } else {
                     navigate("/home");
                 }
-            }
-
-            catch (perfilError) {
+            } catch (perfilError) {
                 console.error("Erro ao buscar perfil:", perfilError);
                 navigate("/home");
             }
-        }
-
-        catch (error) {
+        } catch (error) {
             console.error("Erro ao fazer login:", error);
             setErro("Falha no login: Verifique seu e-mail e senha.");
         }

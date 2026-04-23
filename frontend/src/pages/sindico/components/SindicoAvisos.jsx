@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) {
-    const [tituloAviso, setTituloAviso] = useState("");
+    const [tituloAviso  , setTituloAviso  ] = useState("");
     const [mensagemAviso, setMensagemAviso] = useState("");
     const [enviandoAviso, setEnviandoAviso] = useState(false);
-    const [modalConfirm, setModalConfirm] = useState({ aberto: false, idAviso: null });
+    const [modalConfirm , setModalConfirm ] = useState({ aberto: false, idAviso: null });
 
     async function publicarAviso(e) {
         e.preventDefault();
@@ -25,14 +25,10 @@ function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) 
 
             const res = await api.get("/avisos");
             setAvisos(res.data || []);
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao publicar aviso:", err);
             toast.erro("Erro ao publicar aviso.", "Falha");
-        } 
-        
-        finally {
+        } finally {
             setEnviandoAviso(false);
         }
     }
@@ -54,9 +50,7 @@ function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) 
         try {
             await api.delete(`/avisos/${id}`);
             setAvisos(avisos.filter(a => a.id !== id));
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao deletar aviso:", err);
             toast.erro("Erro ao deletar aviso.", "Falha");
         }
@@ -111,7 +105,7 @@ function SindicoAvisos({ avisos, setAvisos, perfil, api, toast, formatarData }) 
                 </div>
             )}
 
-            {/* Modal de confirmação */}
+            {/* --- MODAL DE CONFIRMAÇÃO --- */}
             {modalConfirm.aberto && (
                 <div className="modal-overlay" onClick={cancelarDeletar}>
                     <div className="modal-confirm" onClick={(e) => e.stopPropagation()}>

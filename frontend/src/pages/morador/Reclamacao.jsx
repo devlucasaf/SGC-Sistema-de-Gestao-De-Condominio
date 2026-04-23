@@ -1,21 +1,22 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import  { useState, useEffect } from  "react";
+import  { useNavigate }         from  "react-router-dom";
+import  { useToast }            from  "../../components/Toast";
+
 import api from "../../services/api";
-import { useToast } from "../../components/Toast";
 import "../../styles/Reclamacao.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiSend, FiAlertCircle, FiClock, FiCheckCircle } from "react-icons/fi";
 
 function Reclamacao() {
-    const [tipo, setTipo] = useState("");
-    const [categoria, setCategoria] = useState("");
-    const [descricao, setDescricao] = useState("");
-    const [unidadeInfrator, setUnidadeInfrator] = useState("");
-    const [minhasReclamacoes, setMinhasReclamacoes] = useState([]);
-    const [enviando, setEnviando] = useState(false);
+    const [tipo             ,   setTipo             ]          = useState("");
+    const [categoria        ,   setCategoria        ]          = useState("");
+    const [descricao        ,   setDescricao        ]          = useState("");
+    const [unidadeInfrator  ,   setUnidadeInfrator  ]          = useState("");
+    const [minhasReclamacoes,   setMinhasReclamacoes]          = useState([]);
+    const [enviando         ,   setEnviando         ]          = useState(false);
 
     const navigate = useNavigate();
-    const toast = useToast();
+    const toast    = useToast();
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -27,9 +28,7 @@ function Reclamacao() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -69,9 +68,7 @@ function Reclamacao() {
                     const response = await api.get(`/api/reclamacoes/unidade/${encodeURIComponent(unidade)}`);
                     setMinhasReclamacoes(response.data.conteudo || []);
                 }
-            }
-
-            catch (error) {
+            } catch (error) {
                 console.error("Erro ao buscar reclamações:", error);
             }
         }
@@ -137,15 +134,11 @@ function Reclamacao() {
             setCategoria("");
             setDescricao("");
             setUnidadeInfrator("");
-        } 
-        
-        catch (error) {
+        } catch (error) {
             console.error("Erro ao enviar reclamação:", error);
             const msg = error.response?.data?.erros?.join(", ") || "Erro ao enviar reclamação. Verifique os dados e tente novamente.";
             toast.erro(msg, "Erro na reclamação");
-        }
-        
-        finally {
+        } finally {
             setEnviando(false);
         }
     }
@@ -265,9 +258,17 @@ function Reclamacao() {
                                     </div>
                                     
                                     <div className="card-body">
-                                        <p><strong>Tipo:</strong> {rec.tipo === "condominio" ? "Problema no Condomínio" : "Problema com Morador"}</p>
-                                        <p><strong>Descrição:</strong> {rec.descricao}</p>
-                                        <p><strong>Data:</strong> {rec.dataCriacao ? new Date(rec.dataCriacao).toLocaleDateString("pt-BR") : "—"}</p>
+                                        <p>
+                                            <strong>Tipo:</strong> {rec.tipo === "condominio" ? "Problema no Condomínio" : "Problema com Morador"}
+                                        </p>
+
+                                        <p>
+                                            <strong>Descrição:</strong> {rec.descricao}
+                                        </p>
+
+                                        <p>
+                                            <strong>Data:</strong> {rec.dataCriacao ? new Date(rec.dataCriacao).toLocaleDateString("pt-BR") : "—"}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

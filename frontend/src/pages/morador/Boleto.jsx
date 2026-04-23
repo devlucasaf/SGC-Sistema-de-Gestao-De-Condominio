@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
-import { useToast } from "../../components/Toast";
-import Loading from "../../components/Loading";
+import { useEffect, useState }  from    "react";
+import { useNavigate }          from    "react-router-dom";
+import { useToast }             from    "../../components/Toast";
+
+import  api         from    "../../services/api";
+import  Loading     from    "../../components/Loading";
+
 import "../../styles/Boleto.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiDollarSign, FiCalendar, FiCopy, FiCheckCircle, FiClock } from "react-icons/fi";
 
 function Boleto() {
     const navigate = useNavigate();
-    const toast = useToast();
+    const toast    = useToast();
 
-    const [carregando, setCarregando] = useState(true);
-    const [boletos, setBoletos] = useState([]);
+    const [carregando,  setCarregando]   = useState(true);
+    const [boletos   ,  setBoletos   ]   = useState([]);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -24,9 +26,7 @@ function Boleto() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } 
-        
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -52,13 +52,9 @@ function Boleto() {
                     }));
                     setBoletos(boletosMapeados);
                 }
-            } 
-            
-            catch (error) {
+            } catch (error) {
                 console.error("Erro ao buscar boletos:", error);
-            } 
-            
-            finally {
+            } finally {
                 setCarregando(false);
             }
         }

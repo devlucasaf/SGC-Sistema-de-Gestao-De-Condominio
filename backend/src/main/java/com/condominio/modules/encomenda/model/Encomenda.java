@@ -39,7 +39,7 @@ public class Encomenda {
     private Porteiro porteiroRecebeu;
 
     public Encomenda() {
-        // Construtor padrão para JPA
+        // --- CONSTRUTOR PADRÃO PARA JPA ---
     }
 
     // --- CONSTRUTOR ---

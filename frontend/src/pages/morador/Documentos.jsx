@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
-import Loading from "../../components/Loading";
+import  { useEffect, useState }  from "react";
+import  { useNavigate }          from "react-router-dom";
+
+import  api      from "../../services/api";
+import  Loading  from "../../components/Loading";
+
 import "../../styles/Documentos.css";
 
 import { FiSun, FiMoon, FiArrowLeft, FiFileText, FiAlertTriangle, FiBook, FiChevronDown, FiChevronUp } from "react-icons/fi";
@@ -9,10 +11,10 @@ import { FiSun, FiMoon, FiArrowLeft, FiFileText, FiAlertTriangle, FiBook, FiChev
 function Documentos() {
     const navigate = useNavigate();
 
-    const [documentos, setDocumentos] = useState([]);
-    const [carregando, setCarregando] = useState(true);
-    const [filtro, setFiltro] = useState("TODOS");
-    const [abertos, setAbertos] = useState({});
+    const [documentos,  setDocumentos]   =  useState([]);
+    const [carregando,  setCarregando]   =  useState(true);
+    const [filtro    ,  setFiltro    ]   =  useState("TODOS");
+    const [abertos   ,  setAbertos   ]   =  useState({});
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -24,9 +26,7 @@ function Documentos() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -45,13 +45,9 @@ function Documentos() {
         try {
             const res = await api.get("/documentos");
             setDocumentos(res.data || []);
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao buscar documentos:", err);
-        }
-
-        finally {
+        } finally {
             setCarregando(false);
         }
     }

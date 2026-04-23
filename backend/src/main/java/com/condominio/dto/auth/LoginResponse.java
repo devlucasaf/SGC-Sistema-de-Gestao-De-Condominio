@@ -3,10 +3,10 @@ package com.condominio.dto.auth;
 import java.util.List;
 
 public class LoginResponse {
-    private String token;
-    private String tokenType = "Bearer";
-    private String username;
-    private String userType;
+    private String       token;
+    private String       tokenType = "Bearer";
+    private String       username;
+    private String       userType;
     private List<String> roles;
 
     public LoginResponse(String token, String username, String userType, List<String> roles) {

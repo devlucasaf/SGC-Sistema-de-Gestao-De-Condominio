@@ -12,17 +12,17 @@ import "../../styles/Cadastro.css";
 registerLocale("pt-BR", ptBR);
 
 function Cadastro() {
-    const [nome, setNome] = useState("");
-    const [cpf, setCpf] = useState("");
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [dataNascimento, setDataNascimento] = useState(null);
-    const [telefone, setTelefone] = useState("");
-    const [tipoMorador, setTipoMorador] = useState("");
-    const [idUnidade, setIdUnidade] = useState('');
-    const [mensagem, setMensagem] = useState("");
-    const [mostrarSenha, setMostrarSenha] = useState(false);
-    const [dropdownAberto, setDropdownAberto] = useState(false);
+    const [nome,            setNome]            =   useState("");
+    const [cpf,             setCpf]             =   useState("");
+    const [email,           setEmail]           =   useState("");
+    const [senha,           setSenha]           =   useState("");
+    const [dataNascimento,  setDataNascimento]  =   useState(null);
+    const [telefone,        setTelefone]        =   useState("");
+    const [tipoMorador,     setTipoMorador]     =   useState("");
+    const [idUnidade,       setIdUnidade]       =   useState('');
+    const [mensagem,        setMensagem]        =   useState("");
+    const [mostrarSenha,    setMostrarSenha]    =   useState(false);
+    const [dropdownAberto,  setDropdownAberto]  =   useState(false);
     const dropdownRef = useRef(null);
 
     const opcoesTipoMorador = [
@@ -53,9 +53,7 @@ function Cadastro() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -114,9 +112,7 @@ function Cadastro() {
             toast.sucesso("Morador cadastrado com sucesso!", "Cadastro realizado");
 
             setTimeout(() => navigate("/login"), 1500);
-        }
-        
-        catch (error) {
+        } catch (error) {
             console.error(error);
 
             // --- EXIBE OS ERROS DE VALIDAÇÃO DO BACKEND ---
@@ -125,18 +121,12 @@ function Cadastro() {
 
                 if (data.messages && Array.isArray(data.messages)) {
                     setMensagem(data.messages.join(" | "));
-                }
-
-                else if (data.message) {
+                } else if (data.message) {
                     setMensagem(data.message);
-                }
-
-                else {
+                } else {
                     setMensagem("Erro ao cadastrar morador. Verifique os dados informados.");
                 }
-            }
-
-            else {
+            } else {
                 setMensagem("Erro de conexão com o servidor.");
             }
         }

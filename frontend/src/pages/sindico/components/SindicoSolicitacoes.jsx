@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, formatarData }) {
-    const [filtroTipoSolicitacao, setFiltroTipoSolicitacao] = useState("TODOS");
+    const [filtroTipoSolicitacao  , setFiltroTipoSolicitacao  ] = useState("TODOS");
     const [filtroStatusSolicitacao, setFiltroStatusSolicitacao] = useState("TODOS");
 
     async function alterarStatusSolicitacao(id, novoStatus) {
@@ -10,9 +10,7 @@ function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, format
             const res = await api.get("/api/solicitacoes");
             setSolicitacoes(res.data.conteudo || res.data || []);
             toast.sucesso("Status atualizado!", "Sucesso");
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao atualizar status da solicitação:", err);
             toast.erro("Erro ao atualizar status.", "Falha");
         }
@@ -76,7 +74,7 @@ function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, format
 
     return (
         <>
-            {/* Resumo */}
+            {/* --- RESUMO --- */}
             <div className="dashboard-grid">
                 <div className="dashboard-card amarelo">
                     <h3>Pendentes</h3>
@@ -99,7 +97,7 @@ function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, format
                 </div>
             </div>
 
-            {/* Filtros */}
+            {/* --- FILTROS --- */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", margin: "20px 0" }}>
                 {["TODOS", "OBRA", "MUDANCA", "ENTREGA", "PRESTADOR"].map(t => (
                     <button
@@ -148,7 +146,7 @@ function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, format
                 {filtradas.length} solicitação(ões) encontrada(s)
             </p>
 
-            {/* Lista */}
+            {/* --- LISTA --- */}
             {filtradas.length === 0 ? (
                 <p className="msg-vazia">Nenhuma solicitação encontrada.</p>
             ) : (
@@ -203,7 +201,7 @@ function SindicoSolicitacoes({ solicitacoes, setSolicitacoes, api, toast, format
                                 <span>Criada em: {sol.dataCriacao ? formatarData(sol.dataCriacao) : "—"}</span>
                             </div>
 
-                            {/* Botões de ação */}
+                            {/* --- BOTÕES DE AÇÃO --- */}
                             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                 {sol.status !== "EM_ANALISE" && (
                                     <button onClick={() => alterarStatusSolicitacao(sol.id, "EM_ANALISE")} style={{

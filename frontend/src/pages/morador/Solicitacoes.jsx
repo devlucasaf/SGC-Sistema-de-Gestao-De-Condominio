@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import DatePicker, { registerLocale } from "react-datepicker";
-import { ptBR } from "date-fns/locale";
-import "react-datepicker/dist/react-datepicker.css";
+import  { useState, useEffect }         from    "react";
+import  { useNavigate }                 from    "react-router-dom";
+import  { ptBR }                        from    "date-fns/locale";
+import  { useToast }                    from    "../../components/Toast";
+import  DatePicker, { registerLocale }  from    "react-datepicker";
+
 import api from "../../services/api";
-import { useToast } from "../../components/Toast";
+
+import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/Entregas.css";
 import "../../styles/Reclamacao.css";
 import "../../styles/Solicitacoes.css";
@@ -45,21 +47,21 @@ const TIPOS_SOLICITACAO = [
 ];
 
 function Solicitacoes() {
-    const [solicitacoes, setSolicitacoes] = useState([]);
-    const [mostrarFormulario, setMostrarFormulario] = useState(false);
-    const [filtroTipo, setFiltroTipo] = useState("TODOS");
-    const [filtroStatus, setFiltroStatus] = useState("TODOS");
-    const [enviando, setEnviando] = useState(false);
-    const [carregando, setCarregando] = useState(true);
+    const [solicitacoes     ,   setSolicitacoes     ]           = useState([]);
+    const [mostrarFormulario,   setMostrarFormulario]           = useState(false);
+    const [filtroTipo       ,   setFiltroTipo       ]           = useState("TODOS");
+    const [filtroStatus     ,   setFiltroStatus     ]           = useState("TODOS");
+    const [enviando         ,   setEnviando         ]           = useState(false);
+    const [carregando       ,   setCarregando       ]           = useState(true);
 
     // --- CAMPOS DO FORMULÁRIO ---
-    const [tipo, setTipo] = useState("");
-    const [titulo, setTitulo] = useState("");
-    const [descricao, setDescricao] = useState("");
-    const [dataPrevista, setDataPrevista] = useState(null);
+    const [tipo             ,             setTipo        ]      = useState("");
+    const [titulo           ,             setTitulo      ]      = useState("");
+    const [descricao        ,             setDescricao   ]      = useState("");
+    const [dataPrevista     ,             setDataPrevista]      = useState(null);
 
-    const navigate = useNavigate();
-    const toast = useToast();
+    const navigate  = useNavigate();
+    const toast     = useToast();
 
     // --- TEMA ---
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -72,9 +74,7 @@ function Solicitacoes() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -90,16 +90,12 @@ function Solicitacoes() {
         try {
             const response = await api.get("/api/solicitacoes/minhas");
             setSolicitacoes(response.data || []);
-        }
-
-        catch (error) {
+        } catch (error) {
             console.error("Erro ao buscar solicitações:", error);
             if (error.response?.status === 404 || error.response?.status === 500) {
                 setSolicitacoes([]);
             }
-        }
-
-        finally {
+        } finally {
             setCarregando(false);
         }
     }
@@ -129,17 +125,13 @@ function Solicitacoes() {
             toast.sucesso("Solicitação enviada com sucesso!", "Solicitação registrada");
             setSolicitacoes([response.data, ...solicitacoes]);
             limparFormulario();
-        }
-
-        catch (error) {
+        } catch (error) {
             console.error("Erro ao enviar solicitação:", error);
             const msg = error.response?.data?.erros?.join(", ")
                 || error.response?.data?.message
                 || "Erro ao enviar solicitação. Tente novamente.";
             toast.erro(msg, "Erro");
-        }
-
-        finally {
+        } finally {
             setEnviando(false);
         }
     }
@@ -154,8 +146,8 @@ function Solicitacoes() {
 
     // --- FILTROS ---
     const solicitacoesFiltradas = solicitacoes.filter((s) => {
-        const passaTipo = filtroTipo === "TODOS" || s.tipo === filtroTipo;
-        const passaStatus = filtroStatus === "TODOS" || s.status === filtroStatus;
+        const   passaTipo   = filtroTipo    === "TODOS" || s.tipo   === filtroTipo;
+        const   passaStatus = filtroStatus  === "TODOS" || s.status === filtroStatus;
         return passaTipo && passaStatus;
     });
 
@@ -409,10 +401,10 @@ function Solicitacoes() {
                                     <p>
                                         <FiClock /> Criada em: {sol.dataCriacao
                                             ? new Date(sol.dataCriacao).toLocaleDateString("pt-BR", {
-                                                day: "2-digit",
-                                                month: "2-digit",
-                                                year: "numeric",
-                                                hour: "2-digit",
+                                                day:    "2-digit",
+                                                month:  "2-digit",
+                                                year:   "numeric",
+                                                hour:   "2-digit",
                                                 minute: "2-digit"
                                             })
                                             : "—"}

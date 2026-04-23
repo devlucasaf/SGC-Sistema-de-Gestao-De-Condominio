@@ -7,7 +7,7 @@ function SindicoMinhaUnidade({ perfilCompleto, formatarCpf, formatarTelefoneExib
 
     return (
         <div className="unidade-sindico-container">
-            {/* Card da Unidade */}
+            {/* --- CARD DA UNIDADE --- */}
             <div className="unidade-sindico-card">
                 <div className="unidade-sindico-header">
                     <h3>Dados da Unidade</h3>
@@ -36,7 +36,7 @@ function SindicoMinhaUnidade({ perfilCompleto, formatarCpf, formatarTelefoneExib
                 </div>
             </div>
 
-            {/* Card do Morador */}
+            {/* --- CARD DO MORADOR --- */}
             <div className="unidade-sindico-card">
                 <div className="unidade-sindico-header">
                     <h3>Dados Pessoais</h3>

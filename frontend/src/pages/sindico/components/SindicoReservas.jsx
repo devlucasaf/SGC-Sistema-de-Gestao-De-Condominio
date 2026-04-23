@@ -3,32 +3,28 @@ import { FiCalendar, FiXCircle } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 
 function SindicoReservas({ api, toast }) {
-    const [areasDeLazer, setAreasDeLazer] = useState([]);
-    const [historicoReservas, setHistoricoReservas] = useState([]);
-    const [areaSelecionada, setAreaSelecionada] = useState(null);
-    const [dataReserva, setDataReserva] = useState(null);
+    const [areasDeLazer      , setAreasDeLazer      ] = useState([]);
+    const [historicoReservas , setHistoricoReservas ] = useState([]);
+    const [areaSelecionada   , setAreaSelecionada   ] = useState(null);
+    const [dataReserva       , setDataReserva       ] = useState(null);
     const [carregandoReservas, setCarregandoReservas] = useState(true);
-    const [jaCarregou, setJaCarregou] = useState(false);
+    const [jaCarregou        , setJaCarregou        ] = useState(false);
 
-    // Carrega dados na primeira renderização
+    // --- CARREGA DADOS NA PRIMEIRA RENDERIZAÇÃO ---
     if (!jaCarregou) {
         setJaCarregou(true);
         (async () => {
             setCarregandoReservas(true);
             try {
                 const [resAreas, resHistorico] = await Promise.all([
-                    api.get("/reservas/areas-lazer").catch(() => ({ data: [] })),
+                    api.get("/reservas/areas-lazer").catch(()     => ({ data: [] })),
                     api.get("/reservas/minhas-reservas").catch(() => ({ data: [] })),
                 ]);
                 setAreasDeLazer(resAreas.data || []);
                 setHistoricoReservas(resHistorico.data || []);
-            } 
-            
-            catch (err) {
+            } catch (err) {
                 console.error("Erro ao carregar reservas:", err);
-            } 
-            
-            finally {
+            } finally {
                 setCarregandoReservas(false);
             }
         })();
@@ -45,9 +41,7 @@ function SindicoReservas({ api, toast }) {
             toast.sucesso(`Reserva do ${areaSelecionada.nome} confirmada!`, "Sucesso");
             setAreaSelecionada(null);
             setDataReserva(null);
-        } 
-        
-        catch (err) {
+        } catch (err) {
             const msg = err.response?.data?.messages?.[0] || err.response?.data?.message || "Erro ao reservar.";
             toast.erro(String(msg), "Erro");
         }
@@ -58,9 +52,7 @@ function SindicoReservas({ api, toast }) {
             await api.put(`/reservas/${id}/cancelar`);
             setHistoricoReservas(historicoReservas.map(r => r.id === id ? { ...r, status: "CANCELADA" } : r));
             toast.sucesso("Reserva cancelada!", "Sucesso");
-        } 
-        
-        catch (err) {
+        } catch (err) {
             toast.erro("Erro ao cancelar reserva.", "Erro");
         }
     }
@@ -90,7 +82,7 @@ function SindicoReservas({ api, toast }) {
                 </div>
             )}
 
-            {/* Modal de confirmação */}
+            {/* --- MODAL DE CONFIRMAÇÃO --- */}
             {areaSelecionada && (
                 <div className="modal-overlay" onClick={() => setAreaSelecionada(null)}>
                     <div className="modal-confirm" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "400px" }}>
@@ -125,7 +117,7 @@ function SindicoReservas({ api, toast }) {
                 </div>
             )}
 
-            {/* Histórico */}
+            {/* --- HISTÓRICO --- */}
             <h3 style={{ color: "var(--primary-green)", margin: "28px 0 14px" }}>Histórico de Reservas</h3>
             {historicoReservas.length === 0 ? (
                 <p className="msg-vazia">Você ainda não possui reservas.</p>

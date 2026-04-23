@@ -1,10 +1,14 @@
 import { FiUser } from "react-icons/fi";
 
 function PorteiroMeuCadastro({
-    meuNome, setMeuNome,
-    meuEmail, setMeuEmail,
-    meuTelefone, setMeuTelefone,
-    salvandoPerfil, salvarPerfilPorteiro,
+    meuNome, 
+    setMeuNome,
+    meuEmail, 
+    setMeuEmail,
+    meuTelefone, 
+    setMeuTelefone,
+    salvandoPerfil, 
+    salvarPerfilPorteiro,
     formatarTelefone
 }) {
     return (

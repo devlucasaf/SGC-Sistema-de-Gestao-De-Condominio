@@ -18,9 +18,7 @@ function RotaPrivada({ children }) {
             localStorage.removeItem("perfilUsuario");
             return <Navigate to="/login" />;
         }
-    }
-
-    catch (e) {
+    } catch (e) {
         // --- TOKEN INVÁLIDO ---
         localStorage.removeItem("token");
         localStorage.removeItem("perfilUsuario");

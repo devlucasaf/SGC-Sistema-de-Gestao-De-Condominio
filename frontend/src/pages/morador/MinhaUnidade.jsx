@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import  { useState, useEffect }     from    "react";
+import  { useNavigate, Link }       from    "react-router-dom";
 import {
     FiArrowLeft, FiSun, FiMoon, FiHome, FiLayers,
     FiUser, FiMail, FiPhone, FiCreditCard, FiCalendar,
     FiCheckCircle, FiEdit
 } from "react-icons/fi";
-import api from "../../services/api";
-import Loading from "../../components/Loading";
+
+import  api         from    "../../services/api";
+import  Loading     from    "../../components/Loading";
+
 import "../../styles/Home.css";
 import "../../styles/MinhaUnidade.css";
 
 function MinhaUnidade() {
-    const [perfil, setPerfil] = useState(null);
-    const [carregando, setCarregando] = useState(true);
+    const [perfil    ,  setPerfil    ]      = useState(null);
+    const [carregando,  setCarregando]      = useState(true);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -26,9 +28,7 @@ function MinhaUnidade() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -40,13 +40,9 @@ function MinhaUnidade() {
                 const resposta = await api.get("/perfil");
                 setPerfil(resposta.data);
                 localStorage.setItem("perfilUsuario", JSON.stringify(resposta.data));
-            }
-
-            catch (err) {
+            } catch (err) {
                 console.error("Erro ao buscar perfil:", err);
-            }
-
-            finally {
+            } finally {
                 setCarregando(false);
             }
         };

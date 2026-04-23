@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import  { useEffect, useState }  from    "react";
+import  { useNavigate }          from    "react-router-dom";
+import  { useToast }             from    "../../components/Toast";
+
 import api from "../../services/api";
-import { useToast } from "../../components/Toast";
+
 import { FiSun, FiMoon, FiArrowLeft, FiAlertTriangle, FiDollarSign, FiClock, FiCheckCircle, FiXCircle } from "react-icons/fi";
+
 import "../../styles/MinhasInfracoes.css";
 
 function MinhasInfracoes() {
-    const navigate = useNavigate();
-    const toast = useToast();
+    const navigate  = useNavigate();
+    const toast     = useToast();
 
-    const [infracoes, setInfracoes] = useState([]);
-    const [carregando, setCarregando] = useState(true);
-    const [filtro, setFiltro] = useState("TODOS");
+    const [infracoes ,  setInfracoes ]   = useState([]);
+    const [carregando,  setCarregando]   = useState(true);
+    const [filtro    ,  setFiltro    ]   = useState("TODOS");
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -23,9 +26,7 @@ function MinhasInfracoes() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -40,13 +41,9 @@ function MinhasInfracoes() {
         try {
             const res = await api.get("/api/infracoes/minhas");
             setInfracoes(res.data || []);
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao carregar infrações:", err);
-        }
-
-        finally {
+        } finally {
             setCarregando(false);
         }
     }
@@ -56,9 +53,7 @@ function MinhasInfracoes() {
             await api.patch(`/api/infracoes/${id}/status?novoStatus=CONTESTADA`);
             toast.sucesso("Infração contestada! O síndico será notificado.");
             carregarInfracoes();
-        }
-
-        catch (err) {
+        } catch (err) {
             toast.erro("Erro ao contestar infração.");
         }
     }
@@ -129,7 +124,7 @@ function MinhasInfracoes() {
                 </button>
             </nav>
 
-            {/* Resumo */}
+            {/* --- RESUMO --- */}
             <div className="infracoes-resumo">
                 <div className="resumo-item vermelho">
                     <FiAlertTriangle />
@@ -166,7 +161,7 @@ function MinhasInfracoes() {
                 </div>
             </div>
 
-            {/* Filtros */}
+            {/* --- FILTROS --- */}
             <div className="infracoes-filtros">
                 {["TODOS", "MULTA", "ADVERTENCIA", "PENDENTE", "CONTESTADA", "PAGA", "CANCELADA"].map(f => (
                     <button
@@ -186,7 +181,7 @@ function MinhasInfracoes() {
                 ))}
             </div>
 
-            {/* Lista */}
+            {/* --- LISTA --- */}
             {carregando ? (
                 <p className="msg-vazia">Carregando...</p>
             ) : filtradas.length === 0 ? (

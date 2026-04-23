@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect }   from "react";
+import        { useNavigate }           from "react-router-dom";
 import api from "../../services/api"; 
 import "../../styles/GerenciarReclamacoes.css"; 
 
 function GerenciarReclamacoes() {
     const [reclamacoes, setReclamacoes] = useState([]);
-    const [carregando, setCarregando] = useState(true);
-    const [erro, setErro] = useState("");
+    const [carregando , setCarregando ] = useState(true);
+    const [erro       , setErro       ] = useState("");
     
     const navigate = useNavigate();
 
@@ -14,14 +14,10 @@ function GerenciarReclamacoes() {
         try {
             const response = await api.get("/api/reclamacoes");
             setReclamacoes(response.data.conteudo || []);
-        }
-
-        catch (error) {
+        } catch (error) {
             console.error("Erro ao buscar reclamações:", error);
             setErro("Não foi possível carregar as reclamações. Verifique a ligação ao servidor.");
-        }
-
-        finally {
+        } finally {
             setCarregando(false);
         }
     }
@@ -35,9 +31,7 @@ function GerenciarReclamacoes() {
             await api.patch(`/api/reclamacoes/${id}/status?novoStatus=${novoStatus}`);
             alert(`Status atualizado para ${novoStatus.replace("_", " ")}!`);
             buscarReclamacoes();
-        } 
-        
-        catch (error) {
+        } catch (error) {
             console.error("Erro ao atualizar status:", error);
             alert("Erro ao atualizar o status da reclamação.");
         }

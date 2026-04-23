@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect }  from "react";
+import { useNavigate }          from "react-router-dom";
+import { useToast }             from "../../components/Toast";
+import { FiSun, FiMoon }        from "react-icons/fi";
+import { registerLocale }       from "react-datepicker";
+import { ptBR }                 from "date-fns/locale";
+
 import api from "../../services/api";
-import { useToast } from "../../components/Toast";
-import { FiSun, FiMoon } from "react-icons/fi";
-import { registerLocale } from "react-datepicker";
-import { ptBR } from "date-fns/locale";
+
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/PainelSindico.css";
 
@@ -30,27 +32,27 @@ function PainelSindico() {
     const toast = useToast();
 
     // --- DADOS ---
-    const [moradores, setMoradores] = useState([]);
-    const [unidades, setUnidades] = useState([]);
-    const [reclamacoes, setReclamacoes] = useState([]);
-    const [avisos, setAvisos] = useState([]);
-    const [documentos, setDocumentos] = useState([]);
-    const [solicitacoes, setSolicitacoes] = useState([]);
-    const [infracoes, setInfracoes] = useState([]);
-    const [carregando, setCarregando] = useState(true);
+    const [moradores         , setMoradores         ] = useState([]);
+    const [unidades          , setUnidades          ] = useState([]);
+    const [reclamacoes       , setReclamacoes       ] = useState([]);
+    const [avisos            , setAvisos            ] = useState([]);
+    const [documentos        , setDocumentos        ] = useState([]);
+    const [solicitacoes      , setSolicitacoes      ] = useState([]);
+    const [infracoes         , setInfracoes         ] = useState([]);
+    const [carregando        , setCarregando        ] = useState(true);
 
-    // --- MEU PERFIL ---
-    const [meuNome, setMeuNome] = useState("");
-    const [meuEmail, setMeuEmail] = useState("");
-    const [meuTelefone, setMeuTelefone] = useState("");
-    const [meuNumeroApto, setMeuNumeroApto] = useState("");
-    const [meuBloco, setMeuBloco] = useState("");
-    const [meuAndarCalc, setMeuAndarCalc] = useState("");
-    const [salvandoPerfil, setSalvandoPerfil] = useState(false);
-    const [perfilCompleto, setPerfilCompleto] = useState(null);
+    // --- MEU PERFIL ---                           
+    const [meuNome           , setMeuNome           ] = useState("");
+    const [meuEmail          , setMeuEmail          ] = useState("");
+    const [meuTelefone       , setMeuTelefone       ] = useState("");
+    const [meuNumeroApto     , setMeuNumeroApto     ] = useState("");
+    const [meuBloco          , setMeuBloco          ] = useState("");
+    const [meuAndarCalc      , setMeuAndarCalc      ] = useState("");
+    const [salvandoPerfil    , setSalvandoPerfil    ] = useState(false);
+    const [perfilCompleto    , setPerfilCompleto    ] = useState(null);
 
     // --- ENTREGAS ---
-    const [minhasEntregas, setMinhasEntregas] = useState([]);
+    const [minhasEntregas    , setMinhasEntregas    ] = useState([]);
     const [carregandoEntregas, setCarregandoEntregas] = useState(false);
 
     // --- TEMA ---
@@ -64,9 +66,7 @@ function PainelSindico() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } 
-        
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -86,13 +86,13 @@ function PainelSindico() {
         setCarregando(true);
         try {
             const [resMoradores, resUnidades, resReclamacoes, resAvisos, resDocumentos, resSolicitacoes, resInfracoes] = await Promise.all([
-                api.get("/moradores").catch((err) => { console.error("Erro ao carregar moradores:", err.response?.status, err.response?.data); return { data: [] }; }),
-                api.get("/unidades").catch(() => ({ data: [] })),
-                api.get("/api/reclamacoes").catch(() => ({ data: { conteudo: [] } })),
-                api.get("/avisos").catch(() => ({ data: [] })),
-                api.get("/documentos").catch(() => ({ data: [] })),
-                api.get("/api/solicitacoes").catch(() => ({ data: { conteudo: [] } })),
-                api.get("/api/infracoes").catch(() => ({ data: [] })),
+                api.get("/moradores").catch((err)       => { console.error("Erro ao carregar moradores:", err.response?.status, err.response?.data); return { data: [] }; }),
+                api.get("/unidades").catch(()           => ({ data: [] })),
+                api.get("/api/reclamacoes").catch(()    => ({ data: { conteudo: [] } })),
+                api.get("/avisos").catch(()             => ({ data: [] })),
+                api.get("/documentos").catch(()         => ({ data: [] })),
+                api.get("/api/solicitacoes").catch(()   => ({ data: { conteudo: [] } })),
+                api.get("/api/infracoes").catch(()      => ({ data: [] })),
             ]);
 
             setMoradores(resMoradores.data || []);
@@ -102,13 +102,9 @@ function PainelSindico() {
             setDocumentos(resDocumentos.data || []);
             setSolicitacoes(resSolicitacoes.data.conteudo || resSolicitacoes.data || []);
             setInfracoes(resInfracoes.data || []);
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao carregar dados:", err);
-        } 
-        
-        finally {
+        } finally {
             setCarregando(false);
         }
     }
@@ -133,9 +129,7 @@ function PainelSindico() {
             setMeuNumeroApto(p.numeroApto || "");
             setMeuBloco(p.bloco || "");
             calcularAndarSindico(p.numeroApto || "");
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao carregar perfil:", err);
         }
     }
@@ -152,13 +146,9 @@ function PainelSindico() {
         if (numeros.length >= 3) {
             const andar = parseInt(numeros.substring(0, numeros.length - 2), 10);
             setMeuAndarCalc(andar > 0 ? `${andar}º andar` : "Térreo");
-        } 
-        
-        else if (numeros.length > 0) {
+        } else if (numeros.length > 0) {
             setMeuAndarCalc("Térreo");
-        } 
-        
-        else {
+        } else {
             setMeuAndarCalc("");
         }
     }
@@ -181,14 +171,10 @@ function PainelSindico() {
             });
             localStorage.setItem("perfilUsuario", JSON.stringify(res.data));
             toast.sucesso("Perfil atualizado com sucesso!");
-        } 
-        
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao salvar perfil:", err);
             toast.erro(err.response?.data?.erro || "Erro ao atualizar perfil.");
-        } 
-        
-        finally {
+        } finally {
             setSalvandoPerfil(false);
         }
     }

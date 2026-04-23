@@ -4,7 +4,7 @@ import { FiPackage, FiClock, FiCheck, FiArrowRight } from "react-icons/fi";
 function PorteiroEntregas({ encomendas, setEncomendas, unidades, perfil, api, toast, formatarData }) {
     const [descricaoEncomenda, setDescricaoEncomenda] = useState("");
     const [idUnidadeEncomenda, setIdUnidadeEncomenda] = useState("");
-    const [enviandoEncomenda, setEnviandoEncomenda] = useState(false);
+    const [enviandoEncomenda , setEnviandoEncomenda ] = useState(false);
 
     const encomendasPendentes = encomendas.filter(e => e.status === "AGUARDANDO_RETIRADA").length;
     const encomendasRetiradas = encomendas.filter(e => e.status === "RETIRADO").length;
@@ -29,14 +29,10 @@ function PorteiroEntregas({ encomendas, setEncomendas, unidades, perfil, api, to
 
             const res = await api.get("/encomendas");
             setEncomendas(res.data || []);
-        }
-
-        catch (err) {
+        } catch (err) {
             console.error("Erro ao registrar encomenda:", err);
             toast.erro("Erro ao registrar encomenda.", "Falha");
-        }
-
-        finally {
+        } finally {
             setEnviandoEncomenda(false);
         }
     }

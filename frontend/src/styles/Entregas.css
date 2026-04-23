@@ -56,14 +56,14 @@
     width: 100%;
 }
 
-/* Conteúdo centralizado */
+/* --- CONTEÚDO CENTRALIZADO --- */
 .entregas-conteudo {
     max-width: 800px;
     margin: 0 auto;
     padding: var(--spacing-lg);
 }
 
-/* Cabeçalho com botão voltar */
+/* --- CABEÇALHO COM BOTÃO VOLTAR --- */
 .entregas-header {
     margin-bottom: var(--spacing-lg);
 }
@@ -88,14 +88,14 @@
     transform: translateX(-2px);
 }
 
-/* Lista de entregas */
+/* --- LISTA DE ENTREGAS --- */
 .entregas-lista {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
 }
 
-/* Card de entrega (aproveita a classe global .card) */
+/* --- CARD DE ENTREGA --- */
 .entregas-card {
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
@@ -105,7 +105,7 @@
     box-shadow: var(--shadow-lg);
 }
 
-/* Cabeçalho do card com título e badge */
+/* --- CABEÇALHO DO CARD COM TÍTULO E BADGE --- */
 .entregas-card-header {
     display: flex;
     justify-content: space-between;
@@ -128,7 +128,7 @@
     font-size: 1.25rem;
 }
 
-/* Corpo do card com informações */
+/* --- CORPO DO CARD COM INFORMAÇÕES --- */
 .card-body p {
     display: flex;
     align-items: center;
@@ -142,7 +142,7 @@
     font-size: 0.875rem;
 }
 
-/* Aviso de retirada pendente */
+/* --- AVISO DE RETIRADA PENDENTE --- */
 .aviso-retirada {
     margin-top: var(--spacing-sm);
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -153,13 +153,13 @@
     color: var(--accent-red);
 }
 
-/* Badge secundário (caso não esteja no global) */
+/* --- BADGE SECUNDÁRIO --- */
 .badge-secondary {
     background: rgba(100, 100, 100, 0.1);
     color: var(--text-muted);
 }
 
-/* Responsividade */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .entregas-container .navbar {
         margin: var(--spacing-sm);

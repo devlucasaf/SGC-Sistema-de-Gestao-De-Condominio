@@ -12,16 +12,16 @@ public class Login {
 
     private Integer id;
 
-    private String cpf;
-    private String nome;
-    private String email;
+    private String  cpf;
+    private String  nome;
+    private String  email;
 
-    private Date dataNascimento;
+    private Date    dataNascimento;
 
     @JsonIgnore
-    private byte[] senha;
+    private byte[]  senha;
 
-    private Date dataAlteracaoReserva;
+    private Date    dataAlteracaoReserva;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

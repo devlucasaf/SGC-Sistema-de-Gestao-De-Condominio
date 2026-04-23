@@ -1,4 +1,4 @@
-/* --- Subtítulo --- */
+/* --- SUBTÍTULO --- */
 .subtitulo {
     font-size: 1.1rem;
     color: var(--text-secondary);
@@ -6,7 +6,7 @@
     margin-top: var(--spacing-sm);
 }
 
-/* --- Grid de áreas --- */
+/* --- GRID DE ÁREAS --- */
 .grid-areas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -14,7 +14,7 @@
     margin-top: var(--spacing-md);
 }
 
-/* --- Cards de área --- */
+/* --- CARDS DE ÁREA --- */
 .cartao-area {
     background-color: var(--bg-secondary);
     padding: var(--spacing-lg);
@@ -56,7 +56,7 @@
     color: var(--text-secondary);
 }
 
-/* --- Botão Reservar --- */
+/* --- BOTÃO RESERVAR --- */
 .btn-reservar {
     margin-top: var(--spacing-md);
     padding: 0.7rem;
@@ -78,7 +78,7 @@
     transform: translateY(0);
 }
 
-/* --- Botão Pagar (Boletos) --- */
+/* --- BOTÃO PAGAR --- */
 .btn-pagar {
     margin-top: var(--spacing-sm);
     padding: 0.6rem 1.2rem;
@@ -100,7 +100,7 @@
     transform: translateY(-1px);
 }
 
-/* --- Modal Overlay --- */
+/* --- MODAL OVERLAY --- */
 .overlay-modal {
     position: fixed;
     top: 0;
@@ -136,7 +136,7 @@
     color: var(--text-secondary);
 }
 
-/* --- Formulário do Modal --- */
+/* --- FORMULÁRIO DO MODAL --- */
 .form-modal {
     display: flex;
     flex-direction: column;
@@ -166,7 +166,7 @@
     box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
 }
 
-/* --- Aviso de cobrança --- */
+/* --- AVISO DE COBRANÇA --- */
 .aviso-cobranca {
     background-color: rgba(230, 184, 0, 0.15);
     color: var(--accent-orange);
@@ -178,7 +178,7 @@
     border-left: 4px solid var(--accent-orange);
 }
 
-/* --- Botões do Modal --- */
+/* --- BOTÕES DO MODAL --- */
 .botoes-modal {
     display: flex;
     gap: 1rem;
@@ -215,7 +215,7 @@
     background-color: #2468c2;
 }
 
-/* --- Seção de Histórico --- */
+/* --- SEÇÃO DE HISTÓRICO --- */
 .secao-historico {
     margin-top: var(--spacing-xl);
     width: 100%;
@@ -228,7 +228,7 @@
     color: var(--text-primary);
 }
 
-/* --- Badge de Status --- */
+/* --- BADGE DE STATUS --- */
 .badge-status {
     padding: 4px 12px;
     border-radius: 20px;
@@ -253,7 +253,7 @@
     color: #f1c40f;
 }
 
-/* --- Botão Cancelar Reserva --- */
+/* --- BOTÃO CANCELAR RESERVA --- */
 .btn-cancelar-reserva {
     display: inline-flex;
     align-items: center;
@@ -304,7 +304,7 @@
     background-color: var(--overlay-dark);
 }
 
-/* --- Animações --- */
+/* --- ANIMAÇÕES --- */
 .fadeIn {
     animation: fadeIn 0.3s ease-in-out;
 }
@@ -321,7 +321,7 @@
     }
 }
 
-/* --- Responsividade --- */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .grid-areas {
         grid-template-columns: 1fr;
@@ -343,7 +343,7 @@
     }
 }
 
-/* --- Acessibilidade --- */
+/* --- ACESSIBILIDADE --- */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;

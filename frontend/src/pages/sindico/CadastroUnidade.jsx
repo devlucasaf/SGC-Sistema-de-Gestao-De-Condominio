@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiMoon, FiSun } from "react-icons/fi";
+import { useState, useEffect }  from "react";
+import { useNavigate }          from "react-router-dom";
+import { FiMoon, FiSun }        from "react-icons/fi";
 import api from "../../services/api.js";
 import "../../styles/CadastroUnidade.css";
 
 function CadastroUnidade() {
-    const [andar, setAndar] = useState("");
-    const [bloco, setBloco] = useState("");
+    const [andar     , setAndar     ] = useState("");
+    const [bloco     , setBloco     ] = useState("");
     const [numeroApto, setNumeroApto] = useState("");
-    const [mensagem, setMensagem] = useState("");
+    const [mensagem  , setMensagem  ] = useState("");
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -22,9 +22,7 @@ function CadastroUnidade() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } 
-        
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -49,9 +47,7 @@ function CadastroUnidade() {
             setBloco("");
             setNumeroApto("");
 
-        } 
-        
-        catch (error) {
+        } catch (error) {
             setMensagem("Erro ao cadastrar unidade. Verifique os dados e tente novamente.");
             console.error(error);
         }

@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiEye, FiEyeOff, FiMoon, FiSun } from "react-icons/fi";
-import api from "../../services/api.js";
+import { useState, useEffect }              from "react";
+import { useNavigate }                      from "react-router-dom";
+import { FiEye, FiEyeOff, FiMoon, FiSun }   from "react-icons/fi";
+import   api                                from "../../services/api.js";
 import "../../styles/Login.css";
 
 function AlterarSenha() {
-    const [senhaAtual, setSenhaAtual] = useState("");
-    const [novaSenha, setNovaSenha] = useState("");
-    const [confirmarSenha, setConfirmarSenha] = useState("");
-    const [mostrarSenhaAtual, setMostrarSenhaAtual] = useState(false);
-    const [mostrarNovaSenha, setMostrarNovaSenha] = useState(false);
-    const [mensagem, setMensagem] = useState("");
-    const [tipoMsg, setTipoMsg] = useState("");
-    const [enviando, setEnviando] = useState(false);
+    const [senhaAtual       ,   setSenhaAtual       ]   =   useState("");
+    const [novaSenha        ,   setNovaSenha        ]   =   useState("");
+    const [confirmarSenha   ,   setConfirmarSenha   ]   =   useState("");
+    const [mostrarSenhaAtual,   setMostrarSenhaAtual]   =   useState(false);
+    const [mostrarNovaSenha ,   setMostrarNovaSenha ]   =   useState(false);
+    const [mensagem         ,   setMensagem         ]   =   useState("");
+    const [tipoMensagem     ,   setTipoMensagem     ]   =   useState("");
+    const [enviando         ,   setEnviando         ]   =   useState(false);
+    
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem("theme");
         return savedTheme === "dark";
@@ -25,9 +26,7 @@ function AlterarSenha() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        } 
-        
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -39,19 +38,19 @@ function AlterarSenha() {
 
         if (novaSenha !== confirmarSenha) {
             setMensagem("As senhas não coincidem!");
-            setTipoMsg("erro");
+            setTipoMensagem("erro");
             return;
         }
 
         if (novaSenha.length < 6) {
             setMensagem("A nova senha deve ter no mínimo 6 caracteres.");
-            setTipoMsg("erro");
+            setTipoMensagem("erro");
             return;
         }
 
         if (senhaAtual === novaSenha) {
             setMensagem("A nova senha deve ser diferente da senha atual.");
-            setTipoMsg("erro");
+            setTipoMensagem("erro");
             return;
         }
 
@@ -64,26 +63,22 @@ function AlterarSenha() {
             });
 
             setMensagem(response.data.mensagem);
-            setTipoMsg("ok");
+            setTipoMensagem("ok");
             setSenhaAtual("");
             setNovaSenha("");
             setConfirmarSenha("");
 
             // --- REDIRECIONA PARA O HOME ---
             setTimeout(() => navigate("/home"), 2000);
-        }
-
-        catch (error) {
+        } catch (error) {
             const msg =
                 error.response?.data?.messages?.[0] ||
                 error.response?.data?.message ||
                 error.response?.data?.erro ||
                 "Erro ao alterar a senha.";
             setMensagem(msg);
-            setTipoMsg("erro");
-        }
-
-        finally {
+            setTipoMensagem("erro");
+        } finally {
             setEnviando(false);
         }
     }
@@ -190,7 +185,7 @@ function AlterarSenha() {
                         <p style={{
                             textAlign: "center",
                             fontWeight: "bold",
-                            color: tipoMsg === "ok" ? "#2ecc71" : "#ff4d4d",
+                            color: tipoMensagem === "ok" ? "#2ecc71" : "#ff4d4d",
                         }}>
                             {mensagem}
                         </p>
