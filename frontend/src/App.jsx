@@ -21,6 +21,7 @@ import Reserva              from          "./pages/morador/Reserva";
 import Documentos           from          "./pages/morador/Documentos";
 import Solicitacoes         from          "./pages/morador/Solicitacoes";
 import MinhasInfracoes      from          "./pages/morador/MinhasInfracoes";
+import Votacao              from          "./pages/morador/Votacao";
 
 import PainelPorteiro       from          "./pages/portaria/PainelPorteiro";
 
@@ -161,6 +162,15 @@ function App() {
           element={
             <RotaPrivada>
               <MinhasInfracoes />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/votacao"
+          element={
+            <RotaPrivada>
+              <Votacao />
             </RotaPrivada>
           }
         />

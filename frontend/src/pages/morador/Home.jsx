@@ -211,6 +211,7 @@ function Home() {
                     <li><Link to="/solicitacoes">Solicitações</Link></li>
                     <li><Link to="/minhas-infracoes">Multas</Link></li>
                     <li><Link to="/documentos">Documentos</Link></li>
+                    <li><Link to="/votacao">Votação</Link></li>
                 </ul>
 
                 <div className="acoes-usuario">
