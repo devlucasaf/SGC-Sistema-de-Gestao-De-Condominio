@@ -3,19 +3,17 @@ import { FiPlus, FiTrash2 } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 
 function SindicoVotacao({ api, toast, formatarData }) {
-    const [votacoes, setVotacoes] = useState([]);
-    const [carregando, setCarregando] = useState(true);
+    const [votacoes   , setVotacoes   ] = useState([]);
+    const [carregando , setCarregando ] = useState(true);
     const [mostrarForm, setMostrarForm] = useState(false);
-    const [enviando, setEnviando] = useState(false);
+    const [enviando   , setEnviando   ] = useState(false);
+    const [titulo     , setTitulo     ] = useState("");
+    const [descricao  , setDescricao  ] = useState("");
+    const [candidatos , setCandidatos ] = useState(["", ""]);
+    const [dataInicio , setDataInicio ] = useState(null);
+    const [dataFim    , setDataFim    ] = useState(null);
 
-    // --- FORMULÁRIO ---
-    const [titulo, setTitulo] = useState("");
-    const [descricao, setDescricao] = useState("");
-    const [candidatos, setCandidatos] = useState(["", ""]);
-    const [dataInicio, setDataInicio] = useState(null);
-    const [dataFim, setDataFim] = useState(null);
-
-    // Modal confirm
+    // --- MODAL CONFIRMAÇÃO ---
     const [modalConfirm, setModalConfirm] = useState({
         aberto: false,
         id: null,
@@ -62,6 +60,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
             toast.erro("Adicione pelo menos 2 candidatos.");
             return;
         }
+
         if (!dataInicio || !dataFim) {
             toast.erro("Selecione as datas de início e fim.");
             return;
@@ -88,12 +87,21 @@ function SindicoVotacao({ api, toast, formatarData }) {
     }
 
     function pedirConfirmacao(id, acao) {
-        setModalConfirm({ aberto: true, id, acao });
+        setModalConfirm({ 
+            aberto: true, 
+            id, 
+            acao 
+        });
     }
 
     async function confirmarAcao() {
         const { id, acao } = modalConfirm;
-        setModalConfirm({ aberto: false, id: null, acao: null });
+        setModalConfirm({ 
+            aberto: false, 
+            id: null, 
+            acao: null 
+        });
+
         try {
             await api.patch(`/api/votacoes/${id}/status?novoStatus=${acao}`);
             toast.sucesso(acao === "ENCERRADA" ? "Votação encerrada!" : "Votação cancelada!");
@@ -110,6 +118,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                 cor: "#2ecc71"
             };
         }
+
         if (status === "ENCERRADA") {
             return {
                 bg: "rgba(52,152,219,0.12)",
@@ -126,6 +135,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
         if (status === "ABERTA") {
             return "Aberta";
         }
+
         if (status === "ENCERRADA") {
             return "Encerrada";
         }
@@ -139,9 +149,20 @@ function SindicoVotacao({ api, toast, formatarData }) {
         <>
             {/* --- RESUMO --- */}
             <div className="dashboard-grid">
-                <div className="dashboard-card"><h3>Total</h3><div className="valor">{votacoes.length}</div></div>
-                <div className="dashboard-card" style={{ borderLeft: "4px solid #2ecc71" }}><h3>Abertas</h3><div className="valor">{abertas}</div></div>
-                <div className="dashboard-card azul"><h3>Encerradas</h3><div className="valor">{encerradas}</div></div>
+                <div className="dashboard-card">
+                    <h3>Total</h3>
+                    <div className="valor">{votacoes.length}</div>
+                </div>
+
+                <div className="dashboard-card" style={{ borderLeft: "4px solid #2ecc71" }}>
+                    <h3>Abertas</h3>
+                    <div className="valor">{abertas}</div>
+                </div>
+
+                <div className="dashboard-card azul">
+                    <h3>Encerradas</h3>
+                    <div className="valor">{encerradas}</div>
+                </div>
             </div>
 
             {/* --- BOTÃO --- */}
@@ -151,13 +172,34 @@ function SindicoVotacao({ api, toast, formatarData }) {
 
             {/* --- FORMULÁRIO --- */}
             {mostrarForm && (
-                <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "20px", marginBottom: "20px" }}>
+                <div style={{ 
+                    background: "var(--bg-card)", 
+                    border: "1px solid var(--border-color)", 
+                    borderRadius: "12px", 
+                    padding: "20px", 
+                    marginBottom: "20px" 
+                }}>
                     <h3 style={{ margin: "0 0 16px", color: "var(--text-primary)" }}>Criar Votação para Síndico</h3>
+
                     <form onSubmit={criarVotacao} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                             <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Título</label>
-                            <input type="text" value={titulo} onChange={e => setTitulo(e.target.value)} placeholder="Ex: Eleição de Síndico 2026" required
-                                style={{ padding: "10px", borderRadius: "8px", border: "1px solid var(--border-color)", background: "var(--bg-input, var(--bg-card))", color: "var(--text-primary)", fontSize: "0.9rem" }} />
+                            
+                            <input 
+                                type="text" 
+                                value={titulo} 
+                                onChange={e => setTitulo(e.target.value)} 
+                                placeholder="Ex: Eleição de Síndico 2026" 
+                                required
+                                style={{ 
+                                    padding: "10px", 
+                                    borderRadius: "8px", 
+                                    border: "1px solid var(--border-color)", 
+                                    background: "var(--bg-input, var(--bg-card))", 
+                                    color: "var(--text-primary)", 
+                                    fontSize: "0.9rem" 
+                                }} 
+                            />
                         </div>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -182,23 +224,53 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                     )}
                                 </div>
                             ))}
-                            <button type="button" onClick={adicionarCandidato}
-                                style={{ alignSelf: "flex-start", padding: "8px 16px", borderRadius: "8px", border: "1px solid var(--border-color)", background: "transparent", color: "var(--text-secondary)", cursor: "pointer", fontSize: "0.85rem", display: "flex", alignItems: "center", gap: "6px" }}>
+                            <button 
+                                type="button" 
+                                onClick={adicionarCandidato}
+                                style={{ 
+                                    alignSelf: "flex-start", 
+                                    padding: "8px 16px", 
+                                    borderRadius: "8px", 
+                                    border: "1px solid var(--border-color)", 
+                                    background: "transparent", 
+                                    color: "var(--text-secondary)", 
+                                    cursor: "pointer", 
+                                    fontSize: "0.85rem", 
+                                    display: "flex", 
+                                    alignItems: "center", 
+                                    gap: "6px" 
+                                }}>
                                 <FiPlus /> Adicionar Candidato
                             </button>
                         </div>
 
-                        {/* Datas */}
+                        {/* --- DATAS --- */}
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data de início</label>
-                                <DatePicker selected={dataInicio} onChange={d => setDataInicio(d)} locale="pt-BR" dateFormat="dd/MM/yyyy"
-                                    minDate={new Date()} placeholderText="Selecione" className="input-datepicker" required />
+                                <DatePicker 
+                                    selected={dataInicio} 
+                                    onChange={d => setDataInicio(d)} 
+                                    locale="pt-BR" 
+                                    dateFormat="dd/MM/yyyy"
+                                    minDate={new Date()} 
+                                    placeholderText="Selecione" 
+                                    className="input-datepicker" 
+                                    required 
+                                />
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data de encerramento</label>
-                                <DatePicker selected={dataFim} onChange={d => setDataFim(d)} locale="pt-BR" dateFormat="dd/MM/yyyy"
-                                    minDate={dataInicio || new Date()} placeholderText="Selecione" className="input-datepicker" required />
+                                <DatePicker 
+                                    selected={dataFim} 
+                                    onChange={d => setDataFim(d)} 
+                                    locale="pt-BR" 
+                                    dateFormat="dd/MM/yyyy"
+                                    minDate={dataInicio || new Date()} 
+                                    placeholderText="Selecione" 
+                                    className="input-datepicker" 
+                                    required
+                                />
                             </div>
                         </div>
 
@@ -237,11 +309,19 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                     </span>
                                 </div>
 
-                                {/* Info */}
+                                {/* --- INFORMAÇÃO --- */}
                                 <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: "12px" }}>
-                                    <span>{v.dataInicio} a {v.dataFim}</span>
-                                    <span>{v.totalVotos} voto(s)</span>
-                                    <span>{v.candidatos?.length || 0} candidato(s)</span>
+                                    <span>
+                                        {v.dataInicio} a {v.dataFim}
+                                    </span>
+
+                                    <span>
+                                        {v.totalVotos} voto(s)
+                                    </span>
+
+                                    <span>
+                                        {v.candidatos?.length || 0} candidato(s)
+                                    </span>
                                 </div>
 
                                 {/* Candidatos */}
@@ -250,8 +330,12 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                                         {(v.candidatos || []).map((c, i) => (
                                             <span key={i} style={{
-                                                padding: "6px 14px", borderRadius: "20px", fontSize: "0.82rem",
-                                                background: "var(--bg-primary)", border: "1px solid var(--border-color)", color: "var(--text-primary)"
+                                                padding: "6px 14px", 
+                                                borderRadius: "20px", 
+                                                fontSize: "0.82rem",
+                                                background: "var(--bg-primary)", 
+                                                border: "1px solid var(--border-color)", 
+                                                color: "var(--text-primary)"
                                             }}>{c}</span>
                                         ))}
                                     </div>
@@ -266,20 +350,27 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                         {Object.entries(v.resultado).sort((a, b) => b[1] - a[1]).map(([candidato, votos]) => {
                                             const pct = v.totalVotos > 0 ? ((votos / v.totalVotos) * 100).toFixed(1) : 0;
                                             const isVencedor = vencedor && candidato === vencedor[0];
+                                            
                                             return (
                                                 <div key={candidato} style={{ marginBottom: "6px" }}>
                                                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem", marginBottom: "2px" }}>
                                                         <span style={{ color: "var(--text-primary)", fontWeight: isVencedor ? "700" : "400" }}>
                                                             {isVencedor && v.status === "ENCERRADA" ? "🏆 " : ""}{candidato}
                                                         </span>
+
                                                         <span style={{ color: "var(--text-muted)" }}>{votos} voto(s) — {pct}%</span>
                                                     </div>
+
                                                     <div style={{ height: "8px", borderRadius: "4px", background: "var(--border-color)", overflow: "hidden" }}>
-                                                        <div style={{
-                                                            height: "100%", borderRadius: "4px", width: `${pct}%`,
-                                                            background: isVencedor ? "#2ecc71" : "#3498db",
-                                                            transition: "width 0.5s ease"
-                                                        }} />
+                                                        <div 
+                                                            style={{
+                                                                height: "100%", 
+                                                                borderRadius: "4px", 
+                                                                width: `${pct}%`,
+                                                                background: isVencedor ? "#2ecc71" : "#3498db",
+                                                                transition: "width 0.5s ease"
+                                                            }} 
+                                                        />
                                                     </div>
                                                 </div>
                                             );
@@ -290,12 +381,33 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                 {/* Ações */}
                                 {v.status === "ABERTA" && (
                                     <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                                        <button onClick={() => pedirConfirmacao(v.id, "ENCERRADA")}
-                                            style={{ padding: "6px 14px", borderRadius: "6px", border: "1px solid #3498db", background: "rgba(52,152,219,0.1)", color: "#3498db", cursor: "pointer", fontSize: "0.8rem", fontWeight: "500" }}>
+                                        <button 
+                                            onClick={() => pedirConfirmacao(v.id, "ENCERRADA")}
+                                            style={{ 
+                                                padding: "6px 14px", 
+                                                borderRadius: "6px", 
+                                                border: "1px solid #3498db", 
+                                                background: "rgba(52,152,219,0.1)", 
+                                                color: "#3498db", 
+                                                cursor: "pointer", 
+                                                fontSize: "0.8rem", 
+                                                fontWeight: "500" 
+                                            }}>
                                             Encerrar Votação
                                         </button>
-                                        <button onClick={() => pedirConfirmacao(v.id, "CANCELADA")}
-                                            style={{ padding: "6px 14px", borderRadius: "6px", border: "1px solid #95a5a6", background: "rgba(149,165,166,0.1)", color: "#95a5a6", cursor: "pointer", fontSize: "0.8rem", fontWeight: "500" }}>
+
+                                        <button 
+                                            onClick={() => pedirConfirmacao(v.id, "CANCELADA")}
+                                            style={{ 
+                                                padding: "6px 14px", 
+                                                borderRadius: "6px", 
+                                                border: "1px solid #95a5a6", 
+                                                background: "rgba(149,165,166,0.1)", 
+                                                color: "#95a5a6", 
+                                                cursor: "pointer", 
+                                                fontSize: "0.8rem", 
+                                                fontWeight: "500" 
+                                            }}>
                                             Cancelar Votação
                                         </button>
                                     </div>
@@ -312,11 +424,23 @@ function SindicoVotacao({ api, toast, formatarData }) {
                     <div className="modal-confirm" onClick={e => e.stopPropagation()}>
                         <div className="modal-confirm-icone">⚠️</div>
                         <h3>{modalConfirm.acao === "ENCERRADA" ? "Encerrar votação?" : "Cancelar votação?"}</h3>
+                        
                         <p>{modalConfirm.acao === "ENCERRADA"
                             ? "Ao encerrar, nenhum morador poderá mais votar e o resultado será divulgado."
-                            : "Ao cancelar, a votação será descartada."}</p>
+                            : "Ao cancelar, a votação será descartada."}
+                        </p>
+
                         <div className="modal-confirm-botoes">
-                            <button className="btn-cancelar" onClick={() => setModalConfirm({ aberto: false, id: null, acao: null })}>Voltar</button>
+                            <button 
+                                className="btn-cancelar" 
+                                onClick={() => setModalConfirm({ 
+                                    aberto: false, 
+                                    id: null, 
+                                    acao: null 
+                                })}>
+                                    Voltar
+                            </button>
+
                             <button className="btn-confirmar-excluir" onClick={confirmarAcao}>Confirmar</button>
                         </div>
                     </div>

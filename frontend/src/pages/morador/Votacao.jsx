@@ -7,11 +7,11 @@ import "../../styles/Home.css";
 import "../../styles/Votacao.css";
 
 function Votacao() {
-    const [votacoes, setVotacoes] = useState([]);
-    const [carregando, setCarregando] = useState(true);
-    const [votando, setVotando] = useState(null);
+    const [votacoes            , setVotacoes            ] = useState([]);
+    const [carregando          , setCarregando          ] = useState(true);
+    const [votando             , setVotando             ] = useState(null);
     const [candidatoSelecionado, setCandidatoSelecionado] = useState("");
-    const [enviando, setEnviando] = useState(false);
+    const [enviando            , setEnviando            ] = useState(false);
 
     const navigate = useNavigate();
     const toast = useToast();
@@ -26,8 +26,7 @@ function Votacao() {
         if (isDarkMode) {
             root.setAttribute("dark-theme", "dark");
             localStorage.setItem("theme", "dark");
-        }
-        else {
+        } else {
             root.removeAttribute("dark-theme");
             localStorage.setItem("theme", "light");
         }
@@ -57,7 +56,7 @@ function Votacao() {
         setEnviando(true);
         try {
             await api.post(`/api/votacoes/${votacaoId}/votar`, { candidato: candidatoSelecionado });
-            toast.sucesso("Voto registrado com sucesso! 🗳️");
+            toast.sucesso("Voto registrado com sucesso!");
             setCandidatoSelecionado("");
             setVotando(null);
             carregarVotacoes();
@@ -69,8 +68,13 @@ function Votacao() {
     }
 
     function getLabelStatus(status) {
-        if (status === "ABERTA") return "Aberta";
-        if (status === "ENCERRADA") return "Encerrada";
+        if (status === "ABERTA") {
+            return "Aberta";
+        }
+
+        if (status === "ENCERRADA") {
+            return "Encerrada";
+        }
         return "Cancelada";
     }
 
@@ -80,9 +84,11 @@ function Votacao() {
                 <div className="navbar-logo">
                     <h2>Residencial Boca de Pedreiro</h2>
                 </div>
+
                 <ul className="navbar-links">
                     <li><Link to="/home">Início</Link></li>
                 </ul>
+
                 <div className="acoes-usuario">
                     <button className="btn-tema" onClick={() => setIsDarkMode(!isDarkMode)} aria-label="Alternar Tema">
                         {isDarkMode ? <FiSun /> : <FiMoon />}
@@ -95,14 +101,14 @@ function Votacao() {
                     <button onClick={() => navigate("/home")} className="btn-voltar">
                         <FiArrowLeft />
                     </button>
-                    <h2>🗳️ Votação para Síndico</h2>
+                    <h2>Votação para Síndico</h2>
                 </div>
 
                 {carregando ? (
                     <p style={{ color: "var(--text-muted)" }}>Carregando votações...</p>
                 ) : votacoes.filter(v => v.status !== "CANCELADA").length === 0 ? (
                     <div className="votacao-vazia">
-                        <div className="votacao-vazia-icone">🗳️</div>
+                        <div className="votacao-vazia-icone"></div>
                         <p>Nenhuma votação disponível no momento.</p>
                     </div>
                 ) : (
@@ -116,8 +122,13 @@ function Votacao() {
                                 : v.status === "ENCERRADA" ? "votacao-badge-encerrada" : "votacao-badge-cancelada";
 
                             return (
-                                <div key={v.id} className="votacao-card"
-                                    style={{ borderLeft: `4px solid ${v.status === "ABERTA" ? "#2ecc71" : v.status === "ENCERRADA" ? "#3498db" : "#95a5a6"}` }}>
+                                <div 
+                                    key={v.id} 
+                                    className="votacao-card"
+                                    style={{ 
+                                        borderLeft: `4px solid ${v.status === "ABERTA" ? "#2ecc71" : v.status === "ENCERRADA" ? "#3498db" : "#95a5a6"}` 
+                                    }}
+                                >
 
                                     <div className="votacao-card-header">
                                         <div>
@@ -130,11 +141,11 @@ function Votacao() {
                                     </div>
 
                                     <div className="votacao-info">
-                                        <span>📅 Período: {v.dataInicio} a {v.dataFim}</span>
-                                        <span>🗳️ {v.totalVotos} voto(s)</span>
+                                        <span>Período: {v.dataInicio} a {v.dataFim}</span>
+                                        <span>{v.totalVotos} voto(s)</span>
                                     </div>
 
-                                    {/* Já votou */}
+                                    {/* --- JÁ VOTOU --- */}
                                     {v.jaVotou && v.status === "ABERTA" && (
                                         <div className="votacao-ja-votou">
                                             <FiCheckCircle size={20} />
@@ -142,7 +153,7 @@ function Votacao() {
                                         </div>
                                     )}
 
-                                    {/* Formulário de Voto */}
+                                    {/* --- FORMULÁRIO DE VOTO --- */}
                                     {podeVotar && (
                                         <div style={{ marginBottom: "16px" }}>
                                             <p className="votacao-selecao-titulo">Selecione seu candidato:</p>
@@ -166,24 +177,30 @@ function Votacao() {
                                         </div>
                                     )}
 
-                                    {/* Resultado */}
+                                    {/* --- RESULTADO --- */}
                                     {v.status === "ENCERRADA" && v.resultado && v.totalVotos > 0 && (
                                         <div>
-                                            <p className="votacao-resultado-titulo">📊 Resultado Final</p>
+                                            <p className="votacao-resultado-titulo">Resultado Final</p>
                                             {Object.entries(v.resultado).sort((a, b) => b[1] - a[1]).map(([candidato, votos]) => {
                                                 const pct = v.totalVotos > 0 ? ((votos / v.totalVotos) * 100).toFixed(1) : 0;
                                                 const isVencedor = vencedor && candidato === vencedor[0];
+                                                
                                                 return (
                                                     <div key={candidato} className="votacao-resultado-item">
                                                         <div className="votacao-resultado-info">
                                                             <span className={`votacao-resultado-nome ${isVencedor ? "vencedor" : ""}`}>
-                                                                {isVencedor ? "🏆 " : ""}{candidato}
+                                                                {isVencedor ? " " : ""}{candidato}
                                                             </span>
                                                             <span className="votacao-resultado-votos">{votos} voto(s) — {pct}%</span>
                                                         </div>
+
                                                         <div className="votacao-barra-fundo">
-                                                            <div className={`votacao-barra-preenchida ${isVencedor ? "vencedor" : "normal"}`}
-                                                                style={{ width: `${pct}%` }} />
+                                                            <div 
+                                                                className={`votacao-barra-preenchida ${isVencedor ? "vencedor" : "normal"}`}
+                                                                style={{ 
+                                                                    width: `${pct}%` 
+                                                                }} 
+                                                            />
                                                         </div>
                                                     </div>
                                                 );
