@@ -183,7 +183,15 @@ function SindicoVotacao({ api, toast, formatarData }) {
 
                     <form onSubmit={criarVotacao} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                            <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Título</label>
+                            <label 
+                                style={{ 
+                                    fontSize: "0.85rem", 
+                                    fontWeight: "600", 
+                                    color: "var(--text-secondary)" 
+                                }}
+                            >
+                                Título
+                            </label>
                             
                             <input 
                                 type="text" 
@@ -203,22 +211,73 @@ function SindicoVotacao({ api, toast, formatarData }) {
                         </div>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                            <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Descrição (opcional)</label>
-                            <textarea value={descricao} onChange={e => setDescricao(e.target.value)} placeholder="Detalhes sobre a votação..." rows={3}
-                                style={{ padding: "10px", borderRadius: "8px", border: "1px solid var(--border-color)", background: "var(--bg-input, var(--bg-card))", color: "var(--text-primary)", fontSize: "0.9rem", resize: "vertical" }} />
+                            <label 
+                                style={{ 
+                                    fontSize: "0.85rem", 
+                                    fontWeight: "600", 
+                                    color: "var(--text-secondary)" 
+                                }}
+                            >
+                                Descrição (opcional)
+                            </label>
+                            <textarea 
+                                value={descricao} 
+                                onChange={e => setDescricao(e.target.value)} 
+                                placeholder="Detalhes sobre a votação..." 
+                                rows={3}
+                                style={{ 
+                                    padding: "10px", 
+                                    borderRadius: "8px", 
+                                    border: "1px solid var(--border-color)", 
+                                    background: "var(--bg-input, var(--bg-card))", 
+                                    color: "var(--text-primary)", 
+                                    fontSize: "0.9rem", 
+                                    resize: "vertical" 
+                                }} 
+                            />
                         </div>
 
                         {/* --- CANDIDATOS --- */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                            <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Candidatos</label>
+                            <label 
+                                style={{ 
+                                    fontSize: "0.85rem", 
+                                    fontWeight: "600", 
+                                    color: "var(--text-secondary)" 
+                                }}
+                            >
+                                Candidatos
+                            </label>
                             {candidatos.map((c, i) => (
                                 <div key={i} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                                    <input type="text" value={c} onChange={e => atualizarCandidato(i, e.target.value)}
+                                    <input 
+                                        type="text" 
+                                        value={c} 
+                                        onChange={e => atualizarCandidato(i, e.target.value)}
                                         placeholder={`Candidato ${i + 1}`}
-                                        style={{ flex: 1, padding: "10px", borderRadius: "8px", border: "1px solid var(--border-color)", background: "var(--bg-input, var(--bg-card))", color: "var(--text-primary)", fontSize: "0.9rem" }} />
+                                        style={{ 
+                                            flex: 1, 
+                                            padding: "10px", 
+                                            borderRadius: "8px", 
+                                            border: "1px solid var(--border-color)", 
+                                            background: "var(--bg-input, var(--bg-card))", 
+                                            color: "var(--text-primary)", 
+                                            fontSize: "0.9rem" 
+                                        }} 
+                                    />
                                     {candidatos.length > 2 && (
-                                        <button type="button" onClick={() => removerCandidato(i)}
-                                            style={{ padding: "8px", borderRadius: "8px", border: "1px solid #e74c3c", background: "rgba(231,76,60,0.1)", color: "#e74c3c", cursor: "pointer" }}>
+                                        <button 
+                                            type="button" 
+                                            onClick={() => removerCandidato(i)}
+                                            style={{ 
+                                                padding: "8px", 
+                                                borderRadius: "8px", 
+                                                border: "1px solid #e74c3c", 
+                                                background: "rgba(231,76,60,0.1)", 
+                                                color: "#e74c3c", 
+                                                cursor: "pointer" 
+                                            }}
+                                        >
                                             <FiTrash2 />
                                         </button>
                                     )}
@@ -247,7 +306,15 @@ function SindicoVotacao({ api, toast, formatarData }) {
                         {/* --- DATAS --- */}
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                                <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data de início</label>
+                                <label 
+                                    style={{ 
+                                        fontSize: "0.85rem", 
+                                        fontWeight: "600", 
+                                        color: "var(--text-secondary)" 
+                                    }}
+                                >
+                                    Data de início
+                                </label>
                                 <DatePicker 
                                     selected={dataInicio} 
                                     onChange={d => setDataInicio(d)} 
@@ -295,15 +362,22 @@ function SindicoVotacao({ api, toast, formatarData }) {
                             : null;
 
                         return (
-                            <div key={v.id} style={{
-                                background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "20px",
-                                borderLeft: `4px solid ${corStatus.cor}`
-                            }}>
+                            <div 
+                                key={v.id} 
+                                style={{
+                                    background: "var(--bg-card)", 
+                                    border: "1px solid var(--border-color)", 
+                                    borderRadius: "12px", 
+                                    padding: "20px",
+                                    borderLeft: `4px solid ${corStatus.cor}`
+                                }}
+                            >
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
                                     <div>
                                         <h4 style={{ margin: "0 0 4px", color: "var(--text-primary)" }}>{v.titulo}</h4>
                                         {v.descricao && <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", margin: "0 0 8px" }}>{v.descricao}</p>}
                                     </div>
+
                                     <span style={{ padding: "4px 12px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "600", background: corStatus.bg, color: corStatus.cor }}>
                                         {getLabelStatus(v.status)}
                                     </span>
@@ -324,24 +398,39 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                     </span>
                                 </div>
 
-                                {/* Candidatos */}
+                                {/* --- CANDIDATOS --- */}
                                 <div style={{ marginBottom: "12px" }}>
-                                    <p style={{ fontSize: "0.82rem", fontWeight: "600", color: "var(--text-secondary)", marginBottom: "8px" }}>Candidatos:</p>
+                                    <p 
+                                        style={{ 
+                                            fontSize: "0.82rem", 
+                                            fontWeight: "600", 
+                                            color: "var(--text-secondary)", 
+                                            marginBottom: "8px" 
+                                        }}
+                                    >
+                                        Candidatos:
+                                    </p>
+
                                     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                                         {(v.candidatos || []).map((c, i) => (
-                                            <span key={i} style={{
-                                                padding: "6px 14px", 
-                                                borderRadius: "20px", 
-                                                fontSize: "0.82rem",
-                                                background: "var(--bg-primary)", 
-                                                border: "1px solid var(--border-color)", 
-                                                color: "var(--text-primary)"
-                                            }}>{c}</span>
+                                            <span 
+                                                key={i} 
+                                                style={{
+                                                    padding: "6px 14px", 
+                                                    borderRadius: "20px", 
+                                                    fontSize: "0.82rem",
+                                                    background: "var(--bg-primary)", 
+                                                    border: "1px solid var(--border-color)", 
+                                                    color: "var(--text-primary)"
+                                                }}
+                                            >
+                                                {c}
+                                            </span>
                                         ))}
                                     </div>
                                 </div>
 
-                                {/* Resultado */}
+                                {/* --- RESULTADO --- */}
                                 {v.resultado && v.totalVotos > 0 && (
                                     <div style={{ marginBottom: "12px" }}>
                                         <p style={{ fontSize: "0.82rem", fontWeight: "600", color: "var(--text-secondary)", marginBottom: "8px" }}>
@@ -378,7 +467,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                     </div>
                                 )}
 
-                                {/* Ações */}
+                                {/* --- AÇÕES --- */}
                                 {v.status === "ABERTA" && (
                                     <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                         <button 
@@ -418,7 +507,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                 </div>
             )}
 
-            {/* Modal confirmação */}
+            {/* --- MODAL CONFIRMAÇÃO --- */}
             {modalConfirm.aberto && (
                 <div className="modal-overlay" onClick={() => setModalConfirm({ aberto: false, id: null, acao: null })}>
                     <div className="modal-confirm" onClick={e => e.stopPropagation()}>

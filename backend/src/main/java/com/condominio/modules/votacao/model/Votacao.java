@@ -22,7 +22,7 @@ public class Votacao {
     private String descricao;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String candidatos; // JSON array: ["Nome1","Nome2"]
+    private String candidatos; 
 
     @Column(nullable = false)
     private LocalDate dataInicio;
