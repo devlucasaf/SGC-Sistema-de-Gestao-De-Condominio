@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -53,12 +54,51 @@ public class AutenticacaoController {
                     .body(Collections.singletonMap("message", "E-mail ou senha inválidos."));
         }
 
-        // --- GERA O TOKEN JWT ---
+        // --- GERA O ACCESS TOKEN E O REFRESH TOKEN ---
         String token = tokenService.gerarToken(usuario);
+        String refreshToken = tokenService.gerarRefreshToken(usuario);
 
         log.info("Login realizado com sucesso: {} ({})", usuario.getNome(), usuario.getTipoUsuario());
 
-        // --- DEVOLVE O TOKEN ---
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        // --- DEVOLVE OS TOKENS ---
+        return ResponseEntity.ok(new LoginResponseDTO(token, refreshToken));
+    }
+
+    // --- ENDPOINT DE REFRESH TOKEN ---
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
+        String refreshToken = body.get("refreshToken");
+
+        if (refreshToken == null || refreshToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("message", "Refresh token é obrigatório."));
+        }
+
+        try {
+            // --- VALIDA SE É UM REFRESH TOKEN ---
+            String tokenType = tokenService.getTokenType(refreshToken);
+            if (!"refresh".equals(tokenType)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Collections.singletonMap("message", "Token inválido."));
+            }
+
+            // --- EXTRAI O USUÁRIO DO REFRESH TOKEN ---
+            String email = tokenService.getSubject(refreshToken);
+            Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Collections.singletonMap("message", "Usuário não encontrado."));
+            }
+
+            // --- GERA NOVOS TOKENS ---
+            String novoToken = tokenService.gerarToken(usuario);
+            String novoRefreshToken = tokenService.gerarRefreshToken(usuario);
+
+            return ResponseEntity.ok(new LoginResponseDTO(novoToken, novoRefreshToken));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap("message", "Refresh token inválido ou expirado."));
+        }
     }
 }
