@@ -32,9 +32,7 @@ public class FrontendStarter {
             try {
                 if (isViteRodando()) {
                     System.out.println(" Frontend já está rodando em " + FRONTEND_URL);
-                }
-
-                else {
+                } else {
                     System.out.println(" Iniciando o frontend (npm run dev)...");
                     iniciarVite();
 
@@ -43,9 +41,7 @@ public class FrontendStarter {
 
                     if (pronto) {
                         System.out.println("  ✔ Frontend iniciado com sucesso!");
-                    }
-
-                    else {
+                    } else {
                         System.out.println("  ⚠ Frontend demorou para iniciar. Verifique o terminal.");
                     }
                 }
@@ -62,9 +58,7 @@ public class FrontendStarter {
                 // --- ABRE O FRONTEND NO NAVEGADOR ---
                 abrirNoNavegador(FRONTEND_URL);
 
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println(" Não foi possível iniciar o frontend automaticamente.");
                 System.out.println(" Inicie manualmente: cd frontend && npm run dev");
                 System.out.println(" Erro: " + e.getMessage());
@@ -84,9 +78,7 @@ public class FrontendStarter {
             connection.disconnect();
 
             return responseCode == 200;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -125,9 +117,7 @@ public class FrontendStarter {
                 while ((line = reader.readLine()) != null) {
                     System.out.println("  [Vite] " + line);
                 }
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 // Processo encerrado
             }
         }, "vite-output-reader").start();
@@ -149,9 +139,7 @@ public class FrontendStarter {
         for (int i = 0; i < tentativas; i++) {
             try {
                 Thread.sleep(2000);
-            }
-
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 return false;
             }
@@ -170,9 +158,7 @@ public class FrontendStarter {
                 Desktop.getDesktop().browse(new URI(url));
                 System.out.println(" Navegador aberto em: " + url);
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(" Não foi possível abrir o navegador: " + e.getMessage());
         }
     }
