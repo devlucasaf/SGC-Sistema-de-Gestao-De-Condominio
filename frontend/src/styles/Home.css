@@ -3,7 +3,72 @@
     background-color: var(--bg-primary);
     min-height: 100vh;
     transition: background-color var(--transition-normal);
+
+/* --- CALENDÁRIO: DATAS COM RESERVAS --- */
 }
+
+.react-datepicker__day.calendario-reserva {
+    background-color: rgba(46, 204, 113, 0.2) !important;
+    color: #2ecc71 !important;
+    border-radius: 50% !important;
+    font-weight: 700 !important;
+    position: relative;
+}
+
+.react-datepicker__day.calendario-reserva::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #2ecc71;
+}
+
+/* --- CALENDÁRIO: DATAS COM MANUTENÇÕES --- */
+.react-datepicker__day.calendario-manutencao {
+    background-color: rgba(243, 156, 18, 0.2) !important;
+    color: #f39c12 !important;
+    border-radius: 50% !important;
+    font-weight: 700 !important;
+    position: relative;
+}
+
+.react-datepicker__day.calendario-manutencao::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #f39c12;
+}
+
+/* --- CALENDÁRIO: AMBOS --- */
+.react-datepicker__day.calendario-ambos {
+    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(243,156,18,0.2)) !important;
+    color: var(--text-primary) !important;
+    border-radius: 50% !important;
+    font-weight: 700 !important;
+    position: relative;
+}
+
+.react-datepicker__day.calendario-ambos::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 5px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #2ecc71, #f39c12);
+}
+
 
 /* --- NAVBAR --- */
 .navbar {

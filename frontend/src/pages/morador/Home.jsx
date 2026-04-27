@@ -1,20 +1,31 @@
 import React, { useState, useEffect }   from    "react";
 import { useNavigate, Link }            from    "react-router-dom";
+import  DatePicker, { registerLocale }  from    "react-datepicker";
+import  { ptBR }                        from    "date-fns/locale";
 
 import  api         from    "../../services/api.js";
 import  Loading     from    "../../components/Loading";
 
+import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/Home.css";
 
-import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun, FiLock, FiMessageSquare, FiFileText, FiPackage, FiCalendar, FiAlertTriangle, FiClock } from "react-icons/fi";
+import { FiUser, FiSettings, FiHome, FiLogOut, FiMoon, FiSun, FiLock, FiMessageSquare, FiFileText, FiPackage, FiCalendar, FiAlertTriangle, FiClock, FiTool } from "react-icons/fi";
+
+registerLocale("pt-BR", ptBR);
 
 function Home() {
-    const [avisos   ,   setAvisos   ]   = useState([]);
-    const [perfil   ,   setPerfil   ]   = useState({});
-    const [historico,   setHistorico]   = useState([]);
+    const [avisos   ,       setAvisos          ]   = useState([]);
+    const [perfil   ,       setPerfil          ]   = useState({});
+    const [historico,       setHistorico       ]   = useState([]);
 
-    const [carregando, setCarregando]   = useState(true);
-    const [menuAberto, setMenuAberto]   = useState(false);
+    const [carregando,      setCarregando      ]   = useState(true);
+    const [menuAberto,      setMenuAberto      ]   = useState(false);
+
+    // --- CALENDÁRIO ---
+    const [dataSelecionada, setDataSelecionada ] = useState(new Date());
+    const [datasReservas,   setDatasReservas   ] = useState([]);
+    const [datasManutencoes,setDatasManutencoes] = useState([]);
+    const [eventosNoDia,    setEventosNoDia    ] = useState([]);
 
     const navigate = useNavigate();
 
@@ -39,6 +50,7 @@ function Home() {
 
     function handleLogout() {
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("perfilUsuario");
         navigate("/login");
     }
@@ -74,6 +86,61 @@ function Home() {
 
         buscarAvisos();
     }, []);
+
+    // --- BUSCAR DADOS DO CALENDÁRIO ---
+    useEffect(() => {
+        async function buscarCalendario() {
+            try {
+                const [resReservas, resManutencoes] = await Promise.all([
+                    api.get("/reservas/minhas-reservas").catch(() => ({ data: [] })),
+                    api.get("/api/manutencoes/proximas").catch(() => ({ data: [] })),
+                ]);
+
+                const reservas = (resReservas.data || []).filter(r => r.status !== "CANCELADA");
+                const manutencoes = resManutencoes.data || [];
+
+                setDatasReservas(reservas.map(r => ({
+                    data: new Date(r.dataReserva + "T00:00:00"),
+                    nome: r.nomeAreaLazer,
+                    horaInicio: r.horaInicio,
+                    horaFim: r.horaFim,
+                })));
+
+                setDatasManutencoes(manutencoes.map(m => ({
+                    data: new Date(m.dataInicio),
+                    titulo: m.titulo,
+                    tipo: m.tipo,
+                })));
+            } catch (err) {
+                console.error("Erro ao buscar calendário:", err);
+            }
+        }
+        buscarCalendario();
+    }, []);
+
+    // --- EVENTOS NO DIA SELECIONADO ---
+    useEffect(() => {
+        const diaStr = dataSelecionada.toISOString().split("T")[0];
+        const eventos = [];
+
+        datasReservas.forEach(r => {
+            if (r.data.toISOString().split("T")[0] === diaStr) {
+                eventos.push({
+                    tipo: "reserva",
+                    texto: `Reserva: ${r.nome}${r.horaInicio ? ` (${r.horaInicio.substring(0,5)} - ${r.horaFim.substring(0,5)})` : ""
+                    }`
+                });
+            }
+        });
+
+        datasManutencoes.forEach(m => {
+            if (m.data.toISOString().split("T")[0] === diaStr) {
+                eventos.push({ tipo: "manutencao", texto: `Manutenção: ${m.titulo}` });
+            }
+        });
+
+        setEventosNoDia(eventos);
+    }, [dataSelecionada, datasReservas, datasManutencoes]);
 
     // --- BUSCAR HISTÓRICO DE AÇÕES ---
     useEffect(() => {
@@ -308,6 +375,72 @@ function Home() {
                             </div>
                         ))
                     )}
+                </div>
+
+                {/* --- CALENDÁRIO DE EVENTOS --- */}
+                <div className="frame-comunicados" style={{ marginTop: "24px" }}>
+                    <h2 className="comunicados-titulo">
+                        <FiCalendar style={{ marginRight: "8px", verticalAlign: "middle" }} />
+                        Calendário de Eventos
+                    </h2>
+                    <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", alignItems: "flex-start" }}>
+                        <div>
+                            <DatePicker
+                                selected={dataSelecionada}
+                                onChange={(date) => setDataSelecionada(date)}
+                                inline
+                                locale="pt-BR"
+                                calendarClassName="datepicker-calendario"
+                                dayClassName={(date) => {
+                                    const dStr = date.toISOString().split("T")[0];
+                                    const temReserva = datasReservas.some(r => r.data.toISOString().split("T")[0] === dStr);
+                                    const temManutencao = datasManutencoes.some(m => m.data.toISOString().split("T")[0] === dStr);
+                                    if (temReserva && temManutencao) return "calendario-ambos";
+                                    if (temReserva) return "calendario-reserva";
+                                    if (temManutencao) return "calendario-manutencao";
+                                    return undefined;
+                                }}
+                            />
+                            <div style={{ display: "flex", gap: "14px", marginTop: "10px", fontSize: "0.78rem" }}>
+                                <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                                    <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#2ecc71", display: "inline-block" }}></span>
+                                    Reservas
+                                </span>
+                                <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                                    <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#f39c12", display: "inline-block" }}></span>
+                                    Manutenções
+                                </span>
+                            </div>
+                        </div>
+
+                        <div style={{ flex: 1, minWidth: "200px" }}>
+                            <h4 style={{ margin: "0 0 10px", color: "var(--text-primary)", fontSize: "0.95rem" }}>
+                                Eventos em {dataSelecionada.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
+                            </h4>
+                            {eventosNoDia.length === 0 ? (
+                                <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Nenhum evento neste dia.</p>
+                            ) : (
+                                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                                    {eventosNoDia.map((ev, i) => (
+                                        <div key={i} style={{
+                                            padding: "10px 14px",
+                                            borderRadius: "8px",
+                                            borderLeft: `4px solid ${ev.tipo === "reserva" ? "#2ecc71" : "#f39c12"}`,
+                                            background: ev.tipo === "reserva" ? "rgba(46,204,113,0.08)" : "rgba(243,156,18,0.08)",
+                                            fontSize: "0.85rem",
+                                            color: "var(--text-primary)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "8px"
+                                        }}>
+                                            {ev.tipo === "reserva" ? <FiCalendar style={{ color: "#2ecc71" }} /> : <FiTool style={{ color: "#f39c12" }} />}
+                                            {ev.texto}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* --- HISTÓRICO DE AÇÕES --- */}
