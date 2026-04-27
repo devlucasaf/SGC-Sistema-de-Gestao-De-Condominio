@@ -1,6 +1,5 @@
 package com.condominio.modules.manutencao.service;
 
-// --- IMPORTAÇÕES ---
 import com.condominio.modules.manutencao.dto.ManutencaoRequestDTO;
 import com.condominio.modules.manutencao.dto.ManutencaoResponseDTO;
 import com.condominio.modules.manutencao.model.Manutencao;
@@ -19,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// --- SERVICE DE MANUTENÇÃO ---
 @Service
 public class ManutencaoService {
 
@@ -36,10 +34,12 @@ public class ManutencaoService {
                 .orElseThrow(() -> new RuntimeException("Síndico não encontrado."));
 
         Manutencao m = new Manutencao();
+
         m.setTitulo(dto.getTitulo());
         m.setDescricao(dto.getDescricao());
         m.setTipo(TipoManutencao.valueOf(dto.getTipo().toUpperCase()));
         m.setDataInicio(LocalDateTime.parse(dto.getDataInicio()));
+
         if (dto.getDataFim() != null && !dto.getDataFim().isBlank()) {
             m.setDataFim(LocalDateTime.parse(dto.getDataFim()));
         }

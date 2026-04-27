@@ -1,11 +1,9 @@
 package com.condominio.modules.manutencao.dto;
 
-// --- IMPORTAÇÕES ---
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-// --- DTO DE REQUISIÇÃO PARA MANUTENÇÃO ---
 @Data
 public class ManutencaoRequestDTO {
 

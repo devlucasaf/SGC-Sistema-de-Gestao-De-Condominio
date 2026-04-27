@@ -24,6 +24,7 @@ import SindicoReservas      from "./components/SindicoReservas";
 import SindicoMeuPerfil     from "./components/SindicoMeuPerfil";
 import SindicoMinhaUnidade  from "./components/SindicoMinhaUnidade";
 import SindicoVotacao       from "./components/SindicoVotacao";
+import SindicoManutencoes   from "./components/SindicoManutencoes";
 
 registerLocale("pt-BR", ptBR);
 
@@ -113,6 +114,7 @@ function PainelSindico() {
     // --- LOGOUT ---
     function handleLogout() {
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("perfilUsuario");
         navigate("/login");
     }
@@ -333,6 +335,12 @@ function PainelSindico() {
                         </button>
                     </li>
 
+                    <li>
+                        <button className={abaAtiva === "manutencoes" ? "ativo" : ""} onClick={() => setAbaAtiva("manutencoes")}>
+                            Manutenções
+                        </button>
+                    </li>
+
                     <li style={{ borderTop: "1px solid var(--border-color)", marginTop: "8px", paddingTop: "8px" }}>
                         <button className={abaAtiva === "minhas-entregas" ? "ativo" : ""} onClick={() => { setAbaAtiva("minhas-entregas"); carregarMinhasEntregas(); }}>
                             Minhas Entregas
@@ -376,6 +384,7 @@ function PainelSindico() {
                         {abaAtiva === "solicitacoes" && "Solicitações dos Moradores"}
                         {abaAtiva === "infracoes" && "Multas e Advertências"}
                         {abaAtiva === "votacao" && "Votação para Síndico"}
+                        {abaAtiva === "manutencoes" && "Manutenções Programadas"}
                         {abaAtiva === "minhas-entregas" && "Minhas Entregas"}
                         {abaAtiva === "minhas-reservas" && "Reservas de Espaços"}
                         {abaAtiva === "meu-perfil" && "Meu Perfil"}
@@ -466,6 +475,14 @@ function PainelSindico() {
                             )}
                             {abaAtiva === "votacao" && (
                                 <SindicoVotacao
+                                    api={api}
+                                    toast={toast}
+                                    formatarData={formatarData}
+                                />
+                            )}
+                            {abaAtiva === "manutencoes" && (
+                                <SindicoManutencoes
+                                    perfil={perfil}
                                     api={api}
                                     toast={toast}
                                     formatarData={formatarData}

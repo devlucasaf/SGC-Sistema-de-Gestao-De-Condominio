@@ -1,6 +1,5 @@
 package com.condominio.modules.manutencao.rest;
 
-// --- IMPORTAÇÕES ---
 import com.condominio.modules.manutencao.dto.ManutencaoRequestDTO;
 import com.condominio.modules.manutencao.dto.ManutencaoResponseDTO;
 import com.condominio.modules.manutencao.service.ManutencaoService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-// --- CONTROLLER DE MANUTENÇÕES ---
 @RestController
 @RequestMapping("/api/manutencoes")
 public class ManutencaoController {

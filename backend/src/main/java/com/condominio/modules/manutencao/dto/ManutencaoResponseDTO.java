@@ -1,11 +1,9 @@
 package com.condominio.modules.manutencao.dto;
 
-// --- IMPORTAÇÕES ---
 import com.condominio.modules.manutencao.model.Manutencao;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-// --- DTO DE RESPOSTA PARA MANUTENÇÃO ---
 @Data
 public class ManutencaoResponseDTO {
 
