@@ -4,5 +4,6 @@ public enum TipoUsuario {
     MORADOR,
     SINDICO,
     PORTEIRO,
-    FUNCIONARIO
+    FUNCIONARIO,
+    ADMIN
 }

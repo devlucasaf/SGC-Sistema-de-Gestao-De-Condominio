@@ -1,8 +1,4 @@
-/* ================================================
-   PAINEL ADMIN — CSS PRÓPRIO
-   ================================================ */
-
-/* --- SIDEBAR ADMIN (ROXO) --- */
+/* --- SIDEBAR ADMIN --- */
 .painel-admin .sidebar-sindico {
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
 }
@@ -212,7 +208,7 @@
     color: var(--text-muted);
 }
 
-/* --- SCROLL LATERAL NA TABELA (MOBILE) --- */
+/* --- SCROLL LATERAL NA TABELA --- */
 .admin-tabela-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

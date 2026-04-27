@@ -25,6 +25,8 @@ import Votacao              from          "./pages/morador/Votacao";
 
 import PainelPorteiro       from          "./pages/portaria/PainelPorteiro";
 
+import PainelAdmin          from          "./pages/admin/PainelAdmin";
+
 import RotaPrivada          from          "./components/RotaPrivada";
 
 import "./App.css";
@@ -189,6 +191,15 @@ function App() {
           element={
             <RotaPrivada>
               <PainelPorteiro />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/painel-admin"
+          element={
+            <RotaPrivada>
+              <PainelAdmin />
             </RotaPrivada>
           }
         />

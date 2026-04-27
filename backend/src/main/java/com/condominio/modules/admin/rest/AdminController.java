@@ -1,13 +1,15 @@
 package com.condominio.modules.admin.rest;
 
-// --- IMPORTAÇÕES ---
 import com.condominio.modules.admin.dto.AdminDashboardDTO;
 import com.condominio.modules.admin.dto.CriarSindicoDTO;
+
 import com.condominio.modules.sindico.model.Sindico;
 import com.condominio.modules.sindico.repository.SindicoRepository;
+
 import com.condominio.modules.usuario.model.TipoUsuario;
 import com.condominio.modules.usuario.model.Usuario;
 import com.condominio.modules.usuario.repository.UsuarioRepository;
+
 import com.condominio.modules.morador.repository.MoradorRepository;
 import com.condominio.modules.porteiro.repository.PorteiroRepository;
 import com.condominio.modules.unidade.repository.UnidadeRepository;
@@ -25,24 +27,40 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// --- CONTROLLER DO ADMIN ---
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired private UsuarioRepository usuarioRepository;
-    @Autowired private SindicoRepository sindicoRepository;
-    @Autowired private MoradorRepository moradorRepository;
-    @Autowired private PorteiroRepository porteiroRepository;
-    @Autowired private UnidadeRepository unidadeRepository;
-    @Autowired private ReservaRepository reservaRepository;
-    @Autowired private ManutencaoRepository manutencaoRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private SindicoRepository sindicoRepository;
+
+    @Autowired
+    private MoradorRepository moradorRepository;
+
+    @Autowired
+    private PorteiroRepository porteiroRepository;
+
+    @Autowired
+    private UnidadeRepository unidadeRepository;
+
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    @Autowired
+    private ManutencaoRepository manutencaoRepository;
+
+    @Autowired
+
+    private PasswordEncoder passwordEncoder;
 
     // --- DASHBOARD COM ESTATÍSTICAS GERAIS ---
     @GetMapping("/dashboard")
     public ResponseEntity<AdminDashboardDTO> dashboard() {
         AdminDashboardDTO dto = new AdminDashboardDTO();
+
         dto.setTotalUsuarios(usuarioRepository.count());
         dto.setTotalMoradores(moradorRepository.count());
         dto.setTotalSindicos(sindicoRepository.count());
@@ -50,6 +68,7 @@ public class AdminController {
         dto.setTotalUnidades(unidadeRepository.count());
         dto.setTotalReservas(reservaRepository.count());
         dto.setTotalManutencoes(manutencaoRepository.count());
+
         return ResponseEntity.ok(dto);
     }
 
@@ -59,6 +78,7 @@ public class AdminController {
         List<Sindico> sindicos = sindicoRepository.findAll();
         List<Map<String, Object>> lista = sindicos.stream().map(s -> {
             Map<String, Object> map = new LinkedHashMap<>();
+
             map.put("id", s.getId());
             map.put("nome", s.getUsuario().getNome());
             map.put("email", s.getUsuario().getEmail());
@@ -67,6 +87,7 @@ public class AdminController {
             map.put("status", s.getStatus());
             map.put("dataInicioMandato", s.getDataInicioMandato());
             map.put("dataFimMandato", s.getDataFimMandato());
+
             return map;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(lista);
@@ -82,6 +103,7 @@ public class AdminController {
 
         // --- CRIA O USUÁRIO ---
         Usuario usuario = new Usuario();
+
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setCpf(dto.getCpf());
@@ -94,6 +116,7 @@ public class AdminController {
 
         // --- CRIA O SÍNDICO ---
         Sindico sindico = new Sindico();
+
         sindico.setUsuario(usuarioSalvo);
         sindico.setDataInicioMandato(LocalDate.now());
         sindico.setStatus("ATIVO");
@@ -121,11 +144,13 @@ public class AdminController {
         List<Usuario> usuarios = usuarioRepository.findAll();
         List<Map<String, Object>> lista = usuarios.stream().map(u -> {
             Map<String, Object> map = new LinkedHashMap<>();
+
             map.put("id", u.getId());
             map.put("nome", u.getNome());
             map.put("email", u.getEmail());
             map.put("tipoUsuario", u.getTipoUsuario().name());
             map.put("cpf", u.getCpf());
+
             return map;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(lista);

@@ -55,6 +55,7 @@ public class DataSeeder implements CommandLineRunner {
         // --- CORRIGE SENHAS QUE ESTÃO EM TEXTO PURO (SEM BCRYPT) ---
         corrigirSenhasEmTextoPuro();
 
+        // --- CRIA AS UNIDADES ---
         if (unidadeRepository.count() == 0) {
             System.out.println("Criando unidades padrão...");
 
@@ -76,6 +77,7 @@ public class DataSeeder implements CommandLineRunner {
             unidadeRepository.saveAll(Arrays.asList(unidade1, unidade2, unidade3));
         }
 
+        // --- CRIA OS PORTEIROS ---
         if (porteiroRepository.count() == 0) {
             System.out.println("Criando porteiro padrão...");
 
@@ -184,6 +186,23 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         log.info("Banco de dados populado e pronto para uso!");
+
+        // --- CRIA O ADMIN PADRÃO ---
+        if (usuarioRepository.findByEmail("augustoditador@admin.com").isEmpty()) {
+            log.info("Criando usuário ADMIN padrão...");
+            Usuario admin = new Usuario();
+
+            admin.setNome("Augusto Leite");
+            admin.setEmail("augustoditador@admin.com");
+            admin.setCpf("00000000000");
+            admin.setSenhaHash(passwordEncoder.encode("admin123"));
+            admin.setTelefone("00000000000");
+            admin.setDataNascimento(java.time.LocalDate.of(1990, 1, 1));
+            admin.setTipoUsuario(TipoUsuario.ADMIN);
+
+            usuarioRepository.save(admin);
+            log.info("Admin criado: augustoditador@admin.com / admin123");
+        }
     }
 
     // --- MÉTODO PARA CORRIGIR SENHAS ---

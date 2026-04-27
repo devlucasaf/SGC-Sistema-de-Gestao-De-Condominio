@@ -40,9 +40,11 @@ function Login() {
                 senha: senha.trim()
             });
 
-            // --- SALVA O TOKEN JWT NO NAVEGADOR ---
+            // --- SALVA O TOKEN JWT E O REFRESH TOKEN NO NAVEGADOR ---
             const token = response.data.token;
+            const refreshToken = response.data.refreshToken;
             localStorage.setItem("token", token);
+            localStorage.setItem("refreshToken", refreshToken);
 
             // --- BUSCA OS DADOS DO USUÁRIO LOGADO ---
             try {
@@ -62,6 +64,8 @@ function Login() {
                     navigate("/home");
                 } else if (perfil.data.tipoUsuario === "PORTEIRO") {
                     navigate("/painel-porteiro");
+                } else if (perfil.data.tipoUsuario === "ADMIN") {
+                    navigate("/painel-admin");
                 } else {
                     navigate("/home");
                 }
