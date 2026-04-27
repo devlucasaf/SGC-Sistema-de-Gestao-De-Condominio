@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -17,5 +18,7 @@ public class ReservaResponseDTO {
     private String              nomeAreaLazer;
     private Double              valorAreaLazer;
     private LocalDate           dataReserva;
+    private LocalTime           horaInicio;
+    private LocalTime           horaFim;
     private StatusReserva       status;
 }
