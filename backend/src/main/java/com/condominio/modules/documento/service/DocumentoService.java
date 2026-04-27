@@ -25,9 +25,11 @@ public class DocumentoService {
 
     @Transactional
     public DocumentoResponseDTO criar(DocumentoRequestDTO dto) {
+        // --- BUSCA O SÍNDICO PELO ID ---
         Sindico sindico = sindicoRepository.findById(dto.getIdSindico())
                 .orElseThrow(() -> new RuntimeException("Síndico não encontrado."));
 
+        // --- MONTA A ENTIDADE DOCUMENTO ---
         Documento doc = new Documento();
 
         doc.setTitulo(dto.getTitulo());
@@ -36,10 +38,12 @@ public class DocumentoService {
         doc.setDataCriacao(LocalDateTime.now());
         doc.setSindico(sindico);
 
+        // --- SALVA E RETORNA O DTO DE RESPOSTA ---
         Documento salvo = documentoRepository.save(doc);
         return DocumentoResponseDTO.fromEntity(salvo);
     }
 
+    // --- LISTAR TODOS OS DOCUMENTOS ORDENADOS POR DATA DE CRIAÇÃO ---
     public List<DocumentoResponseDTO> listarTodos() {
         return documentoRepository.findAllByOrderByDataCriacaoDesc()
                 .stream()
@@ -47,6 +51,7 @@ public class DocumentoService {
                 .collect(Collectors.toList());
     }
 
+    // --- LISTAR DOCUMENTOS FILTRADOS POR CATEGORIA ---
     public List<DocumentoResponseDTO> listarPorCategoria(String categoria) {
         return documentoRepository.findByCategoriaOrderByDataCriacaoDesc(categoria.toUpperCase())
                 .stream()
@@ -54,8 +59,10 @@ public class DocumentoService {
                 .collect(Collectors.toList());
     }
 
+    // --- ATUALIZAR UM DOCUMENTO EXISTENTE PELO ID ---
     @Transactional
     public DocumentoResponseDTO atualizar(Long id, DocumentoRequestDTO dto) {
+        // --- BUSCA O DOCUMENTO PELO ID ---
         Documento doc = documentoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Documento não encontrado."));
 
@@ -64,16 +71,18 @@ public class DocumentoService {
         doc.setCategoria(dto.getCategoria().toUpperCase());
         doc.setDataAtualizacao(LocalDateTime.now());
 
+        // --- SALVA E RETORNA O DTO ATUALIZADO ---
         Documento atualizado = documentoRepository.save(doc);
         return DocumentoResponseDTO.fromEntity(atualizado);
     }
 
+    // --- DELETAR UM DOCUMENTO PELO ID ---
     @Transactional
     public void deletar(Long id) {
+        // --- VERIFICA SE O DOCUMENTO EXISTE ---
         if (!documentoRepository.existsById(id)) {
             throw new RuntimeException("Documento não encontrado.");
         }
         documentoRepository.deleteById(id);
     }
 }
-

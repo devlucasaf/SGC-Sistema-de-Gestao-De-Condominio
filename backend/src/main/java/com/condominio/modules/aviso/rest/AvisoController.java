@@ -15,21 +15,25 @@ import java.util.List;
 @RequestMapping("/avisos")
 public class AvisoController {
 
+    // --- INJEÇÃO DO SERVICE DE AVISOS ---
     @Autowired
     private AvisoService avisoService;
 
+    // --- ENDPOINT PARA PUBLICAR UM NOVO AVISO ---
     @PostMapping
     public ResponseEntity<AvisoResponseDTO> publicar(@RequestBody @Valid AvisoRequestDTO dto) {
         AvisoResponseDTO response = avisoService.publicarAviso(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // --- ENDPOINT PARA LISTAR TODOS OS AVISOS DO MURAL ---
     @GetMapping
     public ResponseEntity<List<AvisoResponseDTO>> listarMural() {
         List<AvisoResponseDTO> mural = avisoService.listarMural();
         return ResponseEntity.ok(mural);
     }
 
+    // --- ENDPOINT PARA DELETAR UM AVISO PELO ID ---
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         avisoService.deletarAviso(id);

@@ -15,6 +15,7 @@ public class DocumentoResponseDTO {
     private LocalDateTime dataAtualizacao;
     private String        nomeSindico;
 
+    // --- CONVERTE ENTIDADE DOCUMENTO PARA DTO DE RESPOSTA ---
     public static DocumentoResponseDTO fromEntity(Documento doc) {
         DocumentoResponseDTO dto = new DocumentoResponseDTO();
 
@@ -29,4 +30,3 @@ public class DocumentoResponseDTO {
         return dto;
     }
 }
-
