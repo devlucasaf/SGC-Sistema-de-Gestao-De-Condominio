@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiCalendar } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 
 function SindicoVotacao({ api, toast, formatarData }) {
@@ -315,29 +315,45 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                 >
                                     Data de início
                                 </label>
-                                <DatePicker 
-                                    selected={dataInicio} 
-                                    onChange={d => setDataInicio(d)} 
-                                    locale="pt-BR" 
-                                    dateFormat="dd/MM/yyyy"
-                                    minDate={new Date()} 
-                                    placeholderText="Selecione" 
-                                    className="input-datepicker" 
-                                    required 
-                                />
+                                <div className="sindico-datepicker-wrapper">
+                                    <DatePicker
+                                        selected={dataInicio}
+                                        onChange={d => setDataInicio(d)}
+                                        locale="pt-BR"
+                                        dateFormat="dd/MM/yyyy"
+                                        minDate={new Date()}
+                                        placeholderText="Selecione a data"
+                                        className="sindico-datepicker-input"
+                                        calendarClassName="datepicker-calendario"
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        required
+                                        autoComplete="off"
+                                    />
+                                    <FiCalendar className="sindico-datepicker-icone" />
+                                </div>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>Data de encerramento</label>
-                                <DatePicker 
-                                    selected={dataFim} 
-                                    onChange={d => setDataFim(d)} 
-                                    locale="pt-BR" 
-                                    dateFormat="dd/MM/yyyy"
-                                    minDate={dataInicio || new Date()} 
-                                    placeholderText="Selecione" 
-                                    className="input-datepicker" 
-                                    required
-                                />
+                                <div className="sindico-datepicker-wrapper">
+                                    <DatePicker
+                                        selected={dataFim}
+                                        onChange={d => setDataFim(d)}
+                                        locale="pt-BR"
+                                        dateFormat="dd/MM/yyyy"
+                                        minDate={dataInicio || new Date()}
+                                        placeholderText="Selecione a data"
+                                        className="sindico-datepicker-input"
+                                        calendarClassName="datepicker-calendario"
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        required
+                                        autoComplete="off"
+                                    />
+                                    <FiCalendar className="sindico-datepicker-icone" />
+                                </div>
                             </div>
                         </div>
 
