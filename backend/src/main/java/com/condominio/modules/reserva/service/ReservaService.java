@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +29,7 @@ public class ReservaService {
     @Autowired
     private AreaLazerRepository areaLazerRepository;
 
+    // --- RESERVAR ESPAÇO COM VALIDAÇÃO DE CONFLITO DE HORÁRIO ---
     @Transactional
     public ReservaResponseDTO reservar(ReservaRequestDTO dto, Morador moradorLogado) {
 
@@ -37,16 +37,21 @@ public class ReservaService {
         AreaLazer area = areaLazerRepository.findById(dto.getIdAreaLazer())
                 .orElseThrow(() -> new RuntimeException("Área de lazer não encontrada"));
 
-        // --- VERIFICA SE EXISTE RESERVA PARA A MESMA DATA E ÁREA DE LAZER ---
-        Optional<Reserva> reservaExistente = reservaRepository
-                .findByAreaLazerIdAndDataReservaAndStatusNot(
-                        dto.getIdAreaLazer(),
-                        dto.getDataReserva(),
-                        StatusReserva.CANCELADA
-                );
+        // --- VALIDA QUE HORA FIM É APÓS HORA INÍCIO ---
+        if (dto.getHoraFim().isBefore(dto.getHoraInicio()) || dto.getHoraFim().equals(dto.getHoraInicio())) {
+            throw new RuntimeException("O horário de término deve ser após o horário de início.");
+        }
 
-        if (reservaExistente.isPresent()) {
-            throw new RuntimeException("Esta área já está reservada para a data selecionada");
+        // --- VERIFICA CONFLITO DE HORÁRIO ---
+        List<Reserva> conflitos = reservaRepository.findConflitosHorario(
+                dto.getIdAreaLazer(),
+                dto.getDataReserva(),
+                dto.getHoraInicio(),
+                dto.getHoraFim()
+        );
+
+        if (!conflitos.isEmpty()) {
+            throw new RuntimeException("Esta área já possui reserva neste horário. Escolha outro horário.");
         }
 
         // --- CRIA A RESERVA ---
@@ -54,9 +59,9 @@ public class ReservaService {
 
         reserva.setAreaLazer(area);
         reserva.setMorador(moradorLogado);
-
         reserva.setDataReserva(dto.getDataReserva());
-
+        reserva.setHoraInicio(dto.getHoraInicio());
+        reserva.setHoraFim(dto.getHoraFim());
         reserva.setStatus(StatusReserva.APROVADA);
 
         Reserva reservaSalva = reservaRepository.save(reserva);
@@ -64,6 +69,7 @@ public class ReservaService {
         return converterParaDTO(reservaSalva);
     }
 
+    // --- CANCELAR RESERVA ---
     @Transactional
     public void cancelar(Long idReserva, Long idMoradorLogado) {
         Reserva reserva = reservaRepository.findById(idReserva)
@@ -77,6 +83,7 @@ public class ReservaService {
         reservaRepository.save(reserva);
     }
 
+    // --- BUSCAR RESERVAS DO MORADOR ---
     public List<ReservaResponseDTO> buscarPorMorador(Long idMorador) {
         List<Reserva> reservas = reservaRepository.findByMoradorIdOrderByDataReservaDesc(idMorador);
 
@@ -85,6 +92,7 @@ public class ReservaService {
                 .collect(Collectors.toList());
     }
 
+    // --- LISTAR TODAS PARA PORTEIRO ---
     @Transactional(readOnly = true)
     public List<ReservaPorteiroDTO> listarTodasParaPorteiro() {
         return reservaRepository.findAllByOrderByDataReservaDesc()
@@ -93,6 +101,15 @@ public class ReservaService {
                 .collect(Collectors.toList());
     }
 
+    // --- BUSCAR RESERVAS OCUPADAS POR ÁREA (PARA CALENDÁRIO) ---
+    public List<ReservaResponseDTO> buscarOcupadasPorArea(Long idArea) {
+        return reservaRepository.findByAreaLazerIdAndStatusNotCancelada(idArea)
+                .stream()
+                .map(this::converterParaDTO)
+                .collect(Collectors.toList());
+    }
+
+    // --- CONVERTER ENTIDADE PARA DTO ---
     private ReservaResponseDTO converterParaDTO(Reserva reserva) {
         ReservaResponseDTO dto = new ReservaResponseDTO();
 
@@ -100,6 +117,8 @@ public class ReservaService {
         dto.setNomeAreaLazer(reserva.getAreaLazer().getNome());
         dto.setValorAreaLazer(reserva.getAreaLazer().getValor());
         dto.setDataReserva(reserva.getDataReserva());
+        dto.setHoraInicio(reserva.getHoraInicio());
+        dto.setHoraFim(reserva.getHoraFim());
         dto.setStatus(reserva.getStatus());
 
         return dto;
