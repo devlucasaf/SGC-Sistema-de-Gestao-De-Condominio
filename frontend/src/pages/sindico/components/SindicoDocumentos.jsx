@@ -87,8 +87,8 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
     function cancelarEdicaoDocumento() {
         setTituloDocumento("");
         setConteudoDocumento("");
-        setCategoriaDoc("REGRA");
-        setEditandoDoc(null);
+        setCategoriaDocumento("REGRA");
+        setEditandoDocumento(null);
     }
 
     function pedirConfirmacaoDeletarDocumento(id) {
@@ -150,7 +150,7 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                         className={`sindico-custom-select-trigger ${dropdownCatAberto ? "aberto" : ""} selecionado`}
                         onClick={() => setDropdownCatAberto(!dropdownCatAberto)}
                     >
-                        <span>{opcoesCat.find(o => o.valor === categoriaDoc)?.label || "Categoria"}</span>
+                        <span>{opcoesCat.find(o => o.valor === categoriaDocumento)?.label || "Categoria"}</span>
                         <FiChevronDown className={`sindico-custom-select-arrow ${dropdownCatAberto ? "girar" : ""}`} />
                     </div>
                     {dropdownCatAberto && (
@@ -158,9 +158,9 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                             {opcoesCat.map(op => (
                                 <li
                                     key={op.valor}
-                                    className={`sindico-custom-select-item ${categoriaDoc === op.valor ? "ativo" : ""}`}
+                                    className={`sindico-custom-select-item ${categoriaDocumento === op.valor ? "ativo" : ""}`}
                                     onClick={() => {
-                                        setCategoriaDoc(op.valor);
+                                        setCategoriaDocumento(op.valor);
                                         setDropdownCatAberto(false);
                                     }}
                                 >
@@ -172,8 +172,8 @@ function SindicoDocumentos({ documentos, setDocumentos, perfil, api, toast, form
                 </div>
                 <textarea
                     placeholder="Escreva o conteúdo do documento..."
-                    value={conteudoDoc}
-                    onChange={(e) => setConteudoDoc(e.target.value)}
+                    value={conteudoDocumento}
+                    onChange={(e) => setConteudoDocumento(e.target.value)}
                     required
                     style={{ minHeight: "120px" }}
                 />
