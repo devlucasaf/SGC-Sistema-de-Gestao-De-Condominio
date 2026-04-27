@@ -46,4 +46,11 @@ public class VisitanteController {
         List<VisitanteResponseDTO> lista = visitanteService.listarPresentes();
         return ResponseEntity.ok(lista);
     }
+
+    // --- LISTAR HISTÓRICO DE TODOS OS ACESSOS ---
+    @GetMapping("/historico")
+    public ResponseEntity<List<VisitanteResponseDTO>> listarHistorico() {
+        List<VisitanteResponseDTO> lista = visitanteService.listarTodos();
+        return ResponseEntity.ok(lista);
+    }
 }

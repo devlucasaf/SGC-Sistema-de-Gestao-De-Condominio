@@ -68,7 +68,8 @@ public class VisitanteService {
         acesso.setPorteiroEntrada(porteiro);
         acesso.setDataHoraEntrada(LocalDateTime.now());
 
-        return VisitanteResponseDTO.fromEntity(acesso);
+        RegistrarAcesso salvo = acessoRepository.save(acesso);
+        return VisitanteResponseDTO.fromEntity(salvo);
     }
 
     @Transactional
@@ -88,6 +89,14 @@ public class VisitanteService {
 
     public List<VisitanteResponseDTO> listarPresentes() {
         return acessoRepository.findByDataHoraSaidaIsNull()
+                .stream()
+                .map(VisitanteResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // --- LISTAR TODOS OS REGISTROS DE ACESSO (HISTÓRICO) ---
+    public List<VisitanteResponseDTO> listarTodos() {
+        return acessoRepository.findAllByOrderByDataHoraEntradaDesc()
                 .stream()
                 .map(VisitanteResponseDTO::fromEntity)
                 .collect(Collectors.toList());

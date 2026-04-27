@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { useToast } from "../../components/Toast";
-import { FiSun, FiMoon, FiPackage, FiAlertCircle, FiCalendar, FiFileText, FiUser } from "react-icons/fi";
+import { FiSun, FiMoon, FiPackage, FiAlertCircle, FiCalendar, FiFileText, FiUser, FiUsers } from "react-icons/fi";
 import "../../styles/PainelPorteiro.css";
 
 // --- COMPONENTES DAS ABAS ---
@@ -12,6 +12,7 @@ import PorteiroReclamacoes  from "./components/PorteiroReclamacoes";
 import PorteiroReservas     from "./components/PorteiroReservas";
 import PorteiroSolicitacoes from "./components/PorteiroSolicitacoes";
 import PorteiroMeuCadastro  from "./components/PorteiroMeuCadastro";
+import PorteiroVisitantes   from "./components/PorteiroVisitantes";
 
 function PainelPorteiro() {
     const [abaAtiva, setAbaAtiva] = useState("dashboard");
@@ -124,6 +125,7 @@ function PainelPorteiro() {
     // --- LOGOUT ---
     function handleLogout() {
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("perfilUsuario");
         navigate("/login");
     }
@@ -198,6 +200,12 @@ function PainelPorteiro() {
                     </li>
 
                     <li style={{ borderTop: "1px solid var(--border-color)", marginTop: "8px", paddingTop: "8px" }}>
+                        <button className={abaAtiva === "visitantes" ? "ativo" : ""} onClick={() => setAbaAtiva("visitantes")}>
+                            <FiUsers /> Visitantes
+                        </button>
+                    </li>
+
+                    <li>
                         <button className={abaAtiva === "meu-cadastro" ? "ativo" : ""} onClick={() => { setAbaAtiva("meu-cadastro"); carregarMeuPerfilPorteiro(); }}>
                             <FiUser /> Meu Cadastro
                         </button>
@@ -218,6 +226,7 @@ function PainelPorteiro() {
                         {abaAtiva === "reclamacoes" && "Reclamações"}
                         {abaAtiva === "reservas" && "Reservas de Áreas"}
                         {abaAtiva === "solicitacoes" && "Solicitações dos Moradores"}
+                        {abaAtiva === "visitantes" && "Controle de Visitantes"}
                         {abaAtiva === "meu-cadastro" && "Meu Cadastro"}
                     </h1>
 
@@ -271,6 +280,15 @@ function PainelPorteiro() {
                             {abaAtiva === "solicitacoes" && (
                                 <PorteiroSolicitacoes
                                     solicitacoes={solicitacoes}
+                                    formatarData={formatarData}
+                                />
+                            )}
+                            {abaAtiva === "visitantes" && (
+                                <PorteiroVisitantes
+                                    unidades={unidades}
+                                    perfil={perfil}
+                                    api={api}
+                                    toast={toast}
                                     formatarData={formatarData}
                                 />
                             )}

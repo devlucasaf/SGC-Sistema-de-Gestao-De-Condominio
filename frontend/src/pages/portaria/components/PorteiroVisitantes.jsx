@@ -4,25 +4,30 @@ import { FiChevronDown, FiUserPlus, FiLogOut, FiSearch, FiClock, FiUsers } from 
 function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
     // --- ESTADOS ---
     const [visitantesPresentes, setVisitantesPresentes] = useState([]);
-    const [historico, setHistorico] = useState([]);
-    const [carregando, setCarregando] = useState(true);
-    const [mostrarForm, setMostrarForm] = useState(false);
-    const [enviando, setEnviando] = useState(false);
-    const [abaVisitante, setAbaVisitante] = useState("presentes");
+    const [historico,           setHistorico          ] = useState([]);
+    const [carregando,          setCarregando         ] = useState(true);
+    const [mostrarForm,         setMostrarForm        ] = useState(false);
+    const [enviando,            setEnviando           ] = useState(false);
+    const [abaVisitante,        setAbaVisitante       ] = useState("presentes");
 
     // --- FORMULÁRIO ---
-    const [nomeVisitante, setNomeVisitante] = useState("");
-    const [cpfVisitante, setCpfVisitante] = useState("");
-    const [telefoneVisitante, setTelefoneVisitante] = useState("");
-    const [idUnidade, setIdUnidade] = useState("");
+    const [nomeVisitante    ,   setNomeVisitante      ] = useState("");
+    const [cpfVisitante     ,   setCpfVisitante       ] = useState("");
+    const [telefoneVisitante,   setTelefoneVisitante  ] = useState("");
+    const [idUnidade        ,   setIdUnidade          ] = useState("");
 
     // --- DROPDOWN CUSTOMIZADO UNIDADE ---
-    const [dropdownAberto, setDropdownAberto] = useState(false);
-    const [buscaUnidade, setBuscaUnidade] = useState("");
+    const [dropdownAberto   ,   setDropdownAberto     ] = useState(false);
+    const [buscaUnidade     ,   setBuscaUnidade       ] = useState("");
+
     const dropdownRef = useRef(null);
 
     // --- MODAL CONFIRMAÇÃO DE SAÍDA ---
-    const [modalSaida, setModalSaida] = useState({ aberto: false, idAcesso: null, nome: "" });
+    const [modalSaida, setModalSaida] = useState({
+        aberto: false,
+        idAcesso: null,
+        nome: ""
+    });
 
     // --- BUSCA NO HISTÓRICO ---
     const [buscaHistorico, setBuscaHistorico] = useState("");
@@ -151,6 +156,7 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
                     <h3>Presentes Agora</h3>
                     <div className="valor">{visitantesPresentes.length}</div>
                 </div>
+
                 <div className="dashboard-card azul">
                     <h3>Total de Registros</h3>
                     <div className="valor">{historico.length}</div>
@@ -161,7 +167,12 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
             <button
                 onClick={() => setMostrarForm(!mostrarForm)}
                 className="btn-publicar"
-                style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}
+                style={{
+                    marginBottom: "16px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px"
+                }}
             >
                 <FiUserPlus /> {mostrarForm ? "Fechar Formulário" : "Registrar Entrada"}
             </button>
@@ -183,6 +194,7 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
                             <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-secondary)" }}>
                                 Nome do Visitante *
                             </label>
+
                             <input
                                 type="text"
                                 value={nomeVisitante}
@@ -381,10 +393,15 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
                                             {v.nomeVisitante}
                                         </h4>
                                         <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", fontSize: "0.82rem", color: "var(--text-muted)" }}>
-                                            <span>📍 {v.blocoAptoDestino}</span>
-                                            {v.cpfVisitante && <span>📋 {formatarCpf(v.cpfVisitante)}</span>}
-                                            {v.telefoneVisitante && <span>📞 {formatarTelefone(v.telefoneVisitante)}</span>}
-                                            <span>🕐 Entrada: {formatarData(v.entrada)}</span>
+                                            <span>
+                                                {v.blocoAptoDestino}
+                                            </span>
+
+                                            {v.cpfVisitante && <span> {formatarCpf(v.cpfVisitante)}</span>}
+                                            {v.telefoneVisitante && <span>{formatarTelefone(v.telefoneVisitante)}</span>}
+                                            <span>
+                                                Entrada: {formatarData(v.entrada)}
+                                            </span>
                                         </div>
                                     </div>
                                     <button
@@ -426,6 +443,7 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
                             color: "var(--text-muted)",
                             fontSize: "16px"
                         }} />
+
                         <input
                             type="text"
                             placeholder="Buscar por nome, CPF ou unidade..."
@@ -483,9 +501,9 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
                                             </span>
                                         </div>
                                         <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                                            <span>📍 {v.blocoAptoDestino}</span>
-                                            <span>🕐 Entrada: {formatarData(v.entrada)}</span>
-                                            {v.saida && <span>🕑 Saída: {formatarData(v.saida)}</span>}
+                                            <span>{v.blocoAptoDestino}</span>
+                                            <span>Entrada: {formatarData(v.entrada)}</span>
+                                            {v.saida && <span>Saída: {formatarData(v.saida)}</span>}
                                         </div>
                                     </div>
                                 </div>
@@ -499,13 +517,17 @@ function PorteiroVisitantes({ unidades, perfil, api, toast, formatarData }) {
             {modalSaida.aberto && (
                 <div className="modal-overlay" onClick={() => setModalSaida({ aberto: false, idAcesso: null, nome: "" })}>
                     <div className="modal-confirm" onClick={e => e.stopPropagation()}>
-                        <div className="modal-confirm-icone">🚪</div>
+                        <div className="modal-confirm-icone"></div>
                         <h3>Registrar saída?</h3>
                         <p>Confirmar a saída do visitante <strong>{modalSaida.nome}</strong>?</p>
                         <div className="modal-confirm-botoes">
                             <button
                                 className="btn-cancelar"
-                                onClick={() => setModalSaida({ aberto: false, idAcesso: null, nome: "" })}
+                                onClick={() => setModalSaida({
+                                    aberto: false,
+                                    idAcesso: null,
+                                    nome: ""
+                                })}
                             >
                                 Cancelar
                             </button>

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RegistrarAcessoRepository extends JpaRepository<RegistrarAcesso, Long> {
     List<RegistrarAcesso> findByDataHoraSaidaIsNull();
+    List<RegistrarAcesso> findAllByOrderByDataHoraEntradaDesc();
 }
