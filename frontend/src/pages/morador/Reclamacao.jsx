@@ -5,7 +5,7 @@ import  { useToast }            from  "../../components/Toast";
 import api from "../../services/api";
 import "../../styles/Reclamacao.css";
 
-import { FiSun, FiMoon, FiArrowLeft, FiSend, FiAlertCircle, FiClock, FiCheckCircle } from "react-icons/fi";
+import { FiSun, FiMoon, FiArrowLeft, FiSend, FiAlertCircle, FiClock, FiCheckCircle, FiTool, FiTrash2, FiZap, FiDroplet, FiActivity, FiMusic, FiHome, FiVolume2, FiUsers, FiTruck, FiStar, FiHelpCircle } from "react-icons/fi";
 
 function Reclamacao() {
     const [tipo             ,   setTipo             ]          = useState("");
@@ -35,27 +35,27 @@ function Reclamacao() {
     }, [isDarkMode]);
 
     const categoriasCondominio = [
-        "Elevador",
-        "Churrasqueira suja",
-        "Infestação de insetos/pragas",
-        "Problemas de iluminação",
-        "Falta de água",
-        "Academia",
-        "Salão de festas",
-        "Piscina",
-        "Playground",
-        "Outros"
+        { valor: "Elevador",                         nome: "Elevador",                         icone: <FiTool />        },
+        { valor: "Churrasqueira suja",               nome: "Churrasqueira suja",               icone: <FiTrash2 />      },
+        { valor: "Infestação de insetos/pragas",     nome: "Infestação de insetos/pragas",     icone: <FiAlertCircle /> },
+        { valor: "Problemas de iluminação",          nome: "Problemas de iluminação",          icone: <FiZap />         },
+        { valor: "Falta de água",                    nome: "Falta de água",                    icone: <FiDroplet />     },
+        { valor: "Academia",                         nome: "Academia",                         icone: <FiActivity />    },
+        { valor: "Salão de festas",                  nome: "Salão de festas",                  icone: <FiMusic />       },
+        { valor: "Piscina",                          nome: "Piscina",                          icone: <FiDroplet />     },
+        { valor: "Playground",                       nome: "Playground",                       icone: <FiStar />        },
+        { valor: "Outros",                           nome: "Outros",                           icone: <FiHelpCircle />  },
     ];
 
     const categoriasMorador = [
-        "Barulho excessivo",
-        "Animais de estimação",
-        "Arrastar móveis",
-        "Festas",
-        "Estacionou na vaga de outro morador",
-        "Lixo deixado na área comum",
-        "Jogando água da varanda",
-        "Outros"
+        { valor: "Barulho excessivo",                    nome: "Barulho excessivo",                    icone: <FiVolume2 />     },
+        { valor: "Animais de estimação",                 nome: "Animais de estimação",                 icone: <FiHelpCircle />  },
+        { valor: "Arrastar móveis",                      nome: "Arrastar móveis",                      icone: <FiHome />        },
+        { valor: "Festas",                               nome: "Festas",                               icone: <FiMusic />       },
+        { valor: "Estacionou na vaga de outro morador",  nome: "Estacionou na vaga de outro morador",  icone: <FiTruck />       },
+        { valor: "Lixo deixado na área comum",           nome: "Lixo deixado na área comum",           icone: <FiTrash2 />      },
+        { valor: "Jogando água da varanda",              nome: "Jogando água da varanda",              icone: <FiDroplet />     },
+        { valor: "Outros",                               nome: "Outros",                               icone: <FiHelpCircle />  },
     ];
 
     // --- BUSCA HISTÓRICO DE RECLAMAÇÕES DO MORADOR ---
@@ -109,6 +109,12 @@ function Reclamacao() {
     async function enviarReclamacao(e) {
         e.preventDefault();
         setEnviando(true);
+
+        if (!categoria) {
+            toast.erro("Selecione a categoria da reclamação.", "Campo obrigatório");
+            setEnviando(false);
+            return;
+        }
 
         try {
             const perfil = JSON.parse(localStorage.getItem("perfilUsuario"));
@@ -191,16 +197,19 @@ function Reclamacao() {
                             <div className="campos-dinamicos fadeIn">
                                 <div className="campo-form">
                                     <label>Categoria da Reclamação:</label>
-                                    <select
-                                        value={categoria}
-                                        onChange={(e) => setCategoria(e.target.value)}
-                                        required
-                                    >
-                                        <option value="">-- Selecione um motivo --</option>
+                                    <div className="grupo-tipos-solicitacao">
                                         {(tipo === "condominio" ? categoriasCondominio : categoriasMorador).map((cat) => (
-                                            <option key={cat} value={cat}>{cat}</option>
+                                            <button
+                                                key={cat.valor}
+                                                type="button"
+                                                className={`tipo-card ${categoria === cat.valor ? "selecionado" : ""}`}
+                                                onClick={() => setCategoria(cat.valor)}
+                                            >
+                                                <span className="tipo-card-icone">{cat.icone}</span>
+                                                <span className="tipo-card-nome">{cat.nome}</span>
+                                            </button>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
 
                                 {tipo === "morador" && (

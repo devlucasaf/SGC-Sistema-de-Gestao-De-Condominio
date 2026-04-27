@@ -205,3 +205,45 @@
         padding: 20px;
     }
 }
+
+/* --- SELEÇÃO DE CATEGORIA EM CARDS --- */
+.grupo-tipos-solicitacao {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.tipo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 12px;
+    border: 2px solid var(--border-color);
+    background-color: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+}
+
+.tipo-card:hover {
+    border-color: var(--primary-green);
+    background-color: rgba(46, 204, 113, 0.04);
+}
+
+.tipo-card.selecionado {
+    border-color: var(--primary-green);
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--primary-green);
+}
+
+.tipo-card-icone {
+    font-size: 1.8rem;
+}
+
+.tipo-card-nome {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+}
