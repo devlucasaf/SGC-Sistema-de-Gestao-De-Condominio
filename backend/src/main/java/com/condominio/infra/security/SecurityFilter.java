@@ -40,6 +40,13 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             try {
+                // --- REJEITAR REFRESH TOKEN USADO COMO ACCESS TOKEN ---
+                String tokenType = tokenService.getTokenType(token);
+                if ("refresh".equals(tokenType)) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
                 // --- DESCOBRE O DONO DO TOKEN ---
                 var subject = tokenService.getSubject(token);
                 UserDetails usuario = repository.findByEmail(subject).orElse(null);

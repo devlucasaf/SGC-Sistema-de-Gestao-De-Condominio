@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import com.condominio.modules.usuario.model.Usuario;
 
@@ -30,12 +31,29 @@ public class TokenService {
                     .withIssuer("SGC-API")
                     .withSubject(usuario.getEmail())
                     .withClaim("id", usuario.getId())
-                    // --- GUARDAR O TIPO DE UTILIZADOR DO TOKEN ---
                     .withClaim("tipoUsuario", usuario.getTipoUsuario().name())
+                    .withClaim("type", "access")
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar token JWT", exception);
+        }
+    }
+
+    // --- GERAR REFRESH TOKEN ---
+    public String gerarRefreshToken(Usuario usuario) {
+        try {
+            Algorithm algoritmo = Algorithm.HMAC256(secret);
+
+            return JWT.create()
+                    .withIssuer("SGC-API")
+                    .withSubject(usuario.getEmail())
+                    .withClaim("id", usuario.getId())
+                    .withClaim("type", "refresh")
+                    .withExpiresAt(dataExpiracaoRefresh())
+                    .sign(algoritmo);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar refresh token", exception);
         }
     }
 
@@ -53,7 +71,27 @@ public class TokenService {
         }
     }
 
+    // --- EXTRAIR O TIPO DO TOKEN ---
+    public String getTokenType(String tokenJWT) {
+        try {
+            Algorithm algoritmo = Algorithm.HMAC256(secret);
+            DecodedJWT decoded = JWT.require(algoritmo)
+                    .withIssuer("SGC-API")
+                    .build()
+                    .verify(tokenJWT);
+            return decoded.getClaim("type").asString();
+        } catch (JWTVerificationException exception) {
+            return null;
+        }
+    }
+
+    // --- EXPIRAÇÃO DO ACCESS TOKEN ---
     private Instant dataExpiracao() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    // --- EXPIRAÇÃO DO REFRESH TOKEN ---
+    private Instant dataExpiracaoRefresh() {
+        return LocalDateTime.now().plusDays(7).toInstant(ZoneOffset.of("-03:00"));
     }
 }

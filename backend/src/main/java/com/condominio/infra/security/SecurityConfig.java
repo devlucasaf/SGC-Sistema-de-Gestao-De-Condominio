@@ -41,9 +41,11 @@ public class SecurityConfig {
 
                 // --- REGRAS DE ACESSO ---
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/recuperar-senha").permitAll()
                 .antMatchers(HttpMethod.POST, "/unidades").permitAll()
                 .antMatchers(HttpMethod.POST, "/moradores").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated() // --- TODO O RESTO PRECISA DE TOKEN ---
                 .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
