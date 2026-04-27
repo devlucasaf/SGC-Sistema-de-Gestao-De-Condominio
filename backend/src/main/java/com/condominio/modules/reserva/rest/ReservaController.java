@@ -57,6 +57,13 @@ public class ReservaController {
         return ResponseEntity.ok(areaLazerRepository.findAll());
     }
 
+    // --- LISTAR RESERVAS OCUPADAS POR ÁREA ---
+    @GetMapping("/ocupadas")
+    public ResponseEntity<List<ReservaResponseDTO>> listarOcupadas(@RequestParam Long idAreaLazer) {
+        List<ReservaResponseDTO> lista = reservaService.buscarOcupadasPorArea(idAreaLazer);
+        return ResponseEntity.ok(lista);
+    }
+
     // --- ROTA POST PARA DEVOLVER O DTO ---
     @PostMapping
     public ResponseEntity<ReservaResponseDTO> reservar(

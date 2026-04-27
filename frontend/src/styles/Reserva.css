@@ -6,6 +6,31 @@
     margin-top: var(--spacing-sm);
 }
 
+/* --- DATAS OCUPADAS NO CALENDÁRIO --- */
+.react-datepicker__day.data-ocupada {
+    background-color: rgba(231, 76, 60, 0.18) !important;
+    color: #e74c3c !important;
+    border-radius: 50% !important;
+    font-weight: 700 !important;
+    position: relative;
+}
+
+.react-datepicker__day.data-ocupada:hover {
+    background-color: rgba(231, 76, 60, 0.3) !important;
+}
+
+.react-datepicker__day.data-ocupada::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #e74c3c;
+}
+
 /* --- GRID DE ÁREAS --- */
 .grid-areas {
     display: grid;

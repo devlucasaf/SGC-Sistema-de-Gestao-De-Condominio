@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/Reserva.css";
 import "../../styles/Cadastro.css";
 
-import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiXCircle } from "react-icons/fi";
+import { FiSun, FiMoon, FiArrowLeft, FiCalendar, FiXCircle, FiClock } from "react-icons/fi";
 
 registerLocale("pt-BR", ptBR);
 
@@ -20,8 +20,12 @@ function Reserva() {
     const [carregandoAreas    ,     setCarregandoAreas    ]         = useState(true);
     const [areaSelecionada    ,     setAreaSelecionada    ]         = useState(null);
     const [dataReserva        ,     setDataReserva        ]         = useState(null);
+    const [horaInicio         ,     setHoraInicio         ]         = useState("");
+    const [horaFim            ,     setHoraFim            ]         = useState("");
     const [historico          ,     setHistorico          ]         = useState([]);
     const [carregandoHistorico,     setCarregandoHistorico]         = useState(true);
+    const [datasOcupadas      ,     setDatasOcupadas      ]         = useState([]);
+    const [reservasOcupadas   ,     setReservasOcupadas   ]         = useState([]);
 
     const navigate  = useNavigate();
     const toast     = useToast();
@@ -65,11 +69,13 @@ function Reserva() {
             try {
                 const response = await api.get("/reservas/minhas-reservas");
                 const historicoMapeado = response.data.map((r) => ({
-                    id:     r.id,
-                    area:   r.nomeAreaLazer,
-                    data:   r.dataReserva,
-                    valor:  r.valorAreaLazer,
-                    status: r.status
+                    id:         r.id,
+                    area:       r.nomeAreaLazer,
+                    data:       r.dataReserva,
+                    horaInicio: r.horaInicio,
+                    horaFim:    r.horaFim,
+                    valor:      r.valorAreaLazer,
+                    status:     r.status
                 }));
                 setHistorico(historicoMapeado);
             } catch (error) {
@@ -86,23 +92,60 @@ function Reserva() {
         setIsDarkMode(!isDarkMode);
     }
 
-    function abrirModal(area) {
+    // --- BUSCAR DATAS OCUPADAS AO SELECIONAR ÁREA ---
+    async function abrirModal(area) {
         setAreaSelecionada(area);
         setDataReserva(null);
+        setHoraInicio("");
+        setHoraFim("");
+
+        try {
+            const res = await api.get(`/reservas/ocupadas?idAreaLazer=${area.id}`);
+            setReservasOcupadas(res.data || []);
+
+            // --- AGRUPA DATAS QUE TÊM RESERVA ---
+            const datas = (res.data || []).map(r => new Date(r.dataReserva + "T00:00:00"));
+            setDatasOcupadas(datas);
+        } catch (err) {
+            console.error("Erro ao carregar datas ocupadas:", err);
+            setDatasOcupadas([]);
+            setReservasOcupadas([]);
+        }
     }
 
     function fecharModal() {
         setAreaSelecionada(null);
+        setReservasOcupadas([]);
+        setDatasOcupadas([]);
+    }
+
+    // --- HORÁRIOS OCUPADOS NA DATA SELECIONADA ---
+    function getHorariosOcupadosNaData() {
+        if (!dataReserva) return [];
+        const dataStr = dataReserva.toISOString().split("T")[0];
+        return reservasOcupadas.filter(r => r.dataReserva === dataStr);
     }
 
     async function confirmarReserva(e) {
         e.preventDefault();
 
+        if (!horaInicio || !horaFim) {
+            toast.erro("Selecione o horário de início e término.", "Erro");
+            return;
+        }
+
+        if (horaFim <= horaInicio) {
+            toast.erro("O horário de término deve ser após o de início.", "Erro");
+            return;
+        }
+
         const reservaRequestDTO = {
             idAreaLazer: areaSelecionada.id,
             dataReserva: dataReserva
                 ? dataReserva.toISOString().split("T")[0]
-                : ""
+                : "",
+            horaInicio: horaInicio + ":00",
+            horaFim: horaFim + ":00",
         };
 
         try {
@@ -110,11 +153,13 @@ function Reserva() {
             const reservaSalva = response.data;
 
             const novaReservaHistorico = {
-                id:     reservaSalva.id,
-                area:   reservaSalva.nomeAreaLazer,
-                data:   reservaSalva.dataReserva,
-                valor:  reservaSalva.valorAreaLazer,
-                status: reservaSalva.status
+                id:         reservaSalva.id,
+                area:       reservaSalva.nomeAreaLazer,
+                data:       reservaSalva.dataReserva,
+                horaInicio: reservaSalva.horaInicio,
+                horaFim:    reservaSalva.horaFim,
+                valor:      reservaSalva.valorAreaLazer,
+                status:     reservaSalva.status
             };
 
             setHistorico([novaReservaHistorico, ...historico]);
@@ -141,6 +186,12 @@ function Reserva() {
             const msg = error.response?.data?.messages?.[0] || "Erro ao cancelar reserva.";
             toast.erro(msg, "Erro");
         }
+    }
+
+    // --- FORMATA HORA (HH:mm:ss -> HH:mm) ---
+    function formatarHora(hora) {
+        if (!hora) return "";
+        return hora.substring(0, 5);
     }
 
     return (
@@ -182,7 +233,7 @@ function Reserva() {
                                 <p>Máximo: <strong>{area.capacidadeMaxima} pessoas</strong></p>
                                 <p>Valor: <strong>{!area.valor || area.valor === 0 ? "Gratuito" : `R$ ${area.valor.toFixed(2)}`}</strong></p>
                                 <button className="btn-reservar" onClick={() => abrirModal(area)}>
-                                    Escolher Data
+                                    Escolher Data e Horário
                                 </button>
                             </div>
                         ))}
@@ -203,6 +254,7 @@ function Reserva() {
                                     <tr>
                                         <th>Área</th>
                                         <th>Data</th>
+                                        <th>Horário</th>
                                         <th>Status</th>
                                         <th>Ações</th>
                                     </tr>
@@ -214,6 +266,12 @@ function Reserva() {
                                             <td>{item.area}</td>
                                             <td>
                                                 {new Date(item.data + "T00:00:00").toLocaleDateString('pt-BR')}
+                                            </td>
+                                            <td>
+                                                {item.horaInicio && item.horaFim
+                                                    ? `${formatarHora(item.horaInicio)} - ${formatarHora(item.horaFim)}`
+                                                    : "—"
+                                                }
                                             </td>
                                             <td>
                                                 <span className={`badge-status ${
@@ -264,8 +322,88 @@ function Reserva() {
                                     calendarClassName="datepicker-calendario"
                                     required
                                     autoComplete="off"
+                                    highlightDates={[
+                                        { "data-ocupada": datasOcupadas }
+                                    ]}
+                                    dayClassName={(date) => {
+                                        const dateStr = date.toISOString().split("T")[0];
+                                        const temReserva = datasOcupadas.some(d =>
+                                            d.toISOString().split("T")[0] === dateStr
+                                        );
+                                        return temReserva ? "data-ocupada" : undefined;
+                                    }}
                                 />
                                 <FiCalendar className="datepicker-icone" />
+                            </div>
+
+                            {/* --- HORÁRIOS OCUPADOS NA DATA SELECIONADA --- */}
+                            {dataReserva && getHorariosOcupadosNaData().length > 0 && (
+                                <div style={{
+                                    background: "rgba(231,76,60,0.08)",
+                                    border: "1px solid rgba(231,76,60,0.25)",
+                                    borderRadius: "8px",
+                                    padding: "10px 14px",
+                                    marginTop: "8px",
+                                    fontSize: "0.82rem"
+                                }}>
+                                    <strong style={{ color: "#e74c3c" }}>Horários já reservados neste dia:</strong>
+                                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "6px" }}>
+                                        {getHorariosOcupadosNaData().map((r, i) => (
+                                            <span key={i} style={{
+                                                padding: "3px 10px",
+                                                borderRadius: "12px",
+                                                background: "rgba(231,76,60,0.12)",
+                                                color: "#e74c3c",
+                                                fontSize: "0.78rem",
+                                                fontWeight: "600"
+                                            }}>
+                                                {formatarHora(r.horaInicio)} - {formatarHora(r.horaFim)}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* --- SELEÇÃO DE HORÁRIO --- */}
+                            <label style={{ marginTop: "12px" }}>
+                                <FiClock style={{ marginRight: "6px", verticalAlign: "middle" }} />
+                                Horário:
+                            </label>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                                    <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Início</span>
+                                    <input
+                                        type="time"
+                                        value={horaInicio}
+                                        onChange={(e) => setHoraInicio(e.target.value)}
+                                        required
+                                        style={{
+                                            padding: "10px",
+                                            borderRadius: "8px",
+                                            border: "1px solid var(--border-color)",
+                                            background: "var(--bg-input, var(--bg-card))",
+                                            color: "var(--text-primary)",
+                                            fontSize: "0.9rem"
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                                    <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Término</span>
+                                    <input
+                                        type="time"
+                                        value={horaFim}
+                                        onChange={(e) => setHoraFim(e.target.value)}
+                                        required
+                                        style={{
+                                            padding: "10px",
+                                            borderRadius: "8px",
+                                            border: "1px solid var(--border-color)",
+                                            background: "var(--bg-input, var(--bg-card))",
+                                            color: "var(--text-primary)",
+                                            fontSize: "0.9rem"
+                                        }}
+                                    />
+                                </div>
                             </div>
 
                             {areaSelecionada.valor > 0 && (
