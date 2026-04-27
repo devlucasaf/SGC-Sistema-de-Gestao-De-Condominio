@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "reserva")
@@ -31,6 +32,12 @@ public class Reserva {
 
     @Column(nullable = false)
     private LocalDate dataReserva;
+
+    @Column(name = "hora_inicio")
+    private LocalTime horaInicio;
+
+    @Column(name = "hora_fim")
+    private LocalTime horaFim;
 
     public Reserva() {
         this.dataSolicitacao = LocalDateTime.now();
