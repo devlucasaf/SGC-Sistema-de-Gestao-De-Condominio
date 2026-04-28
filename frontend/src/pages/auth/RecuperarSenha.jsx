@@ -5,6 +5,7 @@ import  DatePicker, { registerLocale }                   from "react-datepicker"
 import  { ptBR }                                         from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import api from "../../services/api.js";
+import DatePickerHeader from "../../components/DatePickerHeader";
 import "../../styles/Login.css";
 import "../../styles/Cadastro.css";
 
@@ -152,15 +153,11 @@ function RecuperarSenha() {
                                 locale="pt-BR"
                                 dateFormat="dd/MM/yyyy"
                                 placeholderText="Data de Nascimento"
-                                showYearDropdown
-                                showMonthDropdown
-                                dropdownMode="select"
-                                yearDropdownItemNumber={100}
-                                scrollableYearDropdown
                                 maxDate={new Date()}
                                 minDate={new Date(1920, 0, 1)}
                                 className="datepicker-input"
                                 calendarClassName="datepicker-calendario"
+                                renderCustomHeader={DatePickerHeader}
                                 required
                                 autoComplete="off"
                             />

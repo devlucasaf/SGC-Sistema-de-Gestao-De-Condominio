@@ -3,11 +3,16 @@ import { useNavigate }          from "react-router-dom";
 import { useToast }             from "../../components/Toast";
 
 import api from "../../services/api";
+import DatePicker, { registerLocale } from "react-datepicker";
+import ptBR from "date-fns/locale/pt-BR";
+import "react-datepicker/dist/react-datepicker.css";
 
 import "../../styles/PainelSindico.css";
 import "../../styles/PainelAdmin.css";
 
-import { FiSun, FiMoon, FiUsers, FiShield, FiHome, FiPlus, FiTrash2, FiBarChart2 } from "react-icons/fi";
+import { FiSun, FiMoon, FiUsers, FiShield, FiHome, FiPlus, FiTrash2, FiBarChart2, FiCalendar } from "react-icons/fi";
+
+registerLocale("pt-BR", ptBR);
 
 function PainelAdmin() {
     const [abaAtiva, setAbaAtiva] = useState("dashboard");
@@ -26,7 +31,7 @@ function PainelAdmin() {
     const [email         , setEmail         ] = useState("");
     const [cpf           , setCpf           ] = useState("");
     const [senha         , setSenha         ] = useState("");
-    const [dataNascimento, setDataNascimento] = useState("");
+    const [dataNascimento, setDataNascimento] = useState(null);
     const [telefone      , setTelefone      ] = useState("");
     const [enviando      , setEnviando      ] = useState(false);
 
@@ -94,11 +99,11 @@ function PainelAdmin() {
                 email,
                 cpf: cpf.replace(/\D/g, ""),
                 senha,
-                dataNascimento,
+                dataNascimento: dataNascimento ? dataNascimento.toISOString().split("T")[0] : null,
                 telefone: telefone.replace(/\D/g, ""),
             });
             toast.sucesso("Síndico criado com sucesso!");
-            setNome(""); setEmail(""); setCpf(""); setSenha(""); setDataNascimento(""); setTelefone("");
+            setNome(""); setEmail(""); setCpf(""); setSenha(""); setDataNascimento(null); setTelefone("");
             setMostrarForm(false);
             carregarDados();
         } catch (err) {
@@ -267,13 +272,19 @@ function PainelAdmin() {
                                                         required
                                                         className="admin-form-input"
                                                     />
-                                                    <input
-                                                        type="date"
-                                                        placeholder="Data de nascimento"
-                                                        value={dataNascimento}
-                                                        onChange={e => setDataNascimento(e.target.value)}
-                                                        required
+                                                    <DatePicker
+                                                        placeholderText="Data de nascimento"
+                                                        selected={dataNascimento}
+                                                        onChange={date => setDataNascimento(date)}
+                                                        locale="pt-BR"
+                                                        dateFormat="dd/MM/yyyy"
                                                         className="admin-form-input"
+                                                        maxDate={new Date()}
+                                                        minDate={new Date(1920, 0, 1)}
+                                                        showMonthDropdown
+                                                        showYearDropdown
+                                                        dropdownMode="select"
+                                                        popperProps={{ strategy: "fixed" }}
                                                     />
                                                 </div>
 

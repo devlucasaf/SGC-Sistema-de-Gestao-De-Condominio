@@ -335,34 +335,166 @@
     border-color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* --- DROPDOWNS DE MÊS E ANO --- */
-.react-datepicker__month-dropdown-container,
-.react-datepicker__year-dropdown-container {
-    margin: 0 4px !important;
+/* --- CUSTOM HEADER DO DATEPICKER --- */
+.dp-custom-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 2px;
+    gap: 6px;
 }
 
-.react-datepicker__month-dropdown-container select,
-.react-datepicker__year-dropdown-container select {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 4px !important;
-    padding: 2px 6px !important;
-    font-size: 0.85rem !important;
+.dp-nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
-.react-datepicker__month-dropdown-container select:focus,
-.react-datepicker__year-dropdown-container select:focus {
-    outline: none;
-    border-color: #fff !important;
+.dp-nav-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
-.react-datepicker__month-dropdown-container select option,
-.react-datepicker__year-dropdown-container select option {
-    background-color: var(--bg-secondary) !important;
-    color: var(--text-primary) !important;
+.dp-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.dp-selects {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+}
+
+.dp-dropdown-wrapper {
+    position: relative;
+}
+
+.dp-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.dp-dropdown-trigger:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.dp-dropdown-trigger.aberto {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.dp-dropdown-arrow {
+    font-size: 14px;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.dp-dropdown-arrow.girar {
+    transform: rotate(180deg);
+}
+
+.dp-dropdown-opcoes {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    background: var(--bg-secondary, #1a1a2e);
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    max-height: 200px;
+    overflow-y: auto;
+    min-width: 120px;
+    animation: dpDropdownEntrar 0.2s ease;
+}
+
+.dp-dropdown-opcoes.dp-dropdown-anos {
+    min-width: 80px;
+}
+
+@keyframes dpDropdownEntrar {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.dp-dropdown-item {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    color: var(--text-primary, #fff);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.dp-dropdown-item:hover {
+    background: #2ecc71;
+    color: #fff;
+}
+
+.dp-dropdown-item.ativo {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    font-weight: 700;
+}
+
+.dp-dropdown-item.ativo:hover {
+    background: #2ecc71;
+    color: #fff;
+}
+
+/* --- SCROLLBAR DOS DROPDOWNS --- */
+.dp-dropdown-opcoes::-webkit-scrollbar {
+    width: 5px;
+}
+
+.dp-dropdown-opcoes::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dp-dropdown-opcoes::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.dp-dropdown-opcoes::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* --- FIM DATEPICKER --- */

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FiPlus, FiTrash2, FiCalendar } from "react-icons/fi";
 import DatePicker from "react-datepicker";
+import DatePickerHeader from "../../../components/DatePickerHeader";
 
 function SindicoVotacao({ api, toast, formatarData }) {
     const [votacoes   , setVotacoes   ] = useState([]);
@@ -325,9 +326,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                         placeholderText="Selecione a data"
                                         className="sindico-datepicker-input"
                                         calendarClassName="datepicker-calendario"
-                                        showMonthDropdown
-                                        showYearDropdown
-                                        dropdownMode="select"
+                                        renderCustomHeader={DatePickerHeader}
                                         required
                                         autoComplete="off"
                                     />
@@ -346,9 +345,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                         placeholderText="Selecione a data"
                                         className="sindico-datepicker-input"
                                         calendarClassName="datepicker-calendario"
-                                        showMonthDropdown
-                                        showYearDropdown
-                                        dropdownMode="select"
+                                        renderCustomHeader={DatePickerHeader}
                                         required
                                         autoComplete="off"
                                     />

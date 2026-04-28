@@ -214,6 +214,30 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/* --- DATEPICKER SELECTS ADMIN --- */
+.painel-admin .react-datepicker__month-dropdown-container select,
+.painel-admin .react-datepicker__year-dropdown-container select,
+.react-datepicker__month-dropdown-container select,
+.react-datepicker__year-dropdown-container select {
+    padding: 4px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.react-datepicker__month-dropdown-container select option,
+.react-datepicker__year-dropdown-container select option {
+    background: var(--bg-secondary, #1a1a2e);
+    color: var(--text-primary, #fff);
+}
+
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .painel-admin .dashboard-grid {
@@ -231,4 +255,3 @@
         grid-template-columns: 1fr;
     }
 }
-

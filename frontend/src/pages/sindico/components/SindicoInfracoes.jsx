@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect }  from "react";
 import { FiChevronDown, FiCalendar }    from "react-icons/fi";
 import DatePicker from "react-datepicker";
+import DatePickerHeader from "../../../components/DatePickerHeader";
 
 function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
     const [filtroTipoInfracao   , setFiltroTipoInfracao   ] = useState("TODOS");
@@ -265,9 +266,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                         placeholderText="Selecione a data"
                                         className="sindico-datepicker-input"
                                         calendarClassName="datepicker-calendario"
-                                        showMonthDropdown
-                                        showYearDropdown
-                                        dropdownMode="select"
+                                        renderCustomHeader={DatePickerHeader}
                                         required
                                         autoComplete="off"
                                     />
