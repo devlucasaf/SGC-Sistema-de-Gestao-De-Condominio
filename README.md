@@ -58,31 +58,35 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
 │   │   ├── 📂 dto/auth                  # DTOs de autenticação
 │   │   ├── 📂 entity                    # Entidades JPA
 │   │   ├── 📂 exception                 # Tratamento global de erros
-│   │   ├── 📂 infra                     # Camada de infraestrutura
+│   │   ├── 📂 infra                     
 │   │   │   ├── 📂 config                # Configurações gerais + DataSeeder
 │   │   │   ├── 📂 pagination            # Classes utilitárias para paginação
 │   │   │   └── 📂 security              # JWT, SecurityConfig, SecurityFilter
-│   │   └── 📂 modules                   # Módulos de negócio
-│   │       ├── 📂 autenticacao           # Login e controle de acesso
-│   │       ├── 📂 aviso                  # Mural de avisos
-│   │       ├── 📂 documento              # Gerenciamento de documentos
-│   │       ├── 📂 encomenda              # Gestão de encomendas
-│   │       ├── 📂 financeiro             # Boletos (geração automática)
-│   │       ├── 📂 infracao               # Multas e advertências
-│   │       ├── 📂 morador                # Cadastro de moradores
-│   │       ├── 📂 porteiro               # Gestão de porteiros
-│   │       ├── 📂 reclamacao             # Central de reclamações
-│   │       ├── 📂 reserva                # Reservas de áreas comuns
-│   │       ├── 📂 sindico                # Controle de síndico
-│   │       ├── 📂 solicitacao            # Solicitações 
-│   │       ├── 📂 unidade                # Unidades do condomínio
-│   │       ├── 📂 usuario                # Controle de usuários 
-│   │       └── 📂 visitante              # Registro de visitantes
+│   │   └── 📂 modules                   
+│   │       ├── 📂 admin                 # Controle administrativo do condomínio
+│   │       ├── 📂 autenticacao          # Login e controle de acesso
+│   │       ├── 📂 aviso                 # Mural de avisos
+│   │       ├── 📂 documento             # Gerenciamento de documentos
+│   │       ├── 📂 encomenda             # Gestão de encomendas
+│   │       ├── 📂 financeiro            # Boletos (geração automática)
+│   │       ├── 📂 infracao              # Multas e advertências
+│   │       ├── 📂 manutencao            # Registro de manutenção
+│   │       ├── 📂 morador               # Cadastro de moradores
+│   │       ├── 📂 porteiro              # Gestão de porteiros
+│   │       ├── 📂 reclamacao            # Central de reclamações
+│   │       ├── 📂 reserva               # Reservas de áreas comuns
+│   │       ├── 📂 sindico               # Controle de síndico
+│   │       ├── 📂 solicitacao           # Solicitações 
+│   │       ├── 📂 unidade               # Unidades do condomínio
+│   │       ├── 📂 usuario               # Controle de usuários 
+│   │       ├── 📂 visitante             # Registro de visitantes
+│   │       └── 📂 votacao               # Enquetes e votações condominiais
 │   └── 📄 pom.xml
 ├── 📂 frontend
 │   ├── 📂 src
-│   │   ├── 📂 components                # Componentes reutilizáveis (Toast, Loading, RotaPrivada)
+│   │   ├── 📂 components                # Componentes reutilizáveis
 │   │   ├── 📂 pages
+│   │   │   ├── 📂 auth                  # PainelAdmin
 │   │   │   ├── 📂 auth                  # Login, Cadastro, RecuperarSenha
 │   │   │   ├── 📂 morador               # Home, Boleto, Entregas, Reserva, Reclamação, Solicitações...
 │   │   │   ├── 📂 portaria              # PainelPorteiro + components/
@@ -146,6 +150,13 @@ O projeto segue uma arquitetura **cliente-servidor (Client-Server)**, com separa
         width="40px" 
         style="padding: 5px;" 
         src="https://skillicons.dev/icons?i=css" 
+    />
+    <img 
+        alt="SqlServer" 
+        title="SqlServer" 
+        width="40px" 
+        style="padding: 5px;" 
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" 
     />
     <img 
         alt="Git" 
