@@ -1,0 +1,24 @@
+package sgc.condominio.modules.reserva.dto;
+
+import sgc.condominio.modules.reserva.model.StatusReserva;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReservaResponseDTO {
+    private Long                id;
+    private String              nomeAreaLazer;
+    private Double              valorAreaLazer;
+    private LocalDate           dataReserva;
+    private LocalTime           horaInicio;
+    private LocalTime           horaFim;
+    private StatusReserva       status;
+}
