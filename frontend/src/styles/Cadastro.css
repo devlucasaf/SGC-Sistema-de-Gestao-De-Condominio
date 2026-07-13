@@ -1,41 +1,82 @@
 .caixa-cadastro {
-    background-color: var(--bg-secondary);
-    padding: 36px 32px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px 36px;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 60px var(--shadow-color), 0 8px 24px rgba(0,0,0,0.04);
     width: 100%;
     max-width: 520px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 18px;
+    transition: background var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+    animation: fadeUp 0.5s ease-out;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .caixa-cadastro h2 {
     text-align: center;
-    margin-top: 0;
-    margin-bottom: 6px;
-    font-size: 1.35rem;
+    margin: 0 0 4px 0;
+    font-size: 1.6rem;
     font-weight: 700;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
 }
 
+.caixa-cadastro h2::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 4px;
+    margin: 8px auto 0;
+    background: var(--primary-green);
+    border-radius: 4px;
+    transition: width var(--transition-fast);
+}
+
+.caixa-cadastro h2:hover::after {
+    width: 64px;
+}
+
+/* --- INPUTS E SELECTS --- */
 .caixa-cadastro input,
 .caixa-cadastro select {
-    padding: 11px 14px;
-    border: 1px solid var(--border-color);
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border-color);
     border-radius: var(--radius-sm);
-    font-size: 0.9rem;
-    background-color: var(--bg-primary);
+    font-size: 0.95rem;
+    background-color: var(--bg-input);
     color: var(--text-primary);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    box-sizing: border-box;
 }
 
 .caixa-cadastro input:focus,
 .caixa-cadastro select:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
+    box-shadow: 0 0 0 4px rgba(26, 138, 74, 0.12);
+    background-color: var(--bg-secondary);
+}
+
+.caixa-cadastro input::placeholder,
+.caixa-cadastro select::placeholder {
+    color: var(--text-muted);
+    opacity: 0.8;
 }
 
 .caixa-cadastro select option {
@@ -43,6 +84,18 @@
     background-color: var(--bg-secondary);
 }
 
+/* --- CAMPOS DUPLOS --- */
+.campo-duplo {
+    display: flex;
+    gap: 12px;
+}
+
+.campo-duplo > * {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- DROPDOWN CUSTOMIZADO --- */
 .custom-select-wrapper {
     position: relative;
     flex: 1;
@@ -52,14 +105,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 11px 14px;
-    border: 1px solid var(--border-color);
+    padding: 12px 16px;
+    border: 1.5px solid var(--border-color);
     border-radius: var(--radius-sm);
-    font-size: 0.9rem;
-    background-color: var(--bg-primary);
+    font-size: 0.95rem;
+    background-color: var(--bg-input);
     color: var(--text-muted);
     cursor: pointer;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
     user-select: none;
 }
 
@@ -73,14 +126,16 @@
 
 .custom-select-trigger.aberto {
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
+    box-shadow: 0 0 0 4px rgba(26, 138, 74, 0.12);
+    background-color: var(--bg-secondary);
 }
 
 .custom-select-arrow {
-    font-size: 18px;
+    font-size: 1.2rem;
     transition: transform 0.25s ease;
     flex-shrink: 0;
     margin-left: 8px;
+    color: var(--text-muted);
 }
 
 .custom-select-arrow.girar {
@@ -99,7 +154,7 @@
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 12px 30px var(--shadow-color);
     animation: dropdownEntrar 0.2s ease;
     overflow: hidden;
 }
@@ -107,18 +162,18 @@
 @keyframes dropdownEntrar {
     from {
         opacity: 0;
-        transform: translateY(-8px);
+        transform: translateY(-8px) scale(0.96);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .custom-select-item {
-    padding: 10px 14px;
-    font-size: 0.9rem;
+    padding: 10px 16px;
+    font-size: 0.95rem;
     color: var(--text-primary);
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
@@ -130,7 +185,7 @@
 }
 
 .custom-select-item.ativo {
-    background-color: rgba(33, 122, 69, 0.12);
+    background-color: rgba(26, 138, 74, 0.10);
     color: var(--primary-green);
     font-weight: 600;
 }
@@ -140,45 +195,80 @@
     color: #fff;
 }
 
+/* --- BOTÃO CADASTRAR --- */
 .btn-cadastrar {
-    padding: 12px;
-    background-color: var(--primary-green);
-    color: white;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark-green));
+    color: #fff;
     border: none;
     border-radius: var(--radius-sm);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 6px;
-    transition: background-color var(--transition-fast);
+    margin-top: 4px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    box-shadow: 0 4px 14px rgba(26, 138, 74, 0.30);
+    letter-spacing: 0.01em;
 }
 
 .btn-cadastrar:hover {
-    background-color: var(--primary-dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26, 138, 74, 0.35);
+    background: linear-gradient(135deg, var(--primary-dark-green), #0e5a2e);
 }
 
+.btn-cadastrar:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(26, 138, 74, 0.20);
+}
+
+/* --- LINK VOLTAR --- */
 .link-voltar {
     text-align: center;
     margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     cursor: pointer;
-    font-size: 0.85rem;
-    color: var(--text-muted);
 }
 
-.link-voltar a {
+.link-voltar a,
+.link-voltar span {
     color: var(--primary-green);
-    font-weight: 500;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-fast), border-bottom var(--transition-fast);
+    border-bottom: 1.5px solid transparent;
 }
 
-.campo-duplo {
-    display: flex;
-    gap: 12px;
+.link-voltar a:hover,
+.link-voltar span:hover {
+    color: var(--primary-dark-green);
+    border-bottom-color: var(--primary-green);
 }
 
-.campo-duplo > * {
-    flex: 1;
+:root[dark-theme="dark"] .link-voltar a:hover,
+:root[dark-theme="dark"] .link-voltar span:hover {
+    color: #4ade80;
+    border-bottom-color: #4ade80;
 }
 
+/* --- MENSAGEM DE ERRO --- */
+.caixa-cadastro p[style*="color: #ff4d4d"] {
+    color: #e74c3c !important;
+    background: rgba(231, 76, 60, 0.08);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 4px 0 0 0;
+    border-left: 4px solid #e74c3c;
+}
+
+:root[dark-theme="dark"] .caixa-cadastro p[style*="color: #ff4d4d"] {
+    background: rgba(231, 76, 60, 0.15);
+}
+
+/* --- DATEPICKER --- */
 .datepicker-wrapper {
     position: relative;
     flex: 1;
@@ -191,14 +281,14 @@
 }
 
 .datepicker-input {
-    width: 100%;
-    padding: 11px 40px 11px 14px;
-    border: 1px solid var(--border-color);
+    width: 100% !important;
+    padding: 12px 40px 12px 16px !important;
+    border: 1.5px solid var(--border-color);
     border-radius: var(--radius-sm);
-    font-size: 0.9rem;
-    background-color: var(--bg-primary);
+    font-size: 0.95rem;
+    background-color: var(--bg-input);
     color: var(--text-primary);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
     box-sizing: border-box;
     cursor: pointer;
 }
@@ -206,20 +296,22 @@
 .datepicker-input:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(33, 122, 69, 0.12);
+    box-shadow: 0 0 0 4px rgba(26, 138, 74, 0.12);
+    background-color: var(--bg-secondary);
 }
 
 .datepicker-input::placeholder {
     color: var(--text-muted);
+    opacity: 0.8;
 }
 
 .datepicker-icone {
     position: absolute;
-    right: 12px;
+    right: 14px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
-    font-size: 17px;
+    font-size: 1.2rem;
     pointer-events: none;
 }
 
@@ -229,11 +321,11 @@
 }
 
 .react-datepicker {
-    font-family: inherit !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     background-color: var(--bg-secondary) !important;
     border: 1px solid var(--border-color) !important;
-    border-radius: var(--radius-sm) !important;
-    box-shadow: var(--shadow-lg) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 20px 60px var(--shadow-color), 0 8px 24px rgba(0,0,0,0.06) !important;
     color: var(--text-primary) !important;
     overflow: hidden;
 }
@@ -242,12 +334,12 @@
     display: none !important;
 }
 
-/* --- HEADER DO CALENDÁRIO --- */
+/* --- HEADER --- */
 .react-datepicker__header {
-    background-color: var(--primary-green) !important;
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark-green)) !important;
     border-bottom: none !important;
     border-radius: 0 !important;
-    padding: 12px 10px 8px !important;
+    padding: 14px 10px 10px !important;
 }
 
 .react-datepicker__current-month {
@@ -270,9 +362,9 @@
     margin: 1px !important;
 }
 
-/* --- DIAS DO CALENDÁRIO --- */
+/* --- DIAS --- */
 .react-datepicker__month {
-    margin: 6px !important;
+    margin: 8px !important;
 }
 
 .react-datepicker__day {
@@ -286,7 +378,7 @@
 }
 
 .react-datepicker__day:hover {
-    background-color: rgba(33, 122, 69, 0.15) !important;
+    background-color: rgba(26, 138, 74, 0.12) !important;
     color: var(--primary-green) !important;
 }
 
@@ -321,7 +413,7 @@
 
 /* --- NAVEGAÇÃO --- */
 .react-datepicker__navigation {
-    top: 10px !important;
+    top: 12px !important;
 }
 
 .react-datepicker__navigation-icon::before {
@@ -335,7 +427,7 @@
     border-color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* --- CUSTOM HEADER DO DATEPICKER --- */
+/* --- CUSTOM HEADER --- */
 .dp-custom-header {
     display: flex;
     align-items: center;
@@ -355,7 +447,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
     transition: all 0.2s ease;
     flex-shrink: 0;
 }
@@ -409,7 +501,7 @@
 }
 
 .dp-dropdown-arrow {
-    font-size: 14px;
+    font-size: 0.9rem;
     transition: transform 0.25s ease;
     flex-shrink: 0;
 }
@@ -427,13 +519,13 @@
     list-style: none;
     margin: 0;
     padding: 6px 0;
-    background: var(--bg-secondary, #1a1a2e);
-    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px var(--shadow-color);
     max-height: 200px;
     overflow-y: auto;
-    min-width: 120px;
+    min-width: 100px;
     animation: dpDropdownEntrar 0.2s ease;
 }
 
@@ -444,19 +536,19 @@
 @keyframes dpDropdownEntrar {
     from {
         opacity: 0;
-        transform: translateX(-50%) translateY(-6px);
+        transform: translateX(-50%) translateY(-6px) scale(0.96);
     }
 
     to {
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
+        transform: translateX(-50%) translateY(0) scale(1);
     }
 }
 
 .dp-dropdown-item {
     padding: 8px 14px;
     font-size: 0.82rem;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary);
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
     text-align: center;
@@ -464,18 +556,18 @@
 }
 
 .dp-dropdown-item:hover {
-    background: #2ecc71;
+    background: var(--primary-green);
     color: #fff;
 }
 
 .dp-dropdown-item.ativo {
-    background: rgba(46, 204, 113, 0.15);
-    color: #2ecc71;
+    background: rgba(26, 138, 74, 0.10);
+    color: var(--primary-green);
     font-weight: 700;
 }
 
 .dp-dropdown-item.ativo:hover {
-    background: #2ecc71;
+    background: var(--primary-green);
     color: #fff;
 }
 
@@ -497,26 +589,49 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* --- FIM DATEPICKER --- */
-
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .caixa-cadastro {
-        padding: 28px 22px;
+        padding: 32px 24px;
         max-width: 100%;
+        border-radius: var(--radius-md);
     }
 
     .campo-duplo {
         flex-direction: column;
+        gap: 14px;
     }
 
     .campo-duplo > * {
         width: 100% !important;
+        flex: none;
+    }
+
+    .custom-select-wrapper {
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
     .caixa-cadastro {
         padding: 24px 18px;
-        gap: 12px;
+        gap: 14px;
+    }
+
+    .caixa-cadastro h2 {
+        font-size: 1.3rem;
+    }
+
+    .caixa-cadastro input,
+    .caixa-cadastro select,
+    .custom-select-trigger,
+    .datepicker-input {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .btn-cadastrar {
+        padding: 12px 16px;
+        font-size: 0.95rem;
     }
 }
