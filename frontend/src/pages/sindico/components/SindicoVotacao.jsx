@@ -326,7 +326,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                         placeholderText="Selecione a data"
                                         className="sindico-datepicker-input"
                                         calendarClassName="datepicker-calendario"
-                                        renderCustomHeader={DatePickerHeader}
+                                        renderCustomHeader={(props) => <DatePickerHeader {...props} />}
                                         required
                                         autoComplete="off"
                                     />
@@ -345,7 +345,7 @@ function SindicoVotacao({ api, toast, formatarData }) {
                                         placeholderText="Selecione a data"
                                         className="sindico-datepicker-input"
                                         calendarClassName="datepicker-calendario"
-                                        renderCustomHeader={DatePickerHeader}
+                                        renderCustomHeader={(props) => <DatePickerHeader {...props} />}
                                         required
                                         autoComplete="off"
                                     />

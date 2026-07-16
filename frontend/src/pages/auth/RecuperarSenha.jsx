@@ -157,7 +157,7 @@ function RecuperarSenha() {
                                 minDate={new Date(1920, 0, 1)}
                                 className="datepicker-input"
                                 calendarClassName="datepicker-calendario"
-                                renderCustomHeader={DatePickerHeader}
+                                renderCustomHeader={(props) => <DatePickerHeader {...props} />}
                                 required
                                 autoComplete="off"
                             />

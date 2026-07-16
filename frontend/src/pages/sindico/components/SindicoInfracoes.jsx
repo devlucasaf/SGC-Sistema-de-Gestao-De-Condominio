@@ -266,7 +266,7 @@ function SindicoInfracoes({ infracoes, setInfracoes, moradores, api, toast }) {
                                         placeholderText="Selecione a data"
                                         className="sindico-datepicker-input"
                                         calendarClassName="datepicker-calendario"
-                                        renderCustomHeader={DatePickerHeader}
+                                        renderCustomHeader={(props) => <DatePickerHeader {...props} />}
                                         required
                                         autoComplete="off"
                                     />

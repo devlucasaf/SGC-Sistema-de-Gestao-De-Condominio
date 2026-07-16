@@ -92,8 +92,8 @@ function Cadastro() {
                 email,
                 senha,
                 dataNascimento: dataNascimento
-                    ? dataNascimento.toISOString().split("T")[0]
-                    : "",
+                    ? `${dataNascimento.getFullYear()}-${String(dataNascimento.getMonth() + 1).padStart(2, "0")}-${String(dataNascimento.getDate()).padStart(2, "0")}`
+                    : null,
                 telefone: telefone.replace(/\D/g, ""),
                 tipoMorador,
                 idUnidade: Number(idUnidade),
@@ -173,7 +173,7 @@ function Cadastro() {
                                 calendarClassName="datepicker-calendario"
                                 required
                                 autoComplete="off"
-                                renderCustomHeader={DatePickerHeader}
+                                renderCustomHeader={(props) => <DatePickerHeader {...props} />}
                             />
                             <FiCalendar className="datepicker-icone" />
                         </div>
