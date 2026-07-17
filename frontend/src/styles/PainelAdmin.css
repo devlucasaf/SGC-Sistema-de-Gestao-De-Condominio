@@ -1,257 +1,621 @@
-/* --- SIDEBAR ADMIN --- */
+/* ============================================================
+   PAINEL ADMIN – Tema Roxo Moderno
+   Baseado no design system do SGC
+   ============================================================ */
+
+/* ---------- VARIÁVEIS GLOBAIS (overrides) ---------- */
+.painel-admin {
+    --admin-primary: #9b59b6;
+    --admin-primary-dark: #8e44ad;
+    --admin-primary-light: #bb8fce;
+    --admin-primary-rgb: 155, 89, 182;
+    --admin-bg-gradient: linear-gradient(145deg, #1a1a2e, #16213e);
+    --admin-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --admin-card-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.12);
+    --admin-radius: 14px;
+    --admin-radius-sm: 8px;
+    --admin-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- SIDEBAR ---------- */
 .painel-admin .sidebar-sindico {
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    background: var(--admin-bg-gradient);
+    border-right: none;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+    transition: width var(--admin-transition);
+}
+
+.painel-admin .sidebar-logo {
+    padding: 28px 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: center;
 }
 
 .painel-admin .sidebar-logo h2 {
-    color: #9b59b6;
+    color: var(--admin-primary);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 0;
 }
 
 .painel-admin .sidebar-logo span {
-    color: rgba(155, 89, 182, 0.7);
-    font-size: 0.78rem;
-    letter-spacing: 1px;
+    color: rgba(155, 89, 182, 0.6);
+    font-size: 0.7rem;
     text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-top: 6px;
+}
+
+.painel-admin .sidebar-menu {
+    padding: 16px 10px;
+}
+
+.painel-admin .sidebar-menu li {
+    margin: 4px 0;
+}
+
+.painel-admin .sidebar-menu button {
+    padding: 12px 18px;
+    border-radius: var(--admin-radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    transition: all var(--admin-transition);
+    gap: 14px;
+    position: relative;
+}
+
+.painel-admin .sidebar-menu button:hover {
+    background: rgba(155, 89, 182, 0.12);
+    color: #fff;
+    transform: translateX(4px);
 }
 
 .painel-admin .sidebar-menu button.ativo {
-    background: rgba(155, 89, 182, 0.15);
-    color: #9b59b6;
-    border-left: 3px solid #9b59b6;
+    background: rgba(155, 89, 182, 0.18);
+    color: var(--admin-primary-light);
+    border-left: 3px solid var(--admin-primary);
+    transform: translateX(0);
+    font-weight: 600;
 }
 
-.painel-admin .sidebar-menu button:hover:not(.ativo) {
-    background: rgba(155, 89, 182, 0.08);
-    color: #bb8fce;
+.painel-admin .sidebar-menu button.ativo::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 3px;
+    background: var(--admin-primary);
+    border-radius: 0 4px 4px 0;
 }
 
-/* --- HEADER ADMIN --- */
-.painel-admin .header-sindico h1 {
-    color: var(--text-primary);
+.painel-admin .sidebar-logout {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* --- BOTÃO PUBLICAR ADMIN (ROXO) --- */
-.painel-admin .btn-publicar {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+.painel-admin .sidebar-logout button {
+    padding: 10px;
+    border-radius: var(--admin-radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(231, 76, 60, 0.08);
+    border: 1px solid rgba(231, 76, 60, 0.25);
+    color: #e74c3c;
+    transition: all var(--admin-transition);
 }
 
-.painel-admin .btn-publicar:hover {
-    background: linear-gradient(135deg, #8e44ad, #7d3c98);
+.painel-admin .sidebar-logout button:hover {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.35);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 
-/* --- CARDS DO DASHBOARD ADMIN --- */
+/* ---------- HEADER ---------- */
+.painel-admin .header-sindico {
+    padding: 18px 32px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(4px);
+    gap: 16px;
+}
+
+.painel-admin .header-sindico h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    background: linear-gradient(135deg, var(--admin-primary), var(--admin-primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.painel-admin .header-sindico > span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    background: var(--bg-card);
+    padding: 4px 14px;
+    border-radius: 40px;
+    border: 1px solid var(--border-color);
+}
+
+.painel-admin .btn-tema {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    transition: all var(--admin-transition);
+    cursor: pointer;
+}
+
+.painel-admin .btn-tema:hover {
+    background: var(--admin-primary);
+    color: #fff;
+    border-color: var(--admin-primary);
+    transform: rotate(15deg) scale(1.05);
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.25);
+}
+
+/* ---------- CORPO ---------- */
+.painel-admin .corpo-sindico {
+    padding: 32px;
+    background: var(--bg-primary);
+}
+
+/* ---------- CARDS DASHBOARD ---------- */
+.painel-admin .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
 .painel-admin .dashboard-card {
-    border-top: 3px solid transparent;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--bg-card);
+    border-radius: var(--admin-radius);
+    padding: 24px 20px;
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--admin-primary);
+    box-shadow: var(--admin-card-shadow);
+    transition: all var(--admin-transition);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.painel-admin .dashboard-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at top right, rgba(var(--admin-primary-rgb), 0.06), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .painel-admin .dashboard-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+    box-shadow: var(--admin-card-shadow-hover);
+    border-color: var(--admin-primary);
 }
 
-/* --- TABELA DE USUÁRIOS --- */
-.admin-tabela-wrapper {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    background: var(--bg-card);
-}
-
-.admin-tabela-wrapper table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-}
-
-.admin-tabela-wrapper thead tr {
-    background: var(--bg-secondary, rgba(0,0,0,0.03));
-}
-
-.admin-tabela-wrapper th {
-    padding: 12px 16px;
-    text-align: left;
-    color: var(--text-secondary);
-    font-weight: 600;
-    font-size: 0.8rem;
+.painel-admin .dashboard-card h3 {
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--border-color);
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 0 8px;
 }
 
-.admin-tabela-wrapper td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
+.painel-admin .dashboard-card .valor {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--admin-primary);
+    line-height: 1.2;
+}
+
+/* Cores específicas por categoria (mantido do original) */
+.painel-admin .dashboard-card[style*="border-left: 4px solid #2ecc71"] .valor { color: #2ecc71; }
+.painel-admin .dashboard-card[style*="border-left: 4px solid #3498db"] .valor { color: #3498db; }
+.painel-admin .dashboard-card[style*="border-left: 4px solid #f39c12"] .valor { color: #f39c12; }
+.painel-admin .dashboard-card[style*="border-left: 4px solid #9b59b6"] .valor { color: #9b59b6; }
+.painel-admin .dashboard-card[style*="border-left: 4px solid #e74c3c"] .valor { color: #e74c3c; }
+.painel-admin .dashboard-card.azul .valor { color: #3498db; }
+
+/* ---------- FORMULÁRIO ADMIN ---------- */
+.painel-admin .admin-form-container {
+    background: var(--bg-card);
+    border-radius: var(--admin-radius);
+    padding: 28px;
+    margin-bottom: 28px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--admin-card-shadow);
+    border-top: 4px solid var(--admin-primary);
+}
+
+.painel-admin .admin-form-container h3 {
+    margin: 0 0 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text-primary);
 }
 
-.admin-tabela-wrapper tbody tr:hover {
-    background: rgba(155, 89, 182, 0.04);
-}
-
-.admin-tabela-wrapper tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* --- BADGE TIPO USUÁRIO --- */
-.admin-badge {
-    padding: 3px 12px;
-    border-radius: 20px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    display: inline-block;
-}
-
-.admin-badge-admin {
-    background: rgba(155, 89, 182, 0.12);
-    color: #9b59b6;
-}
-
-.admin-badge-sindico {
-    background: rgba(52, 152, 219, 0.12);
-    color: #3498db;
-}
-
-.admin-badge-morador {
-    background: rgba(46, 204, 113, 0.12);
-    color: #2ecc71;
-}
-
-.admin-badge-porteiro {
-    background: rgba(243, 156, 18, 0.12);
-    color: #f39c12;
-}
-
-.admin-badge-funcionario {
-    background: rgba(149, 165, 166, 0.12);
-    color: #95a5a6;
-}
-
-/* --- CARD DO SÍNDICO --- */
-.admin-card-sindico {
-    background: var(--bg-card);
+.painel-admin .admin-form-input {
+    padding: 12px 16px;
+    border-radius: var(--admin-radius-sm);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px 20px;
-    border-left: 4px solid #3498db;
+    background: var(--bg-input, var(--bg-card));
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: all var(--admin-transition);
+    width: 100%;
+}
+
+.painel-admin .admin-form-input:focus {
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 4px rgba(var(--admin-primary-rgb), 0.12);
+    outline: none;
+}
+
+.painel-admin .admin-form-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* ---------- BOTÕES ---------- */
+.painel-admin .btn-publicar {
+    background: linear-gradient(135deg, var(--admin-primary), var(--admin-primary-dark));
+    border: none;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: var(--admin-radius-sm);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all var(--admin-transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(var(--admin-primary-rgb), 0.2);
+}
+
+.painel-admin .btn-publicar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(var(--admin-primary-rgb), 0.3);
+    background: linear-gradient(135deg, var(--admin-primary-dark), #7d3c98);
+}
+
+.painel-admin .btn-publicar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ---------- CARDS DE SÍNDICOS ---------- */
+.painel-admin .admin-card-sindico {
+    background: var(--bg-card);
+    border-radius: var(--admin-radius);
+    padding: 18px 24px;
+    border: 1px solid var(--border-color);
+    border-left: 5px solid var(--admin-primary);
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all var(--admin-transition);
+    box-shadow: var(--admin-card-shadow);
 }
 
-.admin-card-sindico:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+.painel-admin .admin-card-sindico:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--admin-card-shadow-hover);
+    border-color: var(--admin-primary);
 }
 
-/* --- BOTÃO REMOVER --- */
-.admin-btn-remover {
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1px solid #e74c3c;
-    background: rgba(231, 76, 60, 0.08);
-    color: #e74c3c;
-    cursor: pointer;
-    font-size: 0.82rem;
+.painel-admin .admin-card-sindico h4 {
+    margin: 0 0 6px;
+    font-size: 1rem;
     font-weight: 600;
-    display: flex;
+    color: var(--text-primary);
+}
+
+.painel-admin .admin-card-sindico .admin-badge {
+    padding: 3px 14px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.painel-admin .admin-badge-sindico {
+    background: rgba(52, 152, 219, 0.12);
+    color: #3498db;
+}
+
+.painel-admin .admin-badge-funcionario {
+    background: rgba(149, 165, 166, 0.12);
+    color: #95a5a6;
+}
+
+.painel-admin .admin-btn-remover {
+    padding: 8px 16px;
+    border-radius: var(--admin-radius-sm);
+    border: 1px solid #e74c3c;
+    background: rgba(231, 76, 60, 0.06);
+    color: #e74c3c;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.2s ease;
+    transition: all var(--admin-transition);
+    cursor: pointer;
 }
 
-.admin-btn-remover:hover {
-    background: rgba(231, 76, 60, 0.18);
-    transform: translateY(-1px);
+.painel-admin .admin-btn-remover:hover {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.25);
+    transform: translateY(-2px);
 }
 
-/* --- FORMULÁRIO ADMIN --- */
-.admin-form-container {
+/* ---------- TABELA DE USUÁRIOS ---------- */
+.painel-admin .admin-tabela-wrapper {
+    border-radius: var(--admin-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    border-top: 3px solid #9b59b6;
+    box-shadow: var(--admin-card-shadow);
 }
 
-.admin-form-container h3 {
-    margin: 0 0 18px;
-    color: var(--text-primary);
-    font-size: 1.05rem;
-}
-
-.admin-form-input {
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-input, var(--bg-card));
-    color: var(--text-primary);
-    font-size: 0.9rem;
+.painel-admin .admin-tabela-wrapper table {
     width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border-collapse: collapse;
+    font-size: 0.85rem;
 }
 
-.admin-form-input:focus {
-    outline: none;
-    border-color: #9b59b6;
-    box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.12);
+.painel-admin .admin-tabela-wrapper thead tr {
+    background: var(--bg-secondary);
 }
 
-.admin-form-input::placeholder {
+.painel-admin .admin-tabela-wrapper th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--text-muted);
+    border-bottom: 2px solid var(--border-color);
 }
 
-/* --- SCROLL LATERAL NA TABELA --- */
-.admin-tabela-scroll {
+.painel-admin .admin-tabela-wrapper td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.painel-admin .admin-tabela-wrapper tbody tr:hover {
+    background: rgba(var(--admin-primary-rgb), 0.04);
+}
+
+.painel-admin .admin-tabela-wrapper tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ---------- BADGES DE TIPO ---------- */
+.painel-admin .admin-badge {
+    padding: 4px 14px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.painel-admin .admin-badge-admin {
+    background: rgba(var(--admin-primary-rgb), 0.12);
+    color: var(--admin-primary);
+}
+
+.painel-admin .admin-badge-sindico {
+    background: rgba(52, 152, 219, 0.12);
+    color: #3498db;
+}
+
+.painel-admin .admin-badge-morador {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+}
+
+.painel-admin .admin-badge-porteiro {
+    background: rgba(243, 156, 18, 0.12);
+    color: #f39c12;
+}
+
+.painel-admin .admin-badge-funcionario {
+    background: rgba(149, 165, 166, 0.12);
+    color: #95a5a6;
+}
+
+/* ---------- SCROLL DA TABELA ---------- */
+.painel-admin .admin-tabela-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* --- DATEPICKER SELECTS ADMIN --- */
+/* ---------- DATEPICKER (ajustes) ---------- */
 .painel-admin .react-datepicker__month-dropdown-container select,
-.painel-admin .react-datepicker__year-dropdown-container select,
-.react-datepicker__month-dropdown-container select,
-.react-datepicker__year-dropdown-container select {
+.painel-admin .react-datepicker__year-dropdown-container select {
     padding: 4px 8px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     color: #fff;
-    font-size: 0.82rem;
     font-weight: 600;
-    cursor: pointer;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.react-datepicker__month-dropdown-container select option,
-.react-datepicker__year-dropdown-container select option {
-    background: var(--bg-secondary, #1a1a2e);
-    color: var(--text-primary, #fff);
+/* ---------- MODAL ---------- */
+.painel-admin .modal-overlay {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
 }
 
-/* --- RESPONSIVIDADE --- */
+.painel-admin .modal-confirm {
+    border-radius: var(--admin-radius);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    padding: 36px 32px;
+}
+
+.painel-admin .modal-confirm h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.painel-admin .modal-confirm-botoes .btn-cancelar {
+    padding: 10px 28px;
+    border-radius: var(--admin-radius-sm);
+    border: 1px solid var(--border-color);
+    background: transparent;
+    transition: all var(--admin-transition);
+}
+
+.painel-admin .modal-confirm-botoes .btn-cancelar:hover {
+    background: var(--bg-card);
+    border-color: var(--text-muted);
+}
+
+.painel-admin .modal-confirm-botoes .btn-confirmar-excluir {
+    padding: 10px 28px;
+    border-radius: var(--admin-radius-sm);
+    background: #e74c3c;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    transition: all var(--admin-transition);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.painel-admin .modal-confirm-botoes .btn-confirmar-excluir:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(231, 76, 60, 0.4);
+}
+
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 1024px) {
+    .painel-admin .corpo-sindico {
+        padding: 24px;
+    }
+}
+
 @media (max-width: 768px) {
-    .painel-admin .dashboard-grid {
-        grid-template-columns: 1fr 1fr;
+    .painel-admin .sidebar-sindico {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
     }
 
-    .admin-card-sindico {
+    .painel-admin .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 8px 12px;
+    }
+
+    .painel-admin .sidebar-menu li {
+        margin: 0;
+        flex: 1 1 auto;
+    }
+
+    .painel-admin .sidebar-menu button {
+        padding: 8px 12px;
+        font-size: 0.78rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .painel-admin .sidebar-menu button.ativo {
+        border-left: none;
+        border-bottom: 3px solid var(--admin-primary);
+    }
+
+    .painel-admin .sidebar-menu button.ativo::before {
+        display: none;
+    }
+
+    .painel-admin .sidebar-logo {
+        padding: 16px;
+    }
+
+    .painel-admin .header-sindico {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+    }
+
+    .painel-admin .header-sindico h1 {
+        font-size: 1rem;
+        flex: 1;
+    }
+
+    .painel-admin .corpo-sindico {
+        padding: 16px;
+    }
+
+    .painel-admin .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .painel-admin .dashboard-card {
+        padding: 16px;
+    }
+
+    .painel-admin .dashboard-card .valor {
+        font-size: 1.6rem;
+    }
+
+    .painel-admin .admin-card-sindico {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .painel-admin .admin-form-container {
+        padding: 18px;
     }
 }
 
 @media (max-width: 480px) {
     .painel-admin .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    .painel-admin .admin-tabela-wrapper th,
+    .painel-admin .admin-tabela-wrapper td {
+        padding: 10px 12px;
+        font-size: 0.78rem;
+    }
+
+    .painel-admin .header-sindico > span {
+        font-size: 0.75rem;
+        padding: 2px 10px;
     }
 }

@@ -1058,3 +1058,39 @@
 .react-datepicker__navigation:hover *::before {
     border-color: rgba(255, 255, 255, 0.7) !important;
 }
+
+/* Melhorias gerais de transição e sombra */
+.painel-sindico .dashboard-card,
+.painel-sindico .card-aviso,
+.painel-sindico .admin-card-sindico,
+.painel-sindico .modal-confirm {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.painel-sindico .dashboard-card:hover,
+.painel-sindico .card-aviso:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Botão publicar com gradiente e sombra */
+.painel-sindico .btn-publicar {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.25);
+}
+
+.painel-sindico .btn-publicar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.35);
+}
+
+/* Sidebar mais suave */
+.painel-sindico .sidebar-sindico {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Ajuste no header */
+.painel-sindico .header-sindico {
+    backdrop-filter: blur(4px);
+}
